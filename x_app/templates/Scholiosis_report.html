@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content-box" id="contentBox">
+  <style>
+    body { font-family: "Segoe UI", Arial, sans-serif; font-size: 11pt; color: #333; }
+    .section-title { background: #90e0ef; color: #023e8a; padding: 6px 10px; font-weight: bold; margin-top: 15px; border-radius: 4px 4px 0 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+    th, td { padding: 8px 6px; border: 1px solid #ccc; font-size: 10pt; }
+    th { background: #caf0f8; color: #023e8a; text-align: left; }
+    td { vertical-align: top; }
+    .bordered { border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 15px;/* 
+      page-break-inside: avoid;
+      page-break-after: auto; }
+ /* ===== LOGO FIX ===== */
+  .header-logo {
+    max-height: 70px;          /* controls vertical size */
+    max-width: 120px;          /* prevents oversized logos */
+    width: auto;
+    height: 70px;
+    object-fit: contain;
+    border-radius: 6px;
+  }
+   /* Header alignment fix */
+  .report-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .report-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+    .text-center { text-align: center; }
+    
+  </style>
+  <!-- Hospital Header -->
+  <div class="content-header d-flex flex-wrap justify-content-between align-items-center">
+    <div class="d-flex align-items-center flex-wrap gap-2">
+      <i class="fas fa-file-invoice-dollar me-2"></i>
+      <span class="fw-bold fs-5 text-white">Scholiosis Report</span>
+    </div>
+        <a href="{% url 'scoliosis' %}" class="text-dark fw-bold text-decoration-none btn btn-light mt-1 me-3 mx-auto"><i class="fas fa-arrow-left me-1"></i>Back</a>
+        <button type="button" class="btn btn-light fw-bold text-dark me-3" onclick="printReport()">
+        <i class="fas fa-print me-2"></i> Print
+      </button>
+        <i class="fas fa-times btn btn-danger" onclick="closeContent()"></i>
+    </div>
+  <div id="printSection"> 
+   <div class="text-center mb-4 border-bottom pb-3">
+    <div class="d-flex align-items-center justify-content-center gap-3">
+      {% if hospital.logo %}
+         <img src="{{hospital.logo.url}}" class="rounded-2" height="89" width="109" alt="Hospital logo">
+      {% endif %}
+      <div>
+        <h3 class="fw-bold mb-1 mt-3">{{ hospital.name }}</h3>
+        <p class="mb-0">{{ hospital.address }}</p>
+        <small>Phone: {{ hospital.manager_contact }} | Email: {{ hospital.email }}| Scoliosis ID :#{{assessment.id}}</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient & Doctor Info -->
+  <div class="bordered">
+    <h5 class="fw-bold text-primary">Patient & Doctor Details</h5>
+    <table>
+      <tr>
+        <th>MR No</th>
+        <td>{{ assessment.patient.mr_no }}</td>
+        <th>Name</th>
+        <td>{{ assessment.patient.name }}</td>
+      </tr>
+      <tr>
+        <th>Age</th>
+        <td>{{ assessment.patient.age }}</td>
+        <th>Gender</th>
+        <td>{{ assessment.patient.gender }}</td>
+      </tr>
+      <tr>
+        <th>Address</th>
+        <td colspan="3">{{ assessment.patient.address }}</td>
+      </tr>
+      <tr>
+        <th>Doctor</th>
+        <td>{{ assessment.doctor.name }}</td>
+        <th>Date</th>
+        <td>{{ assessment.date|date:"d/m/Y" }}</td>
+      </tr>
+      <tr>
+        <th>Height (cm)</th>
+        <td>{{ assessment.height_cm }}</td>
+        <th>Weight (kg)</th>
+        <td>{{ assessment.weight_kg }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Clinical Details -->
+  <div class="bordered">
+    <h5 class="fw-bold text-primary">Clinical Details</h5>
+    <table>
+      <tr>
+        <th>Diagnosis Pattern</th>
+        <td>{{ assessment.diagnosis_pattern }}</td>
+        <th>Schroth Classification</th>
+        <td>{{ assessment.schroth_classification }}</td>
+      </tr>
+      <tr>
+        <th>UEV</th>
+        <td>{{ assessment.uev }}</td>
+        <th>LEV</th>
+        <td>{{ assessment.lev }}</td>
+      </tr>
+      <tr>
+        <th>Lumbar LEV</th>
+        <td>{{ assessment.lumbar_lev }}</td>
+        <th>COBB’s Angle(T,L)</th>
+        <td>{{ assessment.cobbs_angle }},{{assessment.cobbs_angle_L}}</td>
+      </tr>
+      <tr>
+        <th>Scoliometer UT</th>
+        <td>{{ assessment.scoliometer_ut }}</td>
+        <th>Scoliometer T</th>
+        <td>{{ assessment.scoliometer_t }}</td>
+      </tr>
+      <tr>
+        <th>Scoliometer L</th>
+        <td>{{ assessment.scoliometer_l }}</td>
+        <th>Brace Used</th>
+        <td>{{ assessment.brace_used }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Additional Medical Details -->
+  <div class="bordered">
+    <h5 class="fw-bold text-primary">Additional Medical Details</h5>
+    <table>
+      <tr>
+        <th>Menses since</th>
+        <td>{{ assessment.menses_since }}</td>
+        <th>Other Diseases</th>
+        <td>{{ assessment.other_diseases }}</td>
+      </tr>
+      <tr>
+        <th>Shoe lift</th>
+        <td>{{ assessment.shoe_lift }}</td>
+        <th>Family History</th>
+        <td>{{ assessment.family_history }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- HEP Activities -->
+  <div class="bordered">
+    <h5 class="fw-bold text-primary">HEP Activities</h5>
+    {% if assessment.hep %}
+      <ul>
+        {% for h in assessment.hep%}
+          <li>{{ h }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>N/A</p>
+    {% endif %}
+  </div>
+
+  <!-- Manual Techniques -->
+  <div class="bordered">
+    <h5 class="fw-bold text-primary">Manual Techniques</h5>
+    <p>{{ assessment.manual_technique|default:'N/A' }}</p>
+  </div>
+
+  <!-- Uploaded Files -->
+  <div class="bordered">
+    <h5 class="fw-bold text-primary">Uploads</h5>
+    <table>
+      <tr>
+        <th>X-Ray</th>
+        <td>
+          {% if assessment.xray %}
+            <a href="{{ assessment.xray.url }}" class="text-decoration-none "><button type="button" class="btn btn-dark"  alt="X-Ray"><i class="fas fa-download me-1"></i>{{ assessment.xray.url }}</button></a>
+          {% else %}N/A{% endif %}
+        </td>
+        <th>Diagram</th>
+        <td>
+          {% if assessment.diagram %}
+            <a href="{{ assessment.diagram.url }}" class="text-decoration-none "><button type="button" class="btn btn-dark"  alt="Diagram"><i class="fas fa-download me-1"></i> {{ assessment.diagram.url }}</button></a>
+          {% else %}N/A{% endif %}
+        </td>
+      </tr>
+    </table>
+  </div>
+    <!-- Follow-Up Details -->
+  {% if assessment.followups.all %}
+  <div class="bordered">
+    <h5 class="fw-bold text-primary">Follow-Up Details</h5>
+    <table>
+      <thead>
+        <tr>
+          <th>Follow-Up Date</th>
+          <th>Diagnosis Pattern</th>
+          <th>UEV</th>
+          <th>LEV</th>
+          <th>Lumbar LEV</th>
+          <th>Cobb’s Angle (R)</th>
+          <th>Cobb’s Angle (L)</th>
+          <th>Scoliometer (UT)</th>
+          <th>Scoliometer (T)</th>
+          <th>Scoliometer (L)</th>
+          <th>Brace Used</th>
+          <th>Pain Level</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for follow in assessment.followups.all %}
+        <tr>
+          <td>{{ follow.followup_date|date:"d/m/Y" }}</td>
+          <td>{{ follow.diagnosis_pattern|default:"-" }}</td>
+          <td>{{ follow.uev|default:"-" }}</td>
+          <td>{{ follow.lev|default:"-" }}</td>
+          <td>{{ follow.lumbar_lev|default:"-" }}</td>
+          <td>{{ follow.cobbs_angle|default:"-" }}</td>
+          <td>{{ follow.cobbs_angle_L|default:"-" }}</td>
+          <td>{{ follow.scoliometer_ut|default:"-" }}</td>
+          <td>{{ follow.scoliometer_t|default:"-" }}</td>
+          <td>{{ follow.scoliometer_l|default:"-" }}</td>
+          <td>{{ follow.brace_used|yesno:"Yes,No" }}</td>
+          <td>{{ follow.pain_level|default:"-" }}</td>
+          <td>{{ follow.notes|default:"-" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+   <div class="footer text-center" style="height:50px">
+      {% if hospital.logo %}
+        <img src="{{ hospital.logo.url }}" alt="Logo" style="height:50px">
+      {% endif %}
+      <span><strong>© All rights reserved with {{hospital.name}}</strong></span>
+  </div>
+</div>
+</div>
+<script>
+  function printReport() {
+  const printContents = document.getElementById('printSection').innerHTML;
+  const printWindow = window.open('', '', 'width=900,height=1000');
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Scoliosis Report</title>
+        <style>
+    @media print {
+      body {
+        margin: 10px;
+      }
+
+      @page {
+        size: A3;
+        scale:100px;
+      }
+
+      .bordered {
+        page-break-inside: avoid;
+        break-inside: avoid-page;
+        margin-bottom: 12px;
+      }
+
+      .content-header,
+      .footer {
+        position: relative;
+        page-break-inside: avoid;
+      }
+
+
+      .header-logo {
+        width: 160px !important;
+        height: 180px !important;
+       margin-bottom:4px;
+}
+    }
+          body { font-family: "Segoe UI", Arial, sans-serif; font-size: 11pt; color: #333; margin: 10px; }
+          .bordered { border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 15px;  page-break-inside: avoid;
+      }
+          table { width: 100%; border-collapse: collapse; }
+          th, td { border: 1px solid #ccc; padding: 6px; font-size: 10pt; }
+          th { background: white; color: #023e8a; text-align: left; }
+          h5 { color: #0077b6; margin-bottom: 5px; }
+          .text-center { text-align: center; }
+          .header-logo { height: 70px; border-radius: 8px; }
+        </style>
+      </head>
+      <body>${printContents}</body>
+    </html>
+  `);
+  printWindow.document.close();
+  printWindow.print();
+}
+
+function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

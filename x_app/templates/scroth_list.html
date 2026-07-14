@@ -1,0 +1,120 @@
+{% extends 'Masters.html' %}
+{% block contents %}
+<div class="content-box">
+  <div class="content-header d-flex justify-content-between align-items-center">
+    <div><i class="fas fa-brain me-2"></i>Schroth Classifications</div>
+
+    <div>
+      <a href="{% url 'schroth' %}" class="btn btn-info text-white fw-bold"><i class="fas fa-plus me-2"></i>Add</a>
+        <a href="{% url 'schroth_list' %}?export=excel" class="btn btn-success">
+        Excel
+      </a>
+      <a href="{% url 'schroth_list' %}?export=pdf" class="btn btn-danger">PDF</a>
+      <button class="btn btn-light border" onclick="toggleSearch()" title="Search">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </div>
+  <div class="content-body">
+   
+        <div id="searchBox" class="p-2" {% if not search_query %}style="display: none;"{% endif %}>
+    <form method="GET" onsubmit="return validateSearch()" class="d-flex gap-2 flex-wrap">
+      <div class="input-group">
+        <input type="text" name="search" id="searchInput" class="form-control"
+               placeholder="Search Schroth..." value="{{ search_query|default:'' }}">
+        <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+        {% if search_query %}
+          <a href="{% url 'schroth_list' %}" class="btn btn-outline-danger fw-bold">Clear Search</a>
+        {% endif %}
+      </div>
+    </form>
+    <div id="searchWarning" class="text-danger small mt-1" style="display:none;">
+      Please type at least 3 characters to search.
+    </div>
+  </div>
+
+    <table class="table table-bordered" id="schroth_list">
+      <thead class="table-primary">
+        <tr><th>Id</th><th>Name</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for item in schroth_items %}
+        <tr>
+            <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>
+            <a href="{% url 'schroth_edit' item.id %}" class="btn btn-sm btn-info text-white"><i class="fas fa-edit"></i></a>
+            <a href="{% url 'schroth_delete' item.id %}" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="2" class="text-center text-muted">No records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center mt-3">
+        {% if schroth_items.has_previous %}
+        <li class="page-item">
+          <a class="page-link"
+            href="?page={{ schroth_items.previous_page_number }}&search={{ search_query }}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+
+        {% for num in schroth_items.paginator.page_range %}
+        {% if schroth_items.number == num %}
+        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ num }}&search={{ search_query }}">{{ num }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if schroth_items.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ schroth_items.next_page_number }}&search={{ search_query }}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+     {% if is_export_excel %}
+<script>
+  window.onload = function () {
+    exportTableToExcelWithoutActions('schroth_list', 'schroth_list.xlsx');
+    setTimeout(() => {
+      window.location.href = "{% url 'schroth_list' %}?{% if search_query %}search={{ search_query }}{% endif %}";
+    }, 2000);
+  };
+</script>
+{% endif %}
+
+{% if is_export %}
+<script>
+  window.onload = function () {
+    setTimeout(() => exportTableWithoutActions('schroth_list', 'schroth_list'), 300);
+  }
+</script>
+{% endif %}
+</div>
+<script>
+    function toggleSearch() {
+  const box = document.getElementById('searchBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+function validateSearch() {
+  const input = document.getElementById('searchInput').value.trim();
+  const warning = document.getElementById('searchWarning');
+  if (input.length < 3) {
+    warning.style.display = 'block';
+    return false;
+  }
+  return true;
+}
+</script>
+{% endblock %}

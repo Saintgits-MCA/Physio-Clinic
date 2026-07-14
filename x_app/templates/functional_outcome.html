@@ -1,0 +1,84 @@
+{% extends 'prescription_home.html' %}
+{% block contents %}
+<div class="container">
+  <div class="content-box">
+    <div class="content-header mb-3">
+      <h5><i class="fas fa-chart-line me-2"></i>Functional Outcome Measures</h5>
+    </div>
+
+    <form method="POST" class="px-2">
+      {% csrf_token %}
+      <div class="col-md-10">
+      <label class="form-label">Selected Patient:</label>
+      <span class="w-100 fw-bold">{%if selected_patient%} {{selected_patient.mr_no}}-{{selected_patient.name}} {%else%} None {%endif%}</span>
+  </div>
+      <!-- Functional Outcome Table -->
+      <div class="mb-4">
+        <h6 class="fw-bold mb-3">Outcome Measure</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered" id="outcomeTable">
+            <thead class="table-primary text-center">
+              <tr>
+                <th>Date</th>
+                <th>Outcome Used</th>
+                <th>Pre-test Score</th>
+                <th>Post-test Score</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="date" class="form-control" name="date[]"></td>
+                <td><input type="text" class="form-control" name="outcome[]"></td>
+                <td><input type="text" class="form-control" name="pretest[]"></td>
+                <td><input type="text" class="form-control" name="posttest[]"></td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-success btn-sm" onclick="addOutcomeRow(this)">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      
+
+      <!-- Submit -->
+      <div class="d-flex gap-2 py-3">
+        <button type="submit" class="btn btn-primary w-25">Save</button>
+        <button type="Reset" class="btn btn-danger w-25">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function addOutcomeRow(button) {
+    const row = button.closest('tr');
+    const clone = row.cloneNode(true);
+
+    // Clear inputs in cloned row
+    clone.querySelectorAll('input').forEach(input => input.value = '');
+
+    // Replace add with remove button
+    const actionCell = clone.querySelector('td:last-child');
+    actionCell.innerHTML = `
+      <button type="button" class="btn btn-danger btn-sm" onclick="removeOutcomeRow(this)">
+        <i class="fas fa-minus"></i>
+      </button>
+    `;
+
+    document.querySelector("#outcomeTable tbody").appendChild(clone);
+  }
+
+  function removeOutcomeRow(button) {
+    const row = button.closest('tr');
+    const tableBody = document.querySelector("#outcomeTable tbody");
+    if (tableBody.rows.length > 1) {
+      row.remove();
+    }
+  }
+</script>
+{% endblock %}

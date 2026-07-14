@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-3" id="contentBox">
+    <div class="bg-white shadow rounded">
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded-top flex-wrap">
+            <h5 class="mb-0"><i class="fas fa-tag me-2"></i>Medine Category List</h5>
+            <div class="d-flex gap-2">
+                <a href="{% url 'medicine_category' %}" class="btn btn-info text-white btn-sm fw-bold"><i class="fas fa-plus me-2"></i> Add</a>
+                <a class="btn btn-success btn-sm" href="{% url 'medicine_category_list' %}?export=excel">Excel</a>
+                <a class="btn btn-danger btn-sm" href="{% url 'medicine_category_list' %}?export=pdf">PDF</a>
+                <button class="btn btn-light border btn-sm" onclick="toggleSearch()" title="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="closeContent()" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div id="searchBox" class="p-3 bg-light rounded-bottom" {% if not request.GET.search %}style="display:none;"{% endif %}>
+            <form method="GET" onsubmit="return validateSearch()" class="d-flex gap-2 flex-wrap">
+                <div class="input-group">
+                    <input type="text" name="search" id="searchInput" class="form-control" placeholder="Search Medicine Category..."
+                        value="{{ request.GET.search|default:'' }}">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    {% if request.GET.search %}
+                    <a href="{% url 'medicine_category_list' %}" class="btn btn-outline-danger fw-bold">Clear</a>
+                    {% endif %}
+                </div>
+            </form>
+            <div id="searchWarning" class="text-danger small mt-1" style="display:none;">
+                Please type at least 2 characters to search.
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive p-3">
+            <table id="CategoryTable" class="table table-bordered table-hover table-striped align-middle mb-0">
+                <thead class="table-primary text-nowrap">
+                    <tr>
+                        <th>Medicine Category Name</th>
+                        <th>Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if category %}
+                    {% for c in category %}
+                    <tr>
+                        <td>{{ c.name }}</td>
+                        <td>
+                            {% if c.status %}
+                                <span>Active</span>
+                            {% else %}
+                                <span>Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{%url 'medicine_category_edit' c.id %}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">No Medicine Category found.</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="p-3">
+            <ul class="pagination justify-content-center">
+                {% if category.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ category.previous_page_number }}&search={{ request.GET.search|default:'' }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                {% endif %}
+
+                {% for num in category.paginator.page_range %}
+                    {% if category.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}&search={{ request.GET.search|default:'' }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if category.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ category.next_page_number }}&search={{ request.GET.search|default:'' }}">Next</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
+<!-- Export Scripts -->
+{% if is_export_excel %}
+<script>
+    window.onload = function () {
+        exportTableToExcelWithoutActions('CategoryTable', 'Category Table.xlsx');
+        setTimeout(() => {
+            window.location.href = "{% url 'medicine_category_list' %}?search={{ request.GET.search|default:'' }}";
+        }, 2000);
+    };
+</script>
+{% endif %}
+
+{% if is_export %}
+<script>
+    window.onload = function () {
+        setTimeout(() => {
+            exportPharmacyTableWithoutActions('CategoryTable', 'Category Table');
+            setTimeout(() => {
+                window.location.href = "{% url 'medicine_category_list' %}?search={{ request.GET.search|default:'' }}";
+            }, 1500);
+        }, 300);
+    };
+</script>
+{% endif %}
+
+<!-- Search Toggle -->
+<script>
+    function toggleSearch() {
+        const box = document.getElementById('searchBox');
+        box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    }
+    function validateSearch() {
+        const input = document.getElementById('searchInput').value.trim();
+        const warning = document.getElementById('searchWarning');
+        if (input.length < 2) {
+            warning.style.display = 'block';
+            return false;
+        }
+        warning.style.display = 'none';
+        return true;
+    }
+
+function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

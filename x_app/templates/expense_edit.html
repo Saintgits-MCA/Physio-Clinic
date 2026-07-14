@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="content-box" id="contentBox">
+  <div class="content-header d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-2">
+      <i class="fas fa-edit me-2"></i>
+      <span class="fw-bold fs-5 text-white">Edit Expense</span>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{% url 'expense_table' %}" class="text-white fw-bold text-decoration-none mt-1">View</a>
+      <i class="fas fa-minus text-white btn" onclick="toggleMinimize()"></i>
+      <i class="fas fa-times btn btn-danger" onclick="closeContent()"></i>
+    </div>
+  </div>
+
+  <div class="content-body p-3">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Expense Type</label>
+          <select name="expense_type" class="form-control" required>
+            {% for e in expense_types %}
+              <option value="{{ e.id }}" {% if expense.expense_type.id == e.id %}selected{% endif %}>{{ e.expense_type }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Amount</label>
+          <input type="number" step="0.01" name="amount" class="form-control" value="{{ expense.amount }}" required>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Date</label>
+          <input type="date" name="date" class="form-control" value="{{ expense.date|date:'Y-m-d' }}">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label fw-bold">Description</label>
+          <textarea name="description" class="form-control" rows="3">{{ expense.description }}</textarea>
+        </div>
+      </div>
+
+      <div class="mt-4 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-25"><i class="fas fa-save me-2"></i>Update</button>
+        <a href="{% url 'expense_table' %}" class="btn btn-secondary w-25"><i class="fas fa-arrow-left me-2"></i>Back</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function closeContent() {
+  window.location.href = "{% url 'home' %}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

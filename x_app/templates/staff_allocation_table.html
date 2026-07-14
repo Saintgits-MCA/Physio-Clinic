@@ -1,0 +1,116 @@
+{% extends 'staff-table.html' %}
+
+{% block search_section %}
+<div id="searchBox" class="p-2 bg-light rounded mb-3" {% if not search_query %}style="display: none;" {% endif %}>
+    <form method="GET" onsubmit="return validateSearch()" class="d-flex gap-2 flex-wrap">
+        <div class="input-group">
+            <input type="text" name="search" id="searchInput" class="form-control" placeholder="Search Allocation..."
+                value="{{ search_query|default:'' }}">
+            <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+            {% if search_query %}
+            <a href="{% url 'staff_allocation_table' %}" class="btn btn-outline-danger fw-bold">Clear</a>
+            {% endif %}
+        </div>
+    </form>
+    <div id="searchWarning" class="text-danger small mt-1" style="display:none;">
+        Please type at least 3 characters to search.
+    </div>
+</div>
+{% endblock %}
+
+{% block tab_content %}
+
+<div class="tab-pane fade show active" id="allocationTab">
+    
+    <div class="table-responsive">
+        <table id="Staff_Allocation_Table" class="table table-bordered table-hover table-striped align-middle">
+            <thead class="table-secondary text-nowrap">
+                <tr>
+                    <th>Staff Name</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Designation</th>
+                    <th>Branch</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alloc in allocations %}
+                <tr>
+                    <td>{{ alloc.staff.name }}</td>
+                    <td>{{ alloc.email }}</td>
+                    <td>{{ alloc.password }}</td>
+                    <td>{{ alloc.designation.Designation }}</td>
+                    <td>{{ alloc.branch.name }}</td>
+                    <td>{{ alloc.department.name }}</td>
+                    <td>{{ alloc.status|title }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'edit_staff_allocation' alloc.id %}" class="btn btn-sm btn-primary"><i
+                                class="fas fa-edit"></i></a>
+                         <a href="{% url 'delete_staff_allocation' alloc.id %}" class="btn btn-sm btn-danger"
+     onclick="return confirm('Are you sure you want to delete this allocation?');"><i class="fas fa-trash"></i></a>
+                            </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center text-muted">No allocations found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% if not is_export and not is_export_excel %}
+    <nav>
+        <ul class="pagination justify-content-center mt-3">
+            {% if allocations.has_previous %}
+            <li class="page-item"><a class="page-link"
+                    href="?page={{ allocations.previous_page_number }}&search={{ search_query }}">Previous</a></li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+            {% for num in allocations.paginator.page_range %}
+            {% if allocations.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}&search={{ search_query }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            {% if allocations.has_next %}
+            <li class="page-item"><a class="page-link"
+                    href="?page={{ allocations.next_page_number }}&search={{ search_query }}">Next</a></li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+{% if is_export_excel %}
+<script>
+    window.onload = function () {
+        exportTableToExcelWithoutActions('Staff_Allocation_Table', 'Staff_Allocation_List.xlsx');
+        setTimeout(() => {
+            window.location.href = "{% url 'staff_allocation_table' %}?{% if search_query %}search={{ search_query }}{% endif %}";
+        }, 2000);
+    };
+</script>
+{% endif %}
+
+{% if is_export %}
+<script>
+    window.onload = function () {
+        setTimeout(() => {
+            exportTableWithoutActions('Staff_Allocation_Table', 'Staff_Allocation_List');
+            setTimeout(() => {
+                window.location.href = "{% url 'staff_allocation_table' %}?{% if search_query %}search={{ search_query }}{% endif %}";
+            }, 1500);
+        }, 200);
+    };
+</script>
+{% endif %}
+{% endblock %}

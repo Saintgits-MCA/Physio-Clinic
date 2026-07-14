@@ -1,0 +1,146 @@
+{% extends 'prescription_home.html' %}
+{% block contents %}
+<style>
+  .table-responsive #managementTable
+  {
+    overflow-x: hidden;
+  }
+</style>
+<div class="container">
+  <div class="content-box">
+    <div class="content-header mb-3">
+      <h5><i class="fas fa-stethoscope me-2"></i>Treatment Plan</h5>
+{%if  selected_patient.id   %} <a class="btn btn-sm text-white fw-bold float-end text-decoration-none" 
+  href="{% url 'treatment_plan_table' %}?patient_id={% if selected_patient %}{{ selected_patient.id }}{% endif %}" >
+    <i class="fas fa-eye me-2"></i>View
+</a>  {%endif%}  </div>
+
+    <form method="POST" class="px-3" id="treatmentPlanForm">
+      {% csrf_token %}
+<div class="col-md-10">
+      <label class="form-label">Selected Patient:</label>
+      <span class="w-100 fw-bold">{%if selected_patient%} {{selected_patient.mr_no}}-{{selected_patient.name}} {%else%} None {%endif%}</span>
+  </div>
+      <!-- Goals Section -->
+      <h6 class="fw-bold">Goals</h6>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Short Term Goals</label>
+          <textarea class="form-control" name="short_term_goals" rows="4"
+            placeholder="Write short term goals..."></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Long Term Goals</label>
+          <textarea class="form-control" name="long_term_goals" rows="4"
+            placeholder="Write long term goals..."></textarea>
+        </div>
+      </div>
+
+      <!-- Management Plan Table -->
+      <h6 class="fw-bold mt-4">Management Plan</h6>
+      <div class="table-responsive">
+        <table class="table table-bordered" id="managementTable">
+          <thead class="table-light text-center">
+            <tr>
+              <th>Date</th>
+              <th>Management</th>
+              <th>Review Date</th>
+              <th>Signature</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="date" name="date[]" class="form-control" required></td>
+              <td><textarea type="text" name="management[]" class="form-control" cols="20" rows="7" required></textarea></td>
+              <td><input type="date" name="review_date[]" class="form-control" required></td>
+              <td><input type="text" name="signature[]" class="form-control" required></td>
+              <td class="text-center">
+                <button type="button" class="btn btn-success btn-sm" onclick="addManagementRow(this)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-flex gap-2 py-3">
+        <button type="submit" class="btn btn-primary w-25" id="saveTreatmentBtn">Save</button>
+        <button type="Reset" class="btn btn-danger w-25">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById("treatmentPlanForm").addEventListener("submit", function(e) {
+    e.preventDefault(); // Prevent normal form submit
+
+    const formData = new FormData(this);
+
+    fetch("", {  // Empty URL = current page
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": "{{ csrf_token }}"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Success: show message
+            alert(data.message || "Treatment plan saved successfully!");
+
+            // === CLEAR LOCALSTORAGE (this is the key) ===
+            localStorage.removeItem("selectedPatientId");
+            localStorage.removeItem("selectedPatientName");
+            localStorage.clear(); // Optional: clear all if you only use it for patient
+
+            // Optional: close the prescription box
+            if (typeof closeContent1 === "function") {
+                closeContent1();
+            }
+
+            // Redirect to clear session (your existing logic)
+            window.location.href = "{% url 'clear_prescription_session' %}";
+        } else {
+            alert(data.message || "Error saving treatment plan.");
+        }
+    })
+    .catch(err => {
+        console.error("Error:", err);
+        alert("Network error. Please try again.");
+    });
+});
+  function addManagementRow(button) {
+    const row = button.closest('tr');
+    const clone = row.cloneNode(true);
+
+    clone.querySelectorAll('input').forEach(input => input.value = '');
+
+    clone.querySelector('td:last-child').innerHTML = `
+      <button type="button" class="btn btn-danger btn-sm" onclick="removeManagementRow(this)">
+        <i class="fas fa-minus"></i>
+      </button>
+    `;
+
+    document.querySelector("#managementTable tbody").appendChild(clone);
+  }
+
+  function removeManagementRow(button) {
+    const row = button.closest('tr');
+    const tbody = document.querySelector("#managementTable tbody");
+    if (tbody.rows.length > 1) {
+      row.remove();
+    } else {
+      alert("At least one row must remain.");
+    }
+  }
+  function closeContent1() {
+      localStorage.clear();
+    }
+</script>
+{% endblock %}

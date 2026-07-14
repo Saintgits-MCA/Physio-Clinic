@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<div class="content-box" id="contentBox">
+  <div class="content-header d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-2">
+      <i class="fas fa-calendar-check me-2"></i>
+      <span class="fw-bold fs-5 text-white">Appointment Registration</span>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{% url 'appointmenttable' %}" class="text-white fw-bold text-decoration-none mt-1 me-3">View</a>
+     {% comment %} <a href="{% url 'calendar' %}" class="text-white fw-bold text-decoration-none btn btn-warning btn-sm mt-1"><i class="fas fa-calendar me-1"></i>Calendar</a> {% endcomment %}
+      <i class="fas fa-minus text-white btn" onclick="toggleMinimize()"></i>
+      <i class="fas fa-times btn btn-danger" onclick="closeContent()"></i>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <!-- Search Form -->
+    <form method="get" class="mb-3">
+      <label>Search Patient (MR No / Name / Phone)</label>
+      <div class="input-group">
+        <input id="patientSearch" name="search" class="form-control" value="{{request.GET.search|default:''}}">
+        <button type="submit" class="btn btn-primary" id="searchBtn"><i class="fas fa-search"></i></button>
+      </div>
+      <small id="searchWarning" class="text-danger" style="display:none;">Please enter at least 3 characters.</small>
+    </form>
+
+    <!-- Appointment Form -->
+    <form method="POST" action="{% url 'appoinment' %}" id="appointmentForm">
+      {% csrf_token %}
+      <input type="hidden" name="selectedPatient" id="selectedPatientId">
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label>Token No</label>
+          <input name="tokenNo" class="form-control" value="{{ now }}" readonly>
+        </div>
+
+        <div class="col-md-6">
+          <label>Selected Patient</label>
+          <input class="form-control" id="selectedPatientName" readonly>
+        </div>
+
+        <div class="col-md-6">
+          <label>Age</label>
+          <input id="selectedPatientAge" class="form-control"  readonly>
+        </div>
+
+        <div class="col-md-6">
+          <label>Appointment Date</label>
+          <input type="date" id="dateofvisit" name="appointmentDate" class="form-control" required>
+        </div>
+
+        <div class="col-md-6">
+          <label>Appointment Time</label>
+          <input type="time" id="timeofvisit" name="appointmentTime" class="form-control" value={{ time |time:"H:i"}} required>
+        </div>
+
+        <div class="col-md-6">
+          <label>Branch</label>
+          <select id="branchSelect" name="branch" class="form-control" required>
+            <option value="">Select Branch</option>
+            {% for branch in branches %}
+            <option value="{{ branch.id }}">{{ branch.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label>Department</label>
+          <select id="departmentSelect" name="department" class="form-control" required>
+            <option value="">Choose branch first</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label>Doctor Name</label>
+          <select id="doctorSelect" name="doctorName" class="form-control" required>
+            <option value="">Choose department first</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label>Status</label>
+          <select name="status" class="form-control" required>
+            <option value="">Select</option>
+            <option value="Consultation">Consultation</option>
+            <option value="Followup">Followup</option>
+            <option value="Massage">Massage</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label>Patient Contact No</label>
+          <input id="selected_patient_phone" name="contactNo" pattern="^[6-9][0-9]{9}$"
+            class="form-control" required>
+        </div>
+      </div>
+
+      <div class="mt-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-25">Save</button>
+        <button type="reset" class="btn btn-danger w-25"   onclick="window.location.href='{% url 'appoinment' %}'">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Patient Search Modal -->
+{% if request.GET.search and patients %}
+<div class="modal fade" id="searchResultsModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Search Results</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>MR No</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in patients %}
+            <tr>
+              <td>{{ p.mr_no }}</td>
+              <td>{{ p.name }}</td>
+              <td>{{ p.phone }}</td>
+              <td>{{ p.address }}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-primary select-patient-btn" data-id="{{ p.id }}"
+                  data-name="{{ p.name|escapejs }}" data-age="{{ p.age }}" data-phone="{{ p.phone|escapejs }}"
+                  data-branch="{{ p.branch.id|default:'' }}">
+                  Select
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Auto-show modal if search results
+    {% if request.GET.search and patients %}
+    new bootstrap.Modal(document.getElementById('searchResultsModal')).show();
+    {% elif request.GET.search and not patients %}
+    alert("Invalid Entry or No patient with entered Data Credentials!!");
+    {% else %}
+    console.log("Hello")
+    {% endif %}
+
+    // Search validation
+    document.getElementById('searchBtn').addEventListener('click', function (e) {
+      const searchInput = document.getElementById('patientSearch');
+      if (searchInput.value.trim().length < 3) {
+        e.preventDefault();
+        document.getElementById('searchWarning').style.display = 'block';
+      }
+    });
+
+    // Select patient from modal
+    document.querySelectorAll('.select-patient-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.getElementById('selectedPatientId').value = this.dataset.id;
+        document.getElementById('patientSearch').value = this.dataset.name;
+        document.getElementById('selectedPatientName').value = this.dataset.name;
+        document.getElementById('selectedPatientAge').value = this.dataset.age;
+        document.getElementById('selected_patient_phone').value = this.dataset.phone;
+        document.getElementById('branchSelect').value = this.dataset.branch;
+        document.getElementById('branchSelect').dispatchEvent(new Event('change'));
+        bootstrap.Modal.getInstance(document.getElementById('searchResultsModal')).hide();
+      });
+    });
+
+    // Prevent submit without valid patient
+    document.getElementById('appointmentForm').addEventListener('submit', function (e) {
+      const pid = document.getElementById('selectedPatientId').value;
+      if (!pid || isNaN(pid)) {
+        e.preventDefault();
+        alert('Please select a patient before saving.');
+      }
+    });
+
+    
+    // Date restriction
+    const dateInput = document.getElementById("dateofvisit");
+    if (dateInput) {
+      const today = new Date().toISOString().split("T")[0];
+      dateInput.value = today;
+      dateInput.setAttribute("min", today);
+    }
+
+    // Load departments dynamically
+    document.getElementById('branchSelect').addEventListener('change', function () {
+      if (!this.value) return;
+      fetch(`/get-departments-by-branch/${this.value}/`)
+        .then(res => res.json())
+        .then(data => {
+          let deptSelect = document.getElementById('departmentSelect');
+          deptSelect.innerHTML = '<option value="">Select Department</option>';
+          (data.departments || []).forEach(d => {
+            deptSelect.innerHTML += `<option value="${d.id}">${d.name}</option>`;
+          });
+        });
+    });
+    // Load doctors dynamically
+    document.getElementById('departmentSelect').addEventListener('change', function () {
+      const branchId = document.getElementById('branchSelect').value;
+      const departmentId = document.getElementById('departmentSelect').value;
+      let dropdown = $('#doctorSelect');
+
+      dropdown.empty().append('<option selected disabled>Loading...</option>');
+
+      if (branchId && departmentId) {
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'get_doctors_by_department' %}",
+          data: { branch_id: branchId, dept_id: departmentId },
+          success: function (data) {
+            dropdown.empty().append('<option value="">Select</option>');
+            if (data.doctors && data.doctors.length > 0) {
+              data.doctors.forEach(function (item) {
+                dropdown.append(`<option value="${item.doctor_id}">${item.name}</option>`);
+              });
+            } else {
+              dropdown.append('<option disabled>No doctors found</option>');
+            }
+          },
+          error: function (xhr) {
+            dropdown.empty().append('<option value="" selected disabled>Error fetching doctors</option>');
+            console.error("Error fetching doctors:", xhr.responseText);
+          }
+        });
+      }
+    });
+function clearAllExceptToken() {
+    const form = document.getElementById('appointmentForm');
+    form.querySelectorAll('input, select, textarea').forEach(el => {
+      // determine identity: use name if present, otherwise id
+      const identity = el.name || el.id || '';
+      if (identity === 'tokenNo') return;      // KEEP tokenNo
+      if (el.tagName === 'SELECT') {
+        el.selectedIndex = 0;
+      } else {
+        el.value = '';
+      }
+    });
+
+    // ensure hidden selectedPatientId is cleared
+    const sp = document.getElementById('selectedPatientId');
+    if (sp) sp.value = '';
+
+    // if you want to hide any warnings/modals reset them too
+    const searchWarning = document.getElementById('searchWarning');
+    if (searchWarning) searchWarning.style.display = 'none';
+  }
+
+  // Submit handler: allow normal submit, then clear UI (works if server redirects back with empty context)
+  document.getElementById('appointmentForm').addEventListener('submit', function (e) {
+    const pid = document.getElementById('selectedPatientId').value;
+    if (!pid || isNaN(pid)) {
+      e.preventDefault();
+      alert('Please select a patient before saving.');
+      return;
+    }
+
+    // Let form submit. If the page reloads quickly this will still run but page reload may overwrite it.
+    setTimeout(() => {
+      clearAllExceptToken();
+    }, 300); // small delay so submit starts
+  });
+
+});
+function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+
+{% endblock %}

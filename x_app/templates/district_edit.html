@@ -1,0 +1,30 @@
+{% extends 'Masters.html' %}
+{% block contents %}
+<div class="content-box">
+  <div class="content-header"><span class="float-start"><i class="fas fa-edit me-2"></i>Edit District</span><a href="{%url 'districttable'%}" class="text-white fw-bold text-decoration-none">View</a></div>
+  <div class="content-body">
+    <form method="POST">{% csrf_token %}
+      <div class="mb-3">
+         <div class="col-md-6">
+    <label class="form-label">State</label>
+    <select class="form-control" name="state" required>
+      <option value="">Choose State</option>
+      {% for s in states %}
+        <option value="{{ s.id }}" {% if s.id == district.state.id %}selected{% endif %}>
+          {{ s.name }} ({{ s.country.name }})
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-6">
+        <label for="name" class="form-label">District Name</label>
+        <input type="text" class="form-control" name="name" maxlength="100" pattern="^[A-Za-z ]{5,100}$" value="{{ district.name }}" required>
+      </div>
+      
+      </div>
+      <button type="submit" class="btn btn-primary">Update</button>
+      <a href="{% url 'districttable' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

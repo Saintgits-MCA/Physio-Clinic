@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content-box" id="contentBox">
+    <div class="bg-white  rounded">
+
+<div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-2 rounded-top">
+<h5 class="mb-0"> {% if edit_mode %}<i class="fas fa-boxes me-2"></i>Edit Physical Stock{% else %}<i class="fas fa-boxes me-2"></i>Add Physical Stock{% endif %}</h5>
+<div class="d-flex gap-2">
+   <a href="{% url 'physical_stock_list' %}" class="text-decoration-none float-end text-white fw-bold me-3">View</a>
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeContent()"><i
+                    class="fas fa-times"></i></button>
+            </div>
+        </div>
+        </div>
+<div class="content-body">
+  <form method="POST">
+    {% csrf_token %}
+    <div class="row g-3">
+
+      <div class="col-md-4">
+        <label class="form-label">Supplier</label>
+        <select class="form-select" id="supplierSelect" name="supplier">
+          <option value="">Select Supplier</option>
+          {% for s in suppliers %}
+          <option value="{{ s.id }}" {% if stock.supplier.id == s.id %}selected{% endif %}>{{ s.supplier_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-4">
+  <label class="form-label">Supplier Contact</label>
+  <input type="text" name="supplier_contact" id="supplierContact" class="form-control bg-light"
+         value="{{ stock.supplier_contact|default_if_none:'' }}" readonly>
+</div>
+
+      <div class="col-md-4">
+        <label class="form-label">Medicine Company</label>
+        <select class="form-select" name="medicine_company">
+          <option value="">Select Company</option>
+          {% for c in company %}
+          <option value="{{ c.id }}" {% if stock.medicine_company.id == c.id %}selected{% endif %}>{{ c.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+     <div class="col-md-4">
+  <label class="form-label">Item</label>
+  <select class="form-select" name="item" id="itemSelect">
+    <option value="">Select Item</option>
+    {% for i in medicines %}
+    <option value="{{ i.id }}" {% if stock.item.id == i.id %}selected{% endif %}>{{ i.medicine_name }}</option>
+    {% endfor %}
+  </select>
+</div>
+
+<div class="col-md-4">
+  <label class="form-label">Unit</label>
+  <input type="text" name="unit" id="unitInput" class="form-control bg-light" 
+         value="{{ stock.unit|default_if_none:'' }}" readonly>
+</div>
+
+      <div class="col-md-4">
+        <label class="form-label">Batch Number</label>
+        <input type="text" name="batch_number" class="form-control" value="{{ stock.batch_number|default_if_none:'' }}">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Manufacture Date</label>
+        <input type="date" name="manufacture_date" class="form-control" value="{{ stock.manufacture_date|date:'Y-m-d' }}">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Expiry Date</label>
+        <input type="date" name="expiry_date" class="form-control" value="{{ stock.expiry_date|date:'Y-m-d' }}">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Rate</label>
+        <input type="number" step="0.01" name="rate" class="form-control" value="{{ stock.rate|default_if_none:'' }}">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Quantity</label>
+        <input type="number" name="quantity" class="form-control" value="{{ stock.quantity|default_if_none:'' }}">
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <button type="submit" class="btn btn-primary w-25">
+        {% if edit_mode %}Update{% else %}Save{% endif %}
+      </button>
+      <a href="{% url 'physical_stock_list' %}" class="btn btn-danger w-25">Cancel</a>
+    </div>
+  </form>
+</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // --- Supplier Contact Auto-fill ---
+    const supplierSelect = document.getElementById("supplierSelect");
+    const supplierContact = document.getElementById("supplierContact");
+
+    supplierSelect.addEventListener("change", function() {
+        const supplierId = this.value;
+        if (supplierId) {
+            fetch(`/get-supplier-contact/${supplierId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    supplierContact.value = data.contact || "";
+                })
+                .catch(() => supplierContact.value = "");
+        } else {
+            supplierContact.value = "";
+        }
+    });
+
+    // --- Item Unit Auto-fill ---
+    const itemSelect = document.getElementById("itemSelect");
+    const unitInput = document.getElementById("unitInput");
+
+    itemSelect.addEventListener("change", function() {
+        const itemId = this.value;
+        if (itemId) {
+            fetch(`/get-item-unit/${itemId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    unitInput.value = data.unit || "";
+                })
+                .catch(() => unitInput.value = "");
+        } else {
+            unitInput.value = "";
+        }
+    });
+});
+
+     function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+  textarea {
+    resize: none;
+  }
+</style>
+
+<body>
+
+  <div class="content-box" id="contentBox">
+    <div class="content-header d-flex flex-wrap justify-content-between align-items-center">
+      <div class="d-flex align-items-center flex-wrap gap-2">
+        <i class="bi bi-capsule me-2"></i>
+        <span class="text-white">Medicine Master</span>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="{%url 'medicine_table'%}" class="text-white fw-bold text-decoration-none fs-6">View</a>
+        <a class="btn btn-danger btn-sm mx-3" onclick="closeContent()">
+          <i class="fas fa-times"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="content-body">
+      <form method="post" action="{% url 'medicine_master' %}">
+        {% csrf_token %}
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <label class="form-label">Item Code</label>
+            <input type="text" class="form-control" name="item_code" id="item_code" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">HSN Code</label>
+            <input type="text" class="form-control" name="hsn_code" id="hsn_code" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Medicine Name</label>
+            <input type="text" class="form-control" name="medicine_name" id="medicine_name" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Category</label>
+            <select type="text" class="form-control" name="category" id="category" required><option>Choose</option>
+             {%for c in category%}
+             <option value="{{c.id}}">{{c.name}}</option>
+             {%endfor%}
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Generic Name</label>
+            <input type="text" class="form-control" name="generic_name" id="generic_name" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Rack Number</label>
+            <input type="text" class="form-control" name="rack_number" id="rack_number" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Base Unit</label>
+            <input type="text" class="form-control" name="base_unit" id="base_unit" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Tax (%)</label>
+            <select class="form-select" name="tax_percentage" id="tax_percentage" required>
+              <option value="" selected disabled>-- Select Tax --</option>
+              {% for tax in tax_master %}
+              <option value="{{ tax.id }}">{{ tax.tax_percent|floatformat:0 }}%</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Side Effects</label>
+            <textarea class="form-control" name="side_effects" id="side_effects" rows="2"></textarea>
+          </div>
+        </div>
+
+        <div class="mt-3 d-flex gap-2">
+          <button type="submit" class="btn btn-primary w-25">Register</button>
+          <button type="reset" class="btn btn-danger w-25">Clear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function closeContent() {
+      window.location.href = "{% url 'home' %}";
+      document.getElementById("contentBox")?.remove();
+    }
+  </script>
+
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-3" id="contentBox">
+    <div class="bg-white shadow rounded">
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded-top">
+            <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Medicine Category</h5>
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeContent()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Form -->
+        <form method="post" class="p-4">
+            {% csrf_token %}
+            <div class="row g-4">
+
+                <!-- Medicine Category Name -->
+                <div class="col-md-6">
+                    <label for="medicine_category_name" class="form-label fw-bold">Medicine Category Name</label>
+                    <input type="text" name="medicine_category_name" id="medicine_category_name" class="form-control" value="{{ medicine_category.name }}"
+                        required>
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Status</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="statusActive" value="Active" {%if medicine_category.status %}checked{% endif %}>
+                        <label class="form-check-label" for="statusActive">Active</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="statusInactive" value="Inactive"
+                            {% if not medicine_category.status %}checked{% endif %}>
+                        <label class="form-check-label" for="statusInactive">Inactive</label>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <a href="{% url 'medicine_category_list' %}" class="btn btn-secondary px-4">Cancel</a>
+                    <button type="submit" class="btn btn-success px-4"><i class="fas fa-save me-1"></i>Update
+                        Medicine Category</button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+    function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

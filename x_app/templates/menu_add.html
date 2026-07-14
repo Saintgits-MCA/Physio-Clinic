@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-3" id="contentBox">
+    <div class="bg-white shadow rounded">
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded-top">
+            <h5 class="mb-0"><i class="fas fa-bars me-2"></i>Menu Master</h5>
+            <div class="d-flex gap-2">
+                <a href="{% url 'menu_table' %}" class="text-white fw-bold text-decoration-none me-3 fs-6">
+                    View
+                </a>
+                <button type="button" class="btn btn-sm btn-danger" onclick="closeContent()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form method="post" class="p-4">
+            {% csrf_token %}
+            <div class="row g-4">
+
+                <!-- Menu Name -->
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Menu Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter menu name" required>
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Category</label>
+                    <input type="text" name="category" class="form-control" placeholder="Enter category (e.g. Masters, Staff, Prescription)" required>
+                </div>
+
+                <!-- URL -->
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">URL</label>
+                    <input type="text" name="url" class="form-control" placeholder="Enter Django URL name (e.g. departmenttable)">
+                </div>
+
+                <!-- Submit -->
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="fas fa-plus me-1"></i>Add Menu
+                    </button>
+                    <button type="reset" class="btn btn-danger text-white btn-lg px-5 ms-5">Reset</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

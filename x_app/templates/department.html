@@ -1,0 +1,28 @@
+{%extends 'Masters.html'%}
+{% block contents %}
+
+
+<!-- Add Department Panel -->
+<div class="content-box" id="contentBox">
+  <div class="content-header">
+    <span><i class="fas fa-building me-2"></i>Department Management</span>
+    <span>
+      <a href="{% url 'departmenttable' %}" class="text-white fw-bold text-decoration-none me-3 fs-6" ><span >View </span></a>
+    </span>
+  </div>
+  <div class="content-body">
+    <form method="post" action="{%url 'department'%}">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Department Name</label>
+        <input type="text" class="form-control"name="deptName" id="deptName" required>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-25">Add</button>
+        <button type="reset" class="btn btn-danger w-25">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{%endblock%}

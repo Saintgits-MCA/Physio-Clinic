@@ -1,0 +1,581 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link href="{%static 'css/select2.min.css'%}" rel="stylesheet" />
+<script src="{%static 'js/jquery.min.js'%}"></script>
+<script src="{%static 'js/select2.min.js'%}"></script>
+<div class="content-box" id="contentBox">
+
+  <!-- Hospital Header -->
+   <div class="content-header d-flex flex-wrap justify-content-between align-items-center">
+      <div class="d-flex align-items-center flex-wrap gap-2">
+        <i class="fas fa-file-invoice me-2"></i>
+        <span class="fw-bold fs-5  text-white">Invoice</span>
+      </div>
+      <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+      <a href="{% url 'invoice_list' %}" class="text-white fw-bold text-decoration-none mt-1">View</a>
+        <i class="fas fa-minus text-white btn" onclick="toggleMinimize()"></i>
+        <i class="fas fa-times btn btn-danger" onclick="closeContent()"></i>
+      </div>
+    </div>
+    <div class="content-body px-4">
+  <div class="text-center mb-4 border-bottom pb-3">
+    <div class="d-flex align-items-center justify-content-center gap-3">
+      {% if hospital.logo %}
+        <img src="{{ hospital.logo.url }}" alt="Hospital Logo" 
+             style="height:125px; width:200px; border-radius:8px;">
+      {% endif %}
+      <div>
+        <h3 class="fw-bold mb-1">{{ hospital.name }}</h3>
+        <p class="mb-0">{{ hospital.address }}</p>
+        <small>Phone: {{ hospital.manager_contact }} | Email: {{ hospital.email }}</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient Section -->
+  <form method="POST" id="invoiceForm">
+    {% csrf_token %}
+    <div class="row g-3 mb-3">
+      <div class="col-md-3 "><label class="form-label">Date</label>
+      <input type="date" class="date form-control" id="date" name="date" ></div>
+
+  <div class="col-md-4">
+  <label class="form-label">Patient (MR No / Name / Phone)</label>
+  <div class="input-group">
+    <input id="patientSearchInput" class="form-control"
+           placeholder="Enter name, MR No or phone" />
+    <button type="button" class="btn btn-primary text-white" onclick="openPatientSearchModal()">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+</div>
+<input type="hidden" name="patient_id" id="selectedPatientIdHidden">
+
+  <!-- Patient Search Modal -->
+      <div class="modal fade" id="patientModal" tabindex="-1" aria-labelledby="patientModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="patientModalLabel">Select Patient</h5>
+              <button type="button" class="fas fa-times ms-auto btn btn-danger text-white fw-bold"
+                data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table table-responsive table-hover" id="patientResultsTable">
+                <thead>
+                  <tr>
+                    <th>MR No</th>
+                    <th class="col-md-4">Name</th>
+                    <th>Phone</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Branch</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Inject rows dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Doctor Search -->
+      <div class="col-md-4 position-relative">
+        <label class="form-label">Select Doctor</label>
+        <input type="text" id="doctorSearch" class="form-control" placeholder="Type to search doctor..." autocomplete="off" required>
+        <small id="doctorSearchWarning" class="text-danger" style="display:none;">Please enter at least 3 characters.</small>
+        <ul id="doctorSuggestions" class="list-group position-absolute w-100" style="z-index:1000; display:none; max-height:200px; overflow-y:auto;"></ul>
+        <select name="doctor_id" id="doctorSelect" class="d-none" required>
+          <option value="">-- Select Doctor --</option>
+          {% for d in doctors %}
+          <option value="{{ d.staff.id }}">{{ d.staff.name }}({{d.staff.id}})</option>
+          {% endfor %}
+        </select>
+      </div>
+</div>
+
+      {% comment %} <div class="col-md-4">
+        <label class="form-label">Patient Name</label>
+        <input type="text" class="form-control" id="patientName" name="patient_name" readonly required>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Age</label>
+        <input type="text" class="form-control" id="patientAge" name="patient_age" readonly>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Address</label>
+        <input type="text" class="form-control" id="patientAddress" name="patient_address" required readonly>
+      </div> {% endcomment %}
+    
+
+    <!-- Invoice Table -->
+    <h5 class="fw-bold mt-4">Invoice Details</h5>
+    <table class="table table-bordered align-middle text-center" id="invoiceTable">
+      <thead class="table-light">
+        <tr>
+           <th style="width:5%">No.</th>
+        <th style="width:45%">Particulars</th>
+        <th style="width:10%">Session</th>
+        <th style="width:15%">Rate (₹)</th>
+        <th style="width:15%">Amount (₹)</th>
+        <th style="width:10%">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+<td>
+  <div class="position-relative">
+    <input type="text"
+           class="form-control particular-input"
+           name="particulars[]"
+           autocomplete="off"
+           placeholder="Search particular..."
+           required>
+    <ul class="list-group position-absolute w-100 particular-suggestions"
+        style="z-index:1000; display:none; max-height:180px; overflow-y:auto;"></ul>
+  </div>
+</td>
+          <td><input type="number" class="form-control qty-field" name="qty[]" id="qty" onchange="updateAmount()" step="1" required></td>
+          <td><input type="number" class="form-control rate-field" name="rate[]" id="rate" onchange="updateAmount()" step="1" required></td>
+          <td><input type="number" class="form-control amount-field" name="amounts[]" id="amount" onchange="updateTotal()" step="1" required readonly></td>
+          <td><button type="button" class="btn btn-danger btn-sm remove-row">X</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-secondary mb-3" id="addRow">+ Add Row</button>
+
+    <!-- Totals -->
+    <div class="row mt-3">
+      <div class="col-md-6"></div>
+      <div class="col-md-6 text-end">
+        <h6>Total: ₹ <span id="totalAmount">0.00</span></h6>
+        <p><strong>Amount In Words:</strong> <span id="amountWords">Zero Rupees Only</span></p>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+  <div class="col-md-4 col-sm-3 col-lg-6">
+    <label class="form-label fw-bold">Payment Mode</label>
+    <select name="payment_mode" class="form-select" required>
+      <option value="">-- Select Payment Mode --</option>
+      <option value="Cash">Cash</option>
+      <option value="Card">Card</option>
+      <option value="UPI">UPI</option>
+    </select>
+  </div>
+</div>
+    <!-- Submit -->
+    <div class="text-end">
+      <button type="submit" class="btn btn-primary" onclick="closeContent1()">Save Invoice</button>
+      <button type="reset" class="btn btn-danger" onclick="closeContent1()">Reset</button>
+    </div>
+  </form>
+</div>
+</div>
+<script>
+function closeContent() {
+  window.location.href = "{% url 'home' %}";
+  document.getElementById("contentBox")?.remove();
+}
+ function setupSearch1(inputId, selectId, suggestionsId, warningId, extraData=[]) {
+  const input = document.getElementById(inputId);
+  const select = document.getElementById(selectId);
+  const suggestions = document.getElementById(suggestionsId);
+  const warning = document.getElementById(warningId);
+
+  input.addEventListener("input", function() {
+    const query = this.value.trim().toLowerCase();
+    suggestions.innerHTML = "";
+    suggestions.style.display = "none";
+
+    if (query.length < 3) {
+      warning.style.display = "block";
+      return;
+    } else {
+      warning.style.display = "none";
+    }
+
+    // ✅ Get all matching doctors
+    const matches = Array.from(select.options).filter(opt =>
+      opt.value && opt.text.toLowerCase().includes(query)
+    );
+
+    // ✅ Show suggestions
+    if (matches.length > 0) {
+      matches.forEach(opt => {
+        const li = document.createElement("li");
+        li.className = "list-group-item list-group-item-action";
+        li.textContent = opt.text;
+        li.addEventListener("click", () => {
+          input.value = opt.text;           // display doctor name in input
+          select.value = opt.value;         // set hidden select value
+          suggestions.style.display = "none"; // hide suggestion box
+        });
+        suggestions.appendChild(li);
+      });
+      suggestions.style.display = "block";
+    } else {
+      // If no matches
+      const li = document.createElement("li");
+      li.className = "list-group-item text-muted";
+      li.textContent = "No doctors found.";
+      suggestions.appendChild(li);
+      suggestions.style.display = "block";
+    }
+  });
+
+  // ✅ Hide dropdown when clicking outside
+  document.addEventListener("click", e => {
+    if (!e.target.closest(`#${inputId}`) && !e.target.closest(`#${suggestionsId}`)) {
+      suggestions.style.display = "none";
+    }
+  });
+}
+
+// Initialize
+setupSearch1("doctorSearch", "doctorSelect", "doctorSuggestions", "doctorSearchWarning");
+function openPatientSearchModal() {
+  const query = document.getElementById("patientSearchInput").value.trim();
+
+  if (query.length < 3) {
+    alert("Please enter at least 3 characters to search for a patient.");
+    return;
+  }
+
+  fetch(`{% url 'prescription_home' %}?search=${encodeURIComponent(query)}&ajax=1`)
+    .then(response => response.json())
+    .then(data => {
+      const tbody = document.querySelector("#patientResultsTable tbody");
+      tbody.innerHTML = "";
+
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">No patients found.</td></tr>`;
+      } else {
+        data.forEach(patient => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${patient.mr_no}</td>
+            <td>${patient.name}</td>
+            <td>${patient.phone}</td>
+            <td>${patient.gender}</td>
+            <td>${patient.age}</td>
+            <td>${patient.branch}</td>
+            <td>
+              <button type="button" class="btn btn-sm btn-primary"
+                onclick="selectPatient(${patient.id}, '${patient.mr_no} - ${patient.name.replace(/'/g, "\\'")}')">
+                <i class="fas fa-check-square "></i>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      const modal = new bootstrap.Modal(document.getElementById("patientModal"));
+      modal.show();
+    })
+    .catch(err => console.error("Error fetching patients:", err));
+}
+
+function selectPatient(patientId, patientDisplayText) {
+  // Save selection in hidden input and search field
+  document.getElementById("selectedPatientIdHidden").value = patientId;
+  document.getElementById("patientSearchInput").value = patientDisplayText;
+
+  // Optionally fetch more patient details
+  fetch(`/get-patient-details/?patient_id=${patientId}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.name) {
+        // You can update other fields if needed
+        console.log("Patient selected:", data.name);
+      }
+    })
+    .catch(err => console.error("Error fetching patient details:", err));
+
+  // Close the modal
+  const modalEl = document.getElementById('patientModal');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  if (modal) modal.hide();
+}
+ function closeContent1() {
+      window.location.href = "{% url 'invoice_pdf' 0 %}".replace(0,pk);
+      localStorage.clear();
+      document.getElementById('contentBox').remove();
+    }
+// ✅ Handle invoice form submission (AJAX + open PDF)
+document.getElementById("invoiceForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const formData = new FormData(form);
+
+  fetch("{% url 'invoice' %}", {
+    method: "POST",
+    body: formData,
+    headers: { "X-Requested-With": "XMLHttpRequest" },
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const pdfUrl = "{% url 'invoice_pdf' 0 %}".replace(0, data.invoice_id);
+        window.open(pdfUrl, "_blank"); // ✅ Opens invoice PDF in new tab
+        alert("Invoice saved successfully!");
+        resetInvoiceForm(); // ✅ Clear everything after save
+      } else {
+        alert("Error saving invoice: " + data.error);
+      }
+    })
+    .catch(error => {
+      console.error("Error submitting invoice:", error);
+      alert("Something went wrong. Please try again.");
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("date").value = today;
+  document.getElementById("date").setAttribute("max", today);
+
+  // ✅ Add new row
+  document.getElementById("addRow").addEventListener("click", function () {
+    const table = document.querySelector("#invoiceTable tbody");
+    const rowCount = table.rows.length + 1;
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${rowCount}</td>
+<td>
+  <div class="position-relative">
+    <input type="text"
+           class="form-control particular-input"
+           name="particulars[]"
+           autocomplete="off"
+           placeholder="Search particular..."
+           required>
+    <ul class="list-group position-absolute w-100 particular-suggestions"
+        style="z-index:1000; display:none; max-height:180px; overflow-y:auto;"></ul>
+  </div>
+</td>
+      <td><input type="number" class="form-control qty-field" name="qty[]" min="0" step="1" required></td>
+      <td><input type="number" class="form-control rate-field" name="rate[]" min="0" step="0.01" required></td>
+      <td><input type="number" class="form-control amount-field" name="amounts[]" readonly></td>
+      <td><button type="button" class="btn btn-danger btn-sm remove-row">X</button></td>
+    `;
+    table.appendChild(row);
+  });
+
+  // ✅ Event delegation for calculations
+  document.querySelector("#invoiceTable").addEventListener("input", function (e) {
+    if (e.target.classList.contains("qty-field") || e.target.classList.contains("rate-field")) {
+      const row = e.target.closest("tr");
+      updateRowAmount(row);
+      updateTotal();
+    }
+  });
+
+  // ✅ Remove row dynamically
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("remove-row")) {
+      e.target.closest("tr").remove();
+      updateTotal();
+      renumberRows();
+    }
+  });
+
+  document.addEventListener("input", function (e) {
+    if (e.target.classList.contains("amount-field")) updateTotal();
+  });
+
+  function updateRowAmount(row) {
+    const qty = parseFloat(row.querySelector(".qty-field").value) || 0;
+    const rate = parseFloat(row.querySelector(".rate-field").value) || 0;
+    const amountCell = row.querySelector(".amount-field");
+    const amount = qty * rate;
+    amountCell.value = amount.toFixed(2);
+  }
+
+  function updateTotal() {
+    let total = 0;
+    document.querySelectorAll(".amount-field").forEach(function (input) {
+      total += parseFloat(input.value) || 0;
+    });
+    document.getElementById("totalAmount").innerText = total.toFixed(2);
+    document.getElementById("amountWords").innerText = numberToWords(total);
+  }
+
+  function renumberRows() {
+    document.querySelectorAll("#invoiceTable tbody tr").forEach((row, index) => {
+      row.querySelector("td:first-child").innerText = index + 1;
+    });
+  }
+
+  // ✅ Convert numbers to Indian words
+  function numberToWords(num) {
+    if (isNaN(num) || num === 0) return "Zero Rupees Only";
+
+    const a = [
+      "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+      "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"
+    ];
+    const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+    function inWords(n) {
+      if (n < 20) return a[n];
+      if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? " " + a[n % 10] : "");
+      if (n < 1000) return a[Math.floor(n / 100)] + " Hundred" + (n % 100 ? " " + inWords(n % 100) : "");
+      if (n < 100000)
+        return inWords(Math.floor(n / 1000)) + " Thousand" + (n % 1000 ? " " + inWords(n % 1000) : "");
+      if (n < 10000000)
+        return inWords(Math.floor(n / 100000)) + " Lakh" + (n % 100000 ? " " + inWords(n % 100000) : "");
+      return inWords(Math.floor(n / 10000000)) + " Crore" + (n % 10000000 ? " " + inWords(n % 10000000) : "");
+    }
+
+    const parts = num.toString().split(".");
+    const rupees = parseInt(parts[0]);
+    const paise = parts[1] ? parseInt(parts[1].substring(0, 2)) : 0;
+
+    let words = inWords(rupees) + " Rupees";
+    if (paise > 0) words += " and " + inWords(paise) + " Paise";
+    return words + " Only";
+  }
+
+  // ✅ Clear total when form reset
+  document.getElementById("invoiceForm").addEventListener("reset", function () {
+    document.getElementById("totalAmount").innerText = "0.00";
+    document.getElementById("amountWords").innerText = "Zero Rupees Only";
+  });
+});
+
+// ✅ Utility function to reset form & totals
+function resetInvoiceForm() {
+  const form = document.getElementById("invoiceForm");
+  form.reset();
+
+  // Clear dynamic table except first row
+  const tbody = document.querySelector("#invoiceTable tbody");
+  tbody.innerHTML = `
+    <tr>
+      <td>1</td>
+<td>
+  <div class="position-relative">
+    <input type="text"
+           class="form-control particular-input"
+           name="particulars[]"
+           autocomplete="off"
+           placeholder="Search particular..."
+           required>
+    <ul class="list-group position-absolute w-100 particular-suggestions"
+        style="z-index:1000; display:none; max-height:180px; overflow-y:auto;"></ul>
+  </div>
+</td>
+      <td><input type="number" class="form-control qty-field" name="qty[]" step="1" required></td>
+      <td><input type="number" class="form-control rate-field" name="rate[]" step="0.01" required></td>
+      <td><input type="number" class="form-control amount-field" name="amounts[]" readonly></td>
+      <td><button type="button" class="btn btn-danger btn-sm remove-row">X</button></td>
+    </tr>
+  `;
+
+  // Reset totals
+  document.getElementById("totalAmount").innerText = "0.00";
+  document.getElementById("amountWords").innerText = "Zero Rupees Only";
+}
+
+let activeIndex = -1;
+
+document.addEventListener("input", function (e) {
+  if (!e.target.classList.contains("particular-input")) return;
+
+  const input = e.target;
+  const query = input.value.trim();
+  const box = input.nextElementSibling;
+
+  box.innerHTML = "";
+  box.style.display = "none";
+  activeIndex = -1;
+
+  if (query.length < 2) return;
+
+  fetch(`{% url 'search_invoice_particular' %}?q=${encodeURIComponent(query)}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.length) return;
+
+      data.forEach((name, index) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item list-group-item-action";
+        li.textContent = name;
+
+        li.onclick = () => selectParticular(input, box, name);
+
+        box.appendChild(li);
+      });
+
+      box.style.display = "block";
+    });
+});
+
+document.addEventListener("keydown", function (e) {
+  if (!e.target.classList.contains("particular-input")) return;
+
+  const input = e.target;
+  const box = input.nextElementSibling;
+  const items = box.querySelectorAll("li");
+
+  if (!items.length) return;
+
+  // ⬇ Arrow Down
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    activeIndex = (activeIndex + 1) % items.length;
+    updateActive(items);
+  }
+
+  // ⬆ Arrow Up
+  if (e.key === "ArrowUp") {
+    e.preventDefault();
+    activeIndex = (activeIndex - 1 + items.length) % items.length;
+    updateActive(items);
+  }
+
+  // ⏎ Enter
+  if (e.key === "Enter") {
+    if (activeIndex >= 0) {
+      e.preventDefault();
+      selectParticular(input, box, items[activeIndex].textContent);
+    }
+  }
+});
+
+function updateActive(items) {
+  items.forEach((li, i) => {
+    li.classList.toggle("active", i === activeIndex);
+  });
+}
+
+function selectParticular(input, box, value) {
+  input.value = value;          // ✅ NAME ONLY
+  box.style.display = "none";
+  activeIndex = -1;
+
+  // Optional: move focus to qty
+  const row = input.closest("tr");
+  row.querySelector(".qty-field")?.focus();
+}
+
+// Hide dropdown on outside click
+document.addEventListener("click", function (e) {
+  document.querySelectorAll(".particular-suggestions").forEach(box => {
+    if (!box.contains(e.target) && !box.previousElementSibling.contains(e.target)) {
+      box.style.display = "none";
+    }
+  });
+});
+</script>
+
+{% endblock %}

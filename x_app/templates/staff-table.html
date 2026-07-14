@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content-box" id="contentBox">
+  <div class="content-header d-flex justify-content-between align-items-center flex-wrap mb-3">
+    <div class="fw-bold fs-5"><i class="fas fa-users me-2"></i>Staff Management</div>
+    <div class="d-flex gap-2">
+      <a id="addNewBtn" class="btn btn-info text-white fw-bold">+ Add New</a>
+      <button id="exportExcelBtn" class="btn btn-success">Excel</button>
+      <button id="exportPdfBtn" class="btn btn-danger">PDF</button>
+      <button class="btn btn-light border" onclick="toggleSearch()" title="Search">
+        <i class="fas fa-search"></i>
+      </button>
+      <a class="btn btn-danger" onclick="closeContent()" title="Close">
+        <i class="fas fa-times"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- Search -->
+  {% block search_section %}{% endblock %}
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs" id="staffTabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link {% if active_tab == 'registration' %}active{% endif %}" href="{% url 'stafftable' %}"
+        data-add-url="{% url 'staff_registration' %}" data-excel-url="{% url 'stafftable' %}?export=excel"
+        data-pdf-url="{% url 'stafftable' %}?export=pdf">Staff Registration</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if active_tab == 'allocation' %}active{% endif %}" href="{% url 'staff_allocation_table' %}"
+        data-add-url="{% url 'staff_allocation' %}" data-excel-url="{% url 'staff_allocation_table' %}?export=excel"
+        data-pdf-url="{% url 'staff_allocation_table' %}?export=pdf">Staff Allocation</a>
+    </li>
+  </ul>
+
+  <div class="tab-content border border-top-0 p-3 rounded-bottom bg-white">
+    {% block tab_content %}{% endblock %}
+  </div>
+</div>
+
+<script>
+  function toggleSearch() {
+    const box = document.getElementById('searchBox');
+    if (box) box.style.display = (box.style.display === 'none') ? 'block' : 'none';
+  }
+
+  function validateSearch() {
+    const input = document.getElementById('searchInput')?.value.trim() || '';
+    const warning = document.getElementById('searchWarning');
+    if (input.length < 3) {
+      if (warning) warning.style.display = 'block';
+      return false;
+    }
+    if (warning) warning.style.display = 'none';
+    return true;
+  }
+
+  // Dynamic Button URLs based on active tab
+  function updateButtonsFromActiveTab() {
+    const activeTabLink = document.querySelector('#staffTabs .nav-link.active');
+    if (activeTabLink) {
+      document.getElementById('addNewBtn').setAttribute('href', activeTabLink.dataset.addUrl);
+      document.getElementById('exportExcelBtn').onclick = function () {
+        window.location.href = activeTabLink.dataset.excelUrl;
+      };
+      document.getElementById('exportPdfBtn').onclick = function () {
+        window.location.href = activeTabLink.dataset.pdfUrl;
+      };
+    }
+  }
+
+  // Run once on page load
+  updateButtonsFromActiveTab();
+
+  // Also run when tab is clicked
+  document.querySelectorAll('#staffTabs .nav-link').forEach(tab => {
+    tab.addEventListener('click', function () {
+      setTimeout(updateButtonsFromActiveTab, 50); // delay so the class updates
+    });
+  });
+
+function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

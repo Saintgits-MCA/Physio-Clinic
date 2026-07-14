@@ -1,0 +1,196 @@
+{% extends 'Masters.html' %}
+{% block contents %}
+{% load static %}
+<style>
+.content-body {
+  max-width: 100%;
+  overflow-x: hidden; /* prevent horizontal scroll */
+}
+
+#hospitalTable {
+  margin-left: 0px;
+  width: 100%;
+  table-layout: auto; /* auto-adjust columns */
+}
+
+.table {
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: #0d6efd;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.table td {
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* wrap allowed */
+.table td:nth-child(2), /* Hospital */
+.table td:nth-child(3), /* Reg. No */
+.table td:nth-child(4), /* GST No */
+.table td:nth-child(8)  /* Address */ {
+  white-space: normal;
+  word-break: break-word;
+  max-width: 200px;
+}
+
+/* no wrap for phone & email */
+.table td:nth-child(6), /* Contact No */
+.table td:nth-child(7)  /* Email */ {
+  white-space: nowrap;
+}
+</style>
+
+<div class="content-box" id="contentBox">
+  <div class="content-header d-flex justify-content-between align-items-center flex-wrap">
+    <div><i class="fas fa-hospital me-2"></i>Hospital List</div>
+    <div class="d-flex gap-2">
+            <a href="{% url 'hospitalreg' %}"><button class="btn btn-info fw-bold text-white"><i class="fas fa-plus me-1"></i>Add New</button></a>
+      <a class="btn btn-success" href="{% url 'hospitaltable' %}?export=excel">Excel</a>
+      <a class="btn btn-danger" href="{% url 'hospitaltable' %}?export=pdf">PDF</a>
+      <button class="btn btn-light border" onclick="toggleSearch()" title="Search"><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+
+  <script src="{% static 'js/hospital.js' %}"></script>
+
+  <div id="searchBox" class="p-2" {% if not request.GET.search %}style="display: none;"{% endif %}>
+    <form method="GET" onsubmit="return validateSearch()" class="d-flex gap-2 flex-wrap">
+      <div class="input-group">
+        <input type="text" name="search" id="searchInput" class="form-control"
+               placeholder="Search Hospital Name..." value="{{ request.GET.search|default:'' }}">
+        <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+        {% if request.GET.search %}
+          <a href="{% url 'hospitaltable' %}" class="btn btn-outline-danger fw-bold">Clear</a>
+        {% endif %}
+      </div>
+    </form>
+    <div id="searchWarning" class="text-danger small mt-1" style="display:none;">
+      Please type at least 3 characters to search.
+    </div>
+  </div>
+
+  <div class="content-body">
+    <table id="hospitalTable" class="table table-bordered table-striped">
+      <thead class="table-primary">
+        <tr>
+          <th>Logo</th>
+          <th>Hospital</th>
+          <th>Reg. No</th>
+          <th>GST No</th>
+          <th>Manager</th>
+          <th>Contact No</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="hospitalTableBody">
+        {% if hospitals %}
+          {% for hospital in hospitals %}
+            <tr>
+              <td>
+                {% if hospital.logo %}
+                  <img src="{{ hospital.logo.url }}" width="50">
+                {% else %}
+                  No Logo
+                {% endif %}
+              </td>
+              <td>{{ hospital.name }}</td>
+              <td>{{ hospital.registration_number }}</td>
+              <td>{{ hospital.gst_number }}</td>
+              <td>{{ hospital.manager_name }}</td>
+              <td>{{ hospital.manager_contact }}</td>
+              <td>{{ hospital.email }}</td>
+              <td id="word-break">{{ hospital.address }}</td>
+              <td><a href="{% url 'edit_hospital' hospital.id %}" class="btn btn-sm btn-primary text-white">
+    <i class="fas fa-pencil-alt"></i>
+  </a></td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="9" class="text-center fw-bold">No hospitals registered yet.</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    {% if not is_export and not is_export_excel %}
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center mt-3">
+        {% if hospitals.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ hospitals.previous_page_number }}&search={{ search_query }}">Previous</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+
+        {% for num in hospitals.paginator.page_range %}
+          {% if hospitals.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}&search={{ search_query }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if hospitals.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ hospitals.next_page_number }}&search={{ search_query }}">Next</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+
+  </div>
+</div>
+
+{% if is_export_excel %}
+<script>
+  window.onload = function () {
+    exportTableToExcelWithoutActions('hospitalTable', 'Hospital List.xlsx');
+    setTimeout(() => {
+      window.location.href = "{% url 'hospitaltable' %}?{% if search_query %}search={{ search_query }}{% endif %}";
+    }, 2000);
+  };
+</script>
+{% endif %}
+
+{% if is_export %}
+<script>
+  window.onload = function () {
+    setTimeout(() => {
+      exportTableWithoutActions('hospitalTable', 'Hospital List');
+      setTimeout(() => {
+        window.location.href = "{% url 'hospitaltable' %}?{% if search_query %}search={{ search_query }}{% endif %}";
+      }, 1500);
+    }, 300);
+  };
+</script>
+{% endif %}
+
+<script>
+function toggleSearch() {
+  const box = document.getElementById('searchBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+function validateSearch() {
+  const input = document.getElementById('searchInput').value.trim();
+  const warning = document.getElementById('searchWarning');
+  if (input.length < 3) {
+    warning.style.display = 'block';
+    return false;
+  }
+  warning.style.display = 'none';
+  return true;
+}
+</script>
+
+{% endblock %}

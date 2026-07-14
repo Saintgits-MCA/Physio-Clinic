@@ -1,0 +1,416 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+/* --------------------- Dropdown & Inputs --------------------- */
+.itemSearch + .dropdown-menu {
+    max-width: 220px;
+    min-width: 200px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    z-index: 1055;
+}
+.dropdown-item {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.itemSearch { width:160px; }
+.tax_percent { width:80px; }
+
+/* --------------------- Table --------------------- */
+#itemTable { table-layout: fixed; width: 100%; font-size: 13px; white-space: nowrap; }
+#itemTable th, #itemTable td { padding: 4px; text-align: center; vertical-align: middle; }
+#itemTable th { background: #f4f8ff; color: #0d6efd; font-weight: 600; }
+/* Column widths */
+#itemTable th:nth-child(1), #itemTable td:nth-child(1) { width: 14%; }
+#itemTable th:nth-child(2), #itemTable td:nth-child(2) { width: 8%; }
+#itemTable th:nth-child(3), #itemTable td:nth-child(3) { width: 12%; }
+#itemTable th:nth-child(4), #itemTable td:nth-child(4) { width: 6%; }
+#itemTable th:nth-child(5), #itemTable td:nth-child(5) { width: 10%; }
+#itemTable th:nth-child(6), #itemTable td:nth-child(6) { width: 6%; }
+#itemTable th:nth-child(7), #itemTable td:nth-child(7) { width: 8%; }
+#itemTable th:nth-child(8), #itemTable td:nth-child(8) { width: 7%; }
+#itemTable th:nth-child(9), #itemTable td:nth-child(9),
+#itemTable th:nth-child(10), #itemTable td:nth-child(10) { width: 7%; }
+#itemTable th:nth-child(11), #itemTable td:nth-child(11) { width: 10%; }
+#itemTable th:nth-child(12), #itemTable td:nth-child(12) { width: 4%; }
+
+/* Responsive & inputs */
+.table-responsive { overflow-x: auto; }
+#itemTable input, #itemTable select { font-size: 13px; padding: 3px 5px; }
+</style>
+
+<div class="content-box" id="contentBox">
+  <div class="bg-white rounded">
+    <div class="d-flex align-items-center bg-primary text-white px-4 py-2 rounded-top">
+      <h5 class="mb-0"><i class="fas fa-shopping-cart me-3"></i>Purchase Invoice</h5>
+      <div class="d-flex gap-2 ms-auto">
+        <a href="{% url 'purchase_invoice_list' %}" class="text-white fw-bold text-decoration-none me-3 fs-6">View</a>
+        <i class="fas fa-minus text-white btn" onclick="toggleMinimize()"></i>
+        <i class="fas fa-times btn btn-danger" onclick="closeContent()"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-body">
+    <div class="text-center mb-3">
+      {% if store.logo %}
+      <img src="{{ store.logo.url }}" alt="Logo" height="60"><br>
+      {% endif %}
+      <h5 class="fw-bold">{{ store.name }}</h5>
+      <p class="mb-1">{{ store.address }}</p>
+      <p class="mb-0"><b>Mobile:</b> {{store.manager_contact}} <b>GSTIN:</b> {{ store.gst_number }}</p>
+    </div>
+
+    <form id="purchaseForm" method="POST">
+      {% csrf_token %}
+      <!-- Date & Supplier -->
+      <div class="row g-3 mb-3 align-items-end">
+        <div class="col-md-3">
+          <label class="form-label">Purchase Date</label>
+          <input type="date" name="purchase_date" id="purchaseDate" class="form-control" required>
+        </div>
+         <div class="col-md-3">
+        <label class="form-label">Supplier Bill No</label>
+       <input  type="text"  name="bill_number" class="form-control" placeholder="Enter supplier invoice / bill no" maxlength="50" required>
+       </div>
+        <div class="col-md-6">
+          <label class="form-label">Supplier (Name / Contact)</label>
+          <div class="input-group">
+            <input id="supplierSearchInput" class="form-control" placeholder="Enter supplier name or contact" />
+            <button type="button" class="btn btn-primary text-white" onclick="openSupplierSearchModal()">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+        <input type="hidden" name="supplier_id" id="selectedSupplierIdHidden">
+      </div>
+
+      <!-- Selected Supplier -->
+      <div class="row g-3 mb-3" id="selectedSupplierInfo" style="display:none;">
+        <div class="col-md-6">
+          <label class="form-label">Supplier Name</label>
+          <input type="text" class="form-control" id="supplierName" readonly>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Supplier Contact</label>
+          <input type="text" class="form-control" id="supplierContact" readonly>
+        </div>
+      </div>
+
+      <!-- Items Table -->
+      <div class="table-responsive mb-3">
+        <table id="itemTable" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Particulars</th>
+              <th>Batch</th>
+              <th>Expiry</th>
+              <th>Unit</th>
+              <th>Company</th>
+              <th>Qty</th>
+              <th>Rate</th>
+              <th>Tax %</th>
+              <th>CGST</th>
+              <th>SGST</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="itemRows">
+            <tr>
+              <td>
+                <input type="text" class="form-control itemSearch" placeholder="Search Medicine..." data-toggle="dropdown">
+                <div class="dropdown-menu"></div>
+              </td>
+              <td><input type="text" class="form-control batch_number" name="batch_number[]" placeholder="Batch"></td>
+              <td><input type="date" class="form-control expiry_date" name="expiry_date[]" ></td>
+              <td><input type="text" class="form-control unit" name="unit[]" readonly></td>
+              <td>
+                <select class="form-control company_name" name="company_name[]">
+                  <option value="">Select Company</option>
+                  {% for company in companies %}
+                  <option value="{{ company.id }}">{{ company.name }}</option>
+                  {% endfor %}
+                </select>
+              </td>
+              <td><input type="number" class="form-control qty" name="qty[]" min="1" value="1"></td>
+              <td><input type="number" class="form-control rate" name="rate[]" step="0.01" min="0"></td>
+              <td>
+                <select class="form-control tax_percent" name="tax_percent[]">
+                  <option value="">Select Tax</option>
+                  {% for tax in taxes %}
+                  <option value="{{ tax.tax_percent }}">{{ tax.tax_percent|floatformat:0 }}%</option>
+                  {% endfor %}
+                </select>
+              </td>
+              <td><input type="number" class="form-control cgst_amount" name="cgst_amount[]" readonly step="0.01"></td>
+              <td><input type="number" class="form-control sgst_amount" name="sgst_amount[]" readonly step="0.01"></td>
+              <td><input type="number" class="form-control amount" name="amount[]" readonly step="0.01"></td>
+              <td><button type="button" class="btn btn-danger btn-sm remove-row">X</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Add Row -->
+      <div class="text-end mb-3">
+        <button type="button" class="btn btn-primary" onclick="addRow()">+ Add Item</button>
+      </div>
+
+      <input type="hidden" id="items_json" name="items_json">
+
+      <!-- Discount -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-3 offset-md-9">
+          <label class="form-label">Discount (%)</label>
+          <input type="number" step="0.01" id="discountPercent" class="form-control" value="0" min="0">
+        </div>
+      </div>
+
+      <!-- Totals -->
+      <div class="row g-3 mb-3 text-end">
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Taxable Amount:</label>
+          <span id="taxableAmount" class="form-control-plaintext">0.00</span>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">CGST:</label>
+          <span id="cgstAmount" class="form-control-plaintext">0.00</span>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">SGST:</label>
+          <span id="sgstAmount" class="form-control-plaintext">0.00</span>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Total Amount:</label>
+          <span id="totalAmount" class="form-control-plaintext">0.00</span>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg">Save Purchase Invoice</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Supplier Modal -->
+<div class="modal fade" id="supplierModal" tabindex="-1" aria-labelledby="supplierModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="supplierModalLabel">Search Suppliers <span id="supplierCount" class="badge bg-secondary ms-2">Loading...</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <input type="text" id="modalSupplierSearch" class="form-control" placeholder="Search by name or contact...">
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="supplierTbody">
+              <tr><td colspan="4" class="text-center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script>
+$(function() {
+    $('#purchaseDate').val(new Date().toISOString().split('T')[0]);
+    let selectingSupplier = false;
+    let highlightedIndex = -1;
+
+    // --------------------- Medicine Search ---------------------
+    function searchMedicines(input) {
+        const query = input.val().trim();
+        if (query.length < 2) return;
+        const dropdown = input.next('.dropdown-menu');
+
+        $.get("{% url 'search_medic' %}", { q: query }, function(res) {
+            dropdown.empty().show();
+            if (!res.length) { dropdown.append('<div class="dropdown-item text-muted">No Match</div>'); return; }
+            res.forEach(med => {
+                dropdown.append(`<div class="dropdown-item" data-id="${med.id}" data-name="${med.medicine_name}" data-unit="${med.unit||''}" data-batch="${med.batch||''}" data-exp="${med.expiry||''}" data-company_id="${med.company_id||''}" data-tax="${med.tax||''}">${med.medicine_name} - ${med.hsn_code||''}</div>`);
+            });
+        });
+    }
+
+    $(document).on("input", ".itemSearch", function() { searchMedicines($(this)); });
+
+    $(document).on("click", ".dropdown-item", function() {
+        const item = $(this);
+        const row = item.closest("tr");
+        row.find(".itemSearch").val(item.data("name")).attr("data-medicine-id", item.data("id")).css("width","200px");
+        row.find(".unit").val(item.data("unit"));
+        row.find(".batch_number").val(item.data("batch"));
+        row.find(".expiry_date").val(item.data("exp"));
+        row.find(".company_name").val(item.data("company_id") || "");
+        row.find(".tax_percent").val(item.data("tax") || "");
+        row.find(".qty,.rate,.tax_percent").trigger("input");
+        item.parent().hide();
+    });
+
+    // --------------------- Row Add/Remove ---------------------
+    window.addRow = function() {
+        let newRow = $('#itemRows tr:first').clone();
+        newRow.find("input,select").val("");
+        newRow.find(".qty").val(1);
+        newRow.find(".itemSearch").removeAttr("data-medicine-id");
+        newRow.find(".dropdown-menu").empty().hide();
+        $('#itemRows').append(newRow);
+    };
+    $(document).on("click", ".remove-row", function() {
+        if ($('#itemRows tr').length > 1) { $(this).closest('tr').remove(); updateTotals(); }
+    });
+
+    // --------------------- Calculations ---------------------
+    $(document).on("input", ".qty,.rate,.tax_percent,#discountPercent", function() {
+        const row = $(this).closest("tr");
+        const qty = parseFloat(row.find('.qty').val()) || 0;
+        const rate = parseFloat(row.find('.rate').val()) || 0;
+        const taxPercent = parseFloat(row.find('.tax_percent').val()) || 0;
+        const taxable = qty*rate;
+        const taxAmount = taxable*taxPercent/100;
+        const cgst = taxAmount/2;
+        const sgst = taxAmount/2;
+        row.find('.cgst_amount').val(cgst.toFixed(2));
+        row.find('.sgst_amount').val(sgst.toFixed(2));
+        row.find('.amount').val((taxable+taxAmount).toFixed(2));
+        updateTotals();
+    });
+
+    function updateTotals() {
+        let taxable=0, cgst=0, sgst=0, total=0;
+        $('#itemRows tr').each(function() {
+            taxable += (parseFloat($(this).find('.qty').val())||0)*(parseFloat($(this).find('.rate').val())||0);
+            cgst += parseFloat($(this).find('.cgst_amount').val())||0;
+            sgst += parseFloat($(this).find('.sgst_amount').val())||0;
+            total += parseFloat($(this).find('.amount').val())||0;
+        });
+        const discountPercent = parseFloat($('#discountPercent').val())||0;
+        total -= total*discountPercent/100;
+        $('#taxableAmount').text(taxable.toFixed(2));
+        $('#cgstAmount').text(cgst.toFixed(2));
+        $('#sgstAmount').text(sgst.toFixed(2));
+        $('#totalAmount').text(total.toFixed(2));
+    }
+
+    // --------------------- Form Submit ---------------------
+    $("#purchaseForm").on("submit", function(e){
+        if(selectingSupplier) return true;
+        let items=[], valid=true;
+        $('#itemRows tr').each(function() {
+            const row = $(this);
+            const id = row.find(".itemSearch").attr("data-medicine-id");
+            if(!id){ alert("⚠️ Select a medicine for each row!"); valid=false; return false; }
+            items.push({
+                medicine_id: id,
+                batch_number: row.find('.batch_number').val(),
+                expiry_date: row.find('.expiry_date').val(),
+                unit: row.find('.unit').val(),
+                company_name: row.find('.company_name').val(),
+                qty: row.find('.qty').val(),
+                rate: row.find('.rate').val(),
+                tax_percent: row.find('.tax_percent').val(),
+                each_cgst: row.find('.cgst_amount').val(),
+                each_sgst: row.find('.sgst_amount').val(),
+                amount: row.find('.amount').val(),
+            });
+        });
+        if(!valid){ e.preventDefault(); return false; }
+        $("#items_json").val(JSON.stringify(items));
+        return true;
+    });
+
+    // --------------------- Supplier ---------------------
+    let allSuppliers=[];
+    window.openSupplierSearchModal = function() { 
+        const initialQuery = $('#supplierSearchInput').val() || '';
+        $('#modalSupplierSearch').val(initialQuery);
+        fetchSuppliers(initialQuery); 
+        $('#supplierModal').modal('show'); 
+    };
+    function fetchSuppliers(q=""){ 
+        const body = $("#supplierTbody");
+        body.html('<tr><td colspan="4" class="text-center">Loading...</td></tr>');
+        $('#supplierCount').text('Loading...');
+        $.get("{% url 'supplier_search' %}", {q: q}, function(res){
+            allSuppliers = res.results || [];
+            drawSupplierRows(allSuppliers);
+        }).fail(function() {
+            body.html('<tr><td colspan="4" class="text-center text-danger">Error loading suppliers. Please try again.</td></tr>');
+            $('#supplierCount').text('Error');
+        });
+    }
+    function drawSupplierRows(list){
+        const body=$("#supplierTbody"); 
+        body.empty();
+        if(!list.length){ 
+            body.append('<tr><td colspan="4" class="text-center text-muted">No suppliers found</td></tr>'); 
+            $('#supplierCount').text('0 suppliers');
+            return; 
+        }
+        list.forEach(s=>{
+            body.append(`<tr data-id="${s.id}" data-name="${s.supplier_name}" data-contact="${s.contact_number || ''}"><td>${s.supplier_name}</td><td>${s.contact_number||''}</td><td>${s.email||''}</td><td><button type="button" class="btn btn-primary btn-sm select-supplier">Select</button></td></tr>`);
+        });
+        $('#supplierCount').text(`${list.length} supplier${list.length !== 1 ? 's' : ''}`);
+    }
+    $(document).on('click', '.select-supplier', function() {
+        const tr = $(this).closest('tr');
+        const id = tr.data('id');
+        const name = tr.data('name');
+        const contact = tr.data('contact');
+        selectSupplier(id, name, contact);
+    });
+    $(document).on('input', '#modalSupplierSearch', function() {
+        fetchSuppliers($(this).val());
+    });
+    function selectSupplier(id, name, contact){
+        selectingSupplier=true;
+        $("#selectedSupplierIdHidden").val(id);
+        $("#supplierName").val(name); 
+        $("#supplierContact").val(contact);
+        $("#supplierSearchInput").val(name); 
+        $("#selectedSupplierInfo").show();
+        $("#supplierModal").modal('hide');
+        setTimeout(()=>selectingSupplier=false,200);
+    }
+
+    // --------------------- Close & Dropdown ---------------------
+    window.closeContent=function(){ window.location.href="{% url 'home' %}"; };
+$(document).click(function(event){ 
+    if(!$(event.target).closest(".itemSearch, .dropdown-menu").length){ 
+        // Only hide medicine dropdowns, not all dropdowns
+        $(".itemSearch + .dropdown-menu").hide(); 
+    } 
+});
+    // --------------------- Dropdown Keyboard ---------------------
+    $(document).on("keydown", ".itemSearch", function(e){
+        const dropdown=$(this).next(".dropdown-menu");
+        const items=dropdown.find(".dropdown-item");
+        if(!items.length) return;
+        if(e.key==="ArrowDown"){ e.preventDefault(); highlightedIndex=(highlightedIndex+1)%items.length; items.removeClass("active"); items.eq(highlightedIndex).addClass("active").focus(); }
+        if(e.key==="ArrowUp"){ e.preventDefault(); highlightedIndex=(highlightedIndex-1+items.length)%items.length; items.removeClass("active"); items.eq(highlightedIndex).addClass("active").focus(); }
+        if(e.key==="Enter"){ e.preventDefault(); if(highlightedIndex>=0){ items.eq(highlightedIndex).click(); highlightedIndex=-1; } }
+    });
+});
+</script>
+{% endblock %}

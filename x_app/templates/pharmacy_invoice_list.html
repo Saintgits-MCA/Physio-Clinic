@@ -1,0 +1,390 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+.message-toast {
+  min-width: 320px;
+  max-width: 380px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  border-left: 6px solid;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  animation: slideIn 0.4s ease forwards;
+}
+
+.message-toast.success { border-color: #28a745; }
+.message-toast.error   { border-color: #dc3545; }
+.message-toast.warning { border-color: #ffc107; }
+.message-toast.info    { border-color: #0dcaf0; }
+
+.message-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.message-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.message-body {
+  font-size: 14px;
+  color: #555;
+  margin-top: 4px;
+}
+
+.message-close {
+  cursor: pointer;
+  font-size: 18px;
+  color: #999;
+}
+
+.message-close:hover {
+  color: #000;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.cancelled-table-wrapper thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #f8f9fa; /* same as table-light */
+  box-shadow: 0 2px 2px rgba(0,0,0,0.05);
+}
+</style>
+<div id="messageContainer"
+     class="position-fixed top-0 end-0 p-3"
+     style="z-index: 9999;">
+</div>
+
+<div class="content-box">
+  <div class="content-header d-flex justify-content-between align-items-center flex-wrap">
+    <div><i class="fas fa-file-invoice me-2"></i>Pharmacy Invoice List</div>
+    <div class="d-flex gap-2">
+      <a href="{% url 'pharmacy_invoice' %}">
+        <button class="btn btn-info fw-bold text-white"><i class="fas fa-plus me-2"></i>Add</button>
+      </a>
+      <a href="?export=excel{% if search_query %}&search={{ search_query }}{% endif %}
+{% if from_date %}&from_date={{ from_date }}{% endif %}
+{% if to_date %}&to_date={{ to_date }}{% endif %}"
+class="btn btn-success">Excel</a>
+
+<a href="?export=pdf{% if search_query %}&search={{ search_query }}{% endif %}
+{% if from_date %}&from_date={{ from_date }}{% endif %}
+{% if to_date %}&to_date={{ to_date }}{% endif %}"
+class="btn btn-danger">PDF</a>
+      <button class="btn btn-light border" onclick="toggleSearch()" title="Search">
+        <i class="fas fa-search"></i>
+      </button>
+      <a onclick="closeContent()" class="btn btn-danger"><i class="fas fa-times"></i></a>
+    </div>
+  </div>
+
+  <!--  Search Box -->
+  <div id="searchBox" class="p-2" {% if not search_query %}style="display:none;"{% endif %}>
+    <form method="GET" onsubmit="return validateSearch()" class="d-flex gap-2 flex-wrap">
+      <div class="input-group">
+        <input type="text" name="search" id="searchInput" class="form-control"
+               placeholder="Search Invoice (No / Patient / Phone)"
+               value="{{ search_query|default:'' }}">
+        <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+        {% if search_query %}
+        <a href="{% url 'pharmacy_invoice_list' %}" class="btn btn-outline-danger fw-bold">Clear</a>
+        {% endif %}
+      </div>
+    </form>
+    <div id="searchWarning" class="text-danger small mt-1" style="display:none;">
+      Please type at least 3 characters to search.
+    </div>
+  </div>
+  <form method="GET" class="d-flex ms-5 gap-2 flex-wrap align-items-end">
+
+  <!-- From Date -->
+  <div>
+    <label class="small text-muted">From</label>
+    <input type="date" name="from_date" class="form-control form-control-sm"
+           value="{{ from_date }}">
+  </div>
+
+  <!-- To Date -->
+  <div>
+    <label class="small text-muted">To</label>
+    <input type="date" name="to_date" class="form-control form-control-sm"
+           value="{{ to_date }}">
+  </div>
+
+  <button class="btn btn-primary btn-sm">
+    <i class="fas fa-filter"></i> Filter
+  </button>
+
+  {% if search_query or from_date or to_date %}
+  <a href="{% url 'pharmacy_invoice_list' %}"
+     class="btn btn-outline-danger btn-sm">
+    Clear
+  </a>
+  {% endif %}
+
+</form>
+
+  <!-- Table -->
+  <div class="table-responsive p-2">
+    <table class="table table-bordered table-hover align-middle" id="pharmacy_invoice">
+      <thead class="table-primary text-center">
+        <tr>
+          <th>#</th>
+          <th>Invoice No</th>
+          <th>Patient Name</th>
+          <th>Date</th>
+          <th>Total (₹)</th>
+          <th>Phone</th>
+          <th>Payment Mode</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+  {% for inv in invoices %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ inv.invoice_no }}</td>
+    <td>{%if inv.patient %}{{ inv.patient.name }} {%else%}{{inv.customer_name}}(UR){%endif%}</td>
+    <td>{{ inv.date|date:"d-m-Y" }}</td>
+    <td>{{ inv.total_amount|floatformat:2 }}</td>
+  <td>{%if inv.patient %}{{ inv.patient.phone }}{%else%}{{inv.customer_phone}}(UR){%endif%}</td>
+  <td>{{inv.payment_mode}}</td>
+    <td class="text-center">
+      <a href="{% url 'pharmacy_invoice_pdf' inv.id %}" class="btn btn-sm btn-primary" target="_blank">
+        <i class="fas fa-eye"></i>
+      </a>
+      {%if is_admin%}
+     <button type="button"
+        class="btn btn-sm btn-danger"
+        onclick="cancelInvoice({{ inv.id }})">
+    <i class="fas fa-trash"></i>
+</button>
+     {%endif%}
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="9" class="text-center text-muted">No invoices found</td></tr>
+  {% endfor %}
+</tbody>
+
+    </table>
+  </div>
+
+{% if is_export_excel %}
+<script>
+  window.onload = function () {
+    exportTableToExcelWithoutActions('pharmacy_invoice', 'Pharmacy Invoice.xlsx');
+    setTimeout(() => {
+      window.location.href = "{% url 'pharmacy_invoice_list' %}?{% if search_query %}search={{ search_query }}{% endif %}";
+    }, 2000);
+  };
+</script>
+{% endif %}
+
+<!-- PDF Export -->
+{% if is_export %}
+<script>
+  window.onload = function () {
+    setTimeout(() => {
+      exportPharmacyTableWithoutActions('pharmacy_invoice', 'Pharmacy Invoice List');
+      setTimeout(() => {
+        window.location.href = "{% url 'pharmacy_invoice_list' %}?{% if search_query %}search={{ search_query }}{% endif %}";
+      }, 1500);
+    }, 300);
+  };
+</script>
+{% endif %}
+
+{% if cancelled_count %}
+<div class="card mt-3 border-danger position-relative" style="max-height:860px;overflow-y:auto;">
+  <div class="card-header bg-danger text-white fw-bold">
+   Total Cancelled Invoices-({{ cancelled_count }})  (Last 5 cancelled invoices)
+  </div>
+  <div class="card-body p-2 cancelled-table-wrapper">
+    <table class="table table-sm table-bordered mb-0">
+      <thead class="table-light text-center">
+        <tr>
+          <th>#</th>
+          <th>Invoice No</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in cancelled_invoices %}
+        <tr class="text-center">
+          <td>{{ forloop.counter }}</td>
+          <td>{{ c.invoice_no }}</td>
+          <td>{{ c.date|date:"d-m-Y" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+  <!-- 🔄 Pagination -->
+   {%if not is_export and not is_export_excel%}
+  <div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center mt-3">
+        {% if invoices.has_previous %}
+        <li class="page-item">
+          <a class="page-link"
+             href="?page={{ invoices.previous_page_number }}{% if query_string %}&{{ query_string }}{% endif %}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+
+        {% for num in invoices.paginator.page_range %}
+          {% if invoices.number == num %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+          <li class="page-item">
+            <a class="page-link"
+               href="?page={{ num }}{% if query_string %}&{{ query_string }}{% endif %}">
+              {{ num }}
+            </a>
+          </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if invoices.has_next %}
+        <li class="page-item">
+          <a class="page-link"
+             href="?page={{ invoices.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{%endif%}
+</div>
+
+
+<script>
+function toggleSearch() {
+  const box = document.getElementById('searchBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+function validateSearch() {
+  const input = document.getElementById('searchInput').value.trim();
+  const warning = document.getElementById('searchWarning');
+  if (input.length < 3) {
+    warning.style.display = 'block';
+    return false;
+  }
+  warning.style.display = 'none';
+  return true;
+}
+function closeContent() {
+  window.location.href = "{% url 'home' %}";
+  document.getElementById("contentBox")?.remove();
+}
+
+function cancelInvoice(invoiceId) {
+    if (!confirm("Cancel invoice and restore stock?")) return;
+
+    fetch(`/pharmacy-invoice/delete/${invoiceId}/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCSRFToken(),
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        showMessage(
+            data.success ? "success" : "danger",
+            data.message || data.error || "Something went wrong"
+        );
+
+        if (data.success) {
+            setTimeout(() => location.reload(), 1200);
+        }
+    })
+    .catch(err => {
+        showMessage("danger", "Server error occurred");
+        console.error(err);
+    });
+}
+
+function showMessage(type, message, timeout = 4000) {
+  const container = document.getElementById("messageContainer");
+
+  const icons = {
+    success: "✔️",
+    error: "❌",
+    warning: "⚠️",
+    info: "ℹ️"
+  };
+
+  const titles = {
+    success: "Success",
+    error: "Error",
+    warning: "Warning",
+    info: "Info"
+  };
+
+  const toast = document.createElement("div");
+  toast.className = `message-toast ${type}`;
+  toast.innerHTML = `
+    <div class="message-header">
+      <div class="message-title">
+        ${icons[type]} ${titles[type]}
+      </div>
+      <div class="message-close">&times;</div>
+    </div>
+    <div class="message-body">${message}</div>
+  `;
+
+  container.appendChild(toast);
+
+  // Manual close
+  toast.querySelector(".message-close").onclick = () => closeToast(toast);
+
+  // Auto close
+  setTimeout(() => closeToast(toast), timeout);
+
+  function closeToast(el) {
+    el.style.animation = "fadeOut 0.4s ease forwards";
+    setTimeout(() => el.remove(), 400);
+  }
+}
+
+/* 🔑 CSRF helper */
+function getCSRFToken() {
+    let cookieValue = null;
+    document.cookie.split(";").forEach(cookie => {
+        const c = cookie.trim();
+        if (c.startsWith("csrftoken=")) {
+            cookieValue = c.substring("csrftoken=".length);
+        }
+    });
+    return cookieValue;
+}
+</script>
+{% endblock %}

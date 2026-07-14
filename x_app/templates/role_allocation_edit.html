@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-3" id="contentBox">
+    <div class="bg-white shadow rounded">
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded-top">
+            <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Role Allocation</h5>
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeContent()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Form -->
+        <form method="post" class="p-4">
+            {% csrf_token %}
+            <div class="row g-4">
+
+                <!-- Role -->
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Role</label>
+                    <select name="role" class="form-select" required>
+                        {% for role in roles %}
+                            <option value="{{ role.id }}" {% if allocation.role.id == role.id %}selected{% endif %}>
+                                {{ role.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Branch -->
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Branch</label>
+                    <select name="branch" class="form-select" required>
+                        {% for branch in branches %}
+                            <option value="{{ branch.id }}" {% if allocation.branch.id == branch.id %}selected{% endif %}>
+                                {{ branch.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Staff -->
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Staff</label>
+                    <select name="staff" class="form-select" required>
+                        {% for user in users %}
+                            <option value="{{ user.id }}" {% if allocation.staff.id == user.id %}selected{% endif %}>
+                                {{ user.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">Status</label><br>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="status" value="Active"
+                            {% if allocation.status %}checked{% endif %}>
+                        <label class="form-check-label">Active</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="status" value="Inactive"
+                            {% if not allocation.status %}checked{% endif %}>
+                        <label class="form-check-label">Inactive</label>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="col-12 d-flex justify-content-end gap-2">
+                    <a href="{% url 'role_allocation_table' %}" class="btn btn-secondary px-4">Cancel</a>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="fas fa-save me-1"></i>Update Allocation
+                    </button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+    function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

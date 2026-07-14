@@ -1,0 +1,102 @@
+<span class="modal fade" id="patientHistoryModal" tabindex="-1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">
+          Patient History - {{ patient.name }} (MR No: {{ patient.mr_no }})
+        </h5>
+        <button type="button" class="fas fa-times btn btn-danger ms-auto" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" style="text-align: left">
+
+        <!-- Patient Details -->
+        <h6 class="fw-bold ms-auto fs-5">Patient Details</h6>
+        <div class="ms-5 mt-3">
+        <p><strong>Name:</strong>{{patient.name}} <strong style="margin-left: 25%;">Age:</strong> {{ patient.age }}</p>
+        <p> <strong >Gender:</strong> {{ patient.gender }} <strong style="margin-left: 27.5%;">Phone:</strong> {{ patient.phone }} </p>
+        <p> <strong >Email:</strong> {{ patient.email }} <strong style="margin-left: 15.5%;">Address:</strong> {{ patient.address }}</p>
+        </div>
+        <!-- Prescription History (Tabular) -->
+        <h6 class="fw-bold ms-auto fs-5">Prescription Records</h6>
+        <div class="table-responsive mb-3">
+          <table class="table table-bordered table-striped align-middle">
+            <thead class="table-secondary text-center">
+              <tr>
+                <th>Date</th>
+                <th>Complaints</th>
+                <th>Doctor</th>
+                <th>Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for h in history %}
+              <tr>
+                <td>{{ h.date_recorded|date:"d/m/Y" }}</td>
+                <td>{{ h.chief_complaints|truncatewords:8 }}</td>
+                <td>{{ h.staff.name }}</td>
+                <td>{{ h.appointment_status|default:"-" }}</td>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-primary" onclick="loadPrescriptionDetail('{{ h.id }}')">
+                    <i class="fas fa-eye"></i> View
+                  </button>
+                  <a href="{% url 'prescription_pdf' h.id %}" class="btn btn-sm btn-danger">
+                    <i class="fas fa-file-pdf"></i> PDF
+                  </a>
+                  <a href="{% url 'edit_patient_history' h.id %}?patient_id={{h.patient_id}}" class="btn btn-info text-light btn-sm">
+                   <i class="fas fa-edit"></i> 
+                  </a>
+
+
+  <form action="{% url 'delete_patient_history' h.id %}" method="POST" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-sm btn-danger"
+      onclick="return confirm('Are you sure you want to delete this history and all related records?');">
+      <i class="fas fa-trash-alt"></i>
+    </button>
+  </form>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="5" class="text-center text-danger">No history available</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Detailed Prescription Placeholder -->
+        <div id="prescriptionDetailContainer" class="border rounded p-3 bg-light d-none">
+          <!-- Prescription details will load here dynamically -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+</span>
+<script>
+  function loadPrescriptionDetail(historyId) {
+    fetch(`/prescription/${historyId}/detail/`)
+      .then(res => res.text())
+      .then(html => {
+        const container = document.getElementById("prescriptionDetailContainer");
+        container.innerHTML = html;
+        container.classList.remove("d-none");
+        container.scrollIntoView({ behavior: "smooth" });
+      })
+      .catch(err => {
+        console.error("Error loading prescription detail:", err);
+        alert("Failed to load prescription detail");
+      });
+  }
+  function backToHistory() {
+    // Hide details
+    document.getElementById("prescriptionDetailContainer").classList.add("d-none");
+    document.getElementById("prescriptionDetailContainer").innerHTML = "";
+
+    // Show history table again
+    document.getElementById("prescriptionHistoryTable").classList.remove("d-none");
+  }
+</script>

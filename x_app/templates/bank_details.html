@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content-box" id="contentBox">
+  <!-- Header -->
+  <div class="content-header d-flex justify-content-between align-items-center px-3 pt-2 bg-primary text-white rounded-top">
+    <div class="d-flex align-items-center gap-2">
+      <i class="fas fa-university"></i>
+      <span class="fw-bold fs-5">{{title}}</span>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+        {% if title == "Add Bank Details" %}
+      <a href="{% url 'bank_details_list' %}" class="text-light fw-bold text-decoration-none me-4 pt-2" title="View">
+        View
+       </a>
+{% else %}
+  <a href="{% url 'bank_details_list' %}" class="btn btn-secondary text-light fw-bold text-decoration-none me-3" title="Back">
+    <i class="fas fa-arrow-left me-2"></i>Back
+  </a>
+{% endif %}
+
+      <button class="btn btn-danger align-items-center px-2" onclick="closeContent()" title="Close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Form Body -->
+  <div class="content-body bg-white py-3 px-3 rounded-bottom">
+    <form method="POST" enctype="multipart/form-data" class="row g-3">
+      {% csrf_token %}
+
+      <!-- Bank Name -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Bank Name</label>
+        <input type="text" name="bank_name" class="form-control" placeholder="Enter Bank Name"
+               value="{{ bank.bank_name|default_if_none:'' }}" required>
+      </div>
+
+      <!-- Account Holder -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Account Holder Name</label>
+        <input type="text" name="account_holder_name" class="form-control" placeholder="Enter Account Holder Name"
+               value="{{ bank.account_holder_name|default_if_none:'' }}" required>
+      </div>
+
+      <!-- Account Number -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Account Number</label>
+        <input type="text" name="account_number" class="form-control" placeholder="Enter Account Number"
+               value="{{ bank.account_number|default_if_none:'' }}" required>
+      </div>
+
+      <!-- IFSC Code -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">IFSC Code</label>
+        <input type="text" name="ifsc_code" class="form-control" placeholder="Enter IFSC Code"
+               value="{{ bank.ifsc_code|default_if_none:'' }}" required>
+      </div>
+
+      <!-- Branch Name -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Branch Name</label>
+        <input type="text" name="branch_name" class="form-control" placeholder="Enter Branch Name"
+               value="{{ bank.branch_name|default_if_none:'' }}">
+      </div>
+
+      <!-- UPI ID -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">UPI ID</label>
+        <input type="text" name="upi_id" class="form-control" placeholder="Enter UPI ID"
+               value="{{ bank.upi_id|default_if_none:'' }}">
+      </div>
+
+      <!-- QR Code -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">QR Code (optional)</label>
+        <input type="file" name="qr_code" class="form-control">
+        {% if bank.qr_code %}
+          <img src="{{ bank.qr_code.url }}" alt="QR" class="mt-2 rounded" width="80">
+        {% endif %}
+      </div>
+
+      <!-- Buttons -->
+      <div class="col-8 text-start mt-3">
+        <button type="submit" class="btn btn-success">
+          <i class="fas fa-save  me-2"></i> {%if title == "Add Bank Details"%} Save{%else%}Update{%endif%}
+        </button>
+        <button type="reset" class="btn btn-danger">
+          <i class="fas fa-eraser me-2 w-25"></i> Reset
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function closeContent() {
+ window.location.href = "{% url 'home' %}";
+  document.getElementById("contentBox")?.remove();
+  }
+</script>
+
+{% endblock %}

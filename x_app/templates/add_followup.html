@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="content-box" id="contentBox">
+
+  <!-- ✅ HEADER -->
+  <div class="content-header d-flex flex-wrap justify-content-between align-items-center gap-2 w-100">
+    <!-- Title -->
+    <div class="d-flex align-items-center flex-wrap gap-2">
+      <i class="fas fa-notes-medical me-2"></i>
+      <span class="fw-bold fs-5 text-white">Add Follow-Up (Scoliosis)</span>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex flex-wrap align-items-center justify-content-end gap-2">
+      <a href="{% url 'scoliosis_list' %}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left me-1"></i> Back
+      </a>
+
+      <i class="fas fa-minus text-white btn" onclick="toggleMinimize()"></i>
+
+      <button type="button" class="btn btn-danger btn-sm" onclick="closeContent1()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ✅ BODY -->
+  <div class="content-body card shadow-sm p-3">
+    <h5 class="fw-bold text-primary mb-3">
+      Add Follow-Up for: {{ scoliosis.patient_name }}
+    </h5>
+
+    <form method="POST" class="needs-validation" novalidate>
+      {% csrf_token %}
+
+      <!-- Follow-up Info -->
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Follow-Up Date</label>
+          <input type="date" name="followup_date" class="form-control" value="{{ today|date:'Y-m-d' }}" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Diagnosis Pattern</label>
+          <input type="text" name="diagnosis_pattern" class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Pain Level</label>
+          <input type="number" name="pain_level" class="form-control" min="0" max="10" placeholder="0-10">
+        </div>
+      </div>
+
+      <!-- UEV / LEV -->
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">UEV</label>
+          <input type="text" name="uev" class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">LEV</label>
+          <input type="text" name="lev" class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Lumbar LEV</label>
+          <input type="text" name="lumbar_lev" class="form-control">
+        </div>
+      </div>
+
+      <!-- Cobb’s Angle -->
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Cobb’s Angle (R)</label>
+          <input type="number" name="cobbs_angle" class="form-control" step="0.1">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Cobb’s Angle (L)</label>
+          <input type="number" name="cobbs_angle_L" class="form-control" step="0.1">
+        </div>
+        <div class="col-md-4 d-flex align-items-center mt-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="brace_used" value="1" id="brace_used">
+            <label class="form-check-label fw-semibold" for="brace_used">Brace Used</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scoliometer -->
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Scoliometer (UT)</label>
+          <input type="number" name="scoliometer_ut" class="form-control" step="0.1">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Scoliometer (T)</label>
+          <input type="number" name="scoliometer_t" class="form-control" step="0.1">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Scoliometer (L)</label>
+          <input type="number" name="scoliometer_l" class="form-control" step="0.1">
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Notes</label>
+        <textarea name="notes" class="form-control" rows="3" placeholder="Enter observations or comments..."></textarea>
+      </div>
+
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-success px-4">
+          <i class="fas fa-save me-1"></i> Submit
+        </button>
+            <button type="reset" class="btn btn-danger px-4">
+          <i class="fas fa-eraser me-1"></i> Reset
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .content-box {
+    background-color: #fff;
+    border-radius: 6px;
+  }
+
+  .content-header {
+    background-color: #0d6efd;
+    color: #fff;
+    border-radius: 6px 6px 0 0;
+    padding: 8px 12px;
+  }
+
+  .form-label {
+    font-size: 14px;
+  }
+
+  .form-control {
+    font-size: 14px;
+  }
+</style>
+
+<script>
+    function closeContent1() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+
+  // Simple Bootstrap validation
+  (function () {
+    'use strict';
+    var forms = document.querySelectorAll('.needs-validation');
+    Array.prototype.slice.call(forms).forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
+
+{% endblock %}

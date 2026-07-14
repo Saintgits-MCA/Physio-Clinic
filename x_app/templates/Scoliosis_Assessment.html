@@ -1,0 +1,430 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content-box" id="contentBox">
+<style>
+  .resize-none
+  {
+    resize:none;
+  }
+</style>
+  <!-- Hospital Header -->
+   <div class="content-header   justify-content-between align-items-center">
+      <div class=" align-items-center flex-wrap gap-2">
+        <i class="fas fa-stethoscope me-2"></i>
+        <span class="fw-bold fs-5  text-white">Scoliosis Assessment</span>
+      </div>
+      <div class="d-flex gap-2 mt-2 mt-md-0">
+      <a href="{%url 'scoliosis_list'%}" class="ms-2 text-white fw-bold text-decoration-none mt-1">View</a>
+        <i class="fas fa-minus text-white btn" onclick="toggleMinimize()"></i>
+        <i class="fas fa-times btn btn-danger" onclick="closeContent()"></i>
+      </div>
+    </div>
+    <div class="content-body px-4"> 
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div id="formWarning" class="alert alert-warning d-none mt-3">
+  ⚠ Please select both <strong>Patient</strong> and <strong>Doctor</strong> before saving.
+</div>
+    <div class="row g-3">
+      <div class="col-md-3"><label>Date</label><input type="date" name="date" class="form-control" id="date" value="{{today}}" required></div>
+        <div class="col-md-4">
+  <label>Patient (MR No / Name / Phone)</label>
+  <div class="input-group">
+    <input id="patientSearchInput" class="form-control"
+           placeholder="Enter name, MR No or phone" required/>
+    <button type="button" class="btn btn-primary text-white" onclick="openPatientSearchModal()">
+      <i class="fas fa-search"></i>
+    </button>
+  </div>
+</div>
+<input type="hidden" name="patient_id" id="selectedPatientIdHidden" required>
+<!-- Patient Search Modal -->
+      <div class="modal fade" id="patientModal" tabindex="-1" aria-labelledby="patientModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="patientModalLabel">Select Patient</h5>
+              <button type="button" class="fas fa-times ms-auto btn btn-danger text-white fw-bold"
+                data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table table-responsive table-hover" id="patientResultsTable">
+                <thead>
+                  <tr>
+                    <th>MR No</th>
+                    <th class="col-md-4">Name</th>
+                    <th>Phone</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Branch</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Inject rows dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div> 
+      <div class="col-md-2"><label>Height (cm)</label><input type="number" name="height_cm" step="1" class="form-control"></div>
+      <div class="col-md-2"><label>Weight (kg)</label><input type="number" name="weight_kg" step=".1" class="form-control"></div>
+     <div class="col-md-4 position-relative">
+  <label>Select Doctor</label>
+  <input type="text" id="doctorSearch" class="form-control" placeholder="Type to search doctor..." autocomplete="off" required>
+  <small id="doctorSearchWarning" class="text-danger" style="display:none;">Please enter at least 3 characters.</small>
+  <ul id="doctorSuggestions" class="list-group position-absolute w-100" style="z-index:1000; display:none; max-height:200px; overflow-y:auto;"></ul>
+
+  <select name="doctor_id" id="doctorSelect" class="d-none" required>
+    <option value="">-- Select Doctor --</option>
+    {% for d in doctors %}
+    <option value="{{ d.staff.id }}">{{ d.staff.name }} ({{ d.staff.id }})</option>
+    {% endfor %}
+  </select>
+</div>
+
+    </div>
+
+    <hr>
+    <h6 class="text-primary fw-bold mt-3">Clinical Details</h6>
+    <div class="row g-3">
+      <div class="col-md-4"><label>Diagnosis Pattern</label><input type="text" name="diagnosis_pattern" class="form-control"></div>
+      {% comment %} <div class="col-md-4"><label>Schroth Classification</label><input type="text" name="schroth_classification" class="form-control"></div> {% endcomment %}
+      <div class="col-md-4"><label>UEV</label><input type="text" name="uev" class="form-control"></div>
+      <div class="col-md-4"><label>LEV</label><input type="text" name="lev" class="form-control"></div>
+      <div class="col-md-4"><label>Lumbar LEV</label><input type="text" name="lumbar_lev" class="form-control"></div>
+      <div class="col-md-4"><label>COBB’s T</label><input type="number" step="0.1" name="cobbs_angle" class="form-control"></div>
+      <div class="col-md-4"><label>COBB’s L</label><input type="number" step="0.1" name="cobbs_angle_L" class="form-control"></div>
+      <div class="col-md-4"><label>Scoliometer UT</label><input type="number" step="0.1" name="scoliometer_ut" class="form-control"></div>
+      <div class="col-md-4"><label>Scoliometer T</label><input type="number" step="0.1" name="scoliometer_t" class="form-control"></div>
+      <div class="col-md-4"><label>Scoliometer L</label><input type="number" step="0.1" name="scoliometer_l" class="form-control"></div>
+      <div class="col-md-4"><label>Brace Used?</label>
+        <select name="brace_used" class="form-control">
+          <option value="False">No</option><option value="True">Yes</option>
+        </select>
+      </div>
+    </div>
+
+  {% comment %} <hr>
+  <h6 class="text-primary fw-bold mt-3">Therapeutic Activities</h6>
+    <div class="row g-2">
+      {% with "pelvic_correction,basic_tension,st,sct,conscious_walking,corrective_breathing,muscle_cylinder,moving_ribs_supine,caterpillar"|cut:"," as fields %}
+{% for field in fields %}
+    <div class="col-md-3 form-check">
+        <input type="checkbox" name="{{ field }}" class="form-check-input" id="{{ field }}">
+        <label for="{{ field }}" class="form-check-label text-capitalize">{{ field }}</label>
+    </div>
+{% endfor %}
+{% endwith %}
+
+    </div> {% endcomment %}
+
+
+<hr>
+
+<h6 class="text-primary fw-bold mt-3">Additional Medical Details</h6>
+<div class="row g-3">
+  <div class="col-md-4">
+    <label>Menses since</label>
+    <input type="text" name="menses_since" class="form-control">
+  </div>
+
+  <div class="col-md-4">
+    <label>Other diseases</label>
+    <input type="text" name="other_diseases" class="form-control">
+  </div>
+
+  <div class="col-md-4">
+    <label>Shoe lift</label>
+    <input type="text" name="shoe_lift" class="form-control">
+  </div>
+
+  <div class="col-md-4">
+    <label>Family History</label>
+    <textarea type="text" name="family_history" class="form-control resize-none" cols="15" rows="6"></textarea>
+  </div>
+</div>
+
+<hr>
+
+<h6 class="text-primary fw-bold mt-3">Schroth Classification</h6>
+{% for sc in schroth_options %}
+<div class="form-check">
+  <input type="radio" class="form-check-input" name="schroth_classification" value="{{ sc.name }}" id="sc{{ forloop.counter }}">
+  <label for="sc{{ forloop.counter }}" class="form-check-label">{{ sc.name }}</label>
+</div>
+{% endfor %}
+
+<div class="form-check mt-2">
+  <input type="radio" class="form-check-input" name="schroth_classification" value="Other" id="sc_other">
+  <label for="sc_other" class="form-check-label">Other:</label>
+  <input type="text" id="sc_other_text" name="schroth_classification_other d-none" class="form-control mt-1" placeholder="Specify if other">
+</div>
+    <hr>
+    <h6 class="text-primary fw-bold mt-3">Uploads</h6>
+    <div class="row g-3">
+      <div class="col-md-3"><label>X-Ray</label><input type="file" name="xray" class="form-control"></div>
+      <div class="col-md-3"><label>Diagram</label><input type="file" name="diagram" class="form-control"></div>
+      {% comment %} <div class="col-md-3"><label>HEP</label><input type="file" name="hep" class="form-control"></div>
+      <div class="col-md-3"><label>Manual Techniques</label><input type="file" name="manual_techniques" class="form-control"></div> {% endcomment %}
+    </div>
+    <hr>
+ <div class="mb-4 mt-3">
+  <h5>HEP</h5>
+  <small class="text-muted d-block mb-2"><em>Tick all that apply.</em></small>
+
+  <div class="row g-2">
+    {% for h in hep_options %}
+    <div class="col-md-4 form-check">
+      <input type="checkbox" class="form-check-input" name="hep" value="{{ h.name }}" id="hep{{ forloop.counter }}">
+      <label for="hep{{ forloop.counter }}" class="form-check-label">{{ h.name }}</label>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<hr>
+
+<div class="mb-4">
+  <h5>Manual Techniques</h5>
+  <small class="text-muted d-block mb-2"><em>Mark only one oval.</em></small>
+
+  {% for m in manual_options %}
+  <div class="form-check">
+    <input type="radio" class="form-check-input" name="manual_technique" value="{{ m.name }}" id="mt{{ forloop.counter }}">
+    <label for="mt{{ forloop.counter }}" class="form-check-label">{{ m.name }}</label>
+  </div>
+  {% endfor %}
+</div>
+{% comment %} <hr>
+
+<h6 class="text-primary fw-bold mt-4 mb-3">Treatment Plan</h6>
+
+<div class="row g-3">
+  <div class="col-md-4">
+    <label class="form-label fw-bold">Short Term Goals</label>
+    <textarea name="short_term_goals" class="form-control resize-none" rows="4" 
+              placeholder="Enter short term goals..."></textarea>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label fw-bold">Long Term Goals</label>
+    <textarea name="long_term_goals" class="form-control resize-none" rows="4" 
+              placeholder="Enter long term goals..."></textarea>
+  </div>
+</div>
+
+<h6 class="text-primary fw-bold mt-4">Management Plan</h6>
+
+<table class="table table-bordered" id="managementTable">
+  <thead class="table-light">
+    <tr>
+      <th>Date</th>
+      <th>Management / Intervention</th>
+      <th>Review Date</th>
+      <th>Signature</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Default empty row -->
+    <tr>
+      <td><input type="date" name="tp_date[]" class="form-control"></td>
+      <td><textarea type="text" name="tp_management[]" class="form-control" placeholder="e.g. Schroth exercises, Breathing technique" rows="3" cols="4" style="resize:none"></textarea></td>
+      <td><input type="date" name="tp_review_date[]" class="form-control"></td>
+      <td><input type="text" name="tp_signature[]" class="form-control" placeholder="Signature"></td>
+      <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+    </tr>
+  </tbody>
+</table>
+<button type="button" class="btn btn-primary btn-sm" onclick="addRow('managementTable')">+ Add Row</button>
+
+<hr> {% endcomment %}
+    <div class="text-end mt-4">
+      <button type="submit" class="btn btn-primary">Save Assessment</button>
+      <button type="reset" class="btn btn-danger btn-block" style="width:145px" onclick="window.location.reload()">Reset</button>
+    </div>
+  </form>
+</div>
+</div>
+<script>
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const otherRadio = document.getElementById("sc_other");
+    const otherInput = document.getElementById("sc_other_text");
+
+    // Initially hide the input
+    otherInput.style.display = "none";
+
+    // Show input only if "Other" is selected
+    const radios = document.querySelectorAll('input[name="schroth_classification"]');
+    radios.forEach(radio => {
+        radio.addEventListener("change", () => {
+            if(otherRadio.checked){
+                otherInput.style.display = "block";
+                otherInput.focus();
+            } else {
+                otherInput.style.display = "none";
+                otherInput.value = ""; // clear if hidden
+            }
+        });
+    });
+});
+
+  document.addEventListener("DOMContentLoaded",function(){
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("date").value = today;
+
+  })
+  
+document.addEventListener("DOMContentLoaded", function () {
+  const input = document.getElementById("doctorSearch");
+  const select = document.getElementById("doctorSelect");
+  const suggestions = document.getElementById("doctorSuggestions");
+  const warning = document.getElementById("doctorSearchWarning");
+
+  input.addEventListener("input", function () {
+    const query = this.value.trim().toLowerCase();
+    suggestions.innerHTML = "";
+    suggestions.style.display = "none";
+
+    if (query.length < 3) {
+      warning.style.display = "block";
+      return;
+    } else {
+      warning.style.display = "none";
+    }
+
+    const matches = Array.from(select.options).filter(
+      (opt) => opt.value && opt.text.toLowerCase().includes(query)
+    );
+
+    if (matches.length > 0) {
+      matches.forEach((opt) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item list-group-item-action";
+        li.textContent = opt.text;
+        li.addEventListener("click", () => {
+          input.value = opt.text;
+          select.value = opt.value; // Assign selected doctor's ID
+          suggestions.style.display = "none";
+        });
+        suggestions.appendChild(li);
+      });
+      suggestions.style.display = "block";
+    }
+  });
+
+  // Hide suggestion list when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("#doctorSearch") && !e.target.closest("#doctorSuggestions")) {
+      suggestions.style.display = "none";
+    }
+  });
+});
+
+  
+function openPatientSearchModal() {
+  const query = document.getElementById("patientSearchInput").value.trim();
+
+  if (query.length < 3) {
+    alert("Please enter at least 3 characters to search for a patient.");
+    return;
+  }
+
+  fetch(`{% url 'prescription_home' %}?search=${encodeURIComponent(query)}&ajax=1`)
+    .then(response => response.json())
+    .then(data => {
+      const tbody = document.querySelector("#patientResultsTable tbody");
+      tbody.innerHTML = "";
+
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">No patients found.</td></tr>`;
+      } else {
+        data.forEach(patient => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${patient.mr_no}</td>
+            <td>${patient.name}</td>
+            <td>${patient.phone}</td>
+            <td>${patient.gender}</td>
+            <td>${patient.age}</td>
+            <td>${patient.branch}</td>
+            <td>
+              <button type="button" class="btn btn-sm btn-primary"
+                onclick="selectPatient(${patient.id}, '${patient.mr_no} - ${patient.name.replace(/'/g, "\\'")}')">
+                <i class="fas fa-check-square "></i>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      const modal = new bootstrap.Modal(document.getElementById("patientModal"));
+      modal.show();
+    })
+    .catch(err => console.error("Error fetching patients:", err));
+}
+
+function selectPatient(patientId, patientDisplayText) {
+  // Save selection in hidden input and search field
+  document.getElementById("selectedPatientIdHidden").value = patientId;
+  document.getElementById("patientSearchInput").value = patientDisplayText;
+
+  // Optionally fetch more patient details
+  fetch(`/get-patient-details/?patient_id=${patientId}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.name) {
+        // You can update other fields if needed
+        console.log("Patient selected:", data.name);
+      }
+    })
+    .catch(err => console.error("Error fetching patient details:", err));
+
+  // Close the modal
+  const modalEl = document.getElementById('patientModal');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  if (modal) modal.hide();
+}
+function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+document.querySelector("form").addEventListener("submit", function (e) {
+    const patientId = document.getElementById("selectedPatientIdHidden").value;
+    const doctorId = document.getElementById("doctorSelect").value;
+
+    if (!patientId || !doctorId) {
+        e.preventDefault();
+
+        const alertBox = document.getElementById("formWarning");
+        alertBox.classList.remove("d-none");
+
+        alertBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+});
+
+function addRow(tableId) {
+    let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+    let lastRow = table.rows[table.rows.length - 1];
+    let newRow = lastRow.cloneNode(true);
+
+    newRow.querySelectorAll("input").forEach(input => {
+        input.value = "";
+    });
+
+    table.appendChild(newRow);
+}
+
+function removeRow(btn) {
+    let row = btn.closest("tr");
+    if (row.parentElement.children.length > 1) {
+        row.remove();
+    } else {
+        row.querySelectorAll("input").forEach(input => input.value = "");
+    }
+}
+</script>
+{% endblock %}

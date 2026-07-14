@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content-box" id="contentBox">
+  <!-- Header -->
+  <div class="content-header d-flex justify-content-between align-items-center px-3 pt-3 pb-2 bg-primary rounded-top">
+    <div class="d-flex align-items-center gap-2">
+      <i class="fas fa-truck text-white"></i>
+      <span class="fw-bold fs-5 text-white">Supplier Master</span>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <a href="{% url 'supplier_list' %}" class="btn btn-secondary  btn-sm text-light fw-bold">
+        <i class="fas fa-arrow-left me-1"></i> Back
+      </a>
+      <button class="btn btn-danger btn-sm" onclick="closeContent()" title="Close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Form Card -->
+  <div class="content-body py-4">
+    <div class=" shadow-sm border-0">
+      <div class="">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row g-3">
+
+            <!-- Supplier Code -->
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Supplier Code</label>
+              <input type="text" name="supplier_code" class="form-control" 
+                     placeholder="Enter Supplier Code"
+                     value="{{ supplier.supplier_code }}" required>
+            </div>
+
+            <!-- Supplier Name -->
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Supplier Name</label>
+              <input type="text" name="supplier_name" class="form-control" 
+                     placeholder="Enter Supplier Name"
+                     value="{{ supplier.supplier_name }}" required>
+            </div>
+
+            <!-- Contact Number -->
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Contact Number</label>
+              <input type="tel" name="contact_number" class="form-control" 
+                     placeholder="Enter Contact Number"
+                     maxlength="10"
+                     value="{{ supplier.contact_number }}" required>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Email</label>
+              <input type="email" name="email" class="form-control" 
+                     placeholder="Enter Email"
+                     value="{{ supplier.email }}" required>
+            </div>
+
+            <!-- Address -->
+            <div class="col-md-12">
+              <label class="form-label fw-bold">Address</label>
+              <textarea name="address" rows="3" class="form-control"
+                        placeholder="Enter Address" required>{{ supplier.address }}</textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-12 text-center mt-3">
+              <button type="submit" class="btn btn-success px-4 me-4">
+                <i class="fas fa-save me-2"></i> Save
+              </button>
+              <button type="reset" class="btn btn-danger px-4">
+                <i class="fas fa-undo me-2"></i> Reset
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function closeContent() {
+    document.getElementById('contentBox').remove();
+  }
+</script>
+
+{% endblock %}

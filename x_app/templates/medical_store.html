@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+  textarea{
+  resize: none;
+}
+</style>
+<body>
+
+  <div class="content-box" id="contentBox">
+     <div class="content-header d-flex flex-wrap justify-content-between align-items-center">
+  <div class="d-flex align-items-center flex-wrap gap-2">
+    <i class="fas fa-store me-2"></i>
+    <span class="text-white">Medical Store Registration</span>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="{%url 'medical_store_list'%}" class="text-white fw-bold text-decoration-none fs-6">View</a>
+   <a  class="btn btn-danger btn-sm mx-3" data-bs-dismiss="alert" onclick="closeContent()">
+          <i class="fas fa-times"></i>
+   </a>
+</div>
+  </div>
+
+    <div class="content-body">
+      <form method="post" action="{%url 'medical_store'%}" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Medical Store Name</label>
+            <input type="text" class="form-control" name="storeName" id="storeName" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Medical Store Logo</label>
+            <input type="file" class="form-control" name="storeLogo" id="storeLogo" accept="image/*">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Registration Number</label>
+            <input type="text" class="form-control" name="regNo" id="regNo" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">GST Number</label>
+            <input type="text" class="form-control" name="gstNo" id="gstNo" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Manager Name</label>
+            <input type="text" class="form-control" name="managerName" id="managerName" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Manager Contact No</label>
+            <input type="tel" class="form-control" name="managerContact" id="managerContact" pattern="[0-9]{10}" required>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" required>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Medical Store Address</label>
+            <textarea class="form-control" name="storeAddress" id="storeAddress" rows="2" required></textarea>
+          </div>
+        </div>
+
+        <div class="mt-3 d-flex gap-2">
+          <button type="submit" class="btn btn-primary w-25">Register</button>
+          <button type="reset" class="btn btn-danger w-25">Clear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const stores = [];
+
+    function registerStore(e) {
+      e.preventDefault();
+
+      const store = {
+        name: document.getElementById("storeName").value,
+        logo: document.getElementById("storeLogo").files[0]?.name || "No logo",
+        regNo: document.getElementById("regNo").value,
+        gstNo: document.getElementById("gstNo").value,
+        manager: document.getElementById("managerName").value,
+        contact: document.getElementById("managerContact").value,
+        email: document.getElementById("email").value,
+        address: document.getElementById("storeAddress").value
+      };
+
+      stores.push(store);
+      alert("Medical Store registered successfully!");
+      e.target.reset();
+    }
+
+    function reloadPanel() { location.reload(); }
+    function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+  </script>
+
+</body>
+</html>
+
+{% endblock %}

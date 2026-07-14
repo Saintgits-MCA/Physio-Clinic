@@ -1,0 +1,450 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link href="{%static 'css/select2.min.css'%}" rel="stylesheet" />
+<script src="{%static 'js/jquery.min.js'%}"></script>
+<script src="{%static 'js/select2.min.js'%}"></script>
+<div class="content-box" id="contentBox">
+  <!-- Hospital Header -->
+  <div class="content-header d-flex flex-wrap justify-content-between align-items-center">
+    <div class="d-flex align-items-center flex-wrap gap-2">
+      <i class="fas fa-edit me-2"></i>
+      <span class="fw-bold fs-5 text-white">Edit Invoice</span>
+    </div>
+    <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+      <a href="{% url 'invoice_list' %}" class="text-white fw-bold text-decoration-none mt-1">View All</a>
+      <i class="fas fa-minus text-white btn" onclick="toggleMinimize()"></i>
+      <i class="fas fa-times btn btn-danger" onclick="closeContent()"></i>
+    </div>
+  </div>
+
+  <div class="content-body px-4">
+    <!-- Hospital Info -->
+    <div class="text-center mb-4 border-bottom pb-3">
+      <div class="d-flex align-items-center justify-content-center gap-3">
+        {% if hospital.logo %}
+          <img src="{{ hospital.logo.url }}" alt="Hospital Logo" 
+               style="height:125px; width:200px; border-radius:8px;">
+        {% endif %}
+        <div>
+          <h3 class="fw-bold mb-1">{{ hospital.name }}</h3>
+          <p class="mb-0">{{ hospital.address }}</p>
+          <small>Phone: {{ hospital.manager_contact }} | Email: {{ hospital.email }}</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invoice Info Display (Read-only) -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-3">
+        <label class="form-label fw-bold">Invoice No</label>
+        <input type="text" class="form-control bg-light" value="{{ invoice.invoice_number|default:'N/A' }}" readonly>
+      </div>
+      
+      <div class="col-md-3">
+        <label class="form-label fw-bold">Date</label>
+        <input type="text" class="form-control bg-light" value="{{ invoice.created_at|date:'d-M-Y'|default:'N/A' }}" readonly>
+      </div>
+      
+      <div class="col-md-3">
+        <label class="form-label fw-bold">Patient</label>
+        <input type="text" class="form-control bg-light" value="{{ invoice.patient.name|default:'N/A' }} (MR: {{ invoice.patient.mr_no|default:'N/A' }})" readonly>
+      </div>
+      
+      <div class="col-md-3">
+        <label class="form-label fw-bold">Doctor</label>
+        <input type="text" class="form-control bg-light" value="{{ invoice.doctor.name|default:'N/A' }}" readonly>
+      </div>
+    </div>
+
+    <!-- Edit Invoice Form -->
+    <form method="POST" id="editInvoiceForm" action="{% url 'edit_invoice' %}?invoice_id={{ invoice.id }}">
+      {% csrf_token %}
+      <input type="hidden" name="invoice_id" value="{{ invoice.id }}">
+      
+      <h5 class="fw-bold mt-4">Invoice Details</h5>
+      <p class="text-muted small"><i class="fas fa-info-circle"></i> Only the "Particulars" field is editable. Other fields are read-only.</p>
+      
+        <table class="table table-bordered align-middle text-center" id="invoiceTable">
+          <thead class="table-light">
+            <tr>
+              <th style="width:5%">#</th>
+              <th style="width:45%">Particulars <span class="text-danger">*</span></th>
+              <th style="width:10%">Session</th>
+              <th style="width:15%">Rate (₹)</th>
+              <th style="width:15%">Amount (₹)</th>
+              <th style="width:10%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if items %}
+              {% for item in items %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                  <div class="position-relative">
+    <input type="text"
+           class="form-control particular-input"
+           name="particulars[]"
+           autocomplete="off"
+           value="{{ item.particular|default:'' }}"
+           placeholder="Search particular..."
+           required>
+    <ul class="list-group position-absolute w-100 particular-suggestions"
+        style="z-index:1000; display:none; max-height:180px; overflow-y:auto;"></ul>
+  </div>
+                </td>
+                <td>
+                  <input type="number" class="form-control bg-light readonly-field" 
+                         name="qty[]" value="{{ item.qty|default:0 }}" 
+                         step="1" readonly>
+                </td>
+                <td>
+                  <input type="number" class="form-control bg-light readonly-field" 
+                         name="rate[]" value="{{ item.rate|default:0 }}" 
+                         step="1" readonly>
+                </td>
+                <td>
+                  <input type="number" class="form-control amount-field bg-light readonly-field" 
+                         name="amounts[]" value="{{ item.amount|default:0 }}" 
+                         step="1" readonly>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm remove-row" 
+                          {% if forloop.counter == 1 %}disabled{% endif %}>
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <!-- Empty row if no items -->
+              <tr>
+                <td>1</td>
+                <td>
+                 <div class="position-relative">
+    <input type="text"
+           class="form-control particular-input"
+           name="particulars[]"
+           autocomplete="off"
+           value="{{ item.particular|default:'' }}"
+           placeholder="Search particular..."
+           required>
+    <ul class="list-group position-absolute w-100 particular-suggestions"
+        style="z-index:1000; display:none; max-height:180px; overflow-y:auto;"></ul>
+  </div>
+                </td>
+                <td>
+                  <input type="number" class="form-control bg-light readonly-field" 
+                         name="qty[]" value="1" step="1" readonly>
+                </td>
+                <td>
+                  <input type="number" class="form-control bg-light readonly-field" 
+                         name="rate[]" value="0" step="1" readonly>
+                </td>
+                <td>
+                  <input type="number" class="form-control amount-field bg-light readonly-field" 
+                         name="amounts[]" value="0" step="1" readonly>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm remove-row" disabled>
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+    
+      
+      {% comment %} <button type="button" class="btn btn-secondary mb-3" id="addRow">
+        <i class="fas fa-plus me-1"></i> Add Row
+      </button> {% endcomment %}
+
+      <!-- Totals (Read-only) -->
+      <div class="row mt-3">
+        <div class="col-md-6"></div>
+        <div class="col-md-6 text-end">
+          <h6>Total: ₹ <span id="totalAmount">{{ invoice.total_amount|floatformat:2|default:'0.00' }}</span></h6>
+          {% comment %} <p><strong>Amount In Words:</strong> <span id="amountWords">
+            {% if invoice.total_amount %}
+              {{ invoice.total_amount|floatformat:0|yesno:"One,Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten" }}
+            {% else %}
+              Zero
+            {% endif %} Rupees Only
+          </span></p> {% endcomment %}
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-4 col-sm-3 col-lg-6">
+          <label class="form-label fw-bold">Payment Mode</label>
+          <select name="payment_mode" class="form-select bg-light readonly-field" disabled>
+            <option value="{{ invoice.payment_mode|default:'Cash' }}" selected>
+              {{ invoice.payment_mode|default:'Cash' }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Submit Buttons -->
+      <div class="text-end mt-4">
+        <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to update this invoice?')">
+          <i class="fas fa-save me-2"></i> Update Invoice
+        </button>
+        <a href="{% url 'invoice_list' %}" class="btn btn-danger">
+          <i class="fas fa-times me-2"></i> Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function closeContent() {
+  window.location.href = "{% url 'home' %}";
+  document.getElementById("contentBox")?.remove();
+}
+
+// Add new row (only particulars editable)
+document.getElementById("addRow")?.addEventListener("click", function () {
+  const table = document.querySelector("#invoiceTable tbody");
+  const rowCount = table.rows.length + 1;
+
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td>${rowCount}</td>
+    <td>
+      <div class="position-relative">
+        <input type="text"
+               class="form-control particular-input editable-field"
+               name="particulars[]"
+               autocomplete="off"
+               placeholder="Search particular..."
+               required>
+        <ul class="list-group position-absolute w-100 particular-suggestions"
+            style="z-index:1000; display:none; max-height:180px; overflow-y:auto;"></ul>
+      </div>
+    </td>
+    <td>
+      <input type="number" class="form-control bg-light readonly-field" 
+             name="qty[]" value="1" step="1" readonly>
+    </td>
+    <td>
+      <input type="number" class="form-control bg-light readonly-field" 
+             name="rate[]" value="0" step="1" readonly>
+    </td>
+    <td>
+      <input type="number" class="form-control amount-field bg-light readonly-field" 
+             name="amounts[]" value="0" step="1" readonly>
+    </td>
+    <td>
+      <button type="button" class="btn btn-danger btn-sm remove-row">
+        <i class="fas fa-trash"></i>
+      </button>
+    </td>
+  `;
+  table.appendChild(row);
+  updateRemoveButtons();
+});
+
+// Remove row
+document.addEventListener("click", function (e) {
+  if (e.target.closest(".remove-row") && !e.target.closest(".remove-row").disabled) {
+    const row = e.target.closest("tr");
+    if (document.querySelectorAll("#invoiceTable tbody tr").length > 1) {
+      row.remove();
+      updateTotal();
+      renumberRows();
+      updateRemoveButtons();
+    } else {
+      alert("Cannot delete the last row.");
+    }
+  }
+});
+
+// Update remove buttons - disable first row
+function updateRemoveButtons() {
+  const rows = document.querySelectorAll("#invoiceTable tbody tr");
+  rows.forEach((row, index) => {
+    const btn = row.querySelector(".remove-row");
+    if (btn) {
+      btn.disabled = index === 0;
+    }
+  });
+}
+
+// Renumber rows
+function renumberRows() {
+  document.querySelectorAll("#invoiceTable tbody tr").forEach((row, index) => {
+    row.querySelector("td:first-child").innerText = index + 1;
+  });
+}
+function numberToWords(num) {
+    if (isNaN(num) || num === 0) return "Zero Rupees Only";
+
+    const a = [
+      "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+      "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"
+    ];
+    const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+    function inWords(n) {
+      if (n < 20) return a[n];
+      if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? " " + a[n % 10] : "");
+      if (n < 1000) return a[Math.floor(n / 100)] + " Hundred" + (n % 100 ? " " + inWords(n % 100) : "");
+      if (n < 100000)
+        return inWords(Math.floor(n / 1000)) + " Thousand" + (n % 1000 ? " " + inWords(n % 1000) : "");
+      if (n < 10000000)
+        return inWords(Math.floor(n / 100000)) + " Lakh" + (n % 100000 ? " " + inWords(n % 100000) : "");
+      return inWords(Math.floor(n / 10000000)) + " Crore" + (n % 10000000 ? " " + inWords(n % 10000000) : "");
+    }
+
+    const parts = num.toString().split(".");
+    const rupees = parseInt(parts[0]);
+    const paise = parts[1] ? parseInt(parts[1].substring(0, 2)) : 0;
+
+    let words = inWords(rupees) + " Rupees";
+    if (paise > 0) words += " and " + inWords(paise) + " Paise";
+    return words + " Only";
+  }
+
+  // ✅ Clear total when form reset
+  document.getElementById("invoiceForm").addEventListener("reset", function () {
+    document.getElementById("totalAmount").innerText = "0.00";
+    document.getElementById("amountWords").innerText = "Zero Rupees Only";
+  });
+  
+// Update total
+function updateTotal() {
+  let total = 0;
+  document.querySelectorAll(".amount-field").forEach(function (input) {
+    total += parseFloat(input.value) || 0;
+  });
+  numberToWords(total)
+  document.getElementById("totalAmount").innerText = total.toFixed(2);
+}
+
+// ============ Particular Search ============
+let activeIndex = -1;
+
+document.addEventListener("input", function (e) {
+  if (!e.target.classList.contains("particular-input")) return;
+
+  const input = e.target;
+  const query = input.value.trim();
+  const box = input.nextElementSibling;
+
+  box.innerHTML = "";
+  box.style.display = "none";
+  activeIndex = -1;
+
+  if (query.length < 2) return;
+
+  fetch(`{% url 'search_invoice_particular' %}?q=${encodeURIComponent(query)}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.length) return;
+
+      data.forEach((name, index) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item list-group-item-action";
+        li.textContent = name;
+
+        li.onclick = () => selectParticular(input, box, name);
+
+        box.appendChild(li);
+      });
+
+      box.style.display = "block";
+    })
+    .catch(err => console.error("Error fetching particulars:", err));
+});
+
+document.addEventListener("keydown", function (e) {
+  if (!e.target.classList.contains("particular-input")) return;
+
+  const input = e.target;
+  const box = input.nextElementSibling;
+  const items = box.querySelectorAll("li");
+
+  if (!items.length) return;
+
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    activeIndex = (activeIndex + 1) % items.length;
+    updateActive(items);
+  }
+
+  if (e.key === "ArrowUp") {
+    e.preventDefault();
+    activeIndex = (activeIndex - 1 + items.length) % items.length;
+    updateActive(items);
+  }
+
+  if (e.key === "Enter") {
+    if (activeIndex >= 0) {
+      e.preventDefault();
+      selectParticular(input, box, items[activeIndex].textContent);
+    }
+  }
+});
+
+function updateActive(items) {
+  items.forEach((li, i) => {
+    li.classList.toggle("active", i === activeIndex);
+  });
+}
+
+function selectParticular(input, box, value) {
+  input.value = value;
+  box.style.display = "none";
+  activeIndex = -1;
+}
+
+// Hide dropdown on outside click
+document.addEventListener("click", function (e) {
+  document.querySelectorAll(".particular-suggestions").forEach(box => {
+    if (!box.contains(e.target) && !box.previousElementSibling.contains(e.target)) {
+      box.style.display = "none";
+    }
+  });
+});
+
+// ============ Form Submit with AJAX ============
+document.getElementById("editInvoiceForm")?.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const formData = new FormData(form);
+  const invoiceId = document.querySelector('input[name="invoice_id"]').value;
+
+  fetch(`{% url 'edit_invoice' %}?invoice_id=${invoiceId}`, {
+    method: "POST",
+    body: formData,
+    headers: { "X-Requested-With": "XMLHttpRequest" },
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert("Invoice updated successfully!");
+        window.location.href = "{% url 'invoice_list' %}";
+      } else {
+        alert("Error updating invoice: " + data.error);
+      }
+    })
+    .catch(error => {
+      console.error("Error updating invoice:", error);
+      alert("Something went wrong. Please try again.");
+    });
+});
+
+// ============ Initialize ============
+document.addEventListener("DOMContentLoaded", function () {
+  updateRemoveButtons();
+});
+</script>
+
+
+
+{% endblock %}

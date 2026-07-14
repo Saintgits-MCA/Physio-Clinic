@@ -1,0 +1,405 @@
+{% extends 'prescription_home.html' %}
+{% block contents %}
+<div class="container">
+  <div class="content-box">
+    <div class="content-header mb-3">
+      <h5><i class="fas fa-edit me-2"></i>Edit Patient History</h5>
+      <p class="text-white">Patient: <b>{{ patient.name }}</b> | MR No: {{ patient.mr_no }}</p>
+    </div>
+
+    <form method="POST" class="px-3">
+      {% csrf_token %}
+
+      <!-- ================= Patient History ================= -->
+      <h5 class="fw-bold mt-4">Basic History</h5>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Chief Complaints</label>
+          <textarea name="chief_complaints"
+            class="form-control">{{ s_history.chief_complaints|default_if_none:"" }}</textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Present History</label>
+          <textarea name="present_history"
+            class="form-control">{{ s_history.present_history|default_if_none:"" }}</textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Past Medical History</label>
+          <textarea name="past_medical_history"
+            class="form-control">{{ s_history.past_medical_history|default_if_none:"" }}</textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Drug History</label>
+          <textarea name="drug_history" class="form-control">{{ s_history.drug_history|default_if_none:"" }}</textarea>
+        </div>
+      </div>
+
+      <!-- ================= Pain Assessment ================= -->
+      <h5 class="fw-bold mt-4">Pain Assessment</h5>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Pain Assessment</label>
+          <input type="text" name="pain_assessment" class="form-control"
+            value="{{ bodychart.pain_assessment|default_if_none:'' }}">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Area</label>
+          <input type="text" name="pain_area" class="form-control" value="{{ bodychart.pain_area|default_if_none:'' }}">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Type</label>
+          <input type="text" name="type" class="form-control" value="{{ bodychart.type|default_if_none:'' }}">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Pain History</label>
+          <textarea name="pain_history" class="form-control">{{ bodychart.pain_history|default_if_none:"" }}</textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Severity (NPRS)</label><br>
+          <input type="range" name="pain_severity" min="0" max="10"
+            value="{{ bodychart.pain_severity|default_if_none:'0' }}"
+            oninput="document.getElementById('nprs_val').innerText=this.value">
+          <span id="nprs_val">{{ bodychart.pain_severity|default_if_none:'0' }}</span>/10
+        </div>
+      </div>
+
+      <h5 class="fw-bold mt-4">General Observation</h5>
+<div class="row g-3">
+  <div class="col-md-4">
+    <label class="form-label">Built</label>
+    <input type="text" name="built" class="form-control" value="{{ observation.built|default_if_none:'' }}">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Swelling</label>
+    <input type="text" name="swelling" class="form-control" value="{{ observation.swelling|default_if_none:'' }}">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Deformities</label>
+    <input type="text" name="deformities" class="form-control" value="{{ observation.deformities|default_if_none:'' }}">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Tropical Changes</label>
+    <input type="text" name="tropical_changes" class="form-control" value="{{ observation.tropical_changes|default_if_none:'' }}">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Skin</label>
+    <input type="text" name="skin" class="form-control" value="{{ observation.skin|default_if_none:'' }}">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Edema</label>
+    <input type="text" name="edema" class="form-control" value="{{ observation.edema|default_if_none:'' }}">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Warmth</label>
+    <input type="text" name="warmth" class="form-control" value="{{ observation.warmth|default_if_none:'' }}">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Light Touch</label>
+    <select name="light_touch" class="form-select">
+      <option value="">-- Select --</option>
+      <option value="independent" {% if observation.light_touch == "independent" %}selected{% endif %}>independent</option>
+      <option value="impaired" {% if observation.light_touch == "impaired" %}selected{% endif %}>Impaired</option>
+      <option value="dependent" {% if observation.light_touch == "dependent" %}selected{% endif %}>dependent</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Crude Touch</label>
+    <select name="crude_touch" class="form-select">
+      <option value="">-- Select --</option>
+      <option value="independent" {% if observation.crude_touch == "independent" %}selected{% endif %}>independent</option>
+      <option value="impaired" {% if observation.crude_touch == "impaired" %}selected{% endif %}>Impaired</option>
+      <option value="dependent" {% if observation.crude_touch == "dependent" %}selected{% endif %}>dependent</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Balance (Sitting)</label>
+    <select name="balance_sitting" class="form-select">
+      <option value="">-- Select --</option>
+      <option value="independent" {% if observation.balance_sitting == "independent" %}selected{% endif %}>Independent</option>
+      <option value="needs assistance" {% if observation.balance_sitting == "needs assistance" %}selected{% endif %}>Needs Assistance</option>
+      <option value="dependent" {% if observation.balance_sitting == "dependent" %}selected{% endif %}>Dependent</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Balance (Standing)</label>
+    <select name="balance_standing" class="form-select">
+      <option value="">-- Select --</option>
+      <option value="independent" {% if observation.balance_standing == "independent" %}selected{% endif %}>Independent</option>
+      <option value="needs assistance" {% if observation.balance_standing == "needs assistance" %}selected{% endif %}>Needs Assistance</option>
+      <option value="dependent" {% if observation.balance_standing == "dependent" %}selected{% endif %}>Dependent</option>
+    </select>
+  </div>
+  <div class="col-md-8">
+    <label class="form-label">Contractures</label>
+    <textarea name="contractures" class="form-control">{{ observation.contractures|default_if_none:'' }}</textarea>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Date Recorded</label>
+    <input type="text" class="form-control" value="{{ observation.date_recorded|date:'Y-m-d H:i' }}" disabled>
+  </div>
+</div>
+      <!-- ================= Range of Motion ================= -->
+     <h5 class="fw-bold mt-4">Range of Motion</h5>
+      <table class="table table-bordered" id="romTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Joint</th>
+            <th>AROM</th>
+            <th>PROM</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rom in motions %}
+          <tr>
+            <input type="hidden" name="rom_id[]" value="{{ rom.id }}">
+            <td><input type="date" name="rom_date[]" class="form-control" value="{{ rom.date|date:'Y-m-d' }}"></td>
+            <td><input type="text" name="joint[]" class="form-control" value="{{ rom.joint|default_if_none:'' }}"></td>
+            <td><input type="text" name="arom[]" class="form-control" value="{{ rom.arom|default_if_none:'' }}"></td>
+            <td><input type="text" name="prom[]" class="form-control" value="{{ rom.prom|default_if_none:'' }}"></td>
+            <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+          </tr>
+          {% empty %}
+          <tr>
+            <input type="hidden" name="rom_id[]" value="">
+            <td><input type="date" name="rom_date[]" class="form-control"></td>
+            <td><input type="text" name="joint[]" class="form-control" placeholder="e.g. Shoulder"></td>
+            <td><input type="text" name="arom[]" class="form-control" placeholder="e.g. 120°"></td>
+            <td><input type="text" name="prom[]" class="form-control" placeholder="e.g. 150°"></td>
+            <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-primary btn-sm" onclick="addRow('romTable')">+ Add Row</button>
+
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <label class="form-label">Fall Risk</label>
+          <textarea name="fall_risk" class="form-control">{{ motions.first.fall_risk|default_if_none:"" }}</textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Muscle Power</label>
+          <textarea name="muscle_power"
+            class="form-control">{{ motions.first.muscle_power|default_if_none:"" }}</textarea>
+        </div>
+      </div>
+
+      <!-- ================= Functional Outcome Measures ================= -->
+      <h5 class="fw-bold mt-4">Functional Outcome Measures</h5>
+
+      <table class="table table-bordered" id="outcomeTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Outcome Used</th>
+            <th>Pre-Test</th>
+            <th>Post-Test</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for o in outcome_measures %}
+          <tr>
+            <input type="hidden" name="outcome_id[]" value="{{ o.id }}">
+            <td><input type="date" name="outcome_date[]" class="form-control" value="{{ o.date|date:'Y-m-d' }}"></td>
+            <td><input type="text" name="outcome_used[]" class="form-control" value="{{ o.outcome_used }}"></td>
+            <td><input type="text" name="pre_test[]" class="form-control" value="{{ o.pretest_score }}"></td>
+            <td><input type="text" name="post_test[]" class="form-control" value="{{ o.posttest_score }}"></td>
+            <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+          </tr>
+          {% empty %}
+          <!-- empty row if no outcomes exist -->
+          <tr>
+            <input type="hidden" name="outcome_id[]" value="">
+            <td><input type="date" name="outcome_date[]" class="form-control"></td>
+            <td><input type="text" name="outcome_used[]" class="form-control"></td>
+            <td><input type="text" name="pre_test[]" class="form-control"></td>
+            <td><input type="text" name="post_test[]" class="form-control"></td>
+            <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-primary btn-sm" onclick="addRow('outcomeTable')">+ Add Row</button>
+
+      <!-- ================= Treatment Plan ================= -->
+      <h5 class="fw-bold mt-4">Treatment Plan</h5>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Short Term Goals</label>
+          <textarea name="short_term_goals"
+            class="form-control">{{ treatment.short_term_goals|default_if_none:"" }}</textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Long Term Goals</label>
+          <textarea name="long_term_goals"
+            class="form-control">{{ treatment.long_term_goals|default_if_none:"" }}</textarea>
+        </div>
+      </div>
+
+     <h6 class="fw-bold mt-3">Management Plan</h6>
+<table class="table table-bordered" id="managementTable">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Management</th>
+      <th>Review Date</th>
+      <th>Signature</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in managements %}
+    <tr>
+      <input type="hidden" name="management_id[]" value="{{ m.id }}">
+      <td><input type="date" name="date[]" value="{{ m.date|date:'Y-m-d' }}" class="form-control"></td>
+      <td><input type="text" name="management[]" value="{{ m.management|default_if_none:'' }}" class="form-control"></td>
+      <td><input type="date" name="review_date[]" value="{{ m.review_date|date:'Y-m-d' }}" class="form-control"></td>
+      <td><input type="text" name="signature[]" value="{{ m.signature|default_if_none:'' }}" class="form-control"></td>
+      <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+    </tr>
+    {% empty %}
+    <!-- IMPORTANT: Default empty row when no data exists -->
+    <tr>
+      <input type="hidden" name="management_id[]" value="">
+      <td><input type="date" name="date[]" class="form-control"></td>
+      <td><input type="text" name="management[]" class="form-control" placeholder="Enter management plan"></td>
+      <td><input type="date" name="review_date[]" class="form-control"></td>
+      <td><input type="text" name="signature[]" class="form-control" placeholder="Signature"></td>
+      <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<button type="button" class="btn btn-primary btn-sm" onclick="addRow('managementTable')">+ Add Row</button>
+
+      <!-- ================= Submit ================= -->
+      <div class="d-flex gap-2 py-3">
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="{% url 'prescription_basic' %}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% comment %} 
+<script>
+  function addRow(tableId) {
+    let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+    let lastRow = table.rows[table.rows.length - 1];
+    let newRow = lastRow.cloneNode(true);
+
+    // Clear all input/textarea values
+    newRow.querySelectorAll("input, textarea").forEach(input => {
+        input.value = "";
+    });
+
+    // === CRITICAL: Remove or clear hidden ID fields for new rows ===
+    // This ensures new rows are saved as NEW entries, not updating old ones
+    if (tableId === "romTable") {
+        const hiddenId = newRow.querySelector('input[name="rom_id[]"]');
+        if (hiddenId) hiddenId.remove(); // or hiddenId.value = "";
+    } else if (tableId === "outcomeTable") {
+        const hiddenId = newRow.querySelector('input[name="outcome_id[]"]');
+        if (hiddenId) hiddenId.remove();
+    } else if (tableId === "managementTable") {
+        const hiddenId = newRow.querySelector('input[name="management_id[]"]');
+        if (hiddenId) hiddenId.remove();
+    }
+
+    // Change the button back to "+" for the new row (optional, for UX)
+    const actionCell = newRow.querySelector("td:last-child");
+    if (actionCell) {
+        actionCell.innerHTML = `
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+                <i class="fas fa-minus"></i>
+            </button>
+        `;
+    }
+
+    table.appendChild(newRow);
+}
+  function removeRow(btn) {
+    let row = btn.closest("tr");
+    let tbody = row.closest("tbody");
+    if (tbody.rows.length > 1) row.remove();
+  }
+</script> {% endcomment %}
+<script>
+function addRow(tableId) {
+    let table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+
+    if (table.rows.length === 0) {
+        let newRow = document.createElement('tr');
+        if (tableId === "romTable") {
+            newRow.innerHTML = `
+                <input type="hidden" name="rom_id[]" value="">
+                <td><input type="date" name="rom_date[]" class="form-control"></td>
+                <td><input type="text" name="joint[]" class="form-control" placeholder="e.g. Shoulder"></td>
+                <td><input type="text" name="arom[]" class="form-control" placeholder="e.g. 120°"></td>
+                <td><input type="text" name="prom[]" class="form-control" placeholder="e.g. 150°"></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+            `;
+        } else if (tableId === "outcomeTable") {
+            newRow.innerHTML = `
+                <input type="hidden" name="outcome_id[]" value="">
+                <td><input type="date" name="outcome_date[]" class="form-control"></td>
+                <td><input type="text" name="outcome_used[]" class="form-control"></td>
+                <td><input type="text" name="pre_test[]" class="form-control"></td>
+                <td><input type="text" name="post_test[]" class="form-control"></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+            `;
+        } else if (tableId === "managementTable") {
+            newRow.innerHTML = `
+                <input type="hidden" name="management_id[]" value="">
+                <td><input type="date" name="date[]" class="form-control"></td>
+                <td><input type="text" name="management[]" class="form-control" placeholder="Enter management plan"></td>
+                <td><input type="date" name="review_date[]" class="form-control"></td>
+                <td><input type="text" name="signature[]" class="form-control" placeholder="Signature"></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button></td>
+            `;
+        }
+        table.appendChild(newRow);
+        return;
+    }
+
+    // Clone existing row
+    let lastRow = table.rows[table.rows.length - 1];
+    let newRow = lastRow.cloneNode(true);
+
+    newRow.querySelectorAll("input").forEach(input => {
+        if (input.type === "hidden") {
+            input.value = "";
+        } else {
+            input.value = "";
+        }
+    });
+
+    // Remove hidden ID for new rows
+    if (tableId === "romTable") {
+        let hidden = newRow.querySelector('input[name="rom_id[]"]');
+        if (hidden) hidden.remove();
+    } else if (tableId === "outcomeTable") {
+        let hidden = newRow.querySelector('input[name="outcome_id[]"]');
+        if (hidden) hidden.remove();
+    } else if (tableId === "managementTable") {
+        let hidden = newRow.querySelector('input[name="management_id[]"]');
+        if (hidden) hidden.remove();
+    }
+
+    table.appendChild(newRow);
+}
+
+function removeRow(btn) {
+    let row = btn.closest("tr");
+    let tbody = row.closest("tbody");
+
+    if (tbody.rows.length > 1) {
+        row.remove();
+    } else {
+        row.querySelectorAll("input:not([type='hidden'])").forEach(input => input.value = "");
+    }
+}
+</script>
+{% endblock %}

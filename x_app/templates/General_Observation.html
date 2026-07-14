@@ -1,0 +1,120 @@
+{% extends 'prescription_home.html' %}
+{% block contents %}
+<div class="container">
+  <div class="content-box">
+    <div class="content-header mb-3">
+      <h5><i class="fas fa-prescription-bottle-alt me-2"></i>General Observations</h5>
+    </div>
+    <form method="POST" class="px-2">
+      {% csrf_token %}
+      <div class="col-md-10">
+        <label class="form-label">Selected Patient:</label>
+        <span class="w-100 fw-bold">
+          {% if selected_patient %} {{selected_patient.mr_no}} - {{selected_patient.name}} {% else %} None {% endif %}
+        </span>
+      </div>
+
+      <!-- General Observation -->
+      <h6 class="fw-bold">General Observation</h6>
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <label class="form-label">Built of Patient</label>
+          <input type="text" class="form-control" name="built">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Swelling</label>
+          <input type="text" class="form-control" name="swelling">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Deformities</label>
+          <input type="text" class="form-control" name="deformities">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Tropical Changes</label>
+          <input type="text" class="form-control" name="tropical_changes">
+        </div>
+      </div>
+
+      <!-- Palpation -->
+      <h6 class="fw-bold">Palpation</h6>
+      <div class="row g-3 mb-2">
+        <div class="col-md-6">
+          <label class="form-label">Skin</label>
+          <input type="text" class="form-control" name="skin">
+        </div>
+          <h6 class="fw-bold">Tenderness</h6>
+        <div class="col-md-5">
+          <label class="form-label">Edema</label>
+          <input type="text" class="form-control" name="edema">
+        </div>
+         <div class="col-md-6 ms-auto">
+          <label class="form-label">Warmth</label>
+          <input type="text" class="form-control" name="warmth" style="width:350px">
+        </div>
+      </div>
+      <div class="row g-3 mb-4">
+       
+      </div>
+
+      <div class="mb-3">
+        <h6 class="fw-bold">Presence of Tightness and Contractures</h6>
+        <textarea name="contractures" class="form-control" rows="3" placeholder="Enter observations..."></textarea>
+      </div>
+
+      <!-- Balance Sensory Input -->
+      <div class="mb-3">
+        <h6 class="fw-bold">Balance (Sensory)</h6>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Light Touch</label>
+            <div class="d-flex gap-2">
+              <label><input type="radio" name="light_touch" value="independent" required> Independent</label>
+              <label><input type="radio" name="light_touch" value="impaired"> Impaired</label>
+              <label><input type="radio" name="light_touch" value="absent"> Absent</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Crude Touch</label>
+            <div class="d-flex gap-2">
+              <label><input type="radio" name="crude_touch" value="independent" required> Independent</label>
+              <label><input type="radio" name="crude_touch" value="impaired"> Impaired</label>
+              <label><input type="radio" name="crude_touch" value="absent"> Absent</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Balance: Functional -->
+      <div class="mb-3">
+        <h6 class="fw-bold">Balance (Functional)</h6>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Sitting</label>
+            <select class="form-select" name="balance_sitting" required>
+              <option disabled selected>-- Select --</option>
+              <option value="independent">Independent</option>
+              <option value="dependent">Dependent</option>
+              <option value="needs assistance">Needs Assistance</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Standing</label>
+            <select class="form-select" name="balance_standing" required>
+              <option disabled selected>-- Select --</option>
+              <option value="independent">Independent</option>
+              <option value="dependent">Dependent</option>
+              <option value="needs assistance">Needs Assistance</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="d-flex gap-2 pb-3">
+        <button type="submit" class="btn btn-primary w-25">Save</button>
+        <button type="Reset" class="btn btn-danger w-25">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

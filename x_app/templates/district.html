@@ -1,0 +1,44 @@
+
+ {% extends 'Masters.html'%}
+{%block contents%}
+{% load static %}
+
+</head>
+<body>
+
+<div class="content-box" id="contentBox">
+  <div class="content-header">
+    <span><i class="fas fa-city me-2"></i>District Master</span>
+    <span>
+      <a href="{%url 'districtTable'%}" class="text-white fw-bold text-decoration-none me-3 fs-6">View</a>
+    </span>
+  </div>
+  <div class="content-body">
+    <form method="post" action="{%url 'district'%}">
+      {%csrf_token%}
+      <div class="row g-3">
+        <div class="col-md-6">
+    <label class="form-label">State</label>
+    <select class="form-control" name="state" required>
+      <option value="">Select State</option>
+      {% for s in states %}
+        <option value="{{ s.id }}">{{ s.name }} ({{ s.country.name }})</option>
+      {% endfor %}
+    </select>
+  </div>
+        <div class="col-md-6">
+          <label class="form-label">District Name</label>
+          <input type="text" class="form-control" name="districtName" id="districtName" maxlength="100" pattern="^[A-Za-z ]{5,100}$" required>
+        </div>
+      </div>
+      <div class="mt-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-25">Add</button>
+        <button type="reset" class="btn btn-danger w-25">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
+{%endblock%}

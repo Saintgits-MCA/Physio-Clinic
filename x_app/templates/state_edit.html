@@ -1,0 +1,46 @@
+
+ {% extends 'Masters.html'%}
+{%block contents%}
+{% load static %}
+
+</head>
+<body>
+
+<div class="content-box" id="contentBox">
+  <div class="content-header">
+    <span><i class="fas fa-flag me-2"></i>Edit State</span>
+    <span>
+      <a href="{%url 'statetable'%}" class="text-white fw-bold text-decoration-none me-3 fs-6">View</a>
+    </span>
+  </div>
+  <div class="content-body">
+    <form method="post">
+      {%csrf_token%}
+      <div class="row g-3">
+        <div class="col-md-6">
+    <label class="form-label">Country</label>
+    <select class="form-control" name="country" required>
+      <option value="">Choose Country</option>
+      {% for c in countries %}
+        <option value="{{ c.id }}" {% if c.id == edit_state.country.id %}selected{% endif %}>
+          {{ c.name }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+        <div class="col-md-6">
+          <label class="form-label">State Name</label>
+          <input type="text" class="form-control" name="stateName" id="stateName" maxlength="100" value='{{ edit_state }}'>
+        </div>
+      </div>
+      <div class="mt-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-25">Add</button>
+        <a class="text-decoration-none" href="{%url 'statetable'%}"><button type="button" class="btn btn-secondary"><i class="fw-bold fas fa-arrow-left pe-3"></i>Cancel</button></a>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
+{%endblock%}

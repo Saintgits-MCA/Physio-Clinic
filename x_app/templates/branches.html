@@ -1,0 +1,64 @@
+{% extends 'Masters.html' %}
+{% block contents %}
+{%if perms%}
+<div class="content-box" id="contentBox">
+  <div class="content-header">
+    <span><i class="fas fa-code-branch me-2"></i>Add Branch</span>
+    <span>
+      <a href="{% url 'branchtable' %}" class="text-white fw-bold text-decoration-none me-3 fs-6">View</a>
+    </span>
+  </div>
+
+  <div class="content-body">
+    <form method="POST" action="{% url 'branches' %}">
+      {% csrf_token %}
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <label class="form-label">Branch Name</label>
+          <input type="text" class="form-control" name="branchName" id="branchName" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Contact Number</label>
+          <input type="tel" class="form-control" name="branchContact" id="branchContact" required pattern="[0-9]{10}">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Incharge Name</label>
+          <input type="text" class="form-control" name="inchargeName" id="inchargeName" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Incharge Phone Number</label>
+          <input type="tel" class="form-control" name="inchargePhone" id="inchargePhone" required pattern="[0-9]{10}">
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">Branch Address</label>
+          <textarea class="form-control" name="branchAddress" id="branchAddress" rows="3" required></textarea>
+        </div>
+
+        <!-- Department Selection -->
+        <div class="col-12">
+  <label class="form-label">Select Departments</label>
+  <select name="departments" class="form-control" multiple required>
+    {% for dept in departments %}
+      <option value="{{ dept.id }}">{{ dept.name }}</option>
+    {% endfor %}
+  </select>
+  <small class="text-muted">Hold Ctrl (Windows) or Cmd (Mac) to select multiple</small>
+</div>
+
+
+      </div>
+
+      <div class="mt-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-25">Add</button>
+        <button type="reset" class="btn btn-danger w-25">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+{%endif%}
+{% endblock %}

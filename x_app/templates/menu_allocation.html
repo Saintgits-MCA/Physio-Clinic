@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-3" id="contentBox">
+  <div class="bg-white shadow rounded">
+
+    <!-- Header -->
+     <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded-top">
+            <h5 class="mb-0"><i class="fas fa-th-list me-2"></i>Menu Allocation Master</h5>
+            <div class="d-flex gap-2">
+                <a href="{% url 'menu_allocation_table' %}" class="text-white fw-bold text-decoration-none me-3 fs-6">
+                    View
+                </a>
+            <button type="button" class="btn btn-sm btn-danger fw-bold" onclick="closeContent()">
+                      <i class="fas fa-times"></i>
+                </button>
+            </div>
+    </div>
+
+    <!-- Body -->
+    <div class="p-4">
+      <form method="post">
+        {% csrf_token %}
+
+        <!-- Select Role -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">Role</label>
+          <select name="role" class="form-select" required>
+            <option value="">Select</option>
+            {% for role in roles %}
+            <option value="{{ role.id }}">{{ role.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Menus Table -->
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead>
+              <tr>
+                <th>Menu</th>
+                <th>View</th>
+                <th>Add</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% regroup menus by category as menu_categories %}
+
+              {% for group in menu_categories %}
+              <!-- Category Header with Master Checkboxes -->
+              <tr class="table-primary fw-bold">
+                <td>{{ group.grouper }}</td>
+                <td><input type="checkbox" class="category-master" data-category="{{ forloop.counter }}"
+                    data-perm="view"></td>
+                <td><input type="checkbox" class="category-master" data-category="{{ forloop.counter }}"
+                    data-perm="add"></td>
+                <td><input type="checkbox" class="category-master" data-category="{{ forloop.counter }}"
+                    data-perm="edit"></td>
+                <td><input type="checkbox" class="category-master" data-category="{{ forloop.counter }}"
+                    data-perm="delete"></td>
+              </tr>
+
+              <!-- Menus under Category -->
+              {% for menu in group.list %}
+              <tr>
+                <td>{{ menu.name }}</td>
+                <td><input type="checkbox" name="menu_{{ menu.id }}_view"
+                    class="perm-checkbox category-{{ forloop.parentloop.counter }}-view"></td>
+                <td><input type="checkbox" name="menu_{{ menu.id }}_add"
+                    class="perm-checkbox category-{{ forloop.parentloop.counter }}-add"></td>
+                <td><input type="checkbox" name="menu_{{ menu.id }}_edit"
+                    class="perm-checkbox category-{{ forloop.parentloop.counter }}-edit"></td>
+                <td><input type="checkbox" name="menu_{{ menu.id }}_delete"
+                    class="perm-checkbox category-{{ forloop.parentloop.counter }}-delete"></td>
+              </tr>
+              {% endfor %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <button class="btn btn-success mt-3">
+          <i class="fas fa-save me-1"></i> Save Permissions
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Handle category master checkboxes
+  document.querySelectorAll(".category-master").forEach(master => {
+    master.addEventListener("change", function () {
+      const category = this.dataset.category;
+      const perm = this.dataset.perm;
+      const checkboxes = document.querySelectorAll(`.category-${category}-${perm}`);
+      checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+  });
+function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

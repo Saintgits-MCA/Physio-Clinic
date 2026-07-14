@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <title>Invoice Bill</title>
+  <style>
+    body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 11pt;
+  color: #333;
+  margin: 0;
+  background: #fff;
+}
+
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #0d6efd;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    .header-left, .header-right {
+      width: 48%;
+    }
+    .header-left h4 { margin: 0 0 5px 0; color: #0d6efd; font-size: 1.1rem; }
+    .header-left p { margin: 2px 0; font-size: 0.9rem; }
+    .header-right { text-align: right; float:right; }
+    .header-right img { height: 70px; width: auto; border-radius: 6px; margin-bottom: 5px; }
+    .header-right h2 { margin: 0; font-size: 1.5rem; color: #0d6efd; }
+    .header-right p { margin: 2px 0; font-size: 0.85rem; }
+
+    .section-title {
+      color: #023e8a;
+      padding: 6px 10px;
+      font-weight: bold;
+      margin-top: 15px;
+      border-radius: 4px 4px 0 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+    }
+    th, td {
+      padding: 10px 8px;
+      font-size: 10pt;
+      border: 1px solid #ccc;
+    }
+    th {
+      color: #023e8a;
+      text-align: center;
+    }
+    td.text-left { text-align: left; }
+    tr:nth-child(even) td { background: #f9f9f9; }
+
+    .totals {
+      margin-top: 15px;
+      text-align: right;
+      font-weight: bold;
+    }
+    .amount-words {
+      font-weight: normal;
+      font-style: italic;
+      border: 1px dashed #0d6efd;
+      padding: 6px 8px;
+      border-radius: 5px;
+      background: #f8f9fa;
+      display: inline-block;
+    }
+a {
+  text-decoration:none;
+  color:black;
+}
+   /* ===== FIXED FOOTER ===== */
+.footer {
+  position: fixed;
+  bottom: 10mm;
+  left: 0;
+  right: 0;
+  font-size: 11pt;
+  color: #666;
+}
+
+
+/* PRINT-SPECIFIC FIX */
+@media print {
+  .footer {
+    position: fixed;
+  }
+}
+
+  @page {
+  size: A4;
+  margin-top: 15mm;
+  margin-left: 15mm;
+  margin-right: 15mm;
+  margin-bottom: 30mm; /* footer space */
+}
+    @page {
+  size: A4;
+  margin: 15mm;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <div class="header row">
+    <div class="header-right col-md-5" style="font-size:18px">
+      <p>{% if hospital.logo %}
+        <img src="{{ hospital.logo.path }}" alt="Hospital Logo" height="185px">
+      {% endif %}<br>
+        {{ hospital.address }}</p>
+      <p>Phone: {{ hospital.manager_contact }} | Email: {{ hospital.email }}</p>
+      <p>Invoice : <strong>{{ invoice.invoice_number }}</strong> | Date: {{ invoice.created_at|date:"d/m/Y" }}</p>
+    </div>
+
+    <div class="header-left col-md-4" style="font-size:13px">
+      <h4>Consulting Doctor</h4>
+      <p style="font-size:14px;"><strong>{{ invoice.doctor.name }}</strong></p>
+      {% if invoice.doctor.address %}<p style="font-size:14px;">{{ invoice.doctor.address }}</p>{% endif %}
+      {% if invoice.doctor.contact %}<p style="font-size:14px;">Contact: {{ invoice.doctor.contact }}</p>{% endif %}
+    </div>
+  </div>
+
+  <div class="section-title">Patient Information</div>
+  <table>
+    <tr>
+      <td class="text-left"><strong>MR No:</strong> {{ invoice.patient.mr_no }}</td>
+      <td class="text-left"><strong>Name:</strong> {{ invoice.patient.name }}</td>
+      <td class="text-left"><strong>Age:</strong> {{ invoice.patient.age }}</td>
+      <td class="text-left"><strong>Address:</strong> {{ invoice.patient.address }}</td>
+
+    </tr>
+  </table>
+
+  <div class="section-title">Invoice Items</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Sl. No</th>
+        <th class="text-left">Particulars</th>
+        <th>Session</th>
+        <th>Rate</th>
+        <th>Amount (Rs.)</th>
+      </tr>
+    </thead>
+<tbody>
+  {% for item in invoice.get_particulars %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td class="text-left">{{ item.particular }}</td>
+    <td>{{ item.qty }}</td>
+    <td>{{ item.rate }}</td>
+    <td>Rs. {{ item.amount }}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td colspan="4" class="text-left"><strong>Total</strong></td>
+    <td><strong>Rs. {{ invoice.total_amount }}</strong></td>
+  </tr>
+</tbody>
+  </table>
+
+  <div class="totals">
+  <span style="margin-top:75px;"><p class="mt-5"><strong>Amount In Words:</strong>
+     <span class="amount-words" id="amountInWords">
+       {{ amount_in_words }}
+     </span>
+  </p></span>
+  </div>
+      <p class="text-left"><strong>Payment Mode:</strong> {{ invoice.payment_mode }}</p>
+<footer class="footer" style="margin-bottom:0px;bottom:0px;">
+  <center><small>
+    © The Physio Clinic · Visit
+    <a href="https://www.thephysioclinic.co/">www.thephysioclinic.co</a>
+  </small></center>
+</footer>
+<script>
+   function numberToWords(num) {
+    if (!num || isNaN(num) || num === 0) return "Zero Rupees Only";
+
+    const a = [
+      '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+      'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
+    ];
+    const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+    function inWords(n) {
+      if (n < 20) return a[n];
+      if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? " " + a[n % 10] : "");
+      if (n < 1000) return a[Math.floor(n / 100)] + " Hundred" + (n % 100 ? " " + inWords(n % 100) : "");
+      if (n < 100000) return inWords(Math.floor(n / 1000)) + " Thousand" + (n % 1000 ? " " + inWords(n % 1000) : "");
+      if (n < 10000000) return inWords(Math.floor(n / 100000)) + " Lakh" + (n % 100000 ? " " + inWords(n % 100000) : "");
+      return inWords(Math.floor(n / 10000000)) + " Crore" + (n % 10000000 ? " " + inWords(n % 10000000) : "");
+    }
+
+    const parts = num.toString().split(".");
+    const rupees = parseInt(parts[0]) || 0;
+    const paise = parts[1] ? parseInt(parts[1].substring(0, 2)) : 0;
+
+    let words = inWords(rupees) + " Rupees";
+    if (paise > 0) words += " and " + inWords(paise) + " Paise";
+    return words + " Only";
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // Step 1: Grab the amount from the DOM text instead of Django variable
+    let totalElement = document.querySelector("table tr:last-child td:last-child strong");
+    if (!totalElement) return;
+
+    // Step 2: Extract numeric value safely (e.g. "Rs. 1,200.50" → "1200.50")
+    let totalText = totalElement.textContent || "";
+    let totalNumber = totalText.replace(/[^\d.]/g, ""); // keep only digits and dot
+
+    // Step 3: Convert and display
+    const total = parseFloat(totalNumber);
+    const words = numberToWords(total);
+    document.getElementById("amountInWords").textContent = words;
+  });
+</script>
+</body>
+</html>

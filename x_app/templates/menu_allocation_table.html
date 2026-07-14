@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3" id="contentBox">
+  <div class="card">
+    <div class="card-header d-flex flex-wrap justify-content-between align-items-center bg-primary text-white">
+  <span class="d-flex align-items-center gap-2 ms-2">
+    <i class="fs-5 fas fa-th-list"></i>
+    <span class="fs-5 fw-semibold">Menu Permissions</span>
+  </span>
+
+  <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+    <a href="{% url 'menu_allocation' %}">
+      <button class="btn btn-info btn-sm text-white fw-bold">
+        <i class="fas fa-plus me-1"></i>Add
+      </button>
+    </a>
+    <button type="button" class="btn btn-sm btn-danger fw-bold" onclick="closeContent()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+
+    <div class="card-body">
+
+      <form method="get" class="mb-3">
+        <label>Select Role</label>
+        <select name="role" class="form-select" onchange="this.form.submit()">
+          <option value="">Select</option>
+          {% for role in roles %}
+            <option value="{{ role.id }}" {% if selected_role and selected_role.id == role.id %}selected{% endif %}>
+              {{ role.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </form>
+
+      {% if selected_role %}
+      <a href="{% url 'menu_permissions_edit' selected_role.id %}" class="btn btn-sm btn-info text-white">
+          <i class="fas fa-pen me-1 fw-bold"></i>Edit Permissions
+        </a>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Menu</th><th>View</th><th>Add</th><th>Edit</th><th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for perm in permissions %}
+          <tr>
+            <td>{{ perm.menu.name }}</td>
+            <td>{% if perm.can_view %}✔{% else %}✘{% endif %}</td>
+            <td>{% if perm.can_add %}✔{% else %}✘{% endif %}</td>
+            <td>{% if perm.can_edit %}✔{% else %}✘{% endif %}</td>
+            <td>{% if perm.can_delete %}✔{% else %}✘{% endif %}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5">No permissions assigned.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+<script>
+  function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+/* Apply only to prescription-home */
+.prescription-home .content-box {
+  background: #fdfdfd;
+}
+
+.prescription-home .scrollable-sidebar {
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
+  width: 100%;
+  border-right: 1px solid #ddd;
+  background: #f9f9f9;
+}
+
+/* Hide sidebar on small screens, add toggle if needed */
+@media (max-width: 768px) {
+  .prescription-home .scrollable-sidebar {
+    max-height: none;
+    margin-bottom: 15px;
+    border-right: none;
+    border-bottom: 1px solid hsl(0, 0%, 80%);
+  }
+
+  .prescription-home .content-body .row>[class^="col"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .prescription-home .form-control,
+  .prescription-home .form-select {
+    width: 100%;
+  }
+
+  .prescription-home .content-area {
+    padding: 10px;
+    border-left: none;
+  }
+
+
+}
+
+/* Optional: improve select2 inside small columns */
+.prescription-home .select2-container {
+  width: 100% !important;
+}
+
+textarea {
+  resize: none;
+}

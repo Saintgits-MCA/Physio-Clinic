@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Consolidated Invoice - {{ patient.name }}</title>
+
+    <style>
+        body {
+            font-family: DejaVu Sans, Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            color: #222;
+            margin: 25px;
+        }
+
+        /* ===== HEADER ===== */
+        .letterhead {
+            width: 100%;
+            border-bottom: 3px solid #2f5597;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 20%;
+            vertical-align: middle;
+        }
+
+        .logo img {
+            max-height: 70px;
+        }
+
+        .hospital-info {
+            width: 80%;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        .hospital-info h1 {
+            margin: 0;
+            font-size: 22px;
+            color: #2f5597;
+            letter-spacing: 0.5px;
+        }
+
+        .hospital-info p {
+            margin: 2px 0;
+            font-size: 11px;
+        }
+
+        /* ===== TITLE ===== */
+        .report-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 25px 0 15px;
+            text-transform: uppercase;
+            color: #000;
+        }
+
+        /* ===== SECTION BOX ===== */
+        .section {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            border:0px;
+            padding: 6px 10px;
+            font-weight: bold;
+            font-size: 13px;
+            margin: -10px -10px 10px -10px;
+        }
+
+        /* ===== PATIENT TABLE ===== */
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .details-table td {
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        .label {
+            font-weight: bold;
+            width: 140px;
+            color: #333;
+        }
+
+        /* ===== INVOICE TABLE ===== */
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .invoice-table th {
+            background-color: #2f5597;
+            color: #fff;
+            padding: 8px;
+            font-size: 12px;
+            border: 1px solid #2f5597;
+        }
+
+        .invoice-table td {
+            border: 1px solid #ccc;
+            padding: 7px;
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .total-row td {
+            font-weight: bold;
+            font-size: 13px;
+            background: #f9f9f9;
+        }
+
+        /* ===== AMOUNT WORDS ===== */
+        .amount-words {
+            margin-top: 20px;
+            font-size: 12px;
+            border-top: 1px dashed #999;
+            padding-top: 10px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 40px;
+            bottom:0;
+            text-align: center;
+            font-size: 15px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <table class="letterhead">
+        <tr>
+            <td class="logo">
+               
+            </td>
+            <td class="hospital-info">
+                <p> {% if hospital.logo %}
+                    <img src="{{ hospital.logo.path }}" alt="{{ hospital.name }}" class="mb-2" style="height:90px;width:150px;">
+                {% endif %}<br>{{ hospital.address }}</p>
+                <p>
+                    Phone: {{ hospital.manager_contact }}
+                    {% if hospital.email %} | Email: {{ hospital.email }}{% endif %}
+                </p>
+                <p>
+                    GSTIN: {{ hospital.gst_number }}
+                    {% if hospital.registration_number %} | Reg No: {{ hospital.registration_number }}{% endif %}
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- TITLE -->
+    <div class="report-title">Consolidated Invoice</div>
+
+    <!-- PATIENT DETAILS -->
+    <div class="section">
+        <div class="section-title">Patient Information</div>
+
+        <table class="details-table">
+            <tr>
+                <td class="label">Patient</td>
+                <td>{{ patient.name }}</td>
+                <td class="label">MR No</td>
+                <td>{{ patient.mr_no|default:"-" }}</td>
+            </tr>
+            <tr>
+                <td class="label">Age / Gender</td>
+                <td>{{ patient.age }} / {{ patient.gender }}</td>
+                <td class="label">Phone</td>
+                <td>{{ patient.phone|default:"-" }}</td>
+            </tr>
+            <tr>
+                <td class="label">Address</td>
+                <td colspan="3">{{ patient.address|default:"-" }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- INVOICE DETAILS -->
+    <div class="section">
+        <div class="section-title border-0">Invoice Summary</div>
+
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th width="8%">S.No</th>
+                    <th width="15%">Date</th>
+                    <th width="20%" style="text-align:left;">Invoice No</th>
+                    <th width="37%">Particulars</th>
+                    <th width="20%">Amount (Rs)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td class="text-center">{{ invoice.created_at|date:"d-M-Y" }}</td>
+                    <td class="text-center">{{ invoice.invoice_number }}</td>
+                    <td class="text-center">{% for item in invoice.get_particulars %}{{ item.particular }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                    <td class="text-center">{{ invoice.total_amount|floatformat:2 }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center" style="padding:15px;">
+                        No invoices available
+                    </td>
+                </tr>
+                {% endfor %}
+
+                <tr class="total-row">
+                    <td colspan="4" class="text-right">Grand Total</td>
+                    <td class="text-center">Rs {{ total_amount|floatformat:2 }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- AMOUNT IN WORDS -->
+    <div class="amount-words">
+     <strong>Amount in Words:</strong> {{ amount_in_words|title }} Only
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer" style="margin-bottom:0px;bottom:0px;">
+  <center><small>
+    © The Physio Clinic · Visit
+    <a href="https://www.thephysioclinic.co/" style="text-decoration:none">www.thephysioclinic.co</a>
+  </small></center>
+</footer>
+
+</body>
+</html>

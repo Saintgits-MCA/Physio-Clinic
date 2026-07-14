@@ -1,0 +1,91 @@
+{% extends 'prescription_home.html' %}
+{% block contents %}
+<div class="container">
+  <div class="content-box">
+    <div class="content-header mb-3">
+      <h5><i class="fas fa-person-walking me-3"></i>Range of Motion</h5>
+    </div>
+
+    <form method="POST" class="px-2">
+      {% csrf_token %}
+<div class="col-md-10">
+      <label class="form-label">Selected Patient:</label>
+      <span class="w-100 fw-bold">{%if selected_patient%} {{selected_patient.mr_no}}-{{selected_patient.name}} {%else%} None {%endif%}</span>
+  </div>
+      <h6 class="fw-bold">Range of Motion</h6>
+      <div class="table-responsive mb-4">
+        <table class="table table-bordered" id="romTable">
+          <thead class="table-light">
+            <tr>
+              <th>Date</th>
+              <th>Joint</th>
+              <th>AROM</th>
+              <th>PROM</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="date" name="date[]" class="form-control"></td>
+              <td><input type="text" name="joint[]" class="form-control"></td>
+              <td><input type="text" name="arom[]" class="form-control"></td>
+              <td><input type="text" name="prom[]" class="form-control"></td>
+              <td class="text-center">
+                <button type="button" class="btn btn-success btn-sm" onclick="addRow(this)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h6 class="fw-bold">Fall Risk Screening</h6>
+          <textarea class="form-control" name="fall_risk" rows="6"
+            placeholder="Describe fall risk evaluation or notes..."></textarea>
+        </div>
+        <div class="col-md-6">
+          <h6 class="fw-bold">Muscle Power</h6>
+          <textarea class="form-control" name="muscle_power" rows="6"
+            placeholder="Record muscle strength or grade per region..."></textarea>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 pb-3">
+        <button type="submit" class="btn btn-primary w-25">Save</button>
+        <button type="Reset" class="btn btn-danger w-25">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function addRow(button) {
+    const row = button.closest('tr');
+    const clone = row.cloneNode(true);
+
+    // Reset the input values in the cloned row
+    clone.querySelectorAll('input').forEach(input => input.value = '');
+
+    // Change the plus button to a minus button
+    const actionCell = clone.querySelector('td:last-child');
+    actionCell.innerHTML = `
+      <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
+        <i class="fas fa-minus"></i>
+      </button>
+    `;
+
+    row.parentNode.appendChild(clone);
+  }
+
+  function removeRow(button) {
+    const row = button.closest('tr');
+    const table = document.getElementById('romTable');
+    if (table.rows.length > 2) {
+      row.remove();
+    }
+  }
+</script>
+{% endblock %}

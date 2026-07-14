@@ -1,0 +1,97 @@
+{% extends 'Masters.html' %}
+{% block contents %}
+{% load static %}
+<style>
+  textarea{
+  resize: none;
+}
+</style>
+<body>
+
+  <div class="content-box" id="contentBox">
+     <div class="content-header d-flex flex-wrap justify-content-between align-items-center">
+  <div class="d-flex align-items-center flex-wrap gap-2">
+    <i class="fas fa-hospital me-2"></i>
+    <span class="text-white">Hospital Registration</span>
+  </div>
+  <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+    <a href="{% url 'hospitaltable' %}" class="text-white fw-bold text-decoration-none fs-6 me-3">View</a>
+  </div>
+  </div>
+
+    <div class="content-body">
+      <form method="post" action="{%url 'hospitalreg'%}" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Hospital Name</label>
+            <input type="text" class="form-control" name="hospitalName" id="hospitalName" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Hospital Logo</label>
+            <input type="file" class="form-control" name="hospitalLogo" id="hospitalLogo" accept="image/*">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Registration Number</label>
+            <input type="text" class="form-control" name="regNo" id="regNo" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">GST Number</label>
+            <input type="text" class="form-control" name="gstNo" id="gstNo" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Manager Name</label>
+            <input type="text" class="form-control" name="managerName" id="managerName" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Manager Contact No</label>
+            <input type="tel" class="form-control" name="managerContact" id="managerContact" pattern="[0-9]{10}" required>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" required>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Hospital Address</label>
+            <textarea class="form-control" name="hospitalAddress" id="hospitalAddress" rows="2" required></textarea>
+          </div>
+        </div>
+
+        <div class="mt-3 d-flex gap-2">
+          <button type="submit" class="btn btn-primary w-25">Register</button>
+          <button type="reset" class="btn btn-danger w-25">Clear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const hospitals = [];
+
+    function registerHospital(e) {
+      e.preventDefault();
+
+      const hospital = {
+        name: document.getElementById("hospitalName").value,
+        logo: document.getElementById("hospitalLogo").files[0]?.name || "No logo",
+        regNo: document.getElementById("regNo").value,
+        gstNo: document.getElementById("gstNo").value,
+        manager: document.getElementById("managerName").value,
+        contact: document.getElementById("managerContact").value,
+        email: document.getElementById("email").value,
+        address: document.getElementById("hospitalAddress").value
+      };
+
+      hospitals.push(hospital);
+      alert("Hospital registered successfully!");
+      e.target.reset();
+    }
+
+    function reloadPanel() { location.reload(); }
+   
+  </script>
+
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'Masters.html' %}
+{% load static %}
+{% block contents %}
+<div class="content-box" id="contentBox">
+  <div class="content-header d-flex flex-wrap justify-content-between align-items-center">
+    <div class="d-flex align-items-center flex-wrap gap-2">
+      <i class="fas fa-brain"></i>
+      <h4>Edit Schroth Classification</h4>
+    </div>
+    <div>
+      <a href="{% url 'schroth_list' %}" class="btn btn-primary btn-sm">Back to List</a>
+    </div>
+  </div>
+
+  <div class="content-body mt-3">
+    <form method="POST" action="{% url 'schroth_edit' item.id %}">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="name" class="form-label">Schroth Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ item.name }}" required>
+      </div>
+      <button type="submit" class="btn btn-success">Update</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

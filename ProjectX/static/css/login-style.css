@@ -1,0 +1,240 @@
+ * {
+     box-sizing: border-box;
+ }
+
+ html,
+ body {
+     height: 100%;
+     margin: 0;
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     overflow: hidden;
+ }
+
+
+ .login-wrapper {
+     display: flex;
+     height: 100vh;
+     width: 100%;
+ }
+
+ .left-section {
+     flex: 1;
+     background: rgba(255, 255, 255, 0.95);
+     padding: 10px 40px;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+     animation: slideInLeft 1s ease forwards;
+ }
+
+ body {
+     background: url('{% static "images/hospital-bg1.jpg" %}') no-repeat center center fixed;
+     background-size: cover;
+ }
+
+ body {
+     background: url('../images/hospital-bg1.jpg') no-repeat center center fixed;
+     background-size: cover;
+ }
+
+ .right-section {
+     flex: 1.5;
+     position: relative;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     color: #fff;
+     text-align: center;
+     padding: 40px;
+ }
+
+ .right-section::after {
+     content: '';
+     position: absolute;
+     inset: 0;
+     z-index: 1;
+ }
+
+ .branding {
+     position: relative;
+     z-index: 2;
+ }
+
+
+ h2 {
+     font-size: 32px;
+     font-weight: 700;
+     color: #003f7f;
+     margin-bottom: 30px;
+ }
+
+ .form-group {
+     position: relative;
+     margin-bottom: 25px;
+ }
+
+ .form-icon {
+     position: absolute;
+     left: 15px;
+     top: 50%;
+     transform: translateY(-50%);
+     color: #777;
+ }
+
+ .form-control {
+     padding-left: 2.5rem;
+     height: 48px;
+     border-radius: 10px;
+     border: 1px solid #ccc;
+     transition: border-color 0.3s ease;
+ }
+
+ .form-control:focus {
+     border-color: #007bff;
+     outline: none;
+ }
+
+ .btn-login {
+     width: 100%;
+     padding: 12px;
+     background: linear-gradient(to right, #007bff, #0056b3);
+     font-size: 1rem;
+     letter-spacing: 0.5px;
+     transition: all 0.3s ease-in-out;
+     color: #fff;
+     border: none;
+     border-radius: 10px;
+     font-weight: 600;
+     transition: background 0.3s ease;
+ }
+
+ .btn-login:hover {
+     transform: translateY(-2px);
+     background: linear-gradient(to right, #0056b3, #007bff);
+     box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+     color: white;
+ }
+
+ @media (max-width: 576px) {
+     .left-section {
+         padding: 20px 15px;
+     }
+
+     h2 {
+         font-size: 24px;
+     }
+ }
+
+ @media (max-width: 992px) {
+     .login-wrapper {
+         flex-direction: column;
+     }
+
+     .right-section {
+         display: none;
+     }
+
+     .left-section {
+         width: 100%;
+         padding: 40px 30px;
+     }
+ }
+
+ @keyframes slideInLeft {
+     0% {
+         opacity: 0;
+         transform: translateX(-30px);
+     }
+
+     100% {
+         opacity: 1;
+         transform: translateX(0);
+     }
+ }
+
+ #alert-container {
+     position: fixed;
+     top: 20px;
+     right: 20px;
+     z-index: 1055;
+     max-width: 300px;
+     width: 100%;
+     pointer-events: none;
+ }
+
+ #alert-container .alert {
+     pointer-events: auto;
+     opacity: 1;
+     transition: opacity 0.5s ease;
+ }
+
+ #alert-container {
+     position: fixed;
+     top: 20px;
+     right: 20px;
+     z-index: 1055;
+     max-width: 320px;
+     width: 100%;
+     pointer-events: none;
+ }
+
+ #alert-container .alert {
+     pointer-events: auto;
+     border-radius: 10px;
+     font-size: 15px;
+     padding: 12px 20px;
+     color: #fff;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+ }
+
+ .alert-success {
+     background-color: #28a745;
+     border: none;
+ }
+
+ .alert-danger {
+     background-color: #dc3545;
+     border: none;
+ }
+
+ .alert-info {
+     background-color: #17a2b8;
+     border: none;
+ }
+
+ .alert-warning {
+     background-color: #ffc107;
+     color: #212529;
+     border: none;
+ }
+
+ .alert {
+     transition: all 0.3s ease-in-out;
+     border: none;
+ }
+
+ .alert-success {
+     background-color: #e6f9f0;
+     color: #198754;
+ }
+
+ .alert-error,
+ .alert-danger {
+     background-color: #fceaea;
+     color: #dc3545;
+ }
+
+ .alert-info {
+     background-color: #e7f3fe;
+     color: #0d6efd;
+ }
+
+ .toggle-password {
+     position: absolute;
+     right: 15px;
+     top: 50%;
+     transform: translateY(-50%);
+     color: #777;
+     cursor: pointer;
+ }

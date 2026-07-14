@@ -1,0 +1,283 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Purchase Invoice - {{ invoice.bill_number }}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="{{hospital.logo.url}}" class="rounded-2" height="50" width="57">
+  <meta name="theme-color" content="#0d6efd">
+  <link href="{%static 'css/all.min.css'%}" rel="stylesheet">
+  <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    background: #e9ecef;
+    padding: 20px;
+}
+
+/* A4 container */
+.invoice-container {
+    width: 210mm;
+    background: #fff;
+    margin: auto;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.15);
+    color: #222;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #007bff;
+}
+
+.header img {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
+}
+
+.store-title h1 {
+    font-size: 24px;
+    margin: 0;
+    color: #007bff;
+}
+
+.store-title p {
+    margin: 2px 0;
+    font-size: 13px;
+}
+
+.section-title {
+    background: #007bff;
+    padding: 8px 12px;
+    margin: 22px 0 12px;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 6px;
+    text-align: left;
+}
+
+/********* Info Section *********/
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-size: 14px;
+    gap: 5px 25px;
+    margin-bottom: 12px;
+}
+
+.info-grid div {
+    margin-bottom: 6px;
+}
+
+/********* Item Table *********/
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.table th {
+    background: #006fe6;
+    color: #fff;
+    padding: 7px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.table td {
+    border: 1px solid #cbd3da;
+    padding: 6px;
+    text-align: center;
+}
+
+/* Zebra Rows */
+.table tbody tr:nth-child(even) {
+    background: #f2f8ff;
+}
+
+/******** Summary ********/
+.summary-box {
+    margin-top: 15px;
+    width: 35%;
+    float: right;
+}
+
+.summary-box table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.summary-box td {
+    font-size: 14px;
+    padding: 7px 4px;
+}
+
+.summary-box tr:last-child td {
+    font-weight: 700;
+    font-size: 16px;
+    color: #007bff;
+}
+
+/******** Footer ********/
+.signature-box {
+    margin-top: 60px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-text {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 12px;
+    color: #555;
+}
+
+.print-btn {
+    position: fixed;
+    right: 30px;
+    top: 20px;
+    padding: 8px 14px;
+    background: #007bff;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+@media print {
+    .print-btn {
+        display: none !important;
+    }
+    .back-btn{
+        display:none;
+    }
+    body {
+        background: #fff;
+        padding: 0;
+    }
+    .invoice-container {
+        width: 100%;
+        box-shadow: none;
+        margin: 0;
+        border-radius: 0;
+        padding: 10mm;
+    }
+}
+.logo-area {
+    width: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.store-title {
+    text-align: left;
+    flex: 1;
+    padding-left: 15px;
+}
+
+.store-title h1 {
+    font-size: 26px;
+    margin-bottom: 4px;
+    color: #007bff;
+    font-weight: 700;
+}
+
+.store-title p {
+    font-size: 13px;
+    margin: 1px 0;
+    color: #333;
+}
+
+</style>
+</head>
+
+<body>
+
+<button class="print-btn" onclick="window.print()"><i class="fas fa-print me-2 w-25"></i> Print</button>
+<a href="{%url 'purchase_invoice_list'%}"><button class="back-btn btn btn-secondary float-start"><i class="fas fa-arrow-left me-2 w-25"></i>Back</button></a>
+<div class="invoice-container">
+
+    <div class="header">
+
+    <div class="logo-area">
+        {% if store.logo %}
+        <img src="{{ store.logo.url }}" alt="Store Logo">
+        {% endif %}
+    </div>
+
+    <div class="store-title">
+        <h1>{{ store.name }}</h1>
+        <p><i class="fas fa-map-marker-alt" style="color:brown;margin-right:6px"></i>{{ store.address }}</p>
+        <p>
+            <i class="fas fa-phone" style="color:darkgreen;margin-right:6px;"></i>{{ store.manager_contact }}
+            &nbsp; | &nbsp;
+            <i class="fas fa-envelope" style="color:maroon;margin-right:6px"></i>{{ store.email }}
+        </p>
+        <p><strong>GSTIN:</strong> {{ store.gst_number }}</p>
+    </div>
+
+</div>
+
+
+    <div class="section-title">Purchase Invoice Details</div>
+
+    <div class="info-grid">
+        <div><strong>Invoice No:</strong> {{ invoice.bill_number }}</div>
+        <div><strong>Date:</strong> {{ invoice.date|date:"d-m-Y" }}</div>
+        <div><strong>Supplier:</strong> {{ invoice.supplier.supplier_name }}</div>
+        <div><strong>Contact:</strong> {{ invoice.supplier.contact_number }}</div>
+        <div style="grid-column: span 2;"><strong>Address:</strong> {{ invoice.supplier.address|default:"-" }}</div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th><th>Medicine</th><th>Batch</th><th>Expiry</th><th>Qty</th>
+                <th>Rate</th><th>GST%</th><th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td style="text-align:left;">{{ item.item.medicine_name }}</td>
+            <td>{{ item.batch_number }}</td>
+            <td>{{ item.expiry_date|default:"-" }}</td>
+            <td>{{ item.qty }}</td>
+            <td>{{ item.rate|floatformat:2 }}</td>
+            <td>{{ item.tax_percent|floatformat:0 }}</td>
+            <td><strong>{{ item.amount|floatformat:2 }}</strong></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="summary-box">
+        <table>
+            <tr><td>Taxable Amount</td><td style="text-align:right;">₹ {{ invoice.taxable_amount|floatformat:2 }}</td></tr>
+            <tr><td>CGST Total</td><td style="text-align:right;">₹ {{ invoice.cgst|floatformat:2 }}</td></tr>
+            <tr><td>SGST Total</td><td style="text-align:right;">₹ {{ invoice.sgst|floatformat:2 }}</td></tr>
+            <tr><td>Discount</td><td style="text-align:right;">₹ {{ invoice.discount|floatformat:2 }}</td></tr>
+            <tr><td>Grand Total</td><td style="text-align:right;"><strong>₹ {{ invoice.total_amount|floatformat:2 }}</strong></td></tr>
+        </table>
+    </div>
+
+    <div style="clear:both;"></div>
+
+  
+    <p class="footer-text">★ Thank you for your business ★</p>
+
+</div>
+
+</body>
+</html>

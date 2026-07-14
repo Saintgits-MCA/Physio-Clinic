@@ -1,0 +1,647 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<script src="{%static 'js\html2canvas.min.js' %}" rel="script"></script>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hospital Management System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{hospital.logo.url}}" class="rounded-2" height="50" width="57">
+  <meta name="theme-color" content="#0d6efd">
+  <script src="{%static 'js/xlsx.full.min.js'%}"></script>
+  <script src="{%static 'js/jspdf.umd.min.js'%}"></script>
+  <link href="{%static 'css/all.min.css'%}" rel="stylesheet">
+  <script src="{%static 'js/html2canvas.min.js'%}"></script>
+  <link rel="stylesheet" href="{%static 'css/style.css'%}">
+
+  <script src="{% static 'js/base.js' %}"></script>
+
+</head>
+{% comment %} <style>
+  body::-webkit-scrollbar
+  {
+    width:1px;
+  }
+  .alert {
+    font-size: 0.9rem;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+
+  .dropdown-item-hover {
+    color: red;
+  }
+
+  /* FIX THE RIBBON MENU BELOW TITLE BAR */
+.ribbon-menu {
+    position: fixed;
+    top: 0px; /* height of title bar */
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 10px 20px;
+    z-index: 1030;
+    border-bottom: 1px solid #ddd;
+}
+
+  .ribbon-menu {
+    display: flex;
+    align-self: flex-start !important;
+    gap: 5px;
+}
+{% if allowed_menus.Masters or allowed_menus.Role_Management or allowed_menus.Pharmacy or allowed_menus.GST_Report%}
+.icon-panel {
+    margin-top: 100px !important; /* 70px title bar + 70px ribbon */
+}
+{%endif%}
+  #master:hover {
+    background-color: #def4f8;
+    border-radius: 5px;
+  }
+
+
+.header-container {
+    display: flex;
+    width: 100%;
+}
+</style> {% endcomment %}
+<style>
+  body::-webkit-scrollbar
+  {
+    width:1px;
+  }
+  .alert {
+    font-size: 0.9rem;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  /* FIX THE RIBBON MENU BELOW TITLE BAR */
+.ribbon-menu {
+    position: fixed;
+    top: 0px; /* height of title bar */
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 10px 20px;
+    z-index: 1030;
+    border-bottom: 1px solid #ddd;
+}
+
+  .ribbon-menu {
+    display: flex;
+    align-self: flex-start !important;
+    gap: 5px;
+}
+{% if allowed_menus.Masters or allowed_menus.Role_Management or allowed_menus.Pharmacy or allowed_menus.GST_Report%}
+.icon-panel {
+    margin-top: 100px !important; /* 70px title bar + 70px ribbon */
+}
+{%endif%}
+  #master:hover {
+    background-color: #def4f8;
+    border-radius: 5px;
+  }
+
+
+.header-container {
+    display: flex;
+    width: 100%;
+}
+.dropdown-item-hover,.dropdown-item-hover:hover {
+    color: red;
+  }
+.dropdown-item-hover::after,.dropdown-item-hover:active,.dropdown-item-hover:focus{
+  background-color: red;
+  color:white;
+}
+  .btn-light-hover:hover,.btn-light-hover:active{
+    background-color:white;
+  }
+</style>
+<body>
+  {% if messages %}
+  <div style="position: absolute; top: 65px; right: 20px; z-index: 1050;">
+    <div class="d-flex flex-column align-items-end gap-2">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} d-flex align-items-center shadow rounded-3 px-4 py-3 mb-1 bg-white"
+        role="alert" style="min-width: 300px; max-width: 400px;">
+        <i class="fas 
+        {% if message.tags == 'success' %}fa-check-circle text-success
+        {% elif message.tags == 'error' or message.tags == 'danger' %}fa-times-circle text-danger
+        {% else %}fa-info-circle text-primary
+        {% endif %} fa-lg me-2"></i>
+        <div class="flex-grow-1">{{ message }}</div>
+        <button type="button" class="btn btn-danger btn-sm ms-2" data-bs-dismiss="alert" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="title-bar mb-3">
+    <!-- <i class="fas fa-cube fa-lg me-2"></i> -->
+ <img src="{{hospital.logo.url}}" class="rounded-2" height="60" width="87" alt="Hospital logo">
+    <h5 class="mb-0">{{hospital.name|default:"Hospital"}}</h5>
+
+    <div class="ms-auto d-flex align-items-center gap-3">
+      <!-- User Dropdown -->
+      <div class="dropdown">
+        <a href="#" class="text-white" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{%static 'images/profile-logo.png' %}" class="rounded-circle" height="45" width="45">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li class="dropdown-item-text text-muted text-center fw-bold"> <img
+              src="{%static 'images/profile-logo.png' %}" class="rounded-circle mb-2" height="30" width="30">
+            {{ staff.name }}</li>
+          <hr class="border-dotted">
+          <li><a class="dropdown-item" href="#"><i class="fas fa-user me-3"></i>Profile</a></li>
+          <li><a class="dropdown-item" href="{%url 'Change_Password'%}"><i class="fas fa-lock me-3"></i>Change
+              Password</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item dropdown-item-hover" href="{%url 'clear_session'%}" onclick="localStorage.clear();
+"><span class="fas fa-sign-out-alt me-3"></span>Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+{% if allowed_menus.Masters or allowed_menus.Role_Management or allowed_menus.Pharmacy or allowed_menus.GST_Report%}
+  <div class="ribbon-menu mt-5 pt-4 mb-3">
+    {%if allowed_menus.Masters%}
+    <a class="dropdown text-decoration-none text-black mt-1" href="{% url 'masters' %}" id="master">
+      <div class="dropdown-item px-3 mt-1 fw-semibold">
+        Masters
+      </div>
+    </a>
+    {%endif%}
+
+    {%if allowed_menus.Role_Management%}
+    <div class="dropdown">
+      <div class="dropdown-bs-toggle tab-btn pt-2" data-bs-toggle="dropdown" href="#roleManagementMenu" role="button">
+        Role Management
+      </div>
+      <ul class="dropdown-menu" id="roleManagementMenu">
+        {%if 'role_add' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'role_add'%}"><i class="fas fa-user-tag me-2"></i>Role Master</a></li>
+          {%endif%}
+         {%if 'role_assign' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'role_assign'%}"><i class="fas fa-users-cog me-2"></i>Role
+            Allocation</a>
+        </li>
+        {%endif%}
+         {%if 'menu_add' in allowed_urls%}
+        <li><a href="{%url 'menu_add'%}" class="dropdown-item"><i class="fas fa-list me-2"></i>Add Menu</a></li>
+        {%endif%}
+         {%if 'menu_allocation' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'menu_allocation'%}"><i class="fas fa-th-list me-2"></i>Menu
+            Allocation</a>
+        </li>
+        {%endif%}
+      </ul>
+    </div>
+    {%endif%}
+   
+    {%if allowed_menus.Pharmacy%}
+    <div class="dropdown">
+      <div class="dropdown-bs-toggle tab-btn pt-2" data-bs-toggle="dropdown" role="button" href="#Pharmacy" >Pharmacy Master</div>
+      <ul class="dropdown-menu" id="Pharmacy">
+        {%if 'medicine_category' in allowed_urls%}           
+        <li><a class="dropdown-item" href="{%url 'medicine_category'%}"><i class="bi bi-tag-fill me-2"></i>Medicine Category Master</a></li>
+        {%endif%}
+        {%if 'medical_store' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'medical_store'%}"><i class="fas fa-store me-2"></i>Medical Store</a></li>
+        {%endif%}
+        {%if 'tax_master' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'tax_master'%}"><i class="fas fa-percentage me-2"></i>Tax Settings</a></li>
+        {%endif%}
+        {%if 'medicine_master' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'medicine_master' %}"><i class="bi bi-capsule me-2"></i>Medicine Master</a></li>
+        {%endif%}
+        {%if 'company_master' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'company_master'%}"><i class="bi bi-building-fill me-2"></i>Company Master</a></li>
+        {%endif%}
+        {%if 'supplier_master' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'supplier_master'%}"><i class="fas fa-truck me-2"></i>Supplier Master</a></li>
+        {%endif%}
+        {%if 'purchase_medicine' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'physical_stock_add'%}"><i class="fas fa-boxes me-2"></i>Add stock</a></li>
+        {%endif%}
+        {%if 'bank_details_add' in allowed_urls%}
+        <li><a class="dropdown-item" href="{%url 'bank_details_add'%}"><i class="fas fa-university me-2"></i>Add Bank Details</a></li>
+        {%endif%}
+      </ul>
+    </div>
+{%endif%}
+
+    {%if allowed_menus.GST_Report%}
+    <a class="dropdown text-decoration-none text-black mt-1" href="{% url 'GST_Report' %}" id="master">
+      <div class="dropdown-item px-3 mt-1 fw-semibold">
+        GST Report
+      </div>
+    </a>
+{%endif%}
+  </div>
+{%endif%}
+
+  <div class="container-fluid mt-4 pt-3">
+
+    <div class="icon-panel ps-4 w-100 gap-3" {%if not allowed_menus.Masters and not  allowed_menus.Role_Management and not allowed_menus.Pharmacy and not allowed_menus.GST_Report %}style="margin-top:50px;padding-top:30px;"{%endif%}>
+      {% if allowed_menus.Calendar %}
+      <a href="{% url 'calendar' %}" class="text-center text-decoration-none text-dark menu">
+        <div class="icon-btn d-flex flex-column align-items-center justify-content-center px-3 py-3 fw-bold"
+          style="width: 100px; height: 70px;" data-bs-toggle="tooltip" title="Calendar">
+          <i class="fas fa-calendar-alt fa-lg mb-2 py-2"></i>
+          <small>Calendar</small>
+        </div>
+      </a>
+      {% endif %}
+      {% if allowed_menus.Staff%}
+      <a href="{% url 'staff_registration' %}" class="text-center text-decoration-none text-dark menu">
+        <div class="icon-btn d-flex flex-column align-items-center justify-content-center px-3 py-3 fw-bold"
+          style="width: 100px; height: 70px;" data-bs-toggle="tooltip" title="User Registration">
+          <i class="fas fa-user fa-lg mb-2 py-2"></i>
+          <small>Staff</small>
+        </div>
+      </a>
+      {% endif %}
+
+      {% if allowed_menus.Patient %}
+      <a href="{% url 'patient' %}" class="text-center text-decoration-none text-dark menu">
+        <div class="icon-btn d-flex flex-column align-items-center justify-content-center px-3 py-3 fw-bold"
+          style="width: 100px; height: 70px;" data-bs-toggle="tooltip" title="Patient Registration">
+          <i class="fas fa-user-injured fa-lg mb-2 py-2"></i>
+          <small>Patient</small>
+        </div>
+      </a>
+      {% endif %}
+
+      {% if allowed_menus.Appointment %}
+      <a href="{% url 'appoinment' %}" class="text-center text-decoration-none text-dark menu">
+        <div class="icon-btn d-flex flex-column align-items-center justify-content-center px-3 py-3 fw-bold"
+          style="width: 100px; height: 70px;" data-bs-toggle="tooltip" title="Appointment Details">
+          <i class="fas fa-calendar-check fa-lg mb-2 py-2"></i>
+          <small>Appointment</small>
+        </div>
+      </a>
+      {% endif %}
+
+      {% if allowed_menus.Prescription %}
+      <a href="{% url 'prescription_home' %}" class="text-center text-decoration-none text-dark menu">
+        <div class="icon-btn d-flex flex-column align-items-center justify-content-center px-3 py-3 fw-bold"
+          style="width: 100px; height: 70px;" data-bs-toggle="tooltip" title="Doctor Prescription">
+          <i class="fas fa-notes-medical fa-lg mb-2 py-2"></i>
+          <small>Prescription</small>
+        </div>
+      </a>
+      {% endif %}
+              {% if allowed_menus.Scoliosis %}
+       <a href="{%url 'scoliosis' %}" class="text-center text-decoration-none text-dark menu ">
+      <div class="icon-btn d-flex flex-column align-items-center justify-content-center px-3 py-3 fw-bold"
+        style="width: 100px; height: 70px;" data-bs-toggle="tooltip" title="Scoliosis Assessment">
+        <i class="fas fa-stethoscope fa-lg mb-2 py-2"></i>
+        <small>Scoliosis</small>
+      </div>
+    </a>
+    {%endif%}
+        {% if allowed_menus.Invoice %}
+  <a href="{% url 'invoice' %}" class="text-center text-decoration-none text-dark menu ">
+        <div class="icon-btn d-flex flex-column align-items-center justify-content-center px-3 py-3 fw-bold"
+          style="width: 100px; height: 70px;" data-bs-toggle="tooltip" title="Invoice">
+          <i class="fas fa-file-invoice fa-lg mb-2 py-2"></i>
+          <small>Invoice</small>
+        </div>
+      </a> 
+      {%endif%}
+     {%if allowed_menus.Expense%}
+       <a class="text-center text-decoration-none text-dark menu" href="{%url 'add_expense'%}">
+    <div class="icon-btn d-flex flex-column px-3 py-2 fw-bold" style="width: fit-content; height: 70px;"  data-bs-toggle="tooltip" title="Expense Tracker"><i class="fas fa-balance-scale"></i>
+      <small>Expense Tracker</small>
+</div>
+  </a>
+{%endif%}
+{% if allowed_menus.Purchase%}
+ <a class="text-center text-decoration-none text-dark menu" href="{%url 'purchase_invoice'%}">
+    <div class="icon-btn d-flex flex-column px-3 py-2 fw-bold" style="width: fit-content; height: 70px;"  data-bs-toggle="tooltip" title="Add Purchase"><i class="fas fa-shopping-cart"></i>
+      <small>Purchase</small>
+</div></a>
+{%endif%}
+
+{% if allowed_menus.Pharmacy%}
+ <a class="text-center text-decoration-none text-dark menu" href="{%url 'pharmacy_invoice'%}">
+    <div class="icon-btn d-flex flex-column px-3 py-.5 fw-bold" style="width: fit-content; height: 70px;"  data-bs-toggle="tooltip" title="Pharmacy Invoice"><i class="bi bi-file-earmark-plus-fill"></i>
+      <small>Pharmacy Invoice</small>
+</div>
+  </a>
+  {%endif%}
+  {% if allowed_menus.Today_Appointment %}
+<a href="{% url 'today_appointment' %}" class="text-center text-decoration-none text-dark menu position-relative">
+  <div class="icon-btn d-flex flex-column align-items-center justify-content-center px-3 py-3 fw-bold"
+       style="width: 150px; height: 75px;" data-bs-toggle="tooltip" title="Today Appointment">
+    <i class="fas fa-calendar-day fa-lg mb-2 py-2"></i>
+    <small>Today's Slot</small>
+  </div>
+
+  {% if appointments_count and appointments_count > 0 %}
+  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    {{ appointments_count }}
+    <span class="visually-hidden">appointments today</span>
+  </span>
+  {% endif %}
+</a>
+{% endif %}
+    </div>
+  </div>
+
+  <!-- Content and Sidebar -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-10 col-md-12 mb-3">
+
+        {%block content%}
+        {%endblock%}
+      </div>
+      <div class="col-lg-2 d-none d-lg-block">
+        <div class="right-sidebar">
+          <div class="sidebar-section">
+            <h6><i class="fas fa-bell me-4"></i>Notification</h6>
+            <p class="small">You have 2 new messages.</p>
+            <p class="small">Backup completed successfully.</p>
+          </div>
+          <div class="sidebar-section">
+            <h6><i class="fas fa-book me-4"></i>History</h6>
+            <p class="small">Logged in at 10:00 AM</p>
+            <p class="small">Settings updated yesterday</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="pdfLetterhead" style="display:none;">
+  <div style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px; margin-bottom:15px;">
+    {% if hospital.logo %}
+      <img src="{{ hospital.logo.url }}" alt="Hospital Logo" width="212px" height="150" style="border-radius:8px;">
+    {% endif %}
+    <h3 style="margin: 8px 0 2px 0;">{{ hospital.name|default:"Hospital Name" }}</h3>
+    <p style="margin: 0; font-size: 13px;">{{ hospital.address|default:"Address" }}</p>
+    <p style="margin: 0; font-size: 12px;">📞 {{ hospital.manager_contact|default:"Phone" }} | ✉️ {{ hospital.email|default:"Email" }}</p>
+  </div>
+</div>
+  </div>
+
+  <!-- Mobile Sidebar -->
+  <div class="right-sidebar d-lg-none" id="mobileSidebar">
+    <div class="sidebar-section">
+      <h6>Notification</h6>
+      <p class="small">You have 2 new messages.</p>
+      <p class="small">Backup completed successfully.</p>
+    </div>
+    <div class="sidebar-section">
+      <h6>History</h6>
+      <p class="small">Logged in at 10:00 AM</p>
+      <p class="small">Settings updated yesterday</p>
+    </div>
+    
+  </div>
+<div id="pdfLetterhead1" style="display:none;">
+  <div style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px; margin-bottom:15px;">
+    {% if medical_store.logo %}
+      <img src="{{ medical_store.logo.url }}" alt="Medical Store Logo" width="80" height="80" style="border-radius:8px;">
+    {% endif %}
+    <h3 style="margin: 8px 0 2px 0;">{{ medical_store.name|default:"Medical Store Name" }}</h3>
+    <p style="margin: 0; font-size: 13px;">{{ medical_store.address|default:"Address" }}</p>
+    <p style="margin: 0; font-size: 12px;">
+      📞 {{ medical_store.manager_contact|default:"Phone" }} |
+      ✉️ {{ medical_store.email|default:"Email" }}
+      <p style="font-size: 12px; margin: 0;">GSTIN: {{ medical_store.gst_number|default:"N/A" }}</p>
+    </p>
+  </div>
+</div>
+  <!-- Sticky Sidebar Toggle Button -->
+  <button class="sidebar-toggler d-lg-none" onclick="toggleSidebar()">☰</button>
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('mobileSidebar');
+      sidebar.classList.toggle('show');
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach(function (alert) {
+        setTimeout(() => {
+          alert.classList.remove('show');
+          alert.classList.add('fade');
+          setTimeout(() => alert.remove(), 1000); // remove from DOM after fade out
+        }, 8000); // 10 seconds
+      });
+    });
+  </script>
+  <script src="{% static 'js/html2pdf.bundle.min.js'%}"></script>
+
+  <script>
+    function exportToExcel(tableId) {
+      const table = document.getElementById(tableId);
+      const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+      let filename = "Export.xlsx";
+      switch (tableId) {
+        case "deptTable": filename = "DepartmentList.xlsx"; break;
+        case "branchTable": filename = "BranchList.xlsx"; break;
+        case "userTable": filename = "UserList.xlsx"; break;
+        case "countryTable": filename = "CountryList.xlsx"; break;
+        case "designationTable": filename = "DesignationList.xlsx"; break;
+        case "patientTable": filename = "PatientList.xlsx"; break;
+        case "appointmentTable": filename = "AppointmentList.xlsx"; break;
+      }
+
+      XLSX.writeFile(wb, filename);
+    }
+
+
+    function exportTableWithoutActions(tableId, titleText) {
+  const originalTable = document.getElementById(tableId);
+  if (!originalTable) {
+    alert("Table not found: " + tableId);
+    return;
+  }
+
+  const clonedTable = originalTable.cloneNode(true);
+
+  // Remove last column (Action)
+  for (let row of clonedTable.querySelectorAll('tr')) {
+    if (row.cells.length > 1) {
+      row.deleteCell(row.cells.length - 1);
+    }
+  }
+const headerRow = clonedTable.querySelector('thead tr');
+if (headerRow) {
+  for (let th of headerRow.cells) {
+    th.style.backgroundColor = 'white';
+    th.style.color = 'black';
+  }
+}
+  // Get hospital letterhead content (hidden div)
+  const letterhead = document.getElementById('pdfLetterhead')?.cloneNode(true);
+  if (letterhead) letterhead.style.display = 'block';
+
+  // Create export container
+  const container = document.createElement('div');
+  container.style.fontFamily = 'Arial, sans-serif';
+  container.style.padding = '20px';
+
+  if (letterhead) container.appendChild(letterhead);
+
+  // Add Title
+  const title = document.createElement('h2');
+  title.textContent = titleText;
+  title.style.textAlign = 'center';
+  title.style.margin = '20px 0';
+  container.appendChild(title);
+
+  // Add table
+  container.appendChild(clonedTable);
+
+  // Style table
+  clonedTable.style.width = '100%';
+  clonedTable.style.borderCollapse = 'collapse';
+  clonedTable.style.fontSize = '12px';
+  for (let row of clonedTable.rows) {
+    for (let cell of row.cells) {
+      cell.style.border = '1px solid #777';
+      cell.style.padding = '5px';
+    }
+  }
+
+  // Export and reload
+      html2pdf().set({
+        margin: 0.5,
+        filename: titleText.replace(/\\s+/g, '') + '.pdf',
+        html2canvas: { scale: 2 },
+        jsPDF: { orientation: 'portrait', unit: 'in', format: 'letter' }
+      }).from(container).save().then(() => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('export');
+        window.location.href = url.toString();
+      });
+}
+
+    function exportTableToExcelWithoutActions(tableId, filename = 'Export.xlsx') {
+      const table = document.getElementById(tableId);
+      if (!table) {
+        alert("Table not found");
+        return;
+      }
+
+      const cloned = table.cloneNode(true);
+      for (let row of cloned.rows) {
+        if (row.cells.length > 1) {
+          row.deleteCell(row.cells.length - 1);
+        }
+      }
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.table_to_sheet(cloned, { editable: true });
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      XLSX.writeFile(wb, filename);
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach(function (alert) {
+        setTimeout(() => {
+          alert.classList.remove('show');
+          alert.classList.add('fade');
+          setTimeout(() => alert.remove(), 700);
+        }, 700);
+      });
+    });
+
+
+    function exportPharmacyTableWithoutActions(tableId, titleText) {
+  const table = document.getElementById(tableId);
+  if (!table) {
+    alert("Table not found: " + tableId);
+    return;
+  }
+
+  // Clone the table to avoid modifying the original
+  const clonedTable = table.cloneNode(true);
+
+  // Remove "Action" column from all rows
+  const headerRow = clonedTable.querySelector("thead tr");
+  let actionColIndex = -1;
+  if (headerRow) {
+    const headers = Array.from(headerRow.cells).map(th => th.innerText.trim().toLowerCase());
+    actionColIndex = headers.findIndex(text => text === "action" || text.includes("action"));
+  }
+
+  if (actionColIndex !== -1) {
+    for (let row of clonedTable.querySelectorAll("tr")) {
+      if (row.cells[actionColIndex]) {
+        row.deleteCell(actionColIndex);
+      }
+    }
+  }
+
+  // Get letterhead (if exists)
+  const letterhead = document.getElementById("pdfLetterhead1")?.cloneNode(true);
+  if (letterhead) letterhead.style.display = "block";
+
+  // Create container for export
+  const exportContainer = document.createElement("div");
+  exportContainer.style.fontFamily = "Arial, sans-serif";
+  exportContainer.style.padding = "25px";
+  exportContainer.style.color = "#000";
+
+  // Add letterhead
+  if (letterhead) exportContainer.appendChild(letterhead);
+
+  // Add title
+  const title = document.createElement("h3");
+  title.textContent = titleText || "Pharmacy Report";
+  title.style.textAlign = "center";
+  title.style.margin = "20px 0";
+  exportContainer.appendChild(title);
+
+  // Style the cloned table
+  clonedTable.style.width = "100%";
+  clonedTable.style.borderCollapse = "collapse";
+  clonedTable.style.fontSize = "12px";
+
+  for (let row of clonedTable.rows) {
+    for (let cell of row.cells) {
+      cell.style.border = "1px solid #444";
+      cell.style.padding = "6px";
+      cell.style.textAlign = "center";
+    }
+  }
+
+  // Highlight header row
+  if (headerRow) {
+    for (let th of headerRow.cells) {
+      th.style.backgroundColor = "#f2f2f2";
+      th.style.fontWeight = "bold";
+    }
+  }
+
+  exportContainer.appendChild(clonedTable);
+
+  // Generate and download PDF
+  html2pdf().set({
+    margin: 0.5,
+    filename: titleText.replace(/\s+/g, '') + '.pdf',
+    html2canvas: { scale: 2 },
+    jsPDF: { orientation: 'portrait', unit: 'in', format: 'letter' }
+  }).from(exportContainer).save().then(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('export');
+    window.location.href = url.toString();
+  });
+}
+  </script>
+  <script src="{%static 'js/bootstrap.bundle.min.js'%}"></script>
+
+</body>
+</html>

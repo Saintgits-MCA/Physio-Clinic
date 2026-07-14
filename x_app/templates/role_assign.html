@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-3" id="contentBox">
+  <div class="bg-white shadow rounded">
+    
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center bg-primary text-white px-4 py-3 rounded-top">
+      <h5 class="mb-0"><i class="fas fa-users-cog me-2"></i>Assign Role to Staff</h5>
+        <div class="d-flex gap-2">
+       <a href="{% url 'role_allocation_table' %}" class="text-white fw-bold text-decoration-none me-3 fs-6">
+                    View
+                </a>
+      <button type="button" class="btn btn-sm btn-danger" onclick="closeContent()"><i class="fas fa-times"></i></button>
+    </div>
+    </div>
+
+    <!-- Form Content -->
+    <form method="post" class="p-4">
+      {% csrf_token %}
+      <div class="row g-4">
+
+        <!-- Role -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Role</label>
+          <select name="role" class="form-select" required>
+            <option value="">-- Select Role --</option>
+            {% for role in roles %}
+            <option value="{{ role.id }}">{{ role.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Branch -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Branch</label>
+          <select name="branch" class="form-select" required>
+            <option value="">-- Select Branch --</option>
+            {% for branch in branches %}
+            <option value="{{ branch.id }}">{{ branch.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Staff -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Staff</label>
+          <select name="staff" class="form-select" required>
+            <option value="">-- Select Staff --</option>
+            {% for user in users %}
+            <option value="{{ user.id }}">{{ user.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Status -->
+        <div class="col-md-12">
+          <label class="form-label fw-bold">Status</label><br>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="status" value="Active" id="activeStatus" checked>
+            <label class="form-check-label" for="activeStatus">Active</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="status" value="Inactive" id="inactiveStatus">
+            <label class="form-check-label" for="inactiveStatus">Inactive</label>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="col-12 d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary px-4"><i class="fas fa-check me-1"></i>Submit</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+    function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+</script>
+{% endblock %}

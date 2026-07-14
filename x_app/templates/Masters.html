@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{%static 'css/all.min.css'%}">
+  <script src="{%static 'js/base.js'%}"></script>
+  <link rel="stylesheet" href="{%static 'css/styles_prescription.css'%}">
+  <link href="{%static 'css/select2.min.css'%}" rel="stylesheet" />
+  <script src="{%static  'js/jquery-3.6.0.min.js'%}"></script>
+  <script src="{%static  'js/select2.min.js'%}"></script>
+
+</head>
+<body>
+  <div class="content-box" id="contentBox">
+    <div class="content-header d-flex flex-wrap justify-content-between align-items-center">
+      <div class="d-flex align-items-center flex-wrap gap-2">
+        <i class="fas fa-database me-2"></i>
+        <span class="fw-bold fs-5  text-white">Add Masters</span>
+      </div>
+      <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+        <i class="fas fa-minus text-white btn" onclick="toggleMinimize()"></i>
+        <i class="fas fa-times btn btn-danger" onclick="closeContent()"></i>
+      </div>
+    </div>
+    <div class="content-body">
+
+      <div class="container-fluid">
+        <div class="row">
+          <!-- Sidebar Tabs -->
+          <div class="col-md-3">
+            <div class="sidebar-wrapper  justify-content-center">
+
+              <div class="list-group shadow-sm  scrollable-sidebar text-left ">
+                <a href="{% url 'branches' %}" id="defaultTab" 
+                  class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'branches' %}active{% endif %}">
+                  <i class="fas fa-code-branch fa-lg	 mx-3 pt-2"></i>Branches
+
+                </a>
+                <a href="{% url 'hospitalreg' %}" 
+                  class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'hospitalreg' %}active{% endif %}">
+                  <i class="fas fa-hospital-alt fa-lg	 mx-3 pt-2"></i>Hospital
+                </a>
+                <a href="{% url 'department' %}"
+                  class="list-group-item pt-3 ps-0  list-group-item-action d-flex {% if request.resolver_match.url_name == 'department' %}active{% endif %}">
+                  <i class="fas fa-building fa-lg  mx-3 pt-2"></i>Department
+                </a>
+                <a href="{% url 'designation' %}"
+                  class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'designation' %}active{% endif %}">
+                  <i class="fas fa-briefcase fa-lg	pt-2 mx-3"></i>Designation
+                </a>
+                <a href="{% url 'country' %}"
+                  class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'country' %}active{% endif %}">
+                  <i class="fas fa-flag fa-lg pt-2  mx-3"></i>Country
+                </a>
+
+                <a href="{%url 'state' %}"
+                  class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'state' %}active{% endif %}">
+                  <i class="fas fa-map-marker-alt fa-lg	pt-2 mx-3"></i>State
+                </a>
+                <a href="{% url 'district'%}"
+                  class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'district' %}active{% endif %}">
+                  <i class="fas fa-city fa-md pt-2 mx-3"></i>District
+                </a>
+                <a href="{% url 'body_chart_master' %}"
+                  class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'body_chart_master' %}active{% endif %}">
+                  <i class="fas fa-image fa-lg pt-2 mx-3"></i>Body Chart Master
+                </a>
+                <a href="{%url 'invoice_particular_add'%}"class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'invoice_particular_add' or request.resolver_match.url_name == 'invoice_particular_list' or request.resolver_match.url_name == 'invoice_particular_edit'  %}active{% endif %}">
+    <i class="fas fa-file-lines fa-lg pt-2 mx-3"></i>Invoice Particulars</a>
+               <a href="{% url 'hep_add' %}"
+    class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'hep_add' %}active{% endif %}">
+    <i class="fas fa-syringe fa-lg pt-2 mx-3"></i>Hep
+  </a>
+  <a href="{% url 'schroth' %}"
+    class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'schroth' %}active{% endif %}">
+    <i class="fas fa-brain fa-lg pt-2 mx-3"></i>Scroth Classification
+  </a>
+
+  <a href="{% url 'manual_technique' %}"
+    class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'manual_technique' %}active{% endif %}">
+    <i class="fas fa-book fa-lg pt-2 mx-3"></i>Manual Technique
+  </a>
+
+   <a href="{%url 'add_expense_type'%}"
+    class="list-group-item pt-3 ps-0 list-group-item-action d-flex {% if request.resolver_match.url_name == 'add_expense_type' %}active{% endif %}">
+    <i class="fas fa-balance-scale fa-lg pt-2 mx-3"></i>Expense Type
+  </a>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <!-- Dynamic Content Area -->
+          <div class="col-md-9 content-area" id="contents">
+            {% block contents %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function toggleMinimize() {
+      const box = document.getElementById("contentBox");
+      if (box) {
+        box.classList.toggle("minimized");
+      }
+    }
+    var content = document.getElementById('contents')
+
+    function clearPrescription() {
+      if (confirm("Clear all contents?")) {
+        const areas = content.querySelectorAll("textarea, input,select");
+        areas.forEach(el => el.value = "");
+      }
+    }
+
+    function exportPrescription() {
+      alert("Exported to PDF! (Connect to exportToPDF logic)");
+    }
+
+    $(document).ready(function () {
+      $('.select-search').select2({
+        width: 'resolve',
+        placeholder: "Select an option",
+        allowClear: false
+      });
+    });
+    window.addEventListener("load", function () {
+      const currentUrlName = "{{ request.resolver_match.url_name }}";
+      if (!currentUrlName || currentUrlName === "masters") {
+        document.getElementById("defaultTab").click();
+      }
+    });
+
+  </script>
+  <script src="{% static 'js//html2pdf.bundle.min.js'%}"></script>
+
+  <script>
+    function exportToExcel(tableId) {
+      const table = document.getElementById(tableId);
+      const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+      let filename = "Export.xlsx";
+      switch (tableId) {
+        case "deptTable": filename = "DepartmentList.xlsx"; break;
+        case "branchTable": filename = "BranchList.xlsx"; break;
+        case "userTable": filename = "UserList.xlsx"; break;
+        case "countryTable": filename = "CountryList.xlsx"; break;
+        case "designationTable": filename = "DesignationList.xlsx"; break;
+        case "patientTable": filename = "PatientList.xlsx"; break;
+        case "appointmentTable": filename = "AppointmentList.xlsx"; break;
+      }
+
+      XLSX.writeFile(wb, filename);
+    }
+
+    function exportTableWithoutActions(tableId, titleText) {
+      const originalTable = document.getElementById(tableId);
+      if (!originalTable) {
+        alert("Table not found: " + tableId);
+        return;
+      }
+
+      const clonedTable = originalTable.cloneNode(true);
+
+      // Remove last column from every row
+      for (let row of clonedTable.querySelectorAll('tr')) {
+        if (row.cells.length > 1) {
+          row.deleteCell(row.cells.length - 1);
+        }
+      }
+
+      const container = document.createElement('div');
+      const title = document.createElement('h2');
+      title.textContent = titleText;
+      title.style.textAlign = 'center';
+      title.style.marginBottom = '20px';
+      title.style.fontFamily = 'Arial, sans-serif';
+      container.appendChild(title);
+      container.appendChild(clonedTable);
+
+      // Table styles
+      clonedTable.style.width = '100%';
+      clonedTable.style.borderCollapse = 'collapse';
+      clonedTable.style.fontSize = '12px';
+      for (let row of clonedTable.rows) {
+        for (let cell of row.cells) {
+          cell.style.border = '1px solid #999';
+          cell.style.padding = '6px';
+          cell.style.fontFamily = 'Arial, sans-serif';
+        }
+      }
+
+      // Export and reload
+      html2pdf().set({
+        margin: 0.5,
+        filename: titleText.replace(/\\s+/g, '') + '.pdf',
+        html2canvas: { scale: 2 },
+        jsPDF: { orientation: 'portrait', unit: 'in', format: 'letter' }
+      }).from(container).save().then(() => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('export');
+        window.location.href = url.toString();
+      });
+    }
+
+    function exportTableToExcelWithoutActions(tableId, filename = 'Export.xlsx') {
+      const table = document.getElementById(tableId);
+      if (!table) {
+        alert("Table not found");
+        return;
+      }
+
+      const cloned = table.cloneNode(true);
+      for (let row of cloned.rows) {
+        if (row.cells.length > 1) {
+          row.deleteCell(row.cells.length - 1);
+        }
+      }
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.table_to_sheet(cloned, { editable: true });
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      XLSX.writeFile(wb, filename);
+    }
+
+    function closeContent() {
+  window.location.href="{%url 'home'%}";
+  document.getElementById("contentBox")?.remove();
+}
+  </script>
+
+
+</body>
+{% endblock %}

@@ -1,0 +1,6570 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: Apr 29, 2026 at 06:42 AM
+-- Server version: 8.0.40-0ubuntu0.22.04.1
+-- PHP Version: 8.1.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `physiodb`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_group`
+--
+
+CREATE TABLE `auth_group` (
+  `id` int NOT NULL,
+  `name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_group_permissions`
+--
+
+CREATE TABLE `auth_group_permissions` (
+  `id` bigint NOT NULL,
+  `group_id` int NOT NULL,
+  `permission_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_permission`
+--
+
+CREATE TABLE `auth_permission` (
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `content_type_id` int NOT NULL,
+  `codename` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `auth_permission`
+--
+
+INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALUES
+(1, 'Can add log entry', 1, 'add_logentry'),
+(2, 'Can change log entry', 1, 'change_logentry'),
+(3, 'Can delete log entry', 1, 'delete_logentry'),
+(4, 'Can view log entry', 1, 'view_logentry'),
+(5, 'Can add permission', 2, 'add_permission'),
+(6, 'Can change permission', 2, 'change_permission'),
+(7, 'Can delete permission', 2, 'delete_permission'),
+(8, 'Can view permission', 2, 'view_permission'),
+(9, 'Can add group', 3, 'add_group'),
+(10, 'Can change group', 3, 'change_group'),
+(11, 'Can delete group', 3, 'delete_group'),
+(12, 'Can view group', 3, 'view_group'),
+(13, 'Can add user', 4, 'add_user'),
+(14, 'Can change user', 4, 'change_user'),
+(15, 'Can delete user', 4, 'delete_user'),
+(16, 'Can view user', 4, 'view_user'),
+(17, 'Can add content type', 5, 'add_contenttype'),
+(18, 'Can change content type', 5, 'change_contenttype'),
+(19, 'Can delete content type', 5, 'delete_contenttype'),
+(20, 'Can view content type', 5, 'view_contenttype'),
+(21, 'Can add session', 6, 'add_session'),
+(22, 'Can change session', 6, 'change_session'),
+(23, 'Can delete session', 6, 'delete_session'),
+(24, 'Can view session', 6, 'view_session'),
+(25, 'Can add body chart image', 7, 'add_bodychartimage'),
+(26, 'Can change body chart image', 7, 'change_bodychartimage'),
+(27, 'Can delete body chart image', 7, 'delete_bodychartimage'),
+(28, 'Can view body chart image', 7, 'view_bodychartimage'),
+(29, 'Can add country', 8, 'add_country'),
+(30, 'Can change country', 8, 'change_country'),
+(31, 'Can delete country', 8, 'delete_country'),
+(32, 'Can view country', 8, 'view_country'),
+(33, 'Can add department', 9, 'add_department'),
+(34, 'Can change department', 9, 'change_department'),
+(35, 'Can delete department', 9, 'delete_department'),
+(36, 'Can view department', 9, 'view_department'),
+(37, 'Can add designation', 10, 'add_designation'),
+(38, 'Can change designation', 10, 'change_designation'),
+(39, 'Can delete designation', 10, 'delete_designation'),
+(40, 'Can view designation', 10, 'view_designation'),
+(41, 'Can add district', 11, 'add_district'),
+(42, 'Can change district', 11, 'change_district'),
+(43, 'Can delete district', 11, 'delete_district'),
+(44, 'Can view district', 11, 'view_district'),
+(45, 'Can add menu', 12, 'add_menu'),
+(46, 'Can change menu', 12, 'change_menu'),
+(47, 'Can delete menu', 12, 'delete_menu'),
+(48, 'Can view menu', 12, 'view_menu'),
+(49, 'Can add role', 13, 'add_role'),
+(50, 'Can change role', 13, 'change_role'),
+(51, 'Can delete role', 13, 'delete_role'),
+(52, 'Can view role', 13, 'view_role'),
+(53, 'Can add branch', 14, 'add_branch'),
+(54, 'Can change branch', 14, 'change_branch'),
+(55, 'Can delete branch', 14, 'delete_branch'),
+(56, 'Can view branch', 14, 'view_branch'),
+(57, 'Can add outcome measure', 15, 'add_outcomemeasure'),
+(58, 'Can change outcome measure', 15, 'change_outcomemeasure'),
+(59, 'Can delete outcome measure', 15, 'delete_outcomemeasure'),
+(60, 'Can view outcome measure', 15, 'view_outcomemeasure'),
+(61, 'Can add patient', 16, 'add_patient'),
+(62, 'Can change patient', 16, 'change_patient'),
+(63, 'Can delete patient', 16, 'delete_patient'),
+(64, 'Can view patient', 16, 'view_patient'),
+(65, 'Can add patient history', 17, 'add_patienthistory'),
+(66, 'Can change patient history', 17, 'change_patienthistory'),
+(67, 'Can delete patient history', 17, 'delete_patienthistory'),
+(68, 'Can view patient history', 17, 'view_patienthistory'),
+(69, 'Can add menu permission', 18, 'add_menupermission'),
+(70, 'Can change menu permission', 18, 'change_menupermission'),
+(71, 'Can delete menu permission', 18, 'delete_menupermission'),
+(72, 'Can view menu permission', 18, 'view_menupermission'),
+(73, 'Can add staff registration', 19, 'add_staffregistration'),
+(74, 'Can change staff registration', 19, 'change_staffregistration'),
+(75, 'Can delete staff registration', 19, 'delete_staffregistration'),
+(76, 'Can view staff registration', 19, 'view_staffregistration'),
+(77, 'Can add role assignment', 20, 'add_roleassignment'),
+(78, 'Can change role assignment', 20, 'change_roleassignment'),
+(79, 'Can delete role assignment', 20, 'delete_roleassignment'),
+(80, 'Can view role assignment', 20, 'view_roleassignment'),
+(81, 'Can add range of motion', 21, 'add_rangeofmotion'),
+(82, 'Can change range of motion', 21, 'change_rangeofmotion'),
+(83, 'Can delete range of motion', 21, 'delete_rangeofmotion'),
+(84, 'Can view range of motion', 21, 'view_rangeofmotion'),
+(85, 'Can add general observation', 22, 'add_generalobservation'),
+(86, 'Can change general observation', 22, 'change_generalobservation'),
+(87, 'Can delete general observation', 22, 'delete_generalobservation'),
+(88, 'Can view general observation', 22, 'view_generalobservation'),
+(89, 'Can add body chart', 23, 'add_bodychart'),
+(90, 'Can change body chart', 23, 'change_bodychart'),
+(91, 'Can delete body chart', 23, 'delete_bodychart'),
+(92, 'Can view body chart', 23, 'view_bodychart'),
+(93, 'Can add appointment', 24, 'add_appointment'),
+(94, 'Can change appointment', 24, 'change_appointment'),
+(95, 'Can delete appointment', 24, 'delete_appointment'),
+(96, 'Can view appointment', 24, 'view_appointment'),
+(97, 'Can add state', 25, 'add_state'),
+(98, 'Can change state', 25, 'change_state'),
+(99, 'Can delete state', 25, 'delete_state'),
+(100, 'Can view state', 25, 'view_state'),
+(101, 'Can add treatment plan', 26, 'add_treatmentplan'),
+(102, 'Can change treatment plan', 26, 'change_treatmentplan'),
+(103, 'Can delete treatment plan', 26, 'delete_treatmentplan'),
+(104, 'Can view treatment plan', 26, 'view_treatmentplan'),
+(105, 'Can add management entry', 27, 'add_managemententry'),
+(106, 'Can change management entry', 27, 'change_managemententry'),
+(107, 'Can delete management entry', 27, 'delete_managemententry'),
+(108, 'Can view management entry', 27, 'view_managemententry'),
+(109, 'Can add staff allocation', 28, 'add_staffallocation'),
+(110, 'Can change staff allocation', 28, 'change_staffallocation'),
+(111, 'Can delete staff allocation', 28, 'delete_staffallocation'),
+(112, 'Can view staff allocation', 28, 'view_staffallocation'),
+(113, 'Can add hospital_data', 29, 'add_hospital_data'),
+(114, 'Can change hospital_data', 29, 'change_hospital_data'),
+(115, 'Can delete hospital_data', 29, 'delete_hospital_data'),
+(116, 'Can view hospital_data', 29, 'view_hospital_data'),
+(117, 'Can add invoice', 30, 'add_invoice'),
+(118, 'Can change invoice', 30, 'change_invoice'),
+(119, 'Can delete invoice', 30, 'delete_invoice'),
+(120, 'Can view invoice', 30, 'view_invoice'),
+(121, 'Can add scoliosis assessment', 31, 'add_scoliosisassessment'),
+(122, 'Can change scoliosis assessment', 31, 'change_scoliosisassessment'),
+(123, 'Can delete scoliosis assessment', 31, 'delete_scoliosisassessment'),
+(124, 'Can view scoliosis assessment', 31, 'view_scoliosisassessment'),
+(125, 'Can add hep', 32, 'add_hep'),
+(126, 'Can change hep', 32, 'change_hep'),
+(127, 'Can delete hep', 32, 'delete_hep'),
+(128, 'Can view hep', 32, 'view_hep'),
+(129, 'Can add manual technique', 33, 'add_manualtechnique'),
+(130, 'Can change manual technique', 33, 'change_manualtechnique'),
+(131, 'Can delete manual technique', 33, 'delete_manualtechnique'),
+(132, 'Can view manual technique', 33, 'view_manualtechnique'),
+(133, 'Can add schroth classification', 34, 'add_schrothclassification'),
+(134, 'Can change schroth classification', 34, 'change_schrothclassification'),
+(135, 'Can delete schroth classification', 34, 'delete_schrothclassification'),
+(136, 'Can view schroth classification', 34, 'view_schrothclassification'),
+(137, 'Can add expense', 35, 'add_expense'),
+(138, 'Can change expense', 35, 'change_expense'),
+(139, 'Can delete expense', 35, 'delete_expense'),
+(140, 'Can view expense', 35, 'view_expense'),
+(141, 'Can add expense_ type', 36, 'add_expense_type'),
+(142, 'Can change expense_ type', 36, 'change_expense_type'),
+(143, 'Can delete expense_ type', 36, 'delete_expense_type'),
+(144, 'Can view expense_ type', 36, 'view_expense_type'),
+(145, 'Can add scoliosis follow up', 37, 'add_scoliosisfollowup'),
+(146, 'Can change scoliosis follow up', 37, 'change_scoliosisfollowup'),
+(147, 'Can delete scoliosis follow up', 37, 'delete_scoliosisfollowup'),
+(148, 'Can view scoliosis follow up', 37, 'view_scoliosisfollowup'),
+(149, 'Can add company', 38, 'add_company'),
+(150, 'Can change company', 38, 'change_company'),
+(151, 'Can delete company', 38, 'delete_company'),
+(152, 'Can view company', 38, 'view_company'),
+(153, 'Can add medical_ store', 39, 'add_medical_store'),
+(154, 'Can change medical_ store', 39, 'change_medical_store'),
+(155, 'Can delete medical_ store', 39, 'delete_medical_store'),
+(156, 'Can view medical_ store', 39, 'view_medical_store'),
+(157, 'Can add medicine_ category', 40, 'add_medicine_category'),
+(158, 'Can change medicine_ category', 40, 'change_medicine_category'),
+(159, 'Can delete medicine_ category', 40, 'delete_medicine_category'),
+(160, 'Can view medicine_ category', 40, 'view_medicine_category'),
+(161, 'Can add tax master', 41, 'add_taxmaster'),
+(162, 'Can change tax master', 41, 'change_taxmaster'),
+(163, 'Can delete tax master', 41, 'delete_taxmaster'),
+(164, 'Can view tax master', 41, 'view_taxmaster'),
+(165, 'Can add gst invoice', 42, 'add_gstinvoice'),
+(166, 'Can change gst invoice', 42, 'change_gstinvoice'),
+(167, 'Can delete gst invoice', 42, 'delete_gstinvoice'),
+(168, 'Can view gst invoice', 42, 'view_gstinvoice'),
+(169, 'Can add bank details', 43, 'add_bankdetails'),
+(170, 'Can change bank details', 43, 'change_bankdetails'),
+(171, 'Can delete bank details', 43, 'delete_bankdetails'),
+(172, 'Can view bank details', 43, 'view_bankdetails'),
+(173, 'Can add medicine master', 44, 'add_medicinemaster'),
+(174, 'Can change medicine master', 44, 'change_medicinemaster'),
+(175, 'Can delete medicine master', 44, 'delete_medicinemaster'),
+(176, 'Can view medicine master', 44, 'view_medicinemaster'),
+(177, 'Can add gst invoice item', 45, 'add_gstinvoiceitem'),
+(178, 'Can change gst invoice item', 45, 'change_gstinvoiceitem'),
+(179, 'Can delete gst invoice item', 45, 'delete_gstinvoiceitem'),
+(180, 'Can view gst invoice item', 45, 'view_gstinvoiceitem'),
+(181, 'Can add supplier master', 46, 'add_suppliermaster'),
+(182, 'Can change supplier master', 46, 'change_suppliermaster'),
+(183, 'Can delete supplier master', 46, 'delete_suppliermaster'),
+(184, 'Can view supplier master', 46, 'view_suppliermaster'),
+(185, 'Can add physical stock', 47, 'add_physicalstock'),
+(186, 'Can change physical stock', 47, 'change_physicalstock'),
+(187, 'Can delete physical stock', 47, 'delete_physicalstock'),
+(188, 'Can view physical stock', 47, 'view_physicalstock'),
+(189, 'Can add purchase invoice', 48, 'add_purchaseinvoice'),
+(190, 'Can change purchase invoice', 48, 'change_purchaseinvoice'),
+(191, 'Can delete purchase invoice', 48, 'delete_purchaseinvoice'),
+(192, 'Can view purchase invoice', 48, 'view_purchaseinvoice'),
+(193, 'Can add purchase invoice item', 49, 'add_purchaseinvoiceitem'),
+(194, 'Can change purchase invoice item', 49, 'change_purchaseinvoiceitem'),
+(195, 'Can delete purchase invoice item', 49, 'delete_purchaseinvoiceitem'),
+(196, 'Can view purchase invoice item', 49, 'view_purchaseinvoiceitem'),
+(197, 'Can add invoice particular', 50, 'add_invoiceparticular'),
+(198, 'Can change invoice particular', 50, 'change_invoiceparticular'),
+(199, 'Can delete invoice particular', 50, 'delete_invoiceparticular'),
+(200, 'Can view invoice particular', 50, 'view_invoiceparticular');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_user`
+--
+
+CREATE TABLE `auth_user` (
+  `id` int NOT NULL,
+  `password` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `first_name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `last_name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(254) COLLATE utf8mb4_general_ci NOT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_user_groups`
+--
+
+CREATE TABLE `auth_user_groups` (
+  `id` bigint NOT NULL,
+  `user_id` int NOT NULL,
+  `group_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_user_user_permissions`
+--
+
+CREATE TABLE `auth_user_user_permissions` (
+  `id` bigint NOT NULL,
+  `user_id` int NOT NULL,
+  `permission_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `django_admin_log`
+--
+
+CREATE TABLE `django_admin_log` (
+  `id` int NOT NULL,
+  `action_time` datetime(6) NOT NULL,
+  `object_id` longtext COLLATE utf8mb4_general_ci,
+  `object_repr` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `action_flag` smallint UNSIGNED NOT NULL,
+  `change_message` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `content_type_id` int DEFAULT NULL,
+  `user_id` int NOT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `django_content_type`
+--
+
+CREATE TABLE `django_content_type` (
+  `id` int NOT NULL,
+  `app_label` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `model` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `django_content_type`
+--
+
+INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
+(1, 'admin', 'logentry'),
+(3, 'auth', 'group'),
+(2, 'auth', 'permission'),
+(4, 'auth', 'user'),
+(5, 'contenttypes', 'contenttype'),
+(6, 'sessions', 'session'),
+(24, 'x_app', 'appointment'),
+(43, 'x_app', 'bankdetails'),
+(23, 'x_app', 'bodychart'),
+(7, 'x_app', 'bodychartimage'),
+(14, 'x_app', 'branch'),
+(38, 'x_app', 'company'),
+(8, 'x_app', 'country'),
+(9, 'x_app', 'department'),
+(10, 'x_app', 'designation'),
+(11, 'x_app', 'district'),
+(35, 'x_app', 'expense'),
+(36, 'x_app', 'expense_type'),
+(22, 'x_app', 'generalobservation'),
+(42, 'x_app', 'gstinvoice'),
+(45, 'x_app', 'gstinvoiceitem'),
+(32, 'x_app', 'hep'),
+(29, 'x_app', 'hospital_data'),
+(30, 'x_app', 'invoice'),
+(50, 'x_app', 'invoiceparticular'),
+(27, 'x_app', 'managemententry'),
+(33, 'x_app', 'manualtechnique'),
+(39, 'x_app', 'medical_store'),
+(44, 'x_app', 'medicinemaster'),
+(40, 'x_app', 'medicine_category'),
+(12, 'x_app', 'menu'),
+(18, 'x_app', 'menupermission'),
+(15, 'x_app', 'outcomemeasure'),
+(16, 'x_app', 'patient'),
+(17, 'x_app', 'patienthistory'),
+(47, 'x_app', 'physicalstock'),
+(48, 'x_app', 'purchaseinvoice'),
+(49, 'x_app', 'purchaseinvoiceitem'),
+(21, 'x_app', 'rangeofmotion'),
+(13, 'x_app', 'role'),
+(20, 'x_app', 'roleassignment'),
+(34, 'x_app', 'schrothclassification'),
+(31, 'x_app', 'scoliosisassessment'),
+(37, 'x_app', 'scoliosisfollowup'),
+(28, 'x_app', 'staffallocation'),
+(19, 'x_app', 'staffregistration'),
+(25, 'x_app', 'state'),
+(46, 'x_app', 'suppliermaster'),
+(41, 'x_app', 'taxmaster'),
+(26, 'x_app', 'treatmentplan');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `django_migrations`
+--
+
+CREATE TABLE `django_migrations` (
+  `id` bigint NOT NULL,
+  `app` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `applied` datetime(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `django_migrations`
+--
+
+INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
+(1, 'contenttypes', '0001_initial', '2025-10-14 07:36:15.194429'),
+(2, 'auth', '0001_initial', '2025-10-14 07:36:15.984771'),
+(3, 'admin', '0001_initial', '2025-10-14 07:36:16.233041'),
+(4, 'admin', '0002_logentry_remove_auto_add', '2025-10-14 07:36:16.240970'),
+(5, 'admin', '0003_logentry_add_action_flag_choices', '2025-10-14 07:36:16.247504'),
+(6, 'contenttypes', '0002_remove_content_type_name', '2025-10-14 07:36:16.359922'),
+(7, 'auth', '0002_alter_permission_name_max_length', '2025-10-14 07:36:16.446816'),
+(8, 'auth', '0003_alter_user_email_max_length', '2025-10-14 07:36:16.469317'),
+(9, 'auth', '0004_alter_user_username_opts', '2025-10-14 07:36:16.478119'),
+(10, 'auth', '0005_alter_user_last_login_null', '2025-10-14 07:36:16.549231'),
+(11, 'auth', '0006_require_contenttypes_0002', '2025-10-14 07:36:16.550293'),
+(12, 'auth', '0007_alter_validators_add_error_messages', '2025-10-14 07:36:16.557002'),
+(13, 'auth', '0008_alter_user_username_max_length', '2025-10-14 07:36:16.634815'),
+(14, 'auth', '0009_alter_user_last_name_max_length', '2025-10-14 07:36:16.706670'),
+(15, 'auth', '0010_alter_group_name_max_length', '2025-10-14 07:36:16.725404'),
+(16, 'auth', '0011_update_proxy_permissions', '2025-10-14 07:36:16.732809'),
+(17, 'auth', '0012_alter_user_first_name_max_length', '2025-10-14 07:36:16.813713'),
+(18, 'sessions', '0001_initial', '2025-10-14 07:36:16.859047'),
+(19, 'x_app', '0001_initial', '2025-10-14 07:36:21.605266'),
+(20, 'x_app', '0002_delete_staffallocation', '2025-10-14 07:36:21.627863'),
+(21, 'x_app', '0003_staffallocation', '2025-10-14 07:36:22.123637'),
+(22, 'x_app', '0004_remove_staffallocation_branch_and_more', '2025-10-14 07:36:22.301924'),
+(23, 'x_app', '0005_staffallocation_branch_staffallocation_status', '2025-10-14 07:36:22.532650'),
+(24, 'x_app', '0006_remove_staffallocation_branch', '2025-10-14 07:36:22.669159'),
+(25, 'x_app', '0007_staffallocation_branch', '2025-10-14 07:36:22.778431'),
+(26, 'x_app', '0008_remove_patient_city', '2025-10-14 07:36:22.825045'),
+(27, 'x_app', '0009_patient_city', '2025-10-14 07:36:22.878912'),
+(28, 'x_app', '0010_patienthistory_appointment_status', '2025-10-14 07:36:22.935944'),
+(29, 'x_app', '0011_rename_hospital_hospital_data_alter_country_options_and_more', '2025-10-14 07:36:23.035518'),
+(30, 'x_app', '0012_rangeofmotion_date', '2025-10-14 07:36:23.072168'),
+(31, 'x_app', '0013_alter_rangeofmotion_date', '2025-10-14 07:36:23.088884'),
+(32, 'x_app', '0014_outcomemeasure_history_outcomemeasure_patient_and_more', '2025-10-14 07:36:23.412499'),
+(33, 'x_app', '0015_remove_outcomemeasure_functional_outcome', '2025-10-14 07:36:23.541854'),
+(34, 'x_app', '0016_generalobservation_balance_sitting_and_more', '2025-10-14 07:36:23.689167'),
+(35, 'x_app', '0017_alter_rangeofmotion_recorded_on_and_more', '2025-10-14 07:36:23.732898'),
+(36, 'x_app', '0018_alter_rangeofmotion_recorded_on', '2025-10-14 07:36:23.749021'),
+(37, 'x_app', '0019_invoice', '2025-10-14 07:36:23.781281'),
+(38, 'x_app', '0020_remove_invoice_patient_address_and_more', '2025-10-14 07:36:23.898516'),
+(39, 'x_app', '0021_invoice_doctor', '2025-10-14 07:36:24.022024'),
+(40, 'x_app', '0022_scoliosisassessment', '2025-10-14 07:36:24.236436'),
+(41, 'x_app', '0023_hep_manualtechnique_schrothclassification', '2025-10-14 07:36:24.343852'),
+(42, 'x_app', '0024_alter_invoice_particulars', '2025-10-14 07:36:24.438213'),
+(43, 'x_app', '0025_invoice_amount_invoice_qty_invoice_rate_and_more', '2025-10-14 07:36:24.799161'),
+(44, 'x_app', '0026_alter_invoice_amount_alter_invoice_qty_and_more', '2025-10-14 07:36:25.107416'),
+(45, 'x_app', '0027_invoice_invoice_number', '2025-10-14 07:36:25.202767'),
+(46, 'x_app', '0028_alter_invoice_invoice_number', '2025-10-14 07:36:25.229750'),
+(47, 'x_app', '0029_expense_type_expense', '2025-10-16 12:06:31.391037'),
+(48, 'x_app', '0030_appointment_appoinment_time_and_more', '2025-10-28 08:04:49.870570'),
+(49, 'x_app', '0031_alter_invoice_created_at', '2025-10-29 11:06:07.875634'),
+(50, 'x_app', '0032_company_medical_store_medicine_category_taxmaster_and_more', '2025-11-10 11:33:26.633277'),
+(51, 'x_app', '0033_staffregistration_status', '2025-11-18 07:26:12.457796'),
+(52, 'x_app', '0034_alter_appointment_appoinment_time', '2025-12-01 03:26:58.637840'),
+(53, 'x_app', '0035_gstinvoice_customer_name_gstinvoice_customer_phone_and_more', '2026-01-06 03:36:56.771434'),
+(54, 'x_app', '0036_gstinvoice_payment_mode_invoice_payment_mode_and_more', '2026-01-07 11:50:53.138948'),
+(55, 'x_app', '0037_gstinvoice_deleted_by_gstinvoice_status_and_more', '2026-01-14 12:20:55.599220');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `django_session`
+--
+
+CREATE TABLE `django_session` (
+  `session_key` varchar(40) COLLATE utf8mb4_general_ci NOT NULL,
+  `session_data` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `expire_date` datetime(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `django_session`
+--
+
+INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('0wm9y432lsn7jdhvrbqdn8lxb9i0hgl0', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWeooFSSWZKbmlYC5eaU5OUCtiSWp-WllmcWZJXCh_OSS_CIIrxYAkJ4pnA:1vE68l:_-EsmodlQWsYZHwxQ3RXuPjnyr-AkA9T21psOU7S3TM', '2025-11-12 13:23:03.948333'),
+('4xnjz1dbwlonu8ir7eif57du7cv74525', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1w26J3:ELeds_iOXJ8o4xpmst5fVS4E6-IT6VIRszu-b95DMOI', '2026-03-30 11:40:21.913892'),
+('51lw8agzonvhcibxscbvqmgvnmset6gi', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vdrXa:IG3P3rTTmrf0XPjz86Lb5roaa9qhQHuuOAhG83PGvB4', '2026-01-22 15:03:10.565059'),
+('6o0aszu6itstf91u6yoooptf7mc2aqgy', '.eJx1i0sKhDAQBe_y1mZIIgxMVt5EmnykIZ9BWzfi3Wfi3mVVUSdiIc5woFC4Tkunl28FA8L83DahlGYOcJ8BXxKOVW6EMWN_SWJLB28sf2e1fSttlNU9NS9that7ztcPqTUpKg:1viC3K:8jmCbDUpXoqK7cg2q-7LESE7CXzMFvtEfs8jMcu0XRA', '2026-02-03 13:45:50.526062'),
+('7rh16fcofml69f6pxy1xzqqpxgjna62q', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1wA0xi:R339gYOD_WTQwW6i8CwexB_SsbAy4P3xsymJftPMm4k', '2026-04-21 07:35:02.397834'),
+('8afp1aha6tyh788dhjo9h55pxmcdltvg', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1v8tBp:AcgRuYDO69J7uhY_kd7KBKW0gSCswDJRzzgkSf80pOs', '2025-10-29 04:32:41.621789'),
+('8pqjplaes092p6x8zrj1ywe26qjflk54', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1va4kn:ow-Tc60orFrvgmMejBnl6Gi_ADkcuDv1N0DZnARxScc', '2026-01-12 04:21:09.366488'),
+('94fz8j0hyzybk6w4hdscbqqse69fpacc', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vV7of:AVYeRN_HAGDsmF26ZuBJtC9r9eVL4G1i0npcVnnueJw', '2025-12-29 12:36:41.871643'),
+('a2nud6z51sdate5efut1dgvxvzj71yo7', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWeooFSSWZKbmlYC5eaU5OUCtiSWp-WllmcWZJXCh_OSS_CIIrxYAkJ4pnA:1vdiss:YuUQJObuTF3XWl2U-cKjp8gota6l4dLyNojZpdT5_GQ', '2026-01-22 05:48:34.131112'),
+('a7pbxz95n8b9r68iphigqgb3pzcgx9vv', '.eJyrVkrNTczMUbJSSkwszijKL07VAxFGBpYO6SAJveT8XCUdpZR4opQVlySmpcVnpihZGRrWAgCfRB7m:1vKwBV:Fwke-_pJ7f6zob9X9TyYALJa-OxBWROlDBS74BG4cRU', '2025-12-01 10:10:09.580907'),
+('adpurs16099x3ub37ihe6i7gw7ta4yk6', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vMOFg:vR8ONdcNwg5e1E2gy8mZke8Ed8bGLFd2xHFoUECIZ3w', '2025-12-05 10:20:28.068425'),
+('c221vabp0yx2qmyq46vzzdc8be59pdbd', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vKzVQ:Qat_5jro2wAM-PX16MzZbeImW_Pag0RLjr9pVvC8IQc', '2025-12-01 13:42:56.870628'),
+('c2zmlivs5fl4ges1mg91xf0lma7lsdf4', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vDbsJ:CU1I_658jiU3mPN_G-fOZYqznmJ5IGr871cCf3pXZ-Y', '2025-11-11 05:04:03.491554'),
+('danddwgjtcq1ybhcavfdrcm8njzwp0z9', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vEh1N:GkpEjscSGMlfHsLjvp4GF3ABSH-Kokb1xIr3UW-Sn44', '2025-11-14 04:45:53.462084'),
+('dworfwlrdgq1y57430z5r2sj2c35iekp', '.eJyrVkrNTczMUbJSSswszihPLKpMdEgHiegl5-cq6SilxOOXLy5JTEuLz0xRsjI0rAUAI58ayA:1veNuy:4CSdqaCBFzYsZfPrzX8Lq66DyEmol55zSkGMMKC8TX8', '2026-01-24 01:37:28.178447'),
+('ecs4vxhwrft4b9lv3jyv2enb0fp2ekda', '.eJx1i00OQDAUBu_yrREqIrpyE3nRVl7SH-GxEXen9pYzk7lgA7GHBpnAcVwyVXMKKGCm_7YLOTexgR4KrCRso3yItssriU3u5J3lVapWXdk0pepzSrOkDToe3t8Phf8pBA:1vOqxM:yBsREzqHoPK7-_UO-ncP8UGkKJDX4HWS-UQ__WgilHE', '2025-12-12 05:23:44.153701'),
+('ftlfq2nu1d7v7t3f0w0srefnykozrftt', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vB7Im:m-A4P35hl_n8aD16eL3tmAK120urDBQ8Mce7wRMbbVo', '2025-11-04 08:01:04.106078'),
+('i0poladmnihw7c1frpki7ltcye4uk6yo', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1wHw5T:cqLoh12kMeDO5gE0dKTWbpDz4Iz9BeOqcIy1AJl-q78', '2026-05-13 03:59:47.169618'),
+('ihpjb46frvimgusbuee6jc22d2j3hzx4', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vDerG:pu_Sr-H-dlwu5zurXNSQwpRv8atJ2arf_EqZVVDVKo0', '2025-11-11 08:15:10.679514'),
+('kkqaemrwba7cakd3glquoq86fupiz34m', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vF5C7:i28qvBXb9cDRBQrzO_knuiZAA3p6tC7WS5-WSt5XAPg', '2025-11-15 06:34:35.427847'),
+('l27pvjdyrdimf1zatwjiwufun609q2za', '.eJx9jEEOwjAMBP-y5xQ1pnDIiZ9UVpOApdRBxCAhxN9p-gCOs6PZD9LKUhCgrJH1cu14WOoKhzj_kc0451kigp8cbtKsPt47T-RwZ5OktjM8nfobW6r5JU1s22ik8zD6gY5d1WWrEfRZyvcHHZkveA:1vjEsT:Ic9-1O_UiAhhKSUH2du-xnTUen363WoPOpeiYtNIdtM', '2026-02-06 10:58:57.897107'),
+('mjw8dpnl0l3wdxv70vxmyx23nj87o284', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vBnJS:2uRsRWlufnq7qiOp_v9hEYLysGItXkVqfiEbAXNYws4', '2025-11-06 04:52:34.069154'),
+('mogmvp9tf7eqlhjosq25lnmoqnf9f9hh', '.eJyrVkrNTczMUbJSSswszihPLKpMdEgHiegl5-cq6SilxOOXLy5JTEuLz0xRsjI0rAUAI58ayA:1wHwOj:mVl6fnn8-ObwO75B_4wnsou9Ahc9jb1EcvQyvpMaFNc', '2026-05-13 04:19:41.757246'),
+('n03j9vwsjwjfbshx605l064y6jc3bvle', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vmqe4:K8rgSr9SSnZ89x7Uw_HOgT_pIp6gvMX8yl0iCihoBEU', '2026-02-16 09:55:00.268427'),
+('n6xtb5o15iwl4g1z0ajg2cuvse80ip2q', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1v9MoA:sIL2XNpV0z8hZW9zhc5_fKQeyWRo32PxMZoPGHPuNKU', '2025-10-30 12:10:14.877446'),
+('ncvwpodiwcjh2rw5a3gjecag0ki04tun', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1ve5ma:CEz2UWeoZOBnvJ-SQgi3cxNKsyoV4vNZmZl5W5oVVBs', '2026-01-23 06:15:36.753187'),
+('qgg59lt4nopwr4qu1fzfhz6pllj2pezm', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1wFmUe:Vs3pKc-JofFC7RJzGE9y8pnlnUTZURg4mfYXwGNkXJc', '2026-05-07 05:20:52.674075'),
+('qr4x35v2bi2a60jz3t2feczlfl2bg0f4', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWeooFSSWZKbmlYC5eaU5OUCtiSWp-WllmcWZJXCh_OSS_CIIrxYAkJ4pnA:1vSxUH:qP-8chnVlh7qtNzYzbuFfmAyxyUkDltz23-Ti2YQ0yA', '2025-12-23 13:10:41.654573'),
+('r008ouj1h2pn0ihp017n9k45ziw6erhj', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vtJ3K:3vAP3IThCE2PAJCILhpglHzSKaZefWOMHEph5eoqS-g', '2026-03-06 05:27:46.673401'),
+('rlkrgbnltrn2wwmjchl46nwqsnvf93lv', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1wAMJ3:Axbgbo3Pjqqx96XWgk0Gx28WjD1hHUcXwVy1in8Cy9M', '2026-04-22 06:22:29.626257'),
+('sl9avpbn8nu6h7sy9u7cjuyqm7i43ioh', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vYdSz:y1HktOL8GVV5Q9iuQK3JiIgwaXar9fsw4e0OsMlQLWo', '2026-01-08 05:00:49.433964'),
+('wc2e2afdxeb8pmfh66stpavfrgy4qfmp', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vfzMK:hhpHX1LI5B4pGubbzD_8li9fKRNR1FIrRY3tyhnZrY0', '2026-01-28 11:48:20.737258'),
+('xedvgo6kty0p2cmlp0gea4mzwxxud1k2', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1wHfCt:1Sbt6J2Nip8nidzFLUTLZ8mDz5qYK9Pzse31ZOqO15Q', '2026-05-12 09:58:19.350091'),
+('yuqxt1aqt1wuocf9bn1zyibny0ljdlwu', '.eJyrVkrNTczMUbJSSkzJzcxzSAfx9JLzc5V0lFLiccsVlySmpcVnpihZWdYCACEMFx8:1vEj9s:wUh_nV-K9WrPXH9uZjjEZSj3PgSE-28ut3UXyvdgzlQ', '2025-11-14 07:02:48.938145');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_appointment`
+--
+
+CREATE TABLE `x_app_appointment` (
+  `id` bigint NOT NULL,
+  `token_no` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `appointment_date` date NOT NULL,
+  `status` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `contact_no` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `branch_id` bigint DEFAULT NULL,
+  `department_id` bigint DEFAULT NULL,
+  `patient_id` bigint DEFAULT NULL,
+  `doctor_id` bigint DEFAULT NULL,
+  `appoinment_time` time(6) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_appointment`
+--
+
+INSERT INTO `x_app_appointment` (`id`, `token_no`, `appointment_date`, `status`, `contact_no`, `branch_id`, `department_id`, `patient_id`, `doctor_id`, `appoinment_time`) VALUES
+(18, 'TKNO2511181653001', '2025-11-19', 'Followup', '9895023031', 1, 4, 8, 11, '16:54:26.266213'),
+(19, 'TKNO2511181850001', '2025-11-18', 'Followup', '9895023031', 1, 4, 8, 11, '18:52:31.634030'),
+(20, 'TKNO2511191615001', '2025-11-19', 'Followup', '9847063733', 1, 4, 11, 11, '16:16:31.447916'),
+(21, 'TKNO2511191616001', '2025-11-18', 'Followup', '9895023031', 1, 4, 8, 11, '16:17:14.987952'),
+(22, 'TKNO2511191617001', '2025-11-18', 'Followup', '9447740216', 1, 4, 13, 11, '16:19:22.500413'),
+(23, 'TKNO2511191641001', '2025-11-18', 'Consultation', '8086840612', 1, 4, 16, 12, '16:42:11.858261'),
+(24, 'TKNO2511191642001', '2025-11-18', 'Consultation', '8606069024', 1, 4, 15, 12, '16:44:00.000000'),
+(25, 'TKNO2511191646001', '2025-11-18', 'Consultation', '7907492400', 1, 4, 17, 12, '16:47:27.439796'),
+(26, 'TKNO2511191653001', '2025-11-18', 'Consultation', '9446595307', 1, 4, 18, 12, '16:54:28.263899'),
+(27, 'TKNO2511191732001', '2025-11-18', 'Consultation', '9895446617', 1, 4, 19, 12, '17:33:12.064855'),
+(28, 'TKNO2511191753001', '2025-11-19', 'Consultation', '9074650793', 1, 4, 20, 11, '17:54:04.326364'),
+(29, 'TKNO2511191801001', '2025-11-19', 'Consultation', '9074650793', 1, 4, 20, 14, '18:02:07.854179'),
+(30, 'TKNO2511191837001', '2025-11-19', 'Consultation', '8547140501', 1, 4, 21, 12, '18:38:16.267340'),
+(31, 'TKNO2511191841001', '2025-11-19', 'Followup', '9995811668', 1, 4, 22, 11, '18:42:41.733335'),
+(32, 'TKNO2511191842001', '2025-11-19', 'Followup', '9074650793', 1, 4, 20, 13, '18:43:52.818118'),
+(33, 'TKNO2511201055001', '2025-11-20', 'Massage', '8086840612', 1, 4, 16, 12, '10:56:13.377074'),
+(34, 'TKNO2511201101001', '2025-11-20', 'Followup', '9895568804', 1, 4, 23, 12, '11:01:33.838711'),
+(35, 'TKNO2511201101002', '2025-11-20', 'Followup', '7907492400', 1, 4, 17, 12, '11:02:19.949040'),
+(36, 'TKNO2511201248001', '2025-11-20', 'Followup', '9895023031', 1, 4, 8, 11, '12:49:30.312755'),
+(37, 'TKNO2511201305001', '2025-11-20', 'Followup', '9449058458', 1, 4, 24, 13, '13:05:40.793035'),
+(38, 'TKNO2511201315001', '2025-11-20', 'Followup', '9447435447', 1, 4, 25, 13, '13:16:06.380274'),
+(39, 'TKNO2511201747001', '2025-11-20', 'Followup', '8547140501', 1, 4, 21, 12, '17:48:20.362882'),
+(40, 'TKNO2511211422001', '2025-11-21', 'Followup', '9821848398', 1, 4, 26, 11, '14:22:54.769121'),
+(41, 'TKNO2511211423001', '2025-11-21', 'Followup', '9895023031', 1, 4, 8, 11, '14:23:36.446286'),
+(42, 'TKNO2511211423002', '2025-11-21', 'Followup', '8606069024', 1, 4, 15, 13, '14:25:40.257179'),
+(43, 'TKNO2511211429001', '2025-11-21', 'Followup', '9495718873', 1, 4, 27, 13, '14:29:45.522056'),
+(44, 'TKNO2511211430001', '2025-11-21', 'Followup', '9895568804', 1, 4, 23, 13, '14:31:06.718671'),
+(45, 'TKNO2511211551001', '2025-11-21', 'Followup', '9447740216', 1, 4, 13, 11, '15:51:56.825801'),
+(46, 'TKNO2511211607001', '2025-11-21', 'Followup', '8086840612', 1, 4, 16, 12, '16:07:46.414227'),
+(47, 'TKNO2511211613001', '2025-11-21', 'Followup', '7907492400', 1, 4, 17, 12, '16:14:05.633079'),
+(48, 'TKNO2511211622001', '2025-11-21', 'Followup', '8589855519', 1, 4, 28, 12, '16:22:30.468603'),
+(49, 'TKNO2511211634001', '2025-11-21', 'Followup', '9207663343', 1, 4, 29, 11, '16:34:46.366231'),
+(50, 'TKNO2511211650001', '2025-11-21', 'Followup', '8137984818', 1, 4, 14, 12, '16:52:16.537667'),
+(51, 'TKNO2511211654001', '2025-11-21', 'Followup', '8606069024', 1, 4, 15, 12, '16:54:47.452306'),
+(52, 'TKNO2511211735001', '2025-11-22', 'Followup', '9821848398', 1, 4, 26, 11, '17:36:32.303214'),
+(53, 'TKNO2511211740001', '2025-11-21', 'Followup', '8547123387', 1, 4, 30, 11, '17:40:58.099707'),
+(54, 'TKNO2511221358001', '2025-11-22', 'Followup', '9895023031', 1, 4, 8, 11, '13:58:37.147560'),
+(55, 'TKNO2511221358002', '2025-11-22', 'Followup', '9821848398', 1, 4, 26, 11, '13:59:39.356923'),
+(56, 'TKNO2511221359001', '2025-11-22', 'Followup', '8547123387', 1, 4, 30, 11, '14:00:09.721483'),
+(57, 'TKNO2511221400001', '2025-11-22', 'Followup', '9447435447', 1, 4, 25, 13, '14:01:37.288276'),
+(58, 'TKNO2511221623001', '2025-11-22', 'Followup', '9446595307', 1, 4, 31, 12, '16:23:59.145805'),
+(59, 'TKNO2511221629001', '2025-11-22', 'Followup', '8086840612', 1, 4, 16, 12, '16:30:20.178061'),
+(60, 'TKNO2511221633001', '2025-11-22', 'Followup', '7994644946', 1, 4, 32, 12, '16:34:02.141366'),
+(61, 'TKNO2511221734001', '2025-11-22', 'Followup', '8921477167', 1, 4, 33, 12, '17:34:45.724752'),
+(62, 'TKNO2511221754001', '2025-11-22', 'Followup', '8606069024', 1, 4, 15, 13, '17:55:16.469445'),
+(63, 'TKNO2511241242001', '2025-11-22', 'Followup', '9821848398', 1, 4, 26, 11, '12:42:44.549710'),
+(64, 'TKNO2511241243001', '2025-11-22', 'Followup', '8547123387', 1, 4, 30, 11, '12:43:46.463199'),
+(65, 'TKNO2511241542001', '2025-11-24', 'Followup', '8086840612', 1, 4, 16, 12, '15:43:21.120554'),
+(66, 'TKNO2511241547001', '2025-11-24', 'Followup', '9387812847', 1, 4, 34, 12, '15:48:06.809219'),
+(67, 'TKNO2511241735001', '2025-11-24', 'Followup', '9895568804', 1, 4, 23, 13, '17:36:21.141267'),
+(68, 'TKNO2511241736001', '2025-11-24', 'Followup', '8137984818', 1, 4, 14, 13, '17:37:17.738195'),
+(69, 'TKNO2511241737001', '2025-11-24', 'Followup', '9447740216', 1, 4, 13, 13, '17:38:04.773611'),
+(70, 'TKNO2511241743001', '2025-11-24', 'Followup', '9495309175', 1, 4, 35, 13, '17:45:00.122092'),
+(71, 'TKNO2511241745001', '2025-11-24', 'Followup', '8606069024', 1, 4, 15, 12, '17:46:34.319243'),
+(72, 'TKNO2511251840001', '2025-11-24', 'Followup', '8086840612', 1, 4, 16, 12, '18:40:49.594686'),
+(73, 'TKNO2511251841001', '2025-11-24', 'Followup', '9895568804', 1, 4, 23, 12, '18:41:22.720443'),
+(74, 'TKNO2511251844001', '2025-11-24', 'Consultation', '9995454213', 1, 4, 36, 12, '18:44:41.552575'),
+(75, 'TKNO2511251846001', '2025-11-25', 'Followup', '9821848398', 1, 4, 26, 11, '18:47:00.874459'),
+(76, 'TKNO2511251847001', '2025-11-25', 'Followup', '8547123387', 1, 4, 30, 11, '18:47:38.841782'),
+(77, 'TKNO2511251847002', '2025-11-25', 'Followup', '9847063733', 1, 4, 11, 11, '18:48:18.241916'),
+(78, 'TKNO2511251848001', '2025-11-25', 'Followup', '8111807233', 1, 4, 10, 11, '18:49:04.252290'),
+(79, 'TKNO2511251853001', '2025-11-25', 'Followup', '9567301324', 1, 4, 37, 11, '18:54:06.978152'),
+(80, 'TKNO2511261125001', '2025-11-26', 'Followup', '8547123387', 1, 4, 30, 11, '11:26:06.276075'),
+(81, 'TKNO2511261128001', '2025-11-25', 'Followup', '9567301324', 1, 4, 37, 11, '11:28:55.505141'),
+(82, 'TKNO2511261129001', '2025-11-26', 'Followup', '9495309175', 1, 4, 35, 11, '11:29:34.439803'),
+(83, 'TKNO2511261707001', '2025-11-26', 'Followup', '8086840612', 1, 4, 16, 12, '17:07:53.450965'),
+(84, 'TKNO2511261708001', '2025-11-26', 'Followup', '8589855519', 1, 4, 28, 12, '17:08:40.230066'),
+(85, 'TKNO2511261708002', '2025-11-26', 'Followup', '9961260404', 1, 4, 12, 12, '17:09:18.369908'),
+(86, 'TKNO2511261712001', '2025-11-26', 'Followup', '9447435447', 1, 4, 25, 13, '17:13:03.784732'),
+(87, 'TKNO2511261713001', '2025-11-26', 'Followup', '9895568804', 1, 4, 23, 13, '17:13:50.048129'),
+(88, 'TKNO2511261834001', '2025-11-26', 'Followup', '9048366577', 1, 4, 38, 12, '18:35:01.231878'),
+(89, 'TKNO2511261835001', '2025-11-26', 'Followup', '9995454213', 1, 4, 36, 12, '18:35:43.997337'),
+(90, 'TKNO2511261836001', '2025-11-26', 'Followup', '8547441968', 1, 4, 39, 12, '18:36:32.929704'),
+(91, 'TKNO2511271538001', '2025-11-26', 'Followup', '8086840612', 1, 4, 16, 12, '15:39:03.563836'),
+(92, 'TKNO2511271539001', '2025-11-26', 'Followup', '9567301324', 1, 4, 37, 12, '15:40:10.281675'),
+(93, 'TKNO2511271541001', '2025-11-26', 'Followup', '9895568804', 1, 4, 23, 13, '15:42:04.611506'),
+(94, 'TKNO2511271542001', '2025-11-26', 'Followup', '9495309175', 1, 4, 35, 13, '15:42:44.749061'),
+(95, 'TKNO2511271543001', '2025-11-26', 'Followup', '9447435447', 1, 4, 25, 13, '15:43:42.363343'),
+(96, 'TKNO2511271544001', '2025-11-26', 'Followup', '9048366577', 1, 4, 38, 13, '15:45:08.198169'),
+(97, 'TKNO2511271545001', '2025-11-26', 'Followup', '8606069024', 1, 4, 15, 13, '15:45:49.697281'),
+(98, 'TKNO2511271548001', '2025-11-26', 'Followup', '9995454213', 1, 4, 36, 13, '15:49:13.858647'),
+(99, 'TKNO2511271700001', '2025-11-27', 'Followup', '9847091137', 1, 4, 40, 12, '17:00:44.515320'),
+(101, 'TKNO2511271735001', '2025-11-27', 'Followup', '8921351971', 1, 4, 42, 13, '17:36:33.669663'),
+(102, 'TKNO2511271819001', '2025-11-27', 'Followup', '8547441968', 1, 4, 39, 12, '18:19:44.642723'),
+(108, 'TKNO2511281530001', '2025-11-27', 'Followup', '8086840612', 1, 4, 16, 12, '15:31:00.498435'),
+(109, 'TKNO2511281531001', '2025-11-27', 'Followup', '9847091137', 1, 4, 40, 12, '15:31:42.353279'),
+(110, 'TKNO2511281531002', '2025-11-27', 'Followup', '9961260404', 1, 4, 12, 12, '15:32:35.023409'),
+(111, 'TKNO2511281554001', '2025-11-27', 'Followup', '9495718873', 1, 4, 27, 13, '15:55:24.201556'),
+(112, 'TKNO2511281555001', '2025-11-27', 'Followup', '9447435447', 1, 4, 25, 13, '15:56:25.242660'),
+(113, 'TKNO2511281556001', '2025-11-27', 'Followup', '9447740216', 1, 4, 13, 13, '15:56:57.477054'),
+(114, 'TKNO2511281557001', '2025-11-27', 'Followup', '9048366577', 1, 4, 38, 13, '15:57:39.826622'),
+(115, 'TKNO2511281558001', '2025-11-27', 'Followup', '8606069024', 1, 4, 15, 13, '15:59:21.488732'),
+(116, 'TKNO2511281614001', '2025-11-28', 'Followup', '8547123387', 1, 4, 30, 11, '16:14:54.116872'),
+(117, 'TKNO2511281617001', '2025-11-28', 'Followup', '7306739871', 1, 4, 43, 11, '16:18:30.615989'),
+(118, 'TKNO2511281618001', '2025-11-28', 'Followup', '9567301324', 1, 4, 37, 11, '16:19:07.148694'),
+(119, 'TKNO2511281806001', '2025-11-28', 'Followup', '8137984818', 1, 4, 14, 12, '18:07:06.440575'),
+(120, 'TKNO2511291459001', '2025-11-29', 'Followup', '9895568804', 1, 4, 23, 13, '14:59:47.129336'),
+(121, 'TKNO2511291459002', '2025-11-28', 'Followup', '9847091137', 1, 4, 40, 13, '15:00:16.095317'),
+(122, 'TKNO2511291500001', '2025-11-28', 'Followup', '8606069024', 1, 4, 15, 13, '15:01:04.703263'),
+(123, 'TKNO2511291503001', '2025-11-29', 'Followup', '8606069024', 1, 4, 15, 13, '15:03:41.681357'),
+(124, 'TKNO2511291729001', '2025-11-29', 'Followup', '9048366577', 1, 4, 38, 13, '17:29:57.124993'),
+(125, 'TKNO2511291730001', '2025-11-29', 'Followup', '8086840612', 1, 4, 16, 12, '17:31:52.417791'),
+(126, 'TKNO2511291732001', '2025-11-28', 'Followup', '9567301324', 1, 4, 37, 12, '17:33:04.631645'),
+(128, 'TKNO2512011814001', '2025-12-01', 'Followup', '9567301324', 1, 4, 37, 11, '12:00:00.000000'),
+(129, 'TKNO2512011814002', '2025-12-01', 'Followup', '8111807233', 1, 4, 10, 11, '03:30:00.000000'),
+(130, 'TKNO2512011828001', '2025-12-01', 'Followup', '7293777264', 1, 4, 44, 11, '05:00:00.000000'),
+(131, 'TKNO2512011830001', '2025-12-01', 'Followup', '8589855519', 1, 4, 28, 12, '10:00:00.000000'),
+(132, 'TKNO2512011850001', '2025-12-01', 'Followup', '9400877222', 1, 4, 45, 12, '06:00:00.000000'),
+(133, 'TKNO2512020913001', '2025-12-01', 'Followup', '9847091137', 1, 4, 40, 13, '12:00:00.000000'),
+(134, 'TKNO2512020914001', '2025-12-01', 'Followup', '9447740216', 1, 4, 13, 13, '03:00:00.000000'),
+(135, 'TKNO2512021534001', '2025-12-02', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(136, 'TKNO2512021538001', '2025-12-02', 'Followup', '8137984818', 1, 4, 14, 13, '04:00:00.000000'),
+(137, 'TKNO2512021542001', '2025-12-02', 'Followup', '9567301324', 1, 4, 37, 11, '12:00:00.000000'),
+(138, 'TKNO2512021549001', '2025-12-02', 'Followup', '9400779977', 1, 4, 46, 11, '10:00:00.000000'),
+(139, 'TKNO2512021550001', '2025-12-01', 'Followup', '9847091137', 1, 4, 40, 12, '12:00:00.000000'),
+(140, 'TKNO2512021833001', '2025-12-02', 'Followup', '9447556337', 1, 4, 47, 11, '05:00:00.000000'),
+(141, 'TKNO2512021838001', '2025-12-02', 'Followup', '8891177854', 1, 4, 48, 12, '06:00:00.000000'),
+(142, 'TKNO2512021840001', '2025-12-02', 'Followup', '9446595307', 1, 4, 31, 12, '04:30:00.000000'),
+(143, 'TKNO2512031740001', '2025-12-03', 'Followup', '8891177854', 1, 4, 48, 11, '09:00:00.000000'),
+(144, 'TKNO2512031743001', '2025-12-03', 'Followup', '9961260404', 1, 4, 12, 13, '03:00:00.000000'),
+(145, 'TKNO2512031744001', '2025-12-03', 'Followup', '7293777264', 1, 4, 44, 11, '05:00:00.000000'),
+(146, 'TKNO2512031838001', '2025-12-02', 'Consultation', '9400954654', 1, 4, 49, 12, '06:00:00.000000'),
+(147, 'TKNO2512031923001', '2025-12-02', 'Consultation', '8891906199', 1, 4, 50, 12, '07:00:00.000000'),
+(149, 'TKNO2512041654001', '2025-12-04', 'Followup', '9400779977', 1, 4, 46, 11, '10:00:00.000000'),
+(150, 'TKNO2512041659001', '2025-12-04', 'Consultation', '9495002517', 1, 4, 51, 14, '04:00:00.000000'),
+(151, 'TKNO2512041758001', '2025-12-04', 'Followup', '9400954654', 1, 4, 49, 12, '04:00:00.000000'),
+(152, 'TKNO2512041849001', '2025-12-04', 'Followup', '8891177854', 1, 4, 48, 11, '06:00:00.000000'),
+(153, 'TKNO2512051721001', '2025-12-05', 'Followup', '9400779977', 1, 4, 46, 11, '10:00:00.000000'),
+(154, 'TKNO2512051733001', '2025-12-05', 'Followup', '9656612677', 1, 4, 52, 11, '11:00:00.000000'),
+(155, 'TKNO2512051734001', '2025-12-05', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(156, 'TKNO2512051734002', '2025-12-05', 'Followup', '9495002517', 1, 4, 51, 13, '12:00:00.000000'),
+(157, 'TKNO2512051735001', '2025-12-05', 'Followup', '8891177854', 1, 4, 48, 11, '06:00:00.000000'),
+(158, 'TKNO2512051851001', '2025-12-05', 'Followup', '9645079875', 1, 4, 53, 12, '11:00:00.000000'),
+(159, 'TKNO2512051903001', '2025-12-05', 'Followup', '8136959777', 1, 4, 54, 12, '06:00:00.000000'),
+(160, 'TKNO2512061023001', '2025-12-06', 'Followup', '9495002517', 1, 4, 51, 13, '10:00:00.000000'),
+(161, 'TKNO2512061024001', '2025-12-06', 'Followup', '9656612677', 1, 4, 52, 13, '11:00:00.000000'),
+(162, 'TKNO2512061105001', '2025-12-06', 'Consultation', '9656977749', 1, 4, 55, 12, '11:00:00.000000'),
+(163, 'TKNO2512061140001', '2025-12-06', 'Followup', '8547123387', 1, 4, 30, 11, '11:00:00.000000'),
+(164, 'TKNO2512061759001', '2025-12-06', 'Followup', '9400954654', 1, 4, 49, 13, '05:00:00.000000'),
+(165, 'TKNO2512061802001', '2025-12-06', 'Followup', '9446595307', 1, 4, 31, 12, '04:00:00.000000'),
+(166, 'TKNO2512061840001', '2025-12-06', 'Followup', '8136959777', 1, 4, 54, 12, '06:00:00.000000'),
+(167, 'TKNO2512061845001', '2025-12-06', 'Followup', '8891177854', 1, 4, 48, 11, '05:30:00.000000'),
+(168, 'TKNO2512081807001', '2025-12-08', 'Followup', '9400954654', 1, 4, 49, 12, '05:30:00.000000'),
+(169, 'TKNO2512081815001', '2025-12-08', 'Followup', '9656612677', 1, 4, 52, 13, '11:00:00.000000'),
+(170, 'TKNO2512081816001', '2025-12-08', 'Followup', '9447740216', 1, 4, 13, 13, '12:30:00.000000'),
+(171, 'TKNO2512081817001', '2025-12-06', 'Followup', '9656977749', 1, 4, 55, 13, '05:00:00.000000'),
+(172, 'TKNO2512081824001', '2025-12-08', 'Followup', '8891177854', 1, 4, 48, 11, '06:00:00.000000'),
+(173, 'TKNO2512081849001', '2025-12-08', 'Followup', '9846244944', 1, 4, 56, 11, '04:30:00.000000'),
+(174, 'TKNO2512081854001', '2025-12-08', 'Consultation', '9539101165', 1, 4, 57, 12, '06:00:00.000000'),
+(175, 'TKNO2512081901001', '2025-12-08', 'Followup', '9846244944', 1, 4, 56, 11, '11:30:00.000000'),
+(176, 'TKNO2512081902001', '2025-12-08', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(177, 'TKNO2512081903001', '2025-12-08', 'Followup', '8891177854', 1, 4, 48, 11, '06:00:00.000000'),
+(178, 'TKNO2512081906001', '2025-12-08', 'Followup', '9539101165', 1, 4, 57, 12, '12:00:00.000000'),
+(179, 'TKNO2512091307001', '2025-12-09', 'Followup', '9446595307', 1, 4, 31, 11, '10:00:00.000000'),
+(180, 'TKNO2512091311001', '2025-12-09', 'Followup', '9446100487', 1, 4, 58, 11, '12:00:00.000000'),
+(181, 'TKNO2512091355001', '2025-12-09', 'Followup', '9846244944', 1, 4, 56, 13, '11:00:00.000000'),
+(182, 'TKNO2512091355002', '2025-12-09', 'Followup', '9495002517', 1, 4, 51, 13, '12:00:00.000000'),
+(183, 'TKNO2512091358001', '2025-12-09', 'Followup', '9539101165', 1, 4, 57, 12, '12:00:00.000000'),
+(184, 'TKNO2512091419001', '2025-12-09', 'Followup', '8891177854', 1, 4, 48, 11, '06:00:00.000000'),
+(187, 'TKNO2512091627001', '2025-12-10', 'Followup', '9961260404', 1, 4, 12, 13, '11:00:00.000000'),
+(188, 'TKNO2512091628001', '2025-12-10', 'Followup', '9846244944', 1, 4, 56, 13, '12:00:00.000000'),
+(189, 'TKNO2512091628002', '2025-12-10', 'Followup', '8137984818', 1, 4, 14, 13, '04:00:00.000000'),
+(190, 'TKNO2512091629001', '2025-12-10', 'Followup', '9400954654', 1, 4, 49, 12, '10:30:00.000000'),
+(192, 'TKNO2512091633001', '2025-12-10', 'Followup', '9446100487', 1, 4, 58, 11, '04:00:00.000000'),
+(193, 'TKNO2512091634001', '2025-12-10', 'Followup', '9539101165', 1, 4, 57, 12, '12:00:00.000000'),
+(194, 'TKNO2512091724001', '2025-12-09', 'Followup', '8921414788', 1, 4, 59, 11, '04:30:00.000000'),
+(195, 'TKNO2512091806001', '2025-12-10', 'Followup', '9495002517', 1, 4, 51, 13, '10:00:00.000000'),
+(196, 'TKNO2512091844001', '2025-12-09', 'Consultation', '9400980427', 1, 4, 60, 12, '05:00:00.000000'),
+(197, 'TKNO2512091847001', '2025-12-10', 'Followup', '8921414788', 1, 4, 59, 11, '11:30:00.000000'),
+(198, 'TKNO2512101546001', '2025-12-10', 'Followup', '9446143144', 1, 4, 61, 13, '02:30:00.000000'),
+(199, 'TKNO2512101608001', '2025-12-10', 'Followup', '9400980427', 1, 4, 60, 12, '03:30:00.000000'),
+(200, 'TKNO2512101634001', '2025-12-11', 'Followup', '9400980427', 1, 4, 60, 12, '11:00:00.000000'),
+(201, 'TKNO2512101635001', '2025-12-10', 'Followup', '8589855519', 1, 4, 28, 12, '10:00:00.000000'),
+(202, 'TKNO2512101636001', '2025-12-11', 'Followup', '9539101165', 1, 4, 57, 12, '12:00:00.000000'),
+(203, 'TKNO2512101727001', '2025-12-11', 'Followup', '9846244944', 1, 4, 56, 13, '11:00:00.000000'),
+(204, 'TKNO2512101729001', '2025-12-11', 'Followup', '9446100487', 1, 4, 58, 11, '09:00:00.000000'),
+(205, 'TKNO2512101736001', '2025-12-10', 'Followup', '8921414788', 1, 4, 59, 11, '11:00:00.000000'),
+(206, 'TKNO2512101741001', '2025-12-10', 'Followup', '8281092232', 1, 4, 62, 11, '04:00:00.000000'),
+(207, 'TKNO2512101811001', '2025-12-10', 'Consultation', '9495200066', 1, 4, 63, 12, '05:00:00.000000'),
+(208, 'TKNO2512101828001', '2025-12-11', 'Followup', '9495200066', 1, 4, 63, 12, '05:00:00.000000'),
+(209, 'TKNO2512101840001', '2025-12-11', 'Followup', '8891177854', 1, 4, 48, 11, '06:00:00.000000'),
+(210, 'TKNO2512111208001', '2025-12-12', 'Followup', '9400980427', 1, 4, 60, 12, '11:00:00.000000'),
+(211, 'TKNO2512111307001', '2025-12-11', 'Followup', '9400779977', 1, 4, 46, 11, '12:00:00.000000'),
+(213, 'TKNO2512111313001', '2025-12-12', 'Followup', '9446100487', 1, 4, 58, 11, '04:00:00.000000'),
+(214, 'TKNO2512111544001', '2025-12-11', 'Followup', '9539101165', 1, 4, 57, 12, '05:30:00.000000'),
+(215, 'TKNO2512111742001', '2025-12-11', 'Followup', '9567551524', 1, 4, 65, 11, '05:00:00.000000'),
+(216, 'TKNO2512111806001', '2025-12-12', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(217, 'TKNO2512111806002', '2025-12-12', 'Followup', '9846244944', 1, 4, 56, 13, '11:00:00.000000'),
+(218, 'TKNO2512111807001', '2025-12-12', 'Followup', '8137984818', 1, 4, 14, 13, '04:00:00.000000'),
+(219, 'TKNO2512111841001', '2025-12-11', 'Consultation', '9447750108', 1, 4, 64, 12, '04:00:00.000000'),
+(220, 'TKNO2512111843001', '2025-12-11', 'Followup', '9495200066', 1, 4, 63, 12, '05:00:00.000000'),
+(221, 'TKNO2512111850001', '2025-12-12', 'Followup', '9495200066', 1, 4, 63, 12, '05:00:00.000000'),
+(222, 'TKNO2512111851001', '2025-12-12', 'Followup', '9567551524', 1, 4, 65, 11, '05:00:00.000000'),
+(223, 'TKNO2512111852001', '2025-12-12', 'Followup', '8891177854', 1, 4, 48, 11, '03:00:00.000000'),
+(224, 'TKNO2512111854001', '2025-12-12', 'Followup', '9400779977', 1, 4, 46, 11, '12:00:00.000000'),
+(225, 'TKNO2512120902001', '2025-12-12', 'Followup', '9497272596', 1, 4, 66, 11, '03:00:00.000000'),
+(226, 'TKNO2512121153001', '2025-12-13', 'Followup', '9846244944', 1, 4, 56, 13, '12:00:00.000000'),
+(227, 'TKNO2512121736001', '2025-12-12', 'Followup', '9745682054', 1, 4, 67, 11, '04:00:00.000000'),
+(228, 'TKNO2512121803001', '2025-12-13', 'Followup', '8891177854', 1, 4, 48, 11, '09:00:00.000000'),
+(229, 'TKNO2512121817001', '2025-12-13', 'Followup', '9539101165', 1, 4, 57, 13, '09:00:00.000000'),
+(230, 'TKNO2512121819001', '2025-12-12', 'Followup', '9539101165', 1, 4, 57, 14, '05:30:00.000000'),
+(231, 'TKNO2512121837001', '2025-12-12', 'Consultation', '9995774452', 1, 4, 68, 14, '06:00:00.000000'),
+(232, 'TKNO2512131327001', '2025-12-13', 'Followup', '9946527538', 1, 4, 69, 11, '12:00:00.000000'),
+(233, 'TKNO2512131650001', '2025-12-13', 'Followup', '9940131030', 1, 4, 70, 11, '03:00:00.000000'),
+(234, 'TKNO2512131811001', '2025-12-13', 'Followup', '9446595307', 1, 4, 18, 11, '04:00:00.000000'),
+(235, 'TKNO2512131812001', '2025-12-13', 'Followup', '9567551524', 1, 4, 65, 11, '05:00:00.000000'),
+(236, 'TKNO2512131818001', '2025-12-15', 'Followup', '9656612677', 1, 4, 52, 11, '11:00:00.000000'),
+(237, 'TKNO2512131819001', '2025-12-15', 'Followup', '9995774452', 1, 4, 68, 11, '04:00:00.000000'),
+(238, 'TKNO2512131821001', '2025-12-15', 'Followup', '8137984818', 1, 4, 14, 13, '04:00:00.000000'),
+(239, 'TKNO2512151221001', '2025-12-15', 'Followup', '9400779977', 1, 4, 46, 11, '10:00:00.000000'),
+(240, 'TKNO2512151225001', '2025-12-15', 'Followup', '7306739871', 1, 4, 43, 11, '11:00:00.000000'),
+(241, 'TKNO2512151239001', '2025-12-15', 'Followup', '9495202009', 1, 4, 71, 13, '10:00:00.000000'),
+(242, 'TKNO2512151622001', '2025-12-15', 'Followup', '9400954654', 1, 4, 49, 12, '10:30:00.000000'),
+(243, 'TKNO2512151624001', '2025-12-16', 'Followup', '9400954654', 1, 4, 49, 12, '10:30:00.000000'),
+(244, 'TKNO2512151625001', '2025-12-15', 'Followup', '9539101165', 1, 4, 57, 12, '12:00:00.000000'),
+(245, 'TKNO2512151629001', '2025-12-15', 'Followup', '8137984818', 1, 4, 14, 12, '04:00:00.000000'),
+(246, 'TKNO2512151643001', '2025-12-15', 'Followup', '9995774452', 1, 4, 68, 13, '04:00:00.000000'),
+(247, 'TKNO2512151714001', '2025-12-15', 'Followup', '8111807233', 1, 4, 10, 11, '03:30:00.000000'),
+(248, 'TKNO2512151715001', '2025-12-15', 'Followup', '9745682054', 1, 4, 67, 11, '04:00:00.000000'),
+(249, 'TKNO2512151716001', '2025-12-15', 'Followup', '9567551524', 1, 4, 65, 11, '04:30:00.000000'),
+(250, 'TKNO2512151717001', '2025-12-15', 'Followup', '9495200066', 1, 4, 63, 12, '05:00:00.000000'),
+(251, 'TKNO2512151836001', '2025-12-15', 'Followup', '8891177854', 1, 4, 48, 13, '05:30:00.000000'),
+(252, 'TKNO2512151837001', '2025-12-16', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(253, 'TKNO2512151838001', '2025-12-16', 'Followup', '9995774452', 1, 4, 68, 13, '05:00:00.000000'),
+(255, 'TKNO2512151846001', '2025-12-15', 'Followup', '8547441968', 1, 4, 39, 12, '03:00:00.000000'),
+(256, 'TKNO2512151847001', '2025-12-16', 'Followup', '8547441968', 1, 4, 39, 12, '06:00:00.000000'),
+(259, 'TKNO2512160900001', '2025-12-16', 'Followup', '9400779977', 1, 4, 46, 11, '09:00:00.000000'),
+(260, 'TKNO2512160901001', '2025-12-16', 'Followup', '9495002517', 1, 4, 72, 11, '11:00:00.000000'),
+(261, 'TKNO2512160902001', '2025-12-16', 'Followup', '9567551524', 1, 4, 65, 11, '20:00:00.000000'),
+(262, 'TKNO2512160903001', '2025-12-16', 'Followup', '8111807233', 1, 4, 10, 11, '03:30:00.000000'),
+(263, 'TKNO2512160904001', '2025-12-16', 'Followup', '9745682054', 1, 4, 67, 11, '04:00:00.000000'),
+(264, 'TKNO2512160905001', '2025-12-16', 'Followup', '9447556337', 1, 4, 47, 11, '04:30:00.000000'),
+(265, 'TKNO2512160933001', '2025-12-16', 'Followup', '9495200066', 1, 4, 63, 13, '04:30:00.000000'),
+(266, 'TKNO2512161248001', '2025-12-16', 'Followup', '9539101165', 1, 4, 57, 13, '12:00:00.000000'),
+(267, 'TKNO2512161651001', '2025-12-16', 'Followup', '8137984818', 1, 4, 14, 13, '04:00:00.000000'),
+(268, 'TKNO2512161655001', '2025-12-16', 'Followup', '9495200066', 1, 4, 63, 13, '04:30:00.000000'),
+(269, 'TKNO2512161656001', '2025-12-17', 'Followup', '8891906199', 1, 4, 50, 13, '09:30:00.000000'),
+(270, 'TKNO2512161657001', '2025-12-17', 'Followup', '9400954654', 1, 4, 49, 13, '10:30:00.000000'),
+(271, 'TKNO2512161836001', '2025-12-16', 'Followup', '9446595307', 1, 4, 18, 12, '04:30:00.000000'),
+(272, 'TKNO2512161840001', '2025-12-16', 'Followup', '9539101165', 1, 4, 57, 12, '12:00:00.000000'),
+(273, 'TKNO2512161841001', '2025-12-16', 'Followup', '8137984818', 1, 4, 14, 12, '04:00:00.000000'),
+(274, 'TKNO2512161843001', '2025-12-16', 'Followup', '9495200066', 1, 4, 63, 12, '05:00:00.000000'),
+(275, 'TKNO2512161845001', '2025-12-16', 'Followup', '8547441968', 1, 4, 39, 12, '06:00:00.000000'),
+(276, 'TKNO2512161859001', '2025-12-16', 'Consultation', '9633531991', 1, 4, 73, 11, '06:00:00.000000'),
+(277, 'TKNO2512161859002', '2025-12-16', 'Followup', '9633531991', 1, 4, 73, 11, '06:00:00.000000'),
+(278, 'TKNO2512161906001', '2025-12-17', 'Followup', '9567551524', 1, 4, 65, 11, '10:00:00.000000'),
+(279, 'TKNO2512161907001', '2025-12-17', 'Followup', '9495002517', 1, 4, 72, 11, '11:00:00.000000'),
+(281, 'TKNO2512161909001', '2025-12-17', 'Followup', '9633531991', 1, 4, 73, 11, '06:00:00.000000'),
+(282, 'TKNO2512171208001', '2025-12-17', 'Followup', '9567700796', 1, 4, 74, 12, '10:00:00.000000'),
+(283, 'TKNO2512171637001', '2025-12-17', 'Followup', '9995774452', 1, 4, 68, 13, '04:00:00.000000'),
+(284, 'TKNO2512171658001', '2025-12-17', 'Followup', '9446029107', 1, 4, 75, 11, '05:00:00.000000'),
+(285, 'TKNO2512171808001', '2025-12-17', 'Followup', '9539101165', 1, 4, 57, 12, '12:00:00.000000'),
+(286, 'TKNO2512171808002', '2025-12-17', 'Followup', '8137984818', 1, 4, 14, 12, '04:00:00.000000'),
+(287, 'TKNO2512171816001', '2025-12-18', 'Followup', '8589855519', 1, 4, 28, 12, '10:00:00.000000'),
+(288, 'TKNO2512171818001', '2025-12-18', 'Followup', '9400954654', 1, 4, 49, 13, '10:30:00.000000'),
+(289, 'TKNO2512171819001', '2025-12-18', 'Followup', '8891906199', 1, 4, 50, 13, '09:30:00.000000'),
+(290, 'TKNO2512171820001', '2025-12-18', 'Followup', '9539101165', 1, 4, 57, 12, '12:00:00.000000'),
+(291, 'TKNO2512171821001', '2025-12-18', 'Followup', '8547441968', 1, 4, 39, 12, '06:00:00.000000'),
+(292, 'TKNO2512171905001', '2025-12-18', 'Followup', '9995774452', 1, 4, 68, 11, '11:00:00.000000'),
+(293, 'TKNO2512171905002', '2025-12-18', 'Followup', '8111807233', 1, 4, 10, 11, '03:30:00.000000'),
+(294, 'TKNO2512171907001', '2025-12-18', 'Followup', '9495002517', 1, 4, 72, 11, '04:00:00.000000'),
+(295, 'TKNO2512181139001', '2025-12-18', 'Followup', '9567551524', 1, 4, 65, 11, '12:00:00.000000'),
+(296, 'TKNO2512181225001', '2025-12-18', 'Followup', '9656612677', 1, 4, 52, 13, '12:00:00.000000'),
+(297, 'TKNO2512181229001', '2025-12-18', 'Followup', '9495200066', 1, 4, 63, 13, '04:30:00.000000'),
+(298, 'TKNO2512181714001', '2025-12-18', 'Consultation', '9495002517', 1, 4, 76, 12, '04:00:00.000000'),
+(299, 'TKNO2512181814001', '2025-12-19', 'Followup', '8891906199', 1, 4, 50, 13, '09:30:00.000000'),
+(300, 'TKNO2512181816001', '2025-12-19', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(302, 'TKNO2512181841001', '2025-12-19', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(303, 'TKNO2512181841002', '2025-12-19', 'Followup', '9495002517', 1, 4, 51, 12, '11:00:00.000000'),
+(304, 'TKNO2512181842001', '2025-12-19', 'Followup', '9446595307', 1, 4, 31, 12, '03:00:00.000000'),
+(305, 'TKNO2512181843001', '2025-12-19', 'Followup', '8137984818', 1, 4, 14, 13, '12:00:00.000000'),
+(306, 'TKNO2512181843002', '2025-12-19', 'Followup', '9447556337', 1, 4, 47, 12, '04:30:00.000000'),
+(307, 'TKNO2512181844001', '2025-12-19', 'Followup', '9633531991', 1, 4, 73, 12, '06:00:00.000000'),
+(308, 'TKNO2512181854001', '2025-12-18', 'Followup', '9020337370', 1, 4, 77, 13, '12:30:00.000000'),
+(310, 'TKNO2512191307001', '2025-12-19', 'Followup', '9995774452', 1, 4, 68, 11, '10:45:00.000000'),
+(311, 'TKNO2512191308001', '2025-12-19', 'Followup', '9495002517', 1, 4, 72, 11, '11:00:00.000000'),
+(312, 'TKNO2512191751001', '2025-12-20', 'Followup', '9633531991', 1, 4, 73, 12, '09:00:00.000000'),
+(313, 'TKNO2512191753001', '2025-12-20', 'Followup', '8891906199', 1, 4, 50, 13, '09:30:00.000000'),
+(314, 'TKNO2512191754001', '2025-12-20', 'Followup', '9495002517', 1, 4, 51, 12, '10:00:00.000000'),
+(317, 'TKNO2512191756002', '2025-12-20', 'Followup', '9567700796', 1, 4, 74, 12, '12:00:00.000000'),
+(318, 'TKNO2512191757001', '2025-12-20', 'Followup', '9946527538', 1, 4, 69, 12, '12:00:00.000000'),
+(320, 'TKNO2512191759001', '2025-12-20', 'Followup', '9495200066', 1, 4, 63, 13, '03:00:00.000000'),
+(321, 'TKNO2512191759002', '2025-12-20', 'Followup', '9995774452', 1, 4, 68, 13, '04:00:00.000000'),
+(322, 'TKNO2512191800001', '2025-12-20', 'Followup', '9400954654', 1, 4, 49, 13, '04:30:00.000000'),
+(323, 'TKNO2512201228001', '2025-12-20', 'Followup', '8547879784', 1, 4, 78, 13, '11:00:00.000000'),
+(324, 'TKNO2512201325001', '2025-12-20', 'Followup', '7306481407', 1, 4, 79, 13, '09:00:00.000000'),
+(325, 'TKNO2512220952001', '2025-12-22', 'Followup', '8891906199', 1, 4, 50, 13, '09:30:00.000000'),
+(326, 'TKNO2512220953001', '2025-12-22', 'Followup', '9495202009', 1, 4, 71, 13, '10:00:00.000000'),
+(327, 'TKNO2512220954001', '2025-12-22', 'Followup', '8547879784', 1, 4, 78, 13, '11:00:00.000000'),
+(328, 'TKNO2512220955001', '2025-12-22', 'Followup', '9495002517', 1, 4, 51, 12, '11:00:00.000000'),
+(329, 'TKNO2512220956001', '2025-12-22', 'Followup', '9495002517', 1, 4, 72, 11, '11:00:00.000000'),
+(332, 'TKNO2512220957002', '2025-12-22', 'Followup', '9447556337', 1, 4, 47, 11, '04:30:00.000000'),
+(333, 'TKNO2512220958001', '2025-12-22', 'Followup', '9495200066', 1, 4, 63, 13, '04:30:00.000000'),
+(334, 'TKNO2512220958002', '2025-12-22', 'Followup', '9567551524', 1, 4, 65, 11, '05:00:00.000000'),
+(335, 'TKNO2512221020001', '2025-12-22', 'Followup', '8891177854', 1, 4, 48, 11, '05:30:00.000000'),
+(336, 'TKNO2512221020002', '2025-12-22', 'Followup', '9400954654', 1, 4, 49, 12, '05:30:00.000000'),
+(337, 'TKNO2512221021001', '2025-12-22', 'Followup', '9633531991', 1, 4, 73, 11, '06:00:00.000000'),
+(338, 'TKNO2512221709001', '2025-12-22', 'Followup', '9495002517', 1, 4, 51, 12, '11:00:00.000000'),
+(339, 'TKNO2512221812001', '2025-12-23', 'Followup', '8891906199', 1, 4, 50, 13, '09:00:00.000000'),
+(340, 'TKNO2512221813001', '2025-12-23', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(341, 'TKNO2512221814001', '2025-12-23', 'Followup', '8547879784', 1, 4, 78, 13, '11:00:00.000000'),
+(342, 'TKNO2512221815001', '2025-12-23', 'Followup', '9495200066', 1, 4, 63, 13, '04:30:00.000000'),
+(343, 'TKNO2512221822001', '2025-12-22', 'Followup', '9995774452', 1, 4, 68, 11, '04:00:00.000000'),
+(344, 'TKNO2512221823001', '2025-12-22', 'Followup', '9567551524', 1, 4, 65, 11, '05:00:00.000000'),
+(345, 'TKNO2512221824001', '2025-12-22', 'Followup', '9447556337', 1, 4, 47, 11, '04:30:00.000000'),
+(346, 'TKNO2512221824002', '2025-12-22', 'Followup', '9633531991', 1, 4, 73, 11, '06:00:00.000000'),
+(347, 'TKNO2512221838001', '2025-12-22', 'Followup', '9961872998', 1, 4, 80, 12, '05:00:00.000000'),
+(348, 'TKNO2512221842001', '2025-12-23', 'Followup', '9567551524', 1, 4, 65, 11, '10:30:00.000000'),
+(349, 'TKNO2512221842002', '2025-12-23', 'Followup', '9961872998', 1, 4, 80, 12, '10:30:00.000000'),
+(351, 'TKNO2512221844001', '2025-12-23', 'Followup', '9495002517', 1, 4, 72, 11, '11:00:00.000000'),
+(352, 'TKNO2512221856001', '2025-12-22', 'Followup', '8111807233', 1, 4, 10, 11, '14:00:00.000000'),
+(353, 'TKNO2512221857001', '2025-12-22', 'Followup', '8281092232', 1, 4, 62, 11, '04:00:00.000000'),
+(354, 'TKNO2512221858001', '2025-12-23', 'Followup', '9995774452', 1, 4, 68, 13, '04:00:00.000000'),
+(355, 'TKNO2512221859001', '2025-12-22', 'Followup', '9495200066', 1, 4, 63, 12, '04:30:00.000000'),
+(356, 'TKNO2512221900001', '2025-12-22', 'Followup', '8891177854', 1, 4, 48, 11, '06:00:00.000000'),
+(357, 'TKNO2512221900002', '2025-12-22', 'Followup', '9633531991', 1, 4, 73, 12, '06:00:00.000000'),
+(358, 'TKNO2512231042001', '2025-12-23', 'Followup', '9400954654', 1, 4, 49, 11, '10:00:00.000000'),
+(359, 'TKNO2512231615001', '2025-12-23', 'Followup', '9567700796', 1, 4, 74, 12, '10:00:00.000000'),
+(360, 'TKNO2512231819001', '2025-12-24', 'Followup', '8891906199', 1, 4, 50, 13, '09:30:00.000000'),
+(361, 'TKNO2512231820001', '2025-12-24', 'Followup', '9995774452', 1, 4, 68, 13, '11:30:00.000000'),
+(362, 'TKNO2512231829001', '2025-12-23', 'Consultation', '7356171039', 1, 4, 82, 12, '05:00:00.000000'),
+(363, 'TKNO2512231859001', '2025-12-23', 'Followup', '9846164000', 1, 4, 83, 12, '04:30:00.000000'),
+(364, 'TKNO2512231906001', '2025-12-23', 'Consultation', '8547701892', 1, 4, 84, 12, '06:30:00.000000'),
+(365, 'TKNO2512231909001', '2025-12-24', 'Followup', '9633531991', 1, 4, 73, 12, '09:00:00.000000'),
+(367, 'TKNO2512231910002', '2025-12-24', 'Followup', '8547701892', 1, 4, 84, 12, '04:00:00.000000'),
+(368, 'TKNO2512231914001', '2025-12-24', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(369, 'TKNO2512231915001', '2025-12-23', 'Followup', '9495002517', 1, 4, 72, 11, '11:00:00.000000'),
+(370, 'TKNO2512231915002', '2025-12-23', 'Followup', '8111807233', 1, 4, 10, 11, '11:00:00.000000'),
+(371, 'TKNO2512231916001', '2025-12-24', 'Followup', '9567551524', 1, 4, 65, 11, '04:00:00.000000'),
+(372, 'TKNO2512231917001', '2025-12-24', 'Followup', '9446029107', 1, 4, 75, 11, '05:00:00.000000'),
+(373, 'TKNO2512231917002', '2025-12-23', 'Followup', '8891177854', 1, 4, 48, 11, '05:30:00.000000'),
+(374, 'TKNO2512231918001', '2025-12-24', 'Followup', '7356171039', 1, 4, 82, 12, '06:00:00.000000'),
+(375, 'TKNO2512231919001', '2025-12-24', 'Followup', '9846164000', 1, 4, 83, 12, '04:30:00.000000'),
+(376, 'TKNO2512241104001', '2025-12-24', 'Followup', '8891177854', 1, 4, 48, 11, '05:30:00.000000'),
+(377, 'TKNO2512241107001', '2025-12-24', 'Followup', '7356171039', 1, 4, 82, 11, '06:00:00.000000'),
+(378, 'TKNO2512241135001', '2025-12-24', 'Followup', '9961872998', 1, 4, 80, 12, '11:00:00.000000'),
+(379, 'TKNO2512241600001', '2025-12-24', 'Followup', '8137984818', 1, 4, 14, 13, '04:00:00.000000'),
+(380, 'TKNO2512241756001', '2025-12-25', 'Followup', '8589855519', 1, 4, 28, 12, '10:00:00.000000'),
+(381, 'TKNO2512241757001', '2025-12-25', 'Followup', '7994644946', 1, 4, 32, 12, '11:00:00.000000'),
+(382, 'TKNO2512241805001', '2025-12-24', 'Followup', '7356171039', 1, 4, 82, 13, '05:30:00.000000'),
+(383, 'TKNO2512250952001', '2025-12-25', 'Followup', '8891906199', 1, 4, 50, 13, '09:30:00.000000'),
+(384, 'TKNO2512250953001', '2025-12-25', 'Followup', '8111807233', 1, 4, 10, 11, '11:00:00.000000'),
+(385, 'TKNO2512251008001', '2025-12-25', 'Followup', '8891177854', 1, 4, 48, 12, '09:00:00.000000'),
+(386, 'TKNO2512251123001', '2025-12-25', 'Followup', '9995774452', 1, 4, 68, 13, '11:00:00.000000'),
+(387, 'TKNO2512251202001', '2025-12-25', 'Followup', '9746512541', 1, 4, 85, 11, '09:00:00.000000'),
+(388, 'TKNO2512260940001', '2025-12-26', 'Followup', '7994644946', 1, 4, 32, 12, '09:00:00.000000'),
+(389, 'TKNO2512260945001', '2025-12-26', 'Followup', '8891906199', 1, 4, 50, 13, '09:30:00.000000'),
+(390, 'TKNO2512261007001', '2025-12-26', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(392, 'TKNO2512261008002', '2025-12-26', 'Followup', '8547879784', 1, 4, 78, 13, '11:00:00.000000'),
+(393, 'TKNO2512261009001', '2025-12-26', 'Followup', '9656612677', 1, 4, 52, 13, '12:00:00.000000'),
+(394, 'TKNO2512261012001', '2025-12-26', 'Followup', '7994644946', 1, 4, 32, 11, '03:30:00.000000'),
+(395, 'TKNO2512261012002', '2025-12-26', 'Followup', '9447556337', 1, 4, 47, 12, '04:00:00.000000'),
+(397, 'TKNO2512261014002', '2025-12-26', 'Followup', '9995774452', 1, 4, 68, 13, '04:00:00.000000'),
+(398, 'TKNO2512261015001', '2025-12-26', 'Followup', '8547701892', 1, 4, 84, 12, '05:00:00.000000'),
+(399, 'TKNO2512261015002', '2025-12-26', 'Followup', '9495200066', 1, 4, 63, 13, '05:00:00.000000'),
+(400, 'TKNO2512261016001', '2025-12-26', 'Followup', '9633531991', 1, 4, 73, 12, '06:00:00.000000'),
+(402, 'TKNO2512261524001', '2025-12-26', 'Followup', '9846164000', 1, 4, 83, 12, '02:00:00.000000'),
+(403, 'TKNO2512261806001', '2025-12-27', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(404, 'TKNO2512261808001', '2025-12-27', 'Followup', '9995774452', 1, 4, 68, 11, '10:30:00.000000'),
+(405, 'TKNO2512261808002', '2025-12-27', 'Followup', '8921414788', 1, 4, 59, 11, '11:00:00.000000'),
+(406, 'TKNO2512261809001', '2025-12-27', 'Followup', '9567551524', 1, 4, 65, 11, '12:00:00.000000'),
+(407, 'TKNO2512261809002', '2025-12-27', 'Followup', '9447556337', 1, 4, 47, 11, '04:00:00.000000'),
+(408, 'TKNO2512261810001', '2025-12-27', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(409, 'TKNO2512261811001', '2025-12-27', 'Followup', '8547879784', 1, 4, 78, 13, '11:00:00.000000'),
+(411, 'TKNO2512261812001', '2025-12-27', 'Followup', '8137984818', 1, 4, 14, 12, '04:00:00.000000'),
+(412, 'TKNO2512261813001', '2025-12-27', 'Followup', '7356171039', 1, 4, 82, 12, '06:00:00.000000'),
+(413, 'TKNO2512261840001', '2025-12-26', 'Followup', '9496813393', 1, 4, 86, 12, '06:00:00.000000'),
+(414, 'TKNO2512261843001', '2025-12-27', 'Followup', '9496813393', 1, 4, 86, 12, '06:00:00.000000'),
+(415, 'TKNO2512271206001', '2025-12-27', 'Followup', '8891906199', 1, 4, 50, 13, '09:30:00.000000'),
+(416, 'TKNO2512271212001', '2025-12-27', 'Followup', '9495200066', 1, 4, 63, 13, '05:00:00.000000'),
+(417, 'TKNO2512271710001', '2025-12-27', 'Followup', '7994644946', 1, 4, 32, 12, '09:00:00.000000'),
+(421, 'TKNO2512271802001', '2025-12-27', 'Followup', '8891177854', 1, 4, 48, 11, '05:03:00.000000'),
+(422, 'TKNO2512271803001', '2025-12-29', 'Followup', '9495202009', 1, 4, 71, 13, '10:00:00.000000'),
+(423, 'TKNO2512271804001', '2025-12-29', 'Followup', '8137984818', 1, 4, 14, 12, '10:00:00.000000'),
+(424, 'TKNO2512271804002', '2025-12-29', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(425, 'TKNO2512271805001', '2025-12-29', 'Followup', '8547879784', 1, 4, 78, 13, '11:00:00.000000'),
+(426, 'TKNO2512271806001', '2025-12-27', 'Followup', '9846164000', 1, 4, 83, 11, '11:00:00.000000'),
+(427, 'TKNO2512271806002', '2025-12-29', 'Followup', '9567551524', 1, 4, 65, 11, '12:00:00.000000'),
+(428, 'TKNO2512271807001', '2025-12-29', 'Followup', '9995774452', 1, 4, 68, 13, '04:00:00.000000'),
+(429, 'TKNO2512271807002', '2025-12-27', 'Followup', '8921414788', 1, 4, 59, 11, '04:00:00.000000'),
+(430, 'TKNO2512271808001', '2025-12-29', 'Followup', '9446595307', 1, 4, 31, 12, '04:30:00.000000'),
+(431, 'TKNO2512271809001', '2025-12-29', 'Followup', '8547701892', 1, 4, 84, 12, '05:00:00.000000'),
+(433, 'TKNO2512271841001', '2025-12-29', 'Followup', '7356171039', 1, 4, 82, 12, '06:00:00.000000'),
+(434, 'TKNO2512291127001', '2025-12-29', 'Followup', '8111807233', 1, 4, 10, 11, '11:00:00.000000'),
+(436, 'TKNO2512291607001', '2025-12-29', 'Followup', '9447533613', 1, 4, 87, 12, '02:30:00.000000'),
+(437, 'TKNO2512291707001', '2025-12-29', 'Followup', '9400980427', 1, 4, 60, 13, '03:00:00.000000'),
+(438, 'TKNO2512291711001', '2025-12-30', 'Followup', '8547879784', 1, 4, 78, 13, '11:00:00.000000'),
+(439, 'TKNO2512291712001', '2025-12-30', 'Followup', '9400980427', 1, 4, 60, 13, '03:00:00.000000'),
+(440, 'TKNO2512291713001', '2025-12-30', 'Followup', '9400954654', 1, 4, 49, 12, '10:30:00.000000'),
+(441, 'TKNO2512291713002', '2025-12-30', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(442, 'TKNO2512291714001', '2025-12-30', 'Followup', '9995774452', 1, 4, 68, 13, '04:00:00.000000'),
+(443, 'TKNO2512291715001', '2025-12-31', 'Followup', '9495200066', 1, 4, 63, 13, '05:00:00.000000'),
+(444, 'TKNO2512291716001', '2025-12-30', 'Followup', '8891177854', 1, 4, 48, 11, '05:30:00.000000'),
+(445, 'TKNO2512291813001', '2025-12-29', 'Followup', '8547701892', 1, 4, 84, 13, '05:30:00.000000'),
+(446, 'TKNO2512291814001', '2025-12-30', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(447, 'TKNO2512291847001', '2025-12-29', 'Consultation', '7403040407', 1, 4, 88, 14, '05:30:00.000000'),
+(448, 'TKNO2512291857001', '2025-12-30', 'Followup', '8921788913', 1, 4, 81, 11, '10:03:00.000000'),
+(449, 'TKNO2512291858001', '2025-12-30', 'Followup', '7403040407', 1, 4, 88, 11, '12:00:00.000000'),
+(450, 'TKNO2512291859001', '2025-12-30', 'Followup', '8891177854', 1, 4, 48, 11, '05:30:00.000000'),
+(451, 'TKNO2512301302001', '2025-12-30', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(453, 'TKNO2512301508001', '2025-12-31', 'Followup', '7403040407', 1, 4, 88, 11, '11:00:00.000000'),
+(454, 'TKNO2512301525001', '2025-12-31', 'Followup', '9495002517', 1, 4, 72, 11, '15:00:00.000000'),
+(455, 'TKNO2512301526001', '2025-12-31', 'Followup', '9446029107', 1, 4, 75, 11, '17:00:00.000000'),
+(456, 'TKNO2512301610001', '2025-12-31', 'Followup', '9400954654', 1, 4, 49, 12, '10:30:00.000000'),
+(457, 'TKNO2512301611001', '2025-12-31', 'Followup', '7306739871', 1, 4, 43, 11, '11:00:00.000000'),
+(458, 'TKNO2512301612001', '2025-12-31', 'Followup', '7403040407', 1, 4, 88, 11, '11:00:00.000000'),
+(459, 'TKNO2512301613001', '2025-12-31', 'Followup', '9961872998', 1, 4, 80, 12, '12:00:00.000000'),
+(460, 'TKNO2512301615001', '2025-12-31', 'Followup', '9495002517', 1, 4, 51, 12, '03:00:00.000000'),
+(461, 'TKNO2512301615002', '2025-12-31', 'Followup', '9495002517', 1, 4, 72, 11, '03:00:00.000000'),
+(462, 'TKNO2512301616001', '2025-12-31', 'Followup', '9400980427', 1, 4, 60, 13, '02:00:00.000000'),
+(463, 'TKNO2512301617001', '2025-12-31', 'Followup', '8137984818', 1, 4, 14, 13, '12:00:00.000000'),
+(464, 'TKNO2512301621001', '2025-12-31', 'Followup', '8547879784', 1, 4, 78, 13, '04:30:00.000000'),
+(465, 'TKNO2512301622001', '2025-12-31', 'Followup', '9446029107', 1, 4, 75, 11, '05:00:00.000000'),
+(466, 'TKNO2512301623001', '2025-12-31', 'Followup', '9895446617', 1, 4, 19, 12, '05:00:00.000000'),
+(467, 'TKNO2512301705001', '2025-12-30', 'Followup', '9400779977', 1, 4, 46, 11, '04:00:00.000000'),
+(468, 'TKNO2512301718001', '2025-12-31', 'Followup', '8921788913', 1, 4, 81, 13, '10:00:00.000000'),
+(470, 'TKNO2512301735001', '2025-12-31', 'Followup', '9400779977', 1, 4, 46, 11, '10:00:00.000000'),
+(472, 'TKNO2512311614001', '2026-01-01', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(474, 'TKNO2512311618002', '2026-01-01', 'Followup', '9400980427', 1, 4, 60, 13, '03:00:00.000000'),
+(475, 'TKNO2512311619001', '2026-01-01', 'Followup', '7403040407', 1, 4, 88, 11, '04:00:00.000000'),
+(476, 'TKNO2512311619002', '2026-01-01', 'Followup', '7356171039', 1, 4, 82, 13, '05:00:00.000000'),
+(477, 'TKNO2512311620001', '2026-01-01', 'Followup', '8111807233', 1, 4, 10, 11, '02:00:00.000000'),
+(478, 'TKNO2512311621001', '2026-01-01', 'Followup', '8891177854', 1, 4, 48, 12, '05:30:00.000000'),
+(479, 'TKNO2512311655001', '2025-12-31', 'Consultation', '8606510007', 1, 4, 89, 14, '03:00:00.000000'),
+(480, 'TKNO2512311702001', '2026-01-01', 'Followup', '8606510007', 1, 4, 89, 11, '04:00:00.000000'),
+(481, 'TKNO2601011048001', '2026-01-01', 'Followup', '8547701892', 1, 4, 84, 12, '10:00:00.000000'),
+(482, 'TKNO2601011753001', '2026-01-01', 'Consultation', '9074676112', 1, 4, 90, 12, '05:00:00.000000'),
+(483, 'TKNO2601011807001', '2026-01-02', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(485, 'TKNO2601011810001', '2026-01-02', 'Followup', '8137984818', 1, 4, 14, 12, '11:00:00.000000'),
+(486, 'TKNO2601011810002', '2026-01-02', 'Followup', '9400980427', 1, 4, 60, 12, '12:00:00.000000'),
+(487, 'TKNO2601011811001', '2026-01-02', 'Followup', '8606510007', 1, 4, 89, 11, '02:00:00.000000'),
+(488, 'TKNO2601011812001', '2026-01-02', 'Followup', '7356171039', 1, 4, 82, 12, '06:00:00.000000'),
+(489, 'TKNO2601021110001', '2026-01-02', 'Followup', '9446595307', 1, 4, 31, 12, '10:00:00.000000'),
+(490, 'TKNO2601021111001', '2026-01-02', 'Followup', '9074676112', 1, 4, 90, 12, '11:00:00.000000'),
+(491, 'TKNO2601021200001', '2026-01-02', 'Followup', '9446043452', 1, 4, 91, 12, '09:00:00.000000'),
+(492, 'TKNO2601021226001', '2026-01-02', 'Followup', '9995774452', 1, 4, 68, 11, '11:00:00.000000'),
+(493, 'TKNO2601021827001', '2026-01-02', 'Consultation', '9620950581', 1, 4, 93, 12, '05:00:00.000000'),
+(494, 'TKNO2601021829001', '2026-01-02', 'Followup', '9620950581', 1, 4, 93, 12, '10:00:00.000000'),
+(495, 'TKNO2601021838001', '2026-01-02', 'Consultation', '9072330722', 1, 4, 92, 11, '05:00:00.000000'),
+(496, 'TKNO2601021843001', '2026-01-02', 'Consultation', '9447868219', 1, 4, 94, 14, '06:00:00.000000'),
+(497, 'TKNO2601030817001', '2026-01-03', 'Followup', '9400779977', 1, 4, 46, 11, '08:30:00.000000'),
+(498, 'TKNO2601030818001', '2026-01-03', 'Followup', '9495002517', 1, 4, 72, 11, '11:00:00.000000'),
+(499, 'TKNO2601030820001', '2026-01-03', 'Followup', '9447868219', 1, 4, 94, 11, '03:00:00.000000'),
+(500, 'TKNO2601031257001', '2026-01-03', 'Followup', '9400779977', 1, 4, 46, 11, '08:30:00.000000'),
+(501, 'TKNO2601031258001', '2026-01-03', 'Followup', '9562360712', 1, 4, 95, 11, '09:00:00.000000'),
+(502, 'TKNO2601031258002', '2026-01-03', 'Followup', '8606510007', 1, 4, 89, 13, '09:00:00.000000'),
+(503, 'TKNO2601031259001', '2026-01-03', 'Followup', '8589855519', 1, 4, 28, 13, '10:00:00.000000'),
+(504, 'TKNO2601031300001', '2026-01-03', 'Followup', '9995774452', 1, 4, 68, 13, '11:00:00.000000'),
+(505, 'TKNO2601031300002', '2026-01-03', 'Followup', '9495002517', 1, 4, 72, 11, '11:00:00.000000'),
+(506, 'TKNO2601031301001', '2026-01-03', 'Followup', '9495002517', 1, 4, 51, 12, '11:00:00.000000'),
+(507, 'TKNO2601031302001', '2026-01-03', 'Followup', '9446043452', 1, 4, 91, 12, '09:00:00.000000'),
+(508, 'TKNO2601031303001', '2026-01-03', 'Followup', '9620950581', 1, 4, 93, 12, '10:00:00.000000'),
+(509, 'TKNO2601031303002', '2026-01-03', 'Followup', '9072330722', 1, 4, 92, 12, '10:30:00.000000'),
+(510, 'TKNO2601031512001', '2026-01-03', 'Followup', '7356171039', 1, 4, 82, 12, '02:00:00.000000'),
+(511, 'TKNO2601031513001', '2026-01-03', 'Followup', '9447868219', 1, 4, 94, 11, '03:00:00.000000'),
+(512, 'TKNO2601031514001', '2026-01-03', 'Followup', '8921414788', 1, 4, 59, 11, '05:00:00.000000'),
+(513, 'TKNO2601031515001', '2026-01-03', 'Followup', '9074676112', 1, 4, 90, 12, '06:00:00.000000'),
+(514, 'TKNO2601031536001', '2026-01-04', 'Followup', '7356171039', 1, 4, 82, 12, '03:00:00.000000'),
+(515, 'TKNO2601031646001', '2026-01-03', 'Consultation', '8089980844', 1, 4, 96, 11, '04:00:00.000000'),
+(516, 'TKNO2601031804001', '2026-01-05', 'Followup', '8606510007', 1, 4, 89, 11, '10:00:00.000000'),
+(517, 'TKNO2601031805001', '2026-01-05', 'Followup', '9567551524', 1, 4, 65, 11, '12:00:00.000000'),
+(518, 'TKNO2601031808001', '2026-01-05', 'Followup', '9072330722', 1, 4, 92, 11, '03:00:00.000000'),
+(519, 'TKNO2601031809001', '2026-01-05', 'Consultation', '7403040407', 1, 4, 88, 11, '04:00:00.000000'),
+(520, 'TKNO2601031810001', '2026-01-05', 'Followup', '9495002517', 1, 4, 72, 14, '04:00:00.000000'),
+(521, 'TKNO2601031811001', '2026-01-05', 'Followup', '9400779977', 1, 4, 46, 11, '05:00:00.000000'),
+(522, 'TKNO2601051115001', '2026-01-05', 'Followup', '8606510007', 1, 4, 89, 12, '10:00:00.000000'),
+(523, 'TKNO2601051138001', '2026-01-05', 'Followup', '9495202009', 1, 4, 71, 13, '10:00:00.000000'),
+(524, 'TKNO2601051700001', '2026-01-05', 'Followup', '9995774452', 1, 4, 68, 13, '04:00:00.000000'),
+(525, 'TKNO2601051735001', '2026-01-05', 'Followup', '9495002517', 1, 4, 72, 14, '04:00:00.000000'),
+(526, 'TKNO2601051759001', '2026-01-05', 'Consultation', '9633226541', 1, 4, 97, 14, '05:00:00.000000'),
+(527, 'TKNO2601051759002', '2026-01-07', 'Followup', '9633226541', 1, 4, 97, 12, '05:00:00.000000'),
+(528, 'TKNO2601051835001', '2026-01-06', 'Followup', '9447868219', 1, 4, 94, 11, '10:00:00.000000'),
+(530, 'TKNO2601051837001', '2026-01-06', 'Followup', '9072330722', 1, 4, 92, 11, '03:00:00.000000'),
+(532, 'TKNO2601051838001', '2026-01-06', 'Followup', '9495002517', 1, 4, 72, 14, '04:00:00.000000'),
+(533, 'TKNO2601051838002', '2026-01-06', 'Followup', '9446595307', 1, 4, 31, 12, '04:30:00.000000'),
+(534, 'TKNO2601051840001', '2026-01-06', 'Followup', '9446043452', 1, 4, 91, 11, '05:00:00.000000'),
+(535, 'TKNO2601051841001', '2026-01-06', 'Followup', '8891177854', 1, 4, 48, 11, '05:30:00.000000'),
+(536, 'TKNO2601051843001', '2026-01-05', 'Followup', '9400954654', 1, 4, 49, 12, '04:00:00.000000'),
+(537, 'TKNO2601051844001', '2026-01-05', 'Followup', '9074676112', 1, 4, 90, 12, '06:00:00.000000'),
+(538, 'TKNO2601051845001', '2026-01-05', 'Followup', '9656612677', 1, 4, 52, 12, '10:00:00.000000'),
+(539, 'TKNO2601051845002', '2026-01-06', 'Followup', '8606510007', 1, 4, 89, 12, '10:00:00.000000'),
+(541, 'TKNO2601051848001', '2026-01-06', 'Followup', '9400954654', 1, 4, 49, 12, '04:00:00.000000'),
+(542, 'TKNO2601051849001', '2026-01-06', 'Followup', '9074676112', 1, 4, 90, 12, '06:00:00.000000'),
+(544, 'TKNO2601061118001', '2026-01-06', 'Followup', '9495718873', 1, 4, 27, 13, '10:00:00.000000'),
+(545, 'TKNO2601061300001', '2026-01-06', 'Followup', '9400779977', 1, 4, 46, 11, '12:00:00.000000'),
+(546, 'TKNO2601061300002', '2026-01-06', 'Followup', '9447868219', 1, 4, 94, 13, '12:00:00.000000'),
+(547, 'TKNO2601061600001', '2026-01-06', 'Followup', '8606510007', 1, 4, 89, 11, '10:00:00.000000'),
+(548, 'TKNO2601061705001', '2026-01-06', 'Followup', '9995774452', 1, 4, 68, 15, '04:00:00.000000'),
+(549, 'TKNO2601061850001', '2026-01-06', 'Consultation', '7306533743', 1, 4, 99, 14, '18:00:00.000000'),
+(550, 'TKNO2601061855001', '2026-01-07', 'Followup', '9072330722', 1, 4, 92, 11, '09:00:00.000000'),
+(552, 'TKNO2601061857001', '2026-01-07', 'Followup', '9847063733', 1, 4, 11, 11, '11:00:00.000000'),
+(553, 'TKNO2601061858001', '2026-01-07', 'Followup', '9400779977', 1, 4, 46, 11, '12:00:00.000000'),
+(554, 'TKNO2601061858002', '2026-01-07', 'Followup', '9567551524', 1, 4, 65, 11, '15:00:00.000000'),
+(556, 'TKNO2601061911001', '2026-01-06', 'Followup', '9400954654', 1, 4, 49, 12, '04:00:00.000000'),
+(557, 'TKNO2601071014001', '2026-01-07', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(558, 'TKNO2601071015001', '2026-01-07', 'Followup', '8606510007', 1, 4, 89, 12, '10:00:00.000000'),
+(559, 'TKNO2601071112001', '2026-01-08', 'Followup', '8606510007', 1, 4, 89, 12, '10:00:00.000000'),
+(561, 'TKNO2601071127001', '2026-01-07', 'Followup', '9447868219', 1, 4, 94, 15, '10:30:00.000000'),
+(562, 'TKNO2601071308001', '2026-01-08', 'Followup', '9400779977', 1, 4, 46, 11, '15:00:00.000000'),
+(563, 'TKNO2601071309001', '2026-01-08', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(564, 'TKNO2601071633001', '2026-01-08', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(565, 'TKNO2601071634001', '2026-01-08', 'Followup', '8137984818', 1, 4, 14, 12, '11:00:00.000000');
+INSERT INTO `x_app_appointment` (`id`, `token_no`, `appointment_date`, `status`, `contact_no`, `branch_id`, `department_id`, `patient_id`, `doctor_id`, `appoinment_time`) VALUES
+(566, 'TKNO2601071659001', '2026-01-07', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(567, 'TKNO2601071812001', '2026-01-07', 'Consultation', '9037455797', 1, 4, 102, 12, '05:00:00.000000'),
+(568, 'TKNO2601071812002', '2026-01-07', 'Consultation', '9715294228', 1, 4, 101, 11, '05:00:00.000000'),
+(569, 'TKNO2601081001001', '2026-01-08', 'Followup', '9072330722', 1, 4, 92, 15, '09:00:00.000000'),
+(570, 'TKNO2601081059001', '2026-01-09', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(571, 'TKNO2601081108001', '2026-01-08', 'Followup', '8606510007', 1, 4, 89, 15, '10:00:00.000000'),
+(572, 'TKNO2601081542001', '2026-01-08', 'Followup', '9633226541', 1, 4, 97, 15, '03:00:00.000000'),
+(573, 'TKNO2601081852001', '2026-01-08', 'Consultation', '9633272200', 1, 4, 105, 14, '18:00:00.000000'),
+(574, 'TKNO2601091058001', '2026-01-09', 'Followup', '7907058276', 1, 4, 103, 11, '10:00:00.000000'),
+(575, 'TKNO2601091059001', '2026-01-10', 'Followup', '7907058276', 1, 4, 103, 11, '12:00:00.000000'),
+(576, 'TKNO2601091100001', '2026-01-09', 'Followup', '9447868219', 1, 4, 94, 11, '11:30:00.000000'),
+(577, 'TKNO2601091100002', '2026-01-09', 'Followup', '9567551524', 1, 4, 65, 11, '16:00:00.000000'),
+(578, 'TKNO2601091101001', '2026-01-09', 'Followup', '8921788913', 1, 4, 81, 11, '17:00:00.000000'),
+(579, 'TKNO2601091102001', '2026-01-09', 'Followup', '7306533743', 1, 4, 99, 11, '17:30:00.000000'),
+(580, 'TKNO2601091103001', '2026-01-09', 'Followup', '9847660305', 1, 4, 104, 11, '18:00:00.000000'),
+(581, 'TKNO2601091107001', '2026-01-10', 'Followup', '9400954654', 1, 4, 49, 12, '10:30:00.000000'),
+(582, 'TKNO2601091151001', '2026-01-09', 'Followup', '7356171039', 1, 4, 82, 12, '11:00:00.000000'),
+(583, 'TKNO2601091151002', '2026-01-10', 'Followup', '7356171039', 1, 4, 82, 12, '05:00:00.000000'),
+(584, 'TKNO2601091152001', '2026-01-09', 'Followup', '9633226541', 1, 4, 97, 12, '03:00:00.000000'),
+(585, 'TKNO2601091153001', '2026-01-09', 'Followup', '9037455797', 1, 4, 102, 12, '05:00:00.000000'),
+(586, 'TKNO2601091232001', '2026-01-10', 'Followup', '9447868219', 1, 4, 94, 15, '11:00:00.000000'),
+(587, 'TKNO2601091618001', '2026-01-10', 'Followup', '9072330722', 1, 4, 92, 11, '04:00:00.000000'),
+(588, 'TKNO2601091811001', '2026-01-09', 'Followup', '9037455797', 1, 4, 102, 15, '05:00:00.000000'),
+(589, 'TKNO2601091843001', '2026-01-10', 'Followup', '9847660305', 1, 4, 104, 11, '14:00:00.000000'),
+(590, 'TKNO2601091844001', '2026-01-10', 'Followup', '8111807233', 1, 4, 10, 11, '15:00:00.000000'),
+(591, 'TKNO2601091845001', '2026-01-10', 'Followup', '9715294228', 1, 4, 101, 11, '10:00:00.000000'),
+(592, 'TKNO2601091907001', '2026-01-10', 'Consultation', '8547001042', 1, 4, 107, 12, '11:30:00.000000'),
+(593, 'TKNO2601101040001', '2026-01-12', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(595, 'TKNO2601101207001', '2026-01-10', 'Followup', '8589855519', 1, 4, 28, 15, '10:00:00.000000'),
+(596, 'TKNO2601101207002', '2026-01-10', 'Followup', '9447868219', 1, 4, 94, 15, '11:00:00.000000'),
+(597, 'TKNO2601101247001', '2026-01-12', 'Followup', '8547001042', 1, 4, 107, 12, '11:00:00.000000'),
+(598, 'TKNO2601101647001', '2026-01-10', 'Followup', '9072330722', 1, 4, 92, 15, '04:00:00.000000'),
+(599, 'TKNO2601101732001', '2026-01-12', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(600, 'TKNO2601101733001', '2026-01-12', 'Followup', '9447868219', 1, 4, 94, 11, '11:00:00.000000'),
+(601, 'TKNO2601101734001', '2026-01-12', 'Followup', '7907058276', 1, 4, 103, 11, '16:00:00.000000'),
+(602, 'TKNO2601101735001', '2026-01-12', 'Followup', '9567551524', 1, 4, 65, 11, '17:00:00.000000'),
+(603, 'TKNO2601101747001', '2026-01-12', 'Followup', '8547001042', 1, 4, 107, 12, '11:00:00.000000'),
+(604, 'TKNO2601101747002', '2026-01-12', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(605, 'TKNO2601121025001', '2026-01-12', 'Followup', '9072330722', 1, 4, 92, 11, '09:30:00.000000'),
+(606, 'TKNO2601121100001', '2026-01-13', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(607, 'TKNO2601121203001', '2026-01-13', 'Followup', '8547001042', 1, 4, 107, 12, '11:00:00.000000'),
+(608, 'TKNO2601121658001', '2026-01-12', 'Followup', '9995774452', 1, 4, 68, 15, '04:00:00.000000'),
+(609, 'TKNO2601121705001', '2026-01-12', 'Followup', '9633272200', 1, 4, 105, 12, '04:00:00.000000'),
+(610, 'TKNO2601121706001', '2026-01-13', 'Followup', '9633272200', 1, 4, 105, 12, '01:00:00.000000'),
+(611, 'TKNO2601121836001', '2026-01-12', 'Followup', '9539606626', 1, 4, 108, 15, '17:00:00.000000'),
+(612, 'TKNO2601121851001', '2026-01-13', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(613, 'TKNO2601121852001', '2026-01-13', 'Followup', '8891177854', 1, 4, 48, 11, '17:30:00.000000'),
+(615, 'TKNO2601130951001', '2026-01-13', 'Followup', '9072330722', 1, 4, 92, 15, '09:00:00.000000'),
+(616, 'TKNO2601131107001', '2026-01-13', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(617, 'TKNO2601131120001', '2026-01-13', 'Followup', '7356308196', 1, 4, 109, 11, '10:30:00.000000'),
+(618, 'TKNO2601131234001', '2026-01-13', 'Followup', '9656612677', 1, 4, 52, 11, '12:00:00.000000'),
+(619, 'TKNO2601131311001', '2026-01-13', 'Followup', '9895651311', 1, 4, 110, 12, '12:00:00.000000'),
+(620, 'TKNO2601131555001', '2026-01-14', 'Followup', '8547001042', 1, 4, 107, 12, '11:00:00.000000'),
+(621, 'TKNO2601131702001', '2026-01-14', 'Followup', '9633272200', 1, 4, 105, 12, '04:00:00.000000'),
+(622, 'TKNO2601131744001', '2026-01-13', 'Followup', '9995774452', 1, 4, 68, 15, '05:00:00.000000'),
+(623, 'TKNO2601131745001', '2026-01-13', 'Followup', '9447868219', 1, 4, 94, 11, '04:00:00.000000'),
+(624, 'TKNO2601131746001', '2026-01-13', 'Followup', '8891177854', 1, 4, 48, 11, '05:30:00.000000'),
+(625, 'TKNO2601131747001', '2026-01-14', 'Followup', '7356171039', 1, 4, 82, 12, '05:00:00.000000'),
+(627, 'TKNO2601131753001', '2026-01-13', 'Followup', '7356171039', 1, 4, 82, 12, '05:00:00.000000'),
+(628, 'TKNO2601131811001', '2026-01-14', 'Followup', '9072330722', 1, 4, 92, 15, '09:00:00.000000'),
+(629, 'TKNO2601131811002', '2026-01-14', 'Followup', '7306533743', 1, 4, 99, 11, '02:00:00.000000'),
+(630, 'TKNO2601131813001', '2026-01-14', 'Followup', '9995774452', 1, 4, 68, 15, '04:00:00.000000'),
+(631, 'TKNO2601131814001', '2026-01-14', 'Followup', '9447868219', 1, 4, 94, 11, '04:00:00.000000'),
+(634, 'TKNO2601131816002', '2026-01-14', 'Followup', '9539606626', 1, 4, 108, 11, '05:00:00.000000'),
+(635, 'TKNO2601131848001', '2026-01-13', 'Consultation', '8137882848', 1, 4, 111, 14, '06:00:00.000000'),
+(636, 'TKNO2601131855001', '2026-01-14', 'Followup', '9620950581', 1, 4, 93, 12, '06:00:00.000000'),
+(638, 'TKNO2601140950001', '2026-01-14', 'Followup', '9400779977', 1, 4, 46, 11, '10:00:00.000000'),
+(639, 'TKNO2601141048001', '2026-01-14', 'Followup', '8921788913', 1, 4, 81, 15, '10:00:00.000000'),
+(640, 'TKNO2601141130001', '2026-01-15', 'Followup', '8547001042', 1, 4, 107, 12, '11:00:00.000000'),
+(641, 'TKNO2601141245001', '2026-01-14', 'Consultation', '7019901176', 1, 4, 112, 11, '12:00:00.000000'),
+(642, 'TKNO2601141421001', '2026-01-15', 'Followup', '9715294228', 1, 4, 101, 11, '10:00:00.000000'),
+(643, 'TKNO2601141422001', '2026-01-15', 'Followup', '9746512541', 1, 4, 85, 11, '12:00:00.000000'),
+(644, 'TKNO2601141423001', '2026-01-15', 'Followup', '7019901176', 1, 4, 112, 14, '17:00:00.000000'),
+(646, 'TKNO2601141611001', '2026-01-14', 'Followup', '9995334159', 1, 4, 113, 12, '03:00:00.000000'),
+(647, 'TKNO2601141612001', '2026-01-15', 'Followup', '9995334159', 1, 4, 113, 15, '11:00:00.000000'),
+(648, 'TKNO2601141702001', '2026-01-15', 'Followup', '9995774452', 1, 4, 68, 15, '04:00:00.000000'),
+(649, 'TKNO2601141704001', '2026-01-15', 'Followup', '9633272200', 1, 4, 105, 12, '04:30:00.000000'),
+(650, 'TKNO2601141707001', '2026-01-14', 'Followup', '9633272200', 1, 4, 105, 12, '04:00:00.000000'),
+(651, 'TKNO2601141708001', '2026-01-15', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(652, 'TKNO2601141709001', '2026-01-15', 'Followup', '8547001042', 1, 4, 107, 12, '11:00:00.000000'),
+(653, 'TKNO2601141709002', '2026-01-15', 'Followup', '9446595307', 1, 4, 31, 12, '12:00:00.000000'),
+(655, 'TKNO2601141726001', '2026-01-14', 'Followup', '9446029107', 1, 4, 75, 11, '17:30:00.000000'),
+(656, 'TKNO2601141814001', '2026-01-15', 'Followup', '9447556337', 1, 4, 47, 11, '16:00:00.000000'),
+(657, 'TKNO2601141815001', '2026-01-15', 'Followup', '9539606626', 1, 4, 108, 12, '16:00:00.000000'),
+(659, 'TKNO2601151002001', '2026-01-15', 'Followup', '9072330722', 1, 4, 92, 15, '09:00:00.000000'),
+(660, 'TKNO2601151043001', '2026-01-15', 'Followup', '9620950581', 1, 4, 93, 15, '10:00:00.000000'),
+(661, 'TKNO2601151133001', '2026-01-16', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(662, 'TKNO2601151252001', '2026-01-15', 'Followup', '9447868219', 1, 4, 94, 15, '12:00:00.000000'),
+(666, 'TKNO2601151719001', '2026-01-16', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(668, 'TKNO2601151722001', '2026-01-16', 'Followup', '9946527538', 1, 4, 69, 12, '12:00:00.000000'),
+(674, 'TKNO2601160958001', '2026-01-16', 'Followup', '9995334159', 1, 4, 113, 11, '11:00:00.000000'),
+(675, 'TKNO2601160958002', '2026-01-16', 'Followup', '9447868219', 1, 4, 94, 11, '16:00:00.000000'),
+(676, 'TKNO2601160959001', '2026-01-16', 'Followup', '8137984818', 1, 4, 14, 12, '11:00:00.000000'),
+(677, 'TKNO2601161000001', '2026-01-16', 'Followup', '9539606626', 1, 4, 108, 12, '15:00:00.000000'),
+(678, 'TKNO2601161000002', '2026-01-16', 'Followup', '9995774452', 1, 4, 68, 12, '16:00:00.000000'),
+(679, 'TKNO2601161001001', '2026-01-16', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(680, 'TKNO2601161045001', '2026-01-19', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(681, 'TKNO2601161155001', '2026-01-17', 'Followup', '9847660305', 1, 4, 104, 11, '11:30:00.000000'),
+(682, 'TKNO2601161242001', '2026-01-16', 'Consultation', '8281613995', 1, 4, 114, 11, '12:00:00.000000'),
+(683, 'TKNO2601161306001', '2026-01-16', 'Followup', '7306533743', 1, 4, 99, 11, '15:00:00.000000'),
+(684, 'TKNO2601161707001', '2026-01-17', 'Followup', '9447868219', 1, 4, 94, 15, '12:00:00.000000'),
+(686, 'TKNO2601161708002', '2026-01-17', 'Followup', '9847660305', 1, 4, 104, 11, '11:30:00.000000'),
+(687, 'TKNO2601161751001', '2026-01-19', 'Followup', '9539606626', 1, 4, 108, 12, '11:00:00.000000'),
+(688, 'TKNO2601161814001', '2026-01-16', 'Followup', '9400779977', 1, 4, 46, 11, '17:00:00.000000'),
+(689, 'TKNO2601171120001', '2026-01-17', 'Followup', '9633272200', 1, 4, 105, 11, '11:00:00.000000'),
+(690, 'TKNO2601171331001', '2026-01-17', 'Followup', '7907058276', 1, 4, 103, 15, '12:00:00.000000'),
+(691, 'TKNO2601171331002', '2026-01-17', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(692, 'TKNO2601171332001', '2026-01-17', 'Followup', '9995774452', 1, 4, 68, 15, '04:00:00.000000'),
+(693, 'TKNO2601171557001', '2026-01-17', 'Consultation', '9061695397', 1, 4, 116, 11, '03:00:00.000000'),
+(694, 'TKNO2601171633001', '2026-01-17', 'Consultation', '7012890496', 1, 4, 117, 11, '04:00:00.000000'),
+(695, 'TKNO2601171638001', '2026-01-17', 'Consultation', '7338777466', 1, 4, 118, 14, '04:00:00.000000'),
+(696, 'TKNO2601171718001', '2026-01-17', 'Followup', '9072330722', 1, 4, 92, 15, '04:00:00.000000'),
+(697, 'TKNO2601171805001', '2026-01-17', 'Followup', '8891177854', 1, 4, 48, 15, '05:30:00.000000'),
+(698, 'TKNO2601171819001', '2026-01-17', 'Consultation', '8714631668', 1, 4, 119, 14, '17:00:00.000000'),
+(699, 'TKNO2601171828001', '2026-01-19', 'Followup', '9995334159', 1, 4, 113, 15, '09:00:00.000000'),
+(700, 'TKNO2601171829001', '2026-01-19', 'Followup', '8921788913', 1, 4, 81, 11, '10:00:00.000000'),
+(701, 'TKNO2601171829002', '2026-01-19', 'Followup', '9495202009', 1, 4, 71, 15, '10:00:00.000000'),
+(702, 'TKNO2601171830001', '2026-01-19', 'Followup', '9539606626', 1, 4, 108, 15, '11:00:00.000000'),
+(703, 'TKNO2601171830002', '2026-01-19', 'Followup', '8281613995', 1, 4, 114, 11, '11:00:00.000000'),
+(705, 'TKNO2601171832001', '2026-01-19', 'Followup', '7907058276', 1, 4, 103, 11, '12:00:00.000000'),
+(706, 'TKNO2601171832002', '2026-01-19', 'Followup', '9633272200', 1, 4, 105, 12, '12:00:00.000000'),
+(707, 'TKNO2601171834001', '2026-01-19', 'Followup', '9447868219', 1, 4, 94, 11, '16:00:00.000000'),
+(708, 'TKNO2601171835001', '2026-01-19', 'Followup', '9995774452', 1, 4, 68, 15, '17:00:00.000000'),
+(709, 'TKNO2601171835002', '2026-01-19', 'Followup', '8714631668', 1, 4, 119, 14, '17:30:00.000000'),
+(710, 'TKNO2601191307001', '2026-01-20', 'Followup', '9633272200', 1, 4, 105, 12, '12:00:00.000000'),
+(711, 'TKNO2601191621001', '2026-01-20', 'Followup', '7338777466', 1, 4, 118, 12, '15:00:00.000000'),
+(712, 'TKNO2601191659001', '2026-01-19', 'Followup', '9496390911', 1, 4, 121, 11, '16:00:00.000000'),
+(713, 'TKNO2601191700001', '2026-01-19', 'Followup', '9496390911', 1, 4, 122, 12, '16:00:00.000000'),
+(714, 'TKNO2601191725001', '2026-01-20', 'Followup', '9496390911', 1, 4, 122, 12, '11:00:00.000000'),
+(715, 'TKNO2601191803001', '2026-01-20', 'Followup', '9562060210', 1, 4, 120, 11, '10:00:00.000000'),
+(716, 'TKNO2601191804001', '2026-01-20', 'Followup', '7907058276', 1, 4, 103, 11, '11:00:00.000000'),
+(717, 'TKNO2601191805001', '2026-01-20', 'Followup', '9562060210', 1, 4, 120, 11, '16:00:00.000000'),
+(718, 'TKNO2601191808001', '2026-01-20', 'Followup', '9995774452', 1, 4, 68, 15, '17:00:00.000000'),
+(719, 'TKNO2601191839001', '2026-01-20', 'Followup', '9567551524', 1, 4, 65, 11, '12:00:00.000000'),
+(720, 'TKNO2601191842001', '2026-01-20', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(721, 'TKNO2601191843001', '2026-01-20', 'Followup', '8714631668', 1, 4, 119, 14, '18:00:00.000000'),
+(722, 'TKNO2601201006001', '2026-01-20', 'Followup', '9072330722', 1, 4, 92, 15, '09:00:00.000000'),
+(723, 'TKNO2601201055001', '2026-01-20', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(724, 'TKNO2601201618001', '2026-01-21', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(725, 'TKNO2601201619001', '2026-01-21', 'Followup', '9496390911', 1, 4, 122, 12, '11:00:00.000000'),
+(726, 'TKNO2601201622001', '2026-01-21', 'Followup', '9562060210', 1, 4, 120, 11, '10:00:00.000000'),
+(727, 'TKNO2601201754001', '2026-01-21', 'Followup', '9495202009', 1, 4, 71, 15, '10:00:00.000000'),
+(728, 'TKNO2601201755001', '2026-01-21', 'Followup', '9496390911', 1, 4, 122, 15, '11:00:00.000000'),
+(729, 'TKNO2601201755002', '2026-01-21', 'Followup', '8111807233', 1, 4, 10, 11, '03:30:00.000000'),
+(730, 'TKNO2601201756001', '2026-01-21', 'Followup', '9633272200', 1, 4, 105, 12, '04:00:00.000000'),
+(731, 'TKNO2601201756002', '2026-01-21', 'Followup', '9995774452', 1, 4, 68, 15, '04:00:00.000000'),
+(732, 'TKNO2601201757001', '2026-01-21', 'Followup', '9539606626', 1, 4, 108, 12, '04:30:00.000000'),
+(733, 'TKNO2601201758001', '2026-01-21', 'Followup', '9446029107', 1, 4, 75, 15, '05:00:00.000000'),
+(735, 'TKNO2601201800001', '2026-01-21', 'Followup', '8281613995', 1, 4, 114, 11, '05:30:00.000000'),
+(736, 'TKNO2601201800002', '2026-01-21', 'Followup', '8714631668', 1, 4, 119, 14, '06:00:00.000000'),
+(737, 'TKNO2601201835001', '2026-01-21', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(738, 'TKNO2601211604001', '2026-01-21', 'Followup', '9847066700', 1, 4, 123, 14, '04:00:00.000000'),
+(739, 'TKNO2601211656001', '2026-01-22', 'Followup', '9995774452', 1, 4, 68, 15, '04:00:00.000000'),
+(740, 'TKNO2601211814001', '2026-01-22', 'Followup', '9995334159', 1, 4, 113, 11, '10:00:00.000000'),
+(741, 'TKNO2601211814002', '2026-01-22', 'Followup', '9847066700', 1, 4, 123, 11, '12:00:00.000000'),
+(742, 'TKNO2601211815001', '2026-01-22', 'Followup', '8891177854', 1, 4, 48, 11, '15:00:00.000000'),
+(743, 'TKNO2601211816001', '2026-01-22', 'Followup', '9447868219', 1, 4, 94, 11, '16:00:00.000000'),
+(744, 'TKNO2601211846001', '2026-01-22', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(745, 'TKNO2601211846002', '2026-01-22', 'Followup', '9656612677', 1, 4, 52, 14, '16:00:00.000000'),
+(748, 'TKNO2601211852001', '2026-01-22', 'Followup', '8714631668', 1, 4, 119, 11, '17:00:00.000000'),
+(750, 'TKNO2601221141001', '2026-01-22', 'Followup', '9446047009', 1, 4, 124, 15, '11:00:00.000000'),
+(751, 'TKNO2601221142001', '2026-01-22', 'Followup', '9072330722', 1, 4, 92, 15, '09:00:00.000000'),
+(752, 'TKNO2601221159001', '2026-01-23', 'Followup', '9446047009', 1, 4, 124, 12, '12:00:00.000000'),
+(754, 'TKNO2601221201002', '2026-01-23', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(756, 'TKNO2601221220001', '2026-01-23', 'Followup', '7338777466', 1, 4, 118, 15, '11:00:00.000000'),
+(757, 'TKNO2601221314001', '2026-01-22', 'Followup', '8137984818', 1, 4, 14, 11, '11:00:00.000000'),
+(758, 'TKNO2601221318001', '2026-01-23', 'Followup', '9847066700', 1, 4, 123, 11, '12:00:00.000000'),
+(760, 'TKNO2601221831001', '2026-01-23', 'Followup', '9995774452', 1, 4, 68, 12, '04:00:00.000000'),
+(762, 'TKNO2601230951001', '2026-01-23', 'Followup', '9656612677', 1, 4, 52, 11, '09:00:00.000000'),
+(764, 'TKNO2601231043001', '2026-01-23', 'Followup', '9539606626', 1, 4, 108, 15, '10:00:00.000000'),
+(765, 'TKNO2601231146001', '2026-01-23', 'Followup', '8281613995', 1, 4, 114, 11, '11:00:00.000000'),
+(767, 'TKNO2601231240001', '2026-01-24', 'Followup', '9447868219', 1, 4, 94, 11, '16:00:00.000000'),
+(768, 'TKNO2601231242001', '2026-01-23', 'Followup', '9447868219', 1, 4, 94, 15, '12:00:00.000000'),
+(769, 'TKNO2601231620001', '2026-01-23', 'Consultation', '9447427494', 1, 4, 125, 14, '16:00:00.000000'),
+(772, 'TKNO2601231741001', '2026-01-24', 'Followup', '9447427494', 1, 4, 125, 11, '10:00:00.000000'),
+(773, 'TKNO2601231742001', '2026-01-24', 'Followup', '9847066700', 1, 4, 123, 11, '12:00:00.000000'),
+(774, 'TKNO2601231743001', '2026-01-24', 'Followup', '9447868219', 1, 4, 94, 11, '16:00:00.000000'),
+(775, 'TKNO2601231744001', '2026-01-24', 'Followup', '9447556337', 1, 4, 47, 11, '16:30:00.000000'),
+(776, 'TKNO2601241153001', '2026-01-24', 'Followup', '9400954654', 1, 4, 49, 12, '10:00:00.000000'),
+(777, 'TKNO2601241154001', '2026-01-24', 'Followup', '8137984818', 1, 4, 14, 12, '11:00:00.000000'),
+(778, 'TKNO2601241223001', '2026-01-24', 'Followup', '9633272200', 1, 4, 105, 11, '11:00:00.000000'),
+(779, 'TKNO2601241802001', '2026-01-24', 'Followup', '9447142846', 1, 4, 126, 12, '05:00:00.000000'),
+(780, 'TKNO2601241803001', '2026-01-26', 'Followup', '9447427494', 1, 4, 125, 11, '09:00:00.000000'),
+(781, 'TKNO2601241804001', '2026-01-26', 'Followup', '9562060210', 1, 4, 120, 11, '10:00:00.000000'),
+(782, 'TKNO2601241805001', '2026-01-26', 'Followup', '8281613995', 1, 4, 114, 11, '11:00:00.000000'),
+(783, 'TKNO2601241805002', '2026-01-26', 'Followup', '9946527538', 1, 4, 69, 11, '12:00:00.000000'),
+(784, 'TKNO2601241806001', '2026-01-26', 'Followup', '9072330722', 1, 4, 92, 15, '09:00:00.000000'),
+(785, 'TKNO2601241806002', '2026-01-26', 'Followup', '9495202009', 1, 4, 71, 15, '10:00:00.000000'),
+(786, 'TKNO2601241807001', '2026-01-26', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(787, 'TKNO2601261150001', '2026-01-27', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(790, 'TKNO2601261741001', '2026-01-26', 'Followup', '9600079268', 1, 4, 127, 14, '05:00:00.000000'),
+(791, 'TKNO2601261750001', '2026-01-26', 'Consultation', '7012531778', 1, 4, 128, 14, '05:00:00.000000'),
+(794, 'TKNO2601261805001', '2026-01-27', 'Followup', '9600079268', 1, 4, 127, 11, '04:30:00.000000'),
+(795, 'TKNO2601261805002', '2026-01-27', 'Followup', '7012531778', 1, 4, 128, 12, '10:30:00.000000'),
+(797, 'TKNO2601261830001', '2026-01-27', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(798, 'TKNO2601270905001', '2026-01-27', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(799, 'TKNO2601271200001', '2026-01-27', 'Followup', '8137984818', 1, 4, 14, 15, '11:00:00.000000'),
+(800, 'TKNO2601271203001', '2026-01-27', 'Followup', '7907058276', 1, 4, 103, 11, '10:00:00.000000'),
+(801, 'TKNO2601271205001', '2026-01-27', 'Followup', '9656612677', 1, 4, 52, 11, '12:00:00.000000'),
+(802, 'TKNO2601271743001', '2026-01-27', 'Followup', '9179034518', 1, 4, 129, 12, '05:00:00.000000'),
+(804, 'TKNO2601271749001', '2026-01-28', 'Followup', '9656612677', 1, 4, 52, 11, '09:00:00.000000'),
+(805, 'TKNO2601271750001', '2026-01-28', 'Followup', '8281613995', 1, 4, 114, 11, '10:30:00.000000'),
+(806, 'TKNO2601271750002', '2026-01-28', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(808, 'TKNO2601271752001', '2026-01-28', 'Followup', '7907058276', 1, 4, 103, 11, '16:00:00.000000'),
+(809, 'TKNO2601271752002', '2026-01-28', 'Followup', '9600079268', 1, 4, 127, 11, '16:30:00.000000'),
+(810, 'TKNO2601271753001', '2026-01-28', 'Followup', '9539606626', 1, 4, 108, 15, '17:00:00.000000'),
+(811, 'TKNO2601271754001', '2026-01-28', 'Followup', '7012531778', 1, 4, 128, 12, '17:00:00.000000'),
+(812, 'TKNO2601271754002', '2026-01-28', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(813, 'TKNO2601271755001', '2026-01-28', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(814, 'TKNO2601281015001', '2026-01-29', 'Followup', '9656612677', 1, 4, 52, 11, '10:00:00.000000'),
+(815, 'TKNO2601281209001', '2026-01-29', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(816, 'TKNO2601281218001', '2026-01-28', 'Followup', '9179034518', 1, 4, 129, 15, '11:00:00.000000'),
+(817, 'TKNO2601281553001', '2026-01-30', 'Followup', '8281613995', 1, 4, 114, 11, '10:00:00.000000'),
+(819, 'TKNO2601281750001', '2026-01-29', 'Followup', '9656612677', 1, 4, 52, 11, '10:00:00.000000'),
+(820, 'TKNO2601281751001', '2026-01-29', 'Followup', '9072330722', 1, 4, 92, 15, '09:00:00.000000'),
+(821, 'TKNO2601281752001', '2026-01-29', 'Followup', '7012531778', 1, 4, 128, 12, '10:00:00.000000'),
+(822, 'TKNO2601281752002', '2026-01-29', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(823, 'TKNO2601281753001', '2026-01-29', 'Followup', '9179034518', 1, 4, 129, 15, '11:00:00.000000'),
+(825, 'TKNO2601281754002', '2026-01-29', 'Followup', '9600079268', 1, 4, 127, 11, '04:30:00.000000'),
+(826, 'TKNO2601281755001', '2026-01-29', 'Followup', '8891177854', 1, 4, 48, 15, '05:30:00.000000'),
+(828, 'TKNO2601291616002', '2026-01-30', 'Followup', '9633272200', 1, 4, 105, 11, '08:00:00.000000'),
+(830, 'TKNO2601291618001', '2026-01-30', 'Followup', '9600079268', 1, 4, 127, 11, '09:00:00.000000'),
+(831, 'TKNO2601291618002', '2026-01-30', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(834, 'TKNO2601291620002', '2026-01-29', 'Followup', '7907058276', 1, 4, 103, 15, '12:00:00.000000'),
+(836, 'TKNO2601291644001', '2026-01-30', 'Followup', '7907058276', 1, 4, 103, 12, '10:00:00.000000'),
+(839, 'TKNO2601291646002', '2026-02-02', 'Followup', '9495202009', 1, 4, 71, 15, '10:00:00.000000'),
+(840, 'TKNO2601291651001', '2026-02-02', 'Followup', '9539606626', 1, 4, 108, 15, '04:00:00.000000'),
+(842, 'TKNO2601291653001', '2026-02-02', 'Followup', '9620950581', 1, 4, 93, 12, '06:00:00.000000'),
+(843, 'TKNO2601300935001', '2026-02-02', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(845, 'TKNO2601301012001', '2026-01-30', 'Followup', '8137984818', 1, 4, 14, 12, '10:00:00.000000'),
+(846, 'TKNO2601301120001', '2026-02-02', 'Followup', '8281613995', 1, 4, 114, 11, '18:00:00.000000'),
+(847, 'TKNO2601301121001', '2026-02-02', 'Followup', '9600079268', 1, 4, 127, 11, '16:30:00.000000'),
+(848, 'TKNO2602021113001', '2026-02-02', 'Followup', '9656612677', 1, 4, 52, 12, '09:00:00.000000'),
+(850, 'TKNO2602021732001', '2026-02-02', 'Consultation', '9446691926', 1, 4, 131, 14, '04:30:00.000000'),
+(851, 'TKNO2602021733001', '2026-02-03', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(852, 'TKNO2602021736001', '2026-02-02', 'Consultation', '8129956166', 1, 4, 132, 14, '05:00:00.000000'),
+(853, 'TKNO2602021744001', '2026-02-02', 'Consultation', '7907382787', 1, 4, 133, 14, '04:00:00.000000'),
+(854, 'TKNO2602021835001', '2026-02-03', 'Followup', '9600079268', 1, 4, 127, 11, '16:30:00.000000'),
+(855, 'TKNO2602021836001', '2026-02-03', 'Followup', '8891177854', 1, 4, 48, 11, '17:30:00.000000'),
+(857, 'TKNO2602021838001', '2026-02-03', 'Followup', '9656612677', 1, 4, 52, 15, '09:00:00.000000'),
+(858, 'TKNO2602021839001', '2026-02-03', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(859, 'TKNO2602021839002', '2026-02-03', 'Followup', '8137984818', 1, 4, 14, 15, '11:00:00.000000'),
+(860, 'TKNO2602021840001', '2026-02-03', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(861, 'TKNO2602021841001', '2026-02-03', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(862, 'TKNO2602021842001', '2026-02-03', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(864, 'TKNO2602031744001', '2026-02-04', 'Followup', '9495202009', 1, 4, 71, 15, '10:00:00.000000'),
+(866, 'TKNO2602031745002', '2026-02-04', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(867, 'TKNO2602031746001', '2026-02-04', 'Followup', '8281613995', 1, 4, 114, 11, '11:00:00.000000'),
+(868, 'TKNO2602031746002', '2026-02-04', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(869, 'TKNO2602031747001', '2026-02-04', 'Followup', '7907058276', 1, 4, 103, 11, '12:00:00.000000'),
+(870, 'TKNO2602031747002', '2026-02-04', 'Followup', '8137882848', 1, 4, 111, 15, '12:00:00.000000'),
+(872, 'TKNO2602031749001', '2026-02-04', 'Followup', '9539606626', 1, 4, 108, 12, '04:00:00.000000'),
+(875, 'TKNO2602031813001', '2026-02-03', 'Followup', '9207620798', 1, 4, 134, 11, '11:00:00.000000'),
+(876, 'TKNO2602031814001', '2026-02-03', 'Followup', '8137882848', 1, 4, 111, 11, '16:00:00.000000'),
+(877, 'TKNO2602031819001', '2026-02-04', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(879, 'TKNO2602041206001', '2026-02-05', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(880, 'TKNO2602041652001', '2026-02-04', 'Consultation', '8111807233', 1, 4, 135, 12, '03:30:00.000000'),
+(882, 'TKNO2602041730001', '2026-02-04', 'Followup', '9539606626', 1, 4, 108, 15, '16:00:00.000000'),
+(883, 'TKNO2602041732001', '2026-02-04', 'Followup', '9600079268', 1, 4, 127, 11, '16:00:00.000000'),
+(884, 'TKNO2602041733001', '2026-02-04', 'Followup', '9446029107', 1, 4, 75, 11, '17:00:00.000000'),
+(885, 'TKNO2602041733002', '2026-02-04', 'Followup', '8111807233', 1, 4, 10, 11, '15:30:00.000000'),
+(886, 'TKNO2602041758001', '2026-02-04', 'Followup', '9447142846', 1, 4, 126, 12, '05:00:00.000000'),
+(887, 'TKNO2602041759001', '2026-02-05', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(888, 'TKNO2602041803001', '2026-02-05', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(889, 'TKNO2602041804001', '2026-02-05', 'Followup', '8111807233', 1, 4, 10, 15, '10:00:00.000000'),
+(891, 'TKNO2602041805001', '2026-02-05', 'Followup', '8137882848', 1, 4, 111, 15, '11:00:00.000000'),
+(892, 'TKNO2602041805002', '2026-02-05', 'Followup', '7907058276', 1, 4, 103, 11, '11:00:00.000000'),
+(893, 'TKNO2602041806001', '2026-02-05', 'Followup', '9447556337', 1, 4, 47, 11, '16:00:00.000000'),
+(894, 'TKNO2602041806002', '2026-02-05', 'Followup', '9446595307', 1, 4, 31, 12, '04:30:00.000000'),
+(895, 'TKNO2602041807001', '2026-02-05', 'Followup', '9600079268', 1, 4, 127, 11, '17:00:00.000000'),
+(896, 'TKNO2602041828001', '2026-02-04', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(898, 'TKNO2602051059001', '2026-02-06', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(899, 'TKNO2602051641001', '2026-02-06', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(900, 'TKNO2602051641002', '2026-02-06', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(901, 'TKNO2602051642001', '2026-02-06', 'Followup', '7907058276', 1, 4, 103, 15, '10:00:00.000000'),
+(902, 'TKNO2602051643001', '2026-02-06', 'Followup', '8137984818', 1, 4, 14, 15, '11:00:00.000000'),
+(903, 'TKNO2602051643002', '2026-02-06', 'Followup', '8281613995', 1, 4, 114, 11, '11:00:00.000000'),
+(904, 'TKNO2602051644001', '2026-02-06', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(907, 'TKNO2602051646001', '2026-02-06', 'Followup', '8111807233', 1, 4, 10, 12, '03:30:00.000000'),
+(908, 'TKNO2602051646002', '2026-02-06', 'Followup', '9620950581', 1, 4, 93, 12, '06:00:00.000000'),
+(909, 'TKNO2602061154001', '2026-02-06', 'Followup', '8137882848', 1, 4, 111, 15, '09:00:00.000000'),
+(910, 'TKNO2602061157001', '2026-02-07', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(911, 'TKNO2602061158001', '2026-02-07', 'Followup', '8137882848', 1, 4, 111, 15, '09:00:00.000000'),
+(912, 'TKNO2602061158002', '2026-02-07', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(915, 'TKNO2602061716001', '2026-02-07', 'Followup', '9600079268', 1, 4, 127, 11, '11:00:00.000000'),
+(916, 'TKNO2602061716002', '2026-02-07', 'Followup', '8111807233', 1, 4, 10, 11, '15:00:00.000000'),
+(917, 'TKNO2602061719001', '2026-02-06', 'Consultation', '8547333653', 1, 4, 136, 11, '16:00:00.000000'),
+(918, 'TKNO2602061720001', '2026-02-07', 'Followup', '8547333653', 1, 4, 136, 11, '16:00:00.000000'),
+(919, 'TKNO2602061721001', '2026-02-07', 'Followup', '9946527538', 1, 4, 69, 12, '12:00:00.000000'),
+(920, 'TKNO2602061722001', '2026-02-07', 'Followup', '9715294228', 1, 4, 101, 11, '16:30:00.000000'),
+(921, 'TKNO2602071224001', '2026-02-07', 'Followup', '9633272200', 1, 4, 105, 15, '11:00:00.000000'),
+(922, 'TKNO2602071225001', '2026-02-07', 'Followup', '7907058276', 1, 4, 103, 15, '12:00:00.000000'),
+(923, 'TKNO2602071252001', '2026-02-07', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(924, 'TKNO2602071254001', '2026-02-09', 'Followup', '9447427494', 1, 4, 125, 11, '09:00:00.000000'),
+(925, 'TKNO2602071255001', '2026-02-09', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(926, 'TKNO2602071256001', '2026-02-09', 'Followup', '9847063733', 1, 4, 11, 11, '11:00:00.000000'),
+(927, 'TKNO2602071256002', '2026-02-09', 'Followup', '8281613995', 1, 4, 114, 11, '12:00:00.000000'),
+(928, 'TKNO2602071257001', '2026-02-09', 'Followup', '9600079268', 1, 4, 127, 11, '16:00:00.000000'),
+(929, 'TKNO2602071258001', '2026-02-07', 'Followup', '9447427494', 1, 4, 125, 11, '12:00:00.000000'),
+(930, 'TKNO2602071653001', '2026-02-09', 'Followup', '8137882848', 1, 4, 111, 15, '09:00:00.000000'),
+(931, 'TKNO2602071655001', '2026-02-09', 'Followup', '9495202009', 1, 4, 71, 15, '10:00:00.000000'),
+(932, 'TKNO2602071656001', '2026-02-09', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(934, 'TKNO2602071658001', '2026-02-09', 'Followup', '9539606626', 1, 4, 108, 15, '16:00:00.000000'),
+(935, 'TKNO2602071700001', '2026-02-09', 'Followup', '8111807233', 1, 4, 10, 11, '15:30:00.000000'),
+(937, 'TKNO2602091001001', '2026-02-10', 'Followup', '9447427494', 1, 4, 125, 11, '16:00:00.000000'),
+(938, 'TKNO2602091002001', '2026-02-10', 'Followup', '8137882848', 1, 4, 111, 15, '09:00:00.000000'),
+(939, 'TKNO2602091032001', '2026-02-10', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(940, 'TKNO2602091225001', '2026-02-09', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(941, 'TKNO2602091225002', '2026-02-10', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(942, 'TKNO2602091313001', '2026-02-10', 'Followup', '9562060210', 1, 4, 120, 11, '11:00:00.000000'),
+(943, 'TKNO2602091638001', '2026-02-09', 'Followup', '7907058276', 1, 4, 103, 15, '12:00:00.000000'),
+(944, 'TKNO2602091808001', '2026-02-10', 'Followup', '8891177854', 1, 4, 48, 11, '17:30:00.000000'),
+(945, 'TKNO2602091836001', '2026-02-10', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(946, 'TKNO2602091837001', '2026-02-09', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(947, 'TKNO2602091839001', '2026-02-10', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(948, 'TKNO2602091853001', '2026-02-09', 'Consultation', '9746480840', 1, 4, 137, 11, '18:15:00.000000'),
+(949, 'TKNO2602091907001', '2026-02-10', 'Followup', '9746480840', 1, 4, 137, 11, '18:00:00.000000'),
+(950, 'TKNO2602101049001', '2026-02-10', 'Consultation', '9995150990', 1, 4, 138, 11, '09:45:00.000000'),
+(951, 'TKNO2602101153001', '2026-02-10', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(952, 'TKNO2602101153002', '2026-02-10', 'Followup', '8137984818', 1, 4, 14, 15, '11:00:00.000000'),
+(953, 'TKNO2602101355001', '2026-02-11', 'Followup', '8547555159', 1, 4, 130, 11, '09:00:00.000000'),
+(954, 'TKNO2602101355002', '2026-02-11', 'Followup', '9447556337', 1, 4, 47, 11, '10:00:00.000000'),
+(955, 'TKNO2602101356001', '2026-02-11', 'Followup', '9847063733', 1, 4, 11, 11, '11:00:00.000000'),
+(956, 'TKNO2602101626001', '2026-02-11', 'Followup', '9633272200', 1, 4, 105, 15, '09:00:00.000000'),
+(958, 'TKNO2602101627001', '2026-02-11', 'Followup', '8281613995', 1, 4, 114, 15, '11:30:00.000000'),
+(959, 'TKNO2602101628001', '2026-02-11', 'Followup', '7907058276', 1, 4, 103, 15, '12:00:00.000000'),
+(960, 'TKNO2602101628002', '2026-02-11', 'Followup', '9539606626', 1, 4, 108, 15, '04:00:00.000000'),
+(961, 'TKNO2602101629001', '2026-02-11', 'Followup', '9995150990', 1, 4, 138, 14, '05:00:00.000000'),
+(962, 'TKNO2602101652001', '2026-02-11', 'Followup', '9447427494', 1, 4, 125, 15, '15:00:00.000000'),
+(963, 'TKNO2602101659001', '2026-02-11', 'Followup', '9600079268', 1, 4, 127, 15, '04:00:00.000000'),
+(964, 'TKNO2602101850001', '2026-02-11', 'Followup', '9746480840', 1, 4, 137, 14, '18:00:00.000000'),
+(965, 'TKNO2602111024001', '2026-02-11', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(966, 'TKNO2602111739001', '2026-02-12', 'Followup', '8137882848', 1, 4, 111, 15, '09:00:00.000000'),
+(967, 'TKNO2602111740001', '2026-02-12', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(968, 'TKNO2602111741001', '2026-02-12', 'Followup', '9446691926', 1, 4, 131, 15, '10:00:00.000000'),
+(972, 'TKNO2602111743002', '2026-02-12', 'Followup', '8129956166', 1, 4, 132, 15, '17:00:00.000000'),
+(974, 'TKNO2602111744002', '2026-02-12', 'Followup', '8891177854', 1, 4, 48, 12, '15:30:00.000000'),
+(976, 'TKNO2602121600001', '2026-02-12', 'Consultation', '9072361125', 1, 4, 140, 14, '03:00:00.000000'),
+(979, 'TKNO2602121746001', '2026-02-13', 'Followup', '9072361125', 1, 4, 140, 15, '09:00:00.000000'),
+(981, 'TKNO2602121747001', '2026-02-13', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(982, 'TKNO2602121747002', '2026-02-13', 'Followup', '9847063733', 1, 4, 11, 11, '11:00:00.000000'),
+(983, 'TKNO2602121748001', '2026-02-13', 'Followup', '8137984818', 1, 4, 14, 15, '11:00:00.000000'),
+(984, 'TKNO2602121748002', '2026-02-13', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(985, 'TKNO2602121749001', '2026-02-13', 'Followup', '8281613995', 1, 4, 114, 11, '12:00:00.000000'),
+(986, 'TKNO2602121749002', '2026-02-13', 'Followup', '8111807233', 1, 4, 10, 11, '15:30:00.000000'),
+(988, 'TKNO2602121750002', '2026-02-13', 'Followup', '9446691926', 1, 4, 131, 11, '16:30:00.000000'),
+(989, 'TKNO2602121751001', '2026-02-13', 'Followup', '8547333653', 1, 4, 136, 15, '16:30:00.000000'),
+(991, 'TKNO2602131017001', '2026-02-13', 'Followup', '8137882848', 1, 4, 111, 15, '09:30:00.000000'),
+(992, 'TKNO2602131221001', '2026-02-13', 'Followup', '7907058276', 1, 4, 103, 15, '10:00:00.000000'),
+(993, 'TKNO2602131706001', '2026-02-13', 'Consultation', '9747931899', 1, 4, 141, 14, '04:00:00.000000'),
+(994, 'TKNO2602131725001', '2026-02-13', 'Consultation', '9605455122', 1, 4, 142, 14, '16:00:00.000000'),
+(995, 'TKNO2602131744001', '2026-02-14', 'Followup', '9072361125', 1, 4, 140, 15, '09:00:00.000000'),
+(996, 'TKNO2602131744002', '2026-02-14', 'Followup', '9446595307', 1, 4, 31, 12, '10:00:00.000000'),
+(997, 'TKNO2602131745001', '2026-02-14', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(998, 'TKNO2602131745002', '2026-02-14', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(999, 'TKNO2602131746001', '2026-02-14', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(1001, 'TKNO2602131747001', '2026-02-14', 'Followup', '9715294228', 1, 4, 101, 11, '15:00:00.000000'),
+(1003, 'TKNO2602131748002', '2026-02-14', 'Followup', '8547555159', 1, 4, 130, 12, '16:00:00.000000'),
+(1004, 'TKNO2602131749001', '2026-02-14', 'Followup', '9605455122', 1, 4, 142, 15, '16:00:00.000000'),
+(1007, 'TKNO2602141154001', '2026-02-16', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1009, 'TKNO2602141221001', '2026-02-14', 'Consultation', '9895125223', 1, 4, 144, 11, '11:00:00.000000'),
+(1010, 'TKNO2602141706001', '2026-02-16', 'Followup', '8281613995', 1, 4, 114, 11, '12:00:00.000000'),
+(1012, 'TKNO2602141707001', '2026-02-16', 'Followup', '9072361125', 1, 4, 140, 15, '09:00:00.000000'),
+(1013, 'TKNO2602141707002', '2026-02-16', 'Followup', '9495202009', 1, 4, 71, 15, '10:00:00.000000'),
+(1014, 'TKNO2602141708001', '2026-02-16', 'Followup', '8137882848', 1, 4, 111, 15, '11:00:00.000000'),
+(1018, 'TKNO2602141714001', '2026-02-16', 'Followup', '9600079268', 1, 4, 127, 15, '16:30:00.000000'),
+(1019, 'TKNO2602141715001', '2026-02-16', 'Followup', '9895125223', 1, 4, 144, 12, '17:30:00.000000'),
+(1021, 'TKNO2602141829001', '2026-02-14', 'Consultation', '9446994666', 1, 4, 145, 14, '17:00:00.000000'),
+(1022, 'TKNO2602161610001', '2026-02-16', 'Followup', '8137984818', 1, 4, 14, 11, '09:30:00.000000'),
+(1023, 'TKNO2602161611001', '2026-02-16', 'Followup', '8547555159', 1, 4, 130, 11, '15:00:00.000000'),
+(1024, 'TKNO2602161812001', '2026-02-16', 'Followup', '8547117297', 1, 4, 143, 11, '16:00:00.000000'),
+(1025, 'TKNO2602161847001', '2026-02-16', 'Followup', '9605455122', 1, 4, 142, 12, '16:00:00.000000'),
+(1026, 'TKNO2602161848001', '2026-02-16', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(1027, 'TKNO2602171002001', '2026-02-17', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1028, 'TKNO2602171003001', '2026-02-17', 'Followup', '9895125223', 1, 4, 144, 11, '17:00:00.000000'),
+(1029, 'TKNO2602171059001', '2026-02-17', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1030, 'TKNO2602171234001', '2026-02-17', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(1031, 'TKNO2602171235001', '2026-02-17', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(1032, 'TKNO2602171236001', '2026-02-17', 'Followup', '8547117297', 1, 4, 143, 12, '12:00:00.000000'),
+(1033, 'TKNO2602171237001', '2026-02-17', 'Followup', '9605455122', 1, 4, 142, 12, '15:30:00.000000'),
+(1034, 'TKNO2602171237002', '2026-02-17', 'Followup', '9446595307', 1, 4, 31, 12, '16:30:00.000000'),
+(1035, 'TKNO2602171238001', '2026-02-17', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(1036, 'TKNO2602171703001', '2026-02-18', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(1037, 'TKNO2602171704001', '2026-02-18', 'Followup', '9633272200', 1, 4, 105, 12, '11:00:00.000000'),
+(1038, 'TKNO2602171705001', '2026-02-18', 'Followup', '8547117297', 1, 4, 143, 12, '12:00:00.000000'),
+(1039, 'TKNO2602171727001', '2026-02-18', 'Followup', '9605455122', 1, 4, 142, 15, '09:00:00.000000'),
+(1040, 'TKNO2602171728001', '2026-02-18', 'Followup', '8137984818', 1, 4, 14, 15, '11:00:00.000000'),
+(1041, 'TKNO2602171730001', '2026-02-17', 'Consultation', '8129676647', 1, 4, 146, 14, '04:30:00.000000'),
+(1042, 'TKNO2602171734001', '2026-02-18', 'Followup', '8281613995', 1, 4, 114, 11, '12:00:00.000000'),
+(1043, 'TKNO2602171735001', '2026-02-18', 'Followup', '9061695397', 1, 4, 116, 11, '04:00:00.000000'),
+(1044, 'TKNO2602171748001', '2026-02-17', 'Consultation', '9871668361', 1, 4, 147, 11, '16:30:00.000000'),
+(1045, 'TKNO2602171754001', '2026-02-18', 'Followup', '9871668361', 1, 4, 147, 11, '15:00:00.000000'),
+(1046, 'TKNO2602171755001', '2026-02-18', 'Followup', '9446691926', 1, 4, 131, 11, '09:00:00.000000'),
+(1047, 'TKNO2602171755002', '2026-02-18', 'Followup', '8137984818', 1, 4, 14, 11, '11:00:00.000000'),
+(1048, 'TKNO2602171758001', '2026-02-18', 'Followup', '9895125223', 1, 4, 144, 11, '17:00:00.000000'),
+(1049, 'TKNO2602171807001', '2026-02-18', 'Followup', '9600079268', 1, 4, 127, 15, '16:00:00.000000'),
+(1050, 'TKNO2602171808001', '2026-02-17', 'Followup', '9447142846', 1, 4, 126, 15, '17:00:00.000000'),
+(1051, 'TKNO2602181152001', '2026-02-18', 'Followup', '7907382787', 1, 4, 133, 15, '12:00:00.000000'),
+(1052, 'TKNO2602181602001', '2026-02-18', 'Followup', '7907058276', 1, 4, 103, 15, '03:00:00.000000'),
+(1053, 'TKNO2602181711001', '2026-02-18', 'Consultation', '7994735377', 1, 4, 148, 14, '04:00:00.000000'),
+(1054, 'TKNO2602181739001', '2026-02-18', 'Followup', '9446691926', 1, 4, 131, 11, '09:00:00.000000'),
+(1055, 'TKNO2602181739002', '2026-02-18', 'Followup', '7907058276', 1, 4, 103, 15, '11:00:00.000000'),
+(1056, 'TKNO2602181740001', '2026-02-18', 'Followup', '9871668361', 1, 4, 147, 11, '03:00:00.000000'),
+(1058, 'TKNO2602181741001', '2026-02-18', 'Followup', '7994735377', 1, 4, 148, 15, '04:00:00.000000'),
+(1059, 'TKNO2602181817001', '2026-02-18', 'Followup', '9605455122', 1, 4, 142, 12, '12:00:00.000000'),
+(1060, 'TKNO2602181833001', '2026-02-18', 'Followup', '9496815401', 1, 4, 150, 14, '05:00:00.000000'),
+(1062, 'TKNO2602191756001', '2026-02-19', 'Followup', '9447427494', 1, 4, 125, 12, '09:00:00.000000'),
+(1063, 'TKNO2602191759001', '2026-02-19', 'Followup', '7907058276', 1, 4, 103, 15, '11:00:00.000000'),
+(1064, 'TKNO2602191800001', '2026-02-19', 'Followup', '7994735377', 1, 4, 148, 15, '16:00:00.000000'),
+(1065, 'TKNO2602191800002', '2026-02-19', 'Followup', '8547117297', 1, 4, 143, 15, '17:00:00.000000'),
+(1066, 'TKNO2602191803001', '2026-02-19', 'Followup', '8547555159', 1, 4, 130, 12, '16:00:00.000000'),
+(1067, 'TKNO2602191804001', '2026-02-20', 'Followup', '9447427494', 1, 4, 125, 12, '09:00:00.000000'),
+(1068, 'TKNO2602191805001', '2026-02-20', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1069, 'TKNO2602191805002', '2026-02-20', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1071, 'TKNO2602191807001', '2026-02-20', 'Followup', '7907058276', 1, 4, 103, 15, '15:30:00.000000'),
+(1072, 'TKNO2602191807002', '2026-02-20', 'Followup', '9600079268', 1, 4, 127, 11, '16:00:00.000000'),
+(1073, 'TKNO2602191808001', '2026-02-20', 'Followup', '7994735377', 1, 4, 149, 12, '16:00:00.000000'),
+(1075, 'TKNO2602200959001', '2026-02-20', 'Followup', '9871668361', 1, 4, 147, 15, '09:00:00.000000'),
+(1076, 'TKNO2602201100001', '2026-02-21', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1077, 'TKNO2602201153001', '2026-02-20', 'Followup', '8137984818', 1, 4, 14, 11, '11:00:00.000000'),
+(1079, 'TKNO2602201156001', '2026-02-20', 'Followup', '9447533613', 1, 4, 87, 12, '11:00:00.000000'),
+(1080, 'TKNO2602201519001', '2026-02-20', 'Followup', '8547117297', 1, 4, 143, 15, '02:30:00.000000'),
+(1081, 'TKNO2602201627001', '2026-02-21', 'Followup', '9496815401', 1, 4, 150, 15, '09:00:00.000000'),
+(1082, 'TKNO2602201629001', '2026-02-21', 'Followup', '9447427494', 1, 4, 125, 11, '09:00:00.000000'),
+(1083, 'TKNO2602201634001', '2026-02-21', 'Followup', '9446595307', 1, 4, 31, 11, '10:00:00.000000'),
+(1084, 'TKNO2602201635001', '2026-02-21', 'Followup', '9871668361', 1, 4, 147, 15, '10:00:00.000000'),
+(1085, 'TKNO2602201636001', '2026-02-21', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1086, 'TKNO2602201636002', '2026-02-21', 'Followup', '9562060210', 1, 4, 120, 11, '11:00:00.000000'),
+(1088, 'TKNO2602201638001', '2026-02-21', 'Followup', '9447556337', 1, 4, 47, 11, '12:00:00.000000'),
+(1090, 'TKNO2602201639001', '2026-02-21', 'Followup', '7907058276', 1, 4, 103, 15, '12:00:00.000000'),
+(1091, 'TKNO2602201640001', '2026-02-21', 'Followup', '9715294228', 1, 4, 101, 11, '04:30:00.000000'),
+(1092, 'TKNO2602201718001', '2026-02-20', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(1093, 'TKNO2602201723001', '2026-02-20', 'Followup', '8281613995', 1, 4, 114, 15, '05:00:00.000000'),
+(1094, 'TKNO2602201725001', '2026-02-20', 'Followup', '9447427494', 1, 4, 125, 15, '11:00:00.000000'),
+(1095, 'TKNO2602201850001', '2026-02-20', 'Followup', '9620950581', 1, 4, 93, 11, '18:00:00.000000'),
+(1096, 'TKNO2602201854001', '2026-02-20', 'Followup', '8939039031', 1, 4, 139, 11, '12:00:00.000000'),
+(1097, 'TKNO2602210851001', '2026-02-21', 'Followup', '9447427494', 1, 4, 125, 15, '11:00:00.000000'),
+(1098, 'TKNO2602210855001', '2026-02-21', 'Followup', '8547117297', 1, 4, 143, 15, '16:00:00.000000'),
+(1099, 'TKNO2602211234001', '2026-02-21', 'Consultation', '9895411262', 1, 4, 151, 11, '11:30:00.000000'),
+(1100, 'TKNO2602211725001', '2026-02-21', 'Consultation', '9895356435', 1, 4, 152, 14, '04:30:00.000000'),
+(1101, 'TKNO2602211726001', '2026-02-21', 'Followup', '7994735377', 1, 4, 148, 15, '04:00:00.000000'),
+(1102, 'TKNO2602211729001', '2026-02-23', 'Followup', '9447427494', 1, 4, 125, 12, '09:00:00.000000'),
+(1104, 'TKNO2602211730002', '2026-02-23', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1105, 'TKNO2602211731001', '2026-02-23', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(1106, 'TKNO2602211731002', '2026-02-23', 'Followup', '8137984818', 1, 4, 14, 11, '11:00:00.000000'),
+(1108, 'TKNO2602211732002', '2026-02-23', 'Followup', '8547117297', 1, 4, 143, 15, '11:00:00.000000'),
+(1110, 'TKNO2602211733002', '2026-02-23', 'Followup', '7994735377', 1, 4, 148, 12, '12:00:00.000000'),
+(1111, 'TKNO2602211734001', '2026-02-23', 'Followup', '9871668361', 1, 4, 147, 15, '15:00:00.000000'),
+(1113, 'TKNO2602211735001', '2026-02-23', 'Followup', '9600079268', 1, 4, 127, 11, '16:00:00.000000'),
+(1114, 'TKNO2602211735002', '2026-02-23', 'Consultation', '9895411262', 1, 4, 151, 14, '16:30:00.000000'),
+(1115, 'TKNO2602230952001', '2026-02-23', 'Followup', '9447427494', 1, 4, 125, 15, '09:00:00.000000'),
+(1116, 'TKNO2602231006001', '2026-02-23', 'Followup', '9447427494', 1, 4, 125, 12, '11:00:00.000000'),
+(1117, 'TKNO2602231122001', '2026-02-23', 'Consultation', '9061112886', 1, 4, 153, 11, '10:30:00.000000'),
+(1118, 'TKNO2602231242001', '2026-02-23', 'Followup', '8281613995', 1, 4, 114, 15, '11:30:00.000000'),
+(1119, 'TKNO2602231545001', '2026-02-23', 'Followup', '9895133092', 1, 4, 154, 11, '18:00:00.000000'),
+(1120, 'TKNO2602231740001', '2026-02-23', 'Consultation', '9744220766', 1, 4, 155, 14, '05:00:00.000000'),
+(1121, 'TKNO2602231802001', '2026-02-24', 'Followup', '9447427494', 1, 4, 125, 15, '09:00:00.000000'),
+(1122, 'TKNO2602231803001', '2026-02-24', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1123, 'TKNO2602231803002', '2026-02-24', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1124, 'TKNO2602231803003', '2026-02-24', 'Followup', '7994735377', 1, 4, 148, 12, '10:00:00.000000'),
+(1125, 'TKNO2602231804001', '2026-02-24', 'Followup', '9447427494', 1, 4, 125, 12, '11:00:00.000000'),
+(1126, 'TKNO2602231805001', '2026-02-24', 'Followup', '8547117297', 1, 4, 143, 15, '11:30:00.000000'),
+(1127, 'TKNO2602231805002', '2026-02-24', 'Followup', '9447556337', 1, 4, 47, 11, '12:00:00.000000'),
+(1128, 'TKNO2602231806001', '2026-02-24', 'Followup', '9871668361', 1, 4, 147, 15, '03:30:00.000000'),
+(1129, 'TKNO2602231806002', '2026-02-24', 'Followup', '9895133092', 1, 4, 154, 11, '06:00:00.000000'),
+(1130, 'TKNO2602231835001', '2026-02-24', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(1131, 'TKNO2602231837001', '2026-02-23', 'Followup', '9539606626', 1, 4, 108, 12, '16:00:00.000000'),
+(1132, 'TKNO2602231838001', '2026-02-23', 'Followup', '8848454973', 1, 4, 156, 12, '17:00:00.000000'),
+(1133, 'TKNO2602231843001', '2026-02-24', 'Followup', '9895356435', 1, 4, 157, 11, '17:00:00.000000'),
+(1134, 'TKNO2602241034001', '2026-02-24', 'Followup', '9061112886', 1, 4, 153, 11, '10:30:00.000000'),
+(1135, 'TKNO2602241633001', '2026-02-24', 'Consultation', '9847031192', 1, 4, 158, 14, '04:00:00.000000'),
+(1136, 'TKNO2602241633002', '2026-02-25', 'Followup', '9447427494', 1, 4, 125, 15, '09:00:00.000000'),
+(1137, 'TKNO2602241634001', '2026-02-25', 'Followup', '9495202009', 1, 4, 71, 15, '10:00:00.000000'),
+(1138, 'TKNO2602241634002', '2026-02-25', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(1139, 'TKNO2602241646001', '2026-02-24', 'Consultation', '9645107839', 1, 4, 159, 14, '03:30:00.000000'),
+(1141, 'TKNO2602241647001', '2026-02-25', 'Followup', '8547117297', 1, 4, 143, 15, '11:00:00.000000'),
+(1144, 'TKNO2602241648002', '2026-02-25', 'Followup', '7994735377', 1, 4, 149, 12, '12:00:00.000000'),
+(1145, 'TKNO2602241649001', '2026-02-25', 'Followup', '8137882848', 1, 4, 111, 15, '12:00:00.000000'),
+(1146, 'TKNO2602241650001', '2026-02-25', 'Followup', '9446691926', 1, 4, 131, 11, '12:00:00.000000'),
+(1147, 'TKNO2602241650002', '2026-02-25', 'Followup', '9847031192', 1, 4, 158, 11, '15:00:00.000000'),
+(1148, 'TKNO2602241651001', '2026-02-25', 'Followup', '8111807233', 1, 4, 10, 11, '15:30:00.000000'),
+(1149, 'TKNO2602241651002', '2026-02-25', 'Followup', '9871668361', 1, 4, 147, 15, '15:30:00.000000'),
+(1151, 'TKNO2602241704001', '2026-02-24', 'Consultation', '9895487052', 1, 4, 160, 14, '04:00:00.000000'),
+(1152, 'TKNO2602241800001', '2026-02-25', 'Followup', '9744220766', 1, 4, 155, 11, '05:00:00.000000'),
+(1153, 'TKNO2602241917001', '2026-02-24', 'Consultation', '8845356062', 1, 4, 161, 14, '18:00:00.000000'),
+(1155, 'TKNO2602251019001', '2026-02-25', 'Followup', '7012890496', 1, 4, 162, 11, '14:00:00.000000'),
+(1156, 'TKNO2602251021001', '2026-02-25', 'Followup', '9895133092', 1, 4, 154, 11, '18:00:00.000000'),
+(1157, 'TKNO2602251309001', '2026-02-26', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1158, 'TKNO2602251310001', '2026-02-26', 'Followup', '8281613995', 1, 4, 114, 11, '11:00:00.000000'),
+(1159, 'TKNO2602251311001', '2026-02-26', 'Followup', '9447427494', 1, 4, 125, 15, '09:00:00.000000'),
+(1160, 'TKNO2602251312001', '2026-02-26', 'Followup', '8547117297', 1, 4, 143, 15, '11:00:00.000000'),
+(1161, 'TKNO2602251654001', '2026-02-25', 'Followup', '7293119209', 1, 4, 163, 12, '11:00:00.000000'),
+(1162, 'TKNO2602251655001', '2026-02-25', 'Followup', '7293119209', 1, 4, 163, 12, '16:00:00.000000'),
+(1163, 'TKNO2602251656001', '2026-02-26', 'Followup', '7293119209', 1, 4, 163, 12, '12:00:00.000000'),
+(1164, 'TKNO2602251657001', '2026-02-26', 'Followup', '7293119209', 1, 4, 163, 12, '16:00:00.000000'),
+(1166, 'TKNO2602251710001', '2026-02-25', 'Followup', '9447427494', 1, 4, 125, 11, '11:00:00.000000'),
+(1167, 'TKNO2602251746001', '2026-02-25', 'Followup', '9645107839', 1, 4, 159, 15, '16:00:00.000000');
+INSERT INTO `x_app_appointment` (`id`, `token_no`, `appointment_date`, `status`, `contact_no`, `branch_id`, `department_id`, `patient_id`, `doctor_id`, `appoinment_time`) VALUES
+(1168, 'TKNO2602251748001', '2026-02-26', 'Followup', '7907058276', 1, 4, 103, 15, '11:00:00.000000'),
+(1169, 'TKNO2602251748002', '2026-02-26', 'Followup', '9645107839', 1, 4, 159, 11, '16:00:00.000000'),
+(1170, 'TKNO2602251846001', '2026-02-25', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(1171, 'TKNO2602251846002', '2026-02-26', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(1172, 'TKNO2602251847001', '2026-02-26', 'Followup', '7994735377', 1, 4, 149, 12, '10:00:00.000000'),
+(1173, 'TKNO2602251904001', '2026-02-26', 'Followup', '9895133092', 1, 4, 154, 11, '12:00:00.000000'),
+(1174, 'TKNO2602251908001', '2026-02-26', 'Followup', '8845356062', 1, 4, 161, 11, '18:00:00.000000'),
+(1175, 'TKNO2602261500001', '2026-02-26', 'Followup', '9447427494', 1, 4, 125, 12, '11:00:00.000000'),
+(1176, 'TKNO2602261502001', '2026-02-26', 'Followup', '7012890496', 1, 4, 162, 12, '12:00:00.000000'),
+(1177, 'TKNO2602261700001', '2026-02-27', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1178, 'TKNO2602261701001', '2026-02-27', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1179, 'TKNO2602261702001', '2026-02-27', 'Followup', '7293119209', 1, 4, 163, 12, '10:00:00.000000'),
+(1180, 'TKNO2602261702002', '2026-02-27', 'Followup', '7907058276', 1, 4, 103, 15, '11:00:00.000000'),
+(1181, 'TKNO2602261703001', '2026-02-27', 'Followup', '7012890496', 1, 4, 162, 11, '11:00:00.000000'),
+(1182, 'TKNO2602261703002', '2026-02-27', 'Followup', '8547555159', 1, 4, 130, 12, '11:00:00.000000'),
+(1183, 'TKNO2602261704001', '2026-02-27', 'Followup', '7994735377', 1, 4, 149, 12, '12:00:00.000000'),
+(1184, 'TKNO2602261704002', '2026-02-27', 'Followup', '8111807233', 1, 4, 10, 11, '15:30:00.000000'),
+(1185, 'TKNO2602261705001', '2026-02-27', 'Followup', '9645107839', 1, 4, 159, 15, '16:00:00.000000'),
+(1187, 'TKNO2602261707001', '2026-02-27', 'Followup', '9447427494', 1, 4, 125, 12, '17:00:00.000000'),
+(1190, 'TKNO2602261844001', '2026-02-26', 'Followup', '9895356435', 1, 4, 157, 11, '17:00:00.000000'),
+(1191, 'TKNO2602261845001', '2026-02-26', 'Followup', '9847031192', 1, 4, 158, 11, '15:00:00.000000'),
+(1192, 'TKNO2602261847001', '2026-02-27', 'Followup', '9895356435', 1, 4, 157, 11, '11:00:00.000000'),
+(1193, 'TKNO2602261900001', '2026-02-26', 'Followup', '8845356062', 1, 4, 161, 11, '18:00:00.000000'),
+(1194, 'TKNO2602271803001', '2026-02-27', 'Consultation', '9846245945', 1, 4, 164, 14, '17:00:00.000000'),
+(1195, 'TKNO2602271827001', '2026-02-27', 'Followup', '7293119209', 1, 4, 163, 12, '17:00:00.000000'),
+(1200, 'TKNO2602271900001', '2026-02-27', 'Followup', '8137984818', 1, 4, 14, 11, '11:00:00.000000'),
+(1201, 'TKNO2602271902001', '2026-02-27', 'Followup', '8845356062', 1, 4, 161, 11, '18:00:00.000000'),
+(1202, 'TKNO2602271908001', '2026-02-28', 'Followup', '9447427494', 1, 4, 125, 11, '10:00:00.000000'),
+(1203, 'TKNO2602271911001', '2026-02-28', 'Followup', '9446691926', 1, 4, 131, 15, '10:00:00.000000'),
+(1205, 'TKNO2602271912001', '2026-02-28', 'Followup', '9895356435', 1, 4, 157, 11, '11:00:00.000000'),
+(1206, 'TKNO2602271913001', '2026-02-28', 'Followup', '7907058276', 1, 4, 103, 15, '11:00:00.000000'),
+(1207, 'TKNO2602271913002', '2026-02-28', 'Followup', '9846245945', 1, 4, 164, 12, '11:00:00.000000'),
+(1209, 'TKNO2602271914002', '2026-02-28', 'Followup', '7994735377', 1, 4, 148, 12, '12:00:00.000000'),
+(1210, 'TKNO2602271915001', '2026-02-28', 'Followup', '9446595307', 1, 4, 31, 12, '15:00:00.000000'),
+(1212, 'TKNO2602271916002', '2026-02-28', 'Followup', '9895133092', 1, 4, 154, 11, '16:00:00.000000'),
+(1214, 'TKNO2602271917002', '2026-02-28', 'Followup', '7293119209', 1, 4, 163, 12, '17:00:00.000000'),
+(1215, 'TKNO2602281003001', '2026-02-28', 'Followup', '8845356062', 1, 4, 161, 15, '09:00:00.000000'),
+(1216, 'TKNO2602281110001', '2026-02-28', 'Followup', '9447427494', 1, 4, 125, 12, '10:00:00.000000'),
+(1217, 'TKNO2602281829001', '2026-02-28', 'Followup', '7293119209', 1, 4, 163, 11, '10:00:00.000000'),
+(1218, 'TKNO2602281832001', '2026-02-28', 'Followup', '9895356435', 1, 4, 152, 12, '04:00:00.000000'),
+(1219, 'TKNO2602281833001', '2026-03-02', 'Followup', '7293119209', 1, 4, 163, 12, '08:00:00.000000'),
+(1220, 'TKNO2602281834001', '2026-03-02', 'Followup', '8845356062', 1, 4, 161, 15, '08:00:00.000000'),
+(1221, 'TKNO2602281835001', '2026-03-02', 'Followup', '9600079268', 1, 4, 127, 11, '08:00:00.000000'),
+(1222, 'TKNO2602281835002', '2026-03-02', 'Followup', '7994735377', 1, 4, 149, 12, '09:00:00.000000'),
+(1223, 'TKNO2602281836001', '2026-03-02', 'Followup', '9447427494', 1, 4, 125, 12, '10:00:00.000000'),
+(1224, 'TKNO2602281837001', '2026-03-02', 'Followup', '9846245945', 1, 4, 164, 15, '09:00:00.000000'),
+(1225, 'TKNO2602281838001', '2026-03-02', 'Followup', '9446691926', 1, 4, 131, 11, '09:00:00.000000'),
+(1226, 'TKNO2602281841001', '2026-03-02', 'Followup', '8547555159', 1, 4, 130, 12, '11:00:00.000000'),
+(1227, 'TKNO2602281842001', '2026-03-02', 'Followup', '8137984818', 1, 4, 14, 11, '11:00:00.000000'),
+(1228, 'TKNO2603020948001', '2026-03-02', 'Consultation', '9600079268', 1, 4, 165, 11, '09:00:00.000000'),
+(1229, 'TKNO2603021016001', '2026-03-02', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1230, 'TKNO2603021249001', '2026-03-02', 'Followup', '9744220766', 1, 4, 155, 15, '11:00:00.000000'),
+(1231, 'TKNO2603021256001', '2026-03-02', 'Consultation', '7012246092', 1, 4, 166, 11, '11:30:00.000000'),
+(1232, 'TKNO2603021509001', '2026-03-04', 'Followup', '9600079268', 1, 4, 165, 11, '09:30:00.000000'),
+(1233, 'TKNO2603021510001', '2026-03-04', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1234, 'TKNO2603021510002', '2026-03-04', 'Followup', '7293119209', 1, 4, 163, 12, '10:00:00.000000'),
+(1235, 'TKNO2603021511001', '2026-03-04', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1236, 'TKNO2603021512001', '2026-03-04', 'Followup', '8281613995', 1, 4, 114, 11, '11:00:00.000000'),
+(1237, 'TKNO2603021512002', '2026-03-04', 'Followup', '7994735377', 1, 4, 148, 12, '11:00:00.000000'),
+(1239, 'TKNO2603021514001', '2026-03-04', 'Followup', '9447427494', 1, 4, 125, 12, '12:00:00.000000'),
+(1240, 'TKNO2603021514002', '2026-03-04', 'Followup', '9744220766', 1, 4, 155, 11, '12:00:00.000000'),
+(1243, 'TKNO2603021517001', '2026-03-04', 'Followup', '8547555159', 1, 4, 130, 12, '10:00:00.000000'),
+(1244, 'TKNO2603021518001', '2026-03-04', 'Followup', '7012246092', 1, 4, 166, 11, '17:30:00.000000'),
+(1245, 'TKNO2603021519001', '2026-03-04', 'Followup', '9895133092', 1, 4, 154, 11, '18:00:00.000000'),
+(1246, 'TKNO2603021519002', '2026-03-04', 'Followup', '9620950581', 1, 4, 93, 12, '18:00:00.000000'),
+(1247, 'TKNO2603021520001', '2026-03-04', 'Followup', '8845356062', 1, 4, 161, 15, '08:45:00.000000'),
+(1248, 'TKNO2603041615001', '2026-03-04', 'Consultation', '9020388301', 1, 4, 167, 11, '15:00:00.000000'),
+(1249, 'TKNO2603041617001', '2026-03-05', 'Followup', '9715294228', 1, 4, 101, 11, '09:00:00.000000'),
+(1250, 'TKNO2603041618001', '2026-03-05', 'Followup', '8111807233', 1, 4, 10, 11, '11:00:00.000000'),
+(1251, 'TKNO2603041734001', '2026-03-04', 'Followup', '9846245945', 1, 4, 164, 15, '16:00:00.000000'),
+(1252, 'TKNO2603041734002', '2026-03-04', 'Followup', '9895125223', 1, 4, 144, 15, '17:00:00.000000'),
+(1253, 'TKNO2603041736001', '2026-03-05', 'Followup', '9715294228', 1, 4, 101, 11, '09:00:00.000000'),
+(1254, 'TKNO2603041737001', '2026-03-05', 'Followup', '9600079268', 1, 4, 165, 15, '09:00:00.000000'),
+(1255, 'TKNO2603041737002', '2026-03-05', 'Followup', '9446691926', 1, 4, 131, 15, '10:00:00.000000'),
+(1256, 'TKNO2603041738001', '2026-03-05', 'Followup', '7293119209', 1, 4, 163, 12, '10:00:00.000000'),
+(1257, 'TKNO2603041738002', '2026-03-05', 'Followup', '8111807233', 1, 4, 10, 11, '11:00:00.000000'),
+(1258, 'TKNO2603041739001', '2026-03-05', 'Followup', '9895133092', 1, 4, 154, 11, '11:00:00.000000'),
+(1259, 'TKNO2603041739002', '2026-03-05', 'Followup', '7994735377', 1, 4, 149, 12, '11:00:00.000000'),
+(1260, 'TKNO2603041740001', '2026-03-05', 'Followup', '9447427494', 1, 4, 125, 12, '12:00:00.000000'),
+(1261, 'TKNO2603041740002', '2026-03-05', 'Followup', '9846245945', 1, 4, 164, 15, '15:00:00.000000'),
+(1262, 'TKNO2603041742001', '2026-03-05', 'Followup', '8845356062', 1, 4, 161, 15, '08:50:00.000000'),
+(1263, 'TKNO2603051707001', '2026-03-05', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1264, 'TKNO2603051709001', '2026-03-06', 'Followup', '8845356062', 1, 4, 161, 15, '08:45:00.000000'),
+(1265, 'TKNO2603051709002', '2026-03-06', 'Followup', '9600079368', 1, 4, 165, 15, '09:00:00.000000'),
+(1266, 'TKNO2603051712001', '2026-03-06', 'Followup', '7293119209', 1, 4, 163, 12, '09:00:00.000000'),
+(1267, 'TKNO2603051712002', '2026-03-06', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1268, 'TKNO2603051712003', '2026-03-06', 'Followup', '9846245945', 1, 4, 164, 11, '10:00:00.000000'),
+(1269, 'TKNO2603051713001', '2026-03-06', 'Followup', '7907058276', 1, 4, 103, 15, '11:00:00.000000'),
+(1270, 'TKNO2603051714001', '2026-03-06', 'Followup', '9448495706', 1, 4, 168, 12, '11:00:00.000000'),
+(1271, 'TKNO2603051714002', '2026-03-06', 'Followup', '8939039031', 1, 4, 139, 11, '12:00:00.000000'),
+(1273, 'TKNO2603051715002', '2026-03-06', 'Followup', '9447427494', 1, 4, 125, 15, '12:00:00.000000'),
+(1274, 'TKNO2603051715003', '2026-03-06', 'Followup', '9020388301', 1, 4, 167, 11, '15:00:00.000000'),
+(1275, 'TKNO2603051716001', '2026-03-06', 'Followup', '7994735377', 1, 4, 149, 12, '15:00:00.000000'),
+(1276, 'TKNO2603051716002', '2026-03-06', 'Followup', '8547555159', 1, 4, 130, 12, '16:00:00.000000'),
+(1277, 'TKNO2603051717001', '2026-03-06', 'Followup', '9446691926', 1, 4, 131, 11, '15:00:00.000000'),
+(1278, 'TKNO2603051717002', '2026-03-06', 'Followup', '9895133092', 1, 4, 154, 11, '18:00:00.000000'),
+(1279, 'TKNO2603051851001', '2026-03-05', 'Followup', '7994644946', 1, 4, 32, 12, '10:30:00.000000'),
+(1280, 'TKNO2603051903001', '2026-03-05', 'Consultation', '9567665738', 1, 4, 169, 14, '06:00:00.000000'),
+(1281, 'TKNO2603060956001', '2026-03-06', 'Followup', '9448495706', 1, 4, 168, 12, '13:30:00.000000'),
+(1282, 'TKNO2603060956002', '2026-03-06', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1283, 'TKNO2603061328001', '2026-03-06', 'Consultation', '9947904661', 1, 4, 170, 11, '12:00:00.000000'),
+(1285, 'TKNO2603061330002', '2026-03-07', 'Followup', '9947904661', 1, 4, 170, 11, '09:00:00.000000'),
+(1286, 'TKNO2603061331001', '2026-03-07', 'Followup', '8281613995', 1, 4, 114, 11, '11:00:00.000000'),
+(1287, 'TKNO2603061332001', '2026-03-07', 'Followup', '9995774452', 1, 4, 68, 11, '10:30:00.000000'),
+(1288, 'TKNO2603061332002', '2026-03-07', 'Followup', '9567665738', 1, 4, 169, 11, '12:00:00.000000'),
+(1289, 'TKNO2603061333001', '2026-03-07', 'Followup', '9020388301', 1, 4, 167, 11, '15:00:00.000000'),
+(1291, 'TKNO2603061401001', '2026-03-07', 'Followup', '7293119209', 1, 4, 163, 12, '09:00:00.000000'),
+(1292, 'TKNO2603061401002', '2026-03-07', 'Followup', '9447427494', 1, 4, 125, 12, '12:00:00.000000'),
+(1293, 'TKNO2603061402001', '2026-03-07', 'Followup', '9446595307', 1, 4, 31, 12, '15:00:00.000000'),
+(1294, 'TKNO2603061647001', '2026-03-06', 'Consultation', '8330107852', 1, 4, 171, 14, '16:00:00.000000'),
+(1295, 'TKNO2603061704001', '2026-03-07', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1296, 'TKNO2603061717001', '2026-03-06', 'Followup', '7012246092', 1, 4, 166, 11, '18:00:00.000000'),
+(1298, 'TKNO2603061829001', '2026-03-07', 'Followup', '7012246092', 1, 4, 166, 12, '10:30:00.000000'),
+(1299, 'TKNO2603071146001', '2026-03-09', 'Followup', '9446691926', 1, 4, 131, 11, '10:30:00.000000'),
+(1300, 'TKNO2603071147001', '2026-03-09', 'Followup', '9947904661', 1, 4, 170, 11, '18:00:00.000000'),
+(1302, 'TKNO2603071607001', '2026-03-07', 'Followup', '9895133092', 1, 4, 154, 12, '11:00:00.000000'),
+(1303, 'TKNO2603071608001', '2026-03-07', 'Followup', '9895356435', 1, 4, 152, 12, '16:00:00.000000'),
+(1304, 'TKNO2603071641001', '2026-03-09', 'Followup', '7994735377', 1, 4, 148, 12, '10:00:00.000000'),
+(1305, 'TKNO2603071645001', '2026-03-09', 'Followup', '8547555159', 1, 4, 130, 12, '11:00:00.000000'),
+(1306, 'TKNO2603071647001', '2026-03-09', 'Followup', '9946527538', 1, 4, 69, 12, '12:00:00.000000'),
+(1307, 'TKNO2603071652001', '2026-03-09', 'Followup', '9447427494', 1, 4, 125, 12, '17:00:00.000000'),
+(1308, 'TKNO2603091053001', '2026-03-09', 'Followup', '7012246092', 1, 4, 166, 15, '10:00:00.000000'),
+(1309, 'TKNO2603091144001', '2026-03-09', 'Followup', '9895133092', 1, 4, 154, 11, '11:00:00.000000'),
+(1310, 'TKNO2603091145001', '2026-03-09', 'Followup', '9567665738', 1, 4, 169, 11, '16:00:00.000000'),
+(1313, 'TKNO2603091600001', '2026-03-09', 'Followup', '7907058276', 1, 4, 103, 15, '03:00:00.000000'),
+(1314, 'TKNO2603091601001', '2026-03-09', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1315, 'TKNO2603091750001', '2026-03-09', 'Followup', '9447427494', 1, 4, 125, 15, '17:00:00.000000'),
+(1316, 'TKNO2603091801001', '2026-03-09', 'Consultation', '9847543431', 1, 4, 172, 12, '17:00:00.000000'),
+(1317, 'TKNO2603091803001', '2026-03-10', 'Followup', '9847543431', 1, 4, 172, 14, '17:00:00.000000'),
+(1319, 'TKNO2603091804001', '2026-03-10', 'Followup', '9895133092', 1, 4, 154, 11, '18:00:00.000000'),
+(1320, 'TKNO2603091805001', '2026-03-10', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1321, 'TKNO2603091913001', '2026-03-10', 'Followup', '9947904661', 1, 4, 170, 11, '19:00:00.000000'),
+(1322, 'TKNO2603101043001', '2026-03-10', 'Followup', '8845356062', 1, 4, 161, 15, '09:00:00.000000'),
+(1323, 'TKNO2603101044001', '2026-03-10', 'Followup', '9446691926', 1, 4, 131, 15, '10:00:00.000000'),
+(1324, 'TKNO2603101720001', '2026-03-11', 'Followup', '8845356062', 1, 4, 161, 15, '08:45:00.000000'),
+(1325, 'TKNO2603101720002', '2026-03-11', 'Followup', '7293119209', 1, 4, 163, 12, '09:00:00.000000'),
+(1326, 'TKNO2603101721001', '2026-03-11', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1328, 'TKNO2603101722001', '2026-03-11', 'Followup', '7994735377', 1, 4, 149, 12, '10:30:00.000000'),
+(1330, 'TKNO2603101723001', '2026-03-11', 'Followup', '7907058276', 1, 4, 103, 15, '11:00:00.000000'),
+(1332, 'TKNO2603101724001', '2026-03-11', 'Followup', '7012246092', 1, 4, 166, 15, '12:00:00.000000'),
+(1334, 'TKNO2603101725001', '2026-03-11', 'Followup', '8547555159', 1, 4, 130, 12, '16:00:00.000000'),
+(1335, 'TKNO2603101726001', '2026-03-11', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1338, 'TKNO2603101759001', '2026-03-11', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1339, 'TKNO2603101800001', '2026-03-11', 'Followup', '8281613995', 1, 4, 114, 11, '11:00:00.000000'),
+(1340, 'TKNO2603101801001', '2026-03-11', 'Followup', '9567665738', 1, 4, 169, 11, '12:00:00.000000'),
+(1341, 'TKNO2603101802001', '2026-03-11', 'Followup', '9620950581', 1, 4, 93, 11, '18:00:00.000000'),
+(1342, 'TKNO2603101802002', '2026-03-11', 'Followup', '9947904661', 1, 4, 170, 11, '18:00:00.000000'),
+(1344, 'TKNO2603111439001', '2026-03-12', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1345, 'TKNO2603111616001', '2026-03-11', 'Followup', '9446110488', 1, 4, 173, 11, '15:00:00.000000'),
+(1346, 'TKNO2603111736001', '2026-03-11', 'Followup', '9947904661', 1, 4, 170, 15, '18:00:00.000000'),
+(1347, 'TKNO2603111737001', '2026-03-12', 'Followup', '7012246092', 1, 4, 166, 15, '10:00:00.000000'),
+(1348, 'TKNO2603111737002', '2026-03-12', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1349, 'TKNO2603111800001', '2026-03-11', 'Followup', '9847543431', 1, 4, 172, 11, '17:00:00.000000'),
+(1351, 'TKNO2603111856001', '2026-03-12', 'Followup', '9895133092', 1, 4, 154, 11, '18:00:00.000000'),
+(1352, 'TKNO2603111856002', '2026-03-12', 'Followup', '9947904661', 1, 4, 170, 11, '19:00:00.000000'),
+(1353, 'TKNO2603121000001', '2026-03-12', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1354, 'TKNO2603121711001', '2026-03-13', 'Followup', '8845356062', 1, 4, 161, 15, '09:00:00.000000'),
+(1356, 'TKNO2603121712002', '2026-03-13', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1357, 'TKNO2603121713001', '2026-03-13', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1360, 'TKNO2603121714002', '2026-03-13', 'Followup', '8111807233', 1, 4, 10, 11, '12:00:00.000000'),
+(1361, 'TKNO2603121715001', '2026-03-13', 'Followup', '7012246092', 1, 4, 166, 15, '16:00:00.000000'),
+(1362, 'TKNO2603121754001', '2026-03-12', 'Followup', '9847543431', 1, 4, 172, 12, '17:00:00.000000'),
+(1363, 'TKNO2603121756001', '2026-03-12', 'Followup', '7293119209', 1, 4, 163, 12, '11:00:00.000000'),
+(1364, 'TKNO2603121757001', '2026-03-12', 'Followup', '7293119209', 1, 4, 163, 12, '05:00:00.000000'),
+(1365, 'TKNO2603121941001', '2026-03-13', 'Followup', '9620950581', 1, 4, 93, 11, '18:00:00.000000'),
+(1366, 'TKNO2603121942001', '2026-03-13', 'Followup', '9947904661', 1, 4, 170, 11, '18:00:00.000000'),
+(1367, 'TKNO2603130927001', '2026-03-13', 'Followup', '8845356062', 1, 4, 161, 12, '09:00:00.000000'),
+(1369, 'TKNO2603130955001', '2026-03-14', 'Followup', '9446691926', 1, 4, 131, 11, '09:00:00.000000'),
+(1370, 'TKNO2603131720001', '2026-03-14', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1371, 'TKNO2603131722001', '2026-03-14', 'Followup', '8281613995', 1, 4, 114, 11, '17:00:00.000000'),
+(1372, 'TKNO2603131804001', '2026-03-13', 'Followup', '9847543431', 1, 4, 172, 12, '17:00:00.000000'),
+(1373, 'TKNO2603131821001', '2026-03-13', 'Consultation', '9447606772', 1, 4, 175, 11, '18:00:00.000000'),
+(1374, 'TKNO2603131845001', '2026-03-14', 'Followup', '9447606772', 1, 4, 175, 11, '15:00:00.000000'),
+(1375, 'TKNO2603141204001', '2026-03-14', 'Followup', '8330107852', 1, 4, 171, 15, '10:00:00.000000'),
+(1376, 'TKNO2603141204002', '2026-03-14', 'Followup', '9947904661', 1, 4, 170, 15, '11:00:00.000000'),
+(1377, 'TKNO2603141308001', '2026-03-14', 'Followup', '8075648193', 1, 4, 176, 11, '11:00:00.000000'),
+(1378, 'TKNO2603141639001', '2026-03-14', 'Consultation', '9895993252', 1, 4, 177, 12, '09:00:00.000000'),
+(1379, 'TKNO2603141641001', '2026-03-14', 'Followup', '9847543431', 1, 4, 172, 12, '10:00:00.000000'),
+(1380, 'TKNO2603141641002', '2026-03-14', 'Followup', '8547555159', 1, 4, 130, 12, '11:00:00.000000'),
+(1381, 'TKNO2603141644001', '2026-03-14', 'Followup', '9895356435', 1, 4, 152, 12, '03:00:00.000000'),
+(1382, 'TKNO2603141647001', '2026-03-14', 'Followup', '8075560019', 1, 4, 178, 12, '15:00:00.000000'),
+(1383, 'TKNO2603141711001', '2026-03-14', 'Followup', '8111807233', 1, 4, 179, 14, '04:00:00.000000'),
+(1386, 'TKNO2603141743001', '2026-03-16', 'Followup', '8075560019', 1, 4, 178, 12, '10:00:00.000000'),
+(1387, 'TKNO2603141744001', '2026-03-16', 'Followup', '8111807233', 1, 4, 179, 15, '10:00:00.000000'),
+(1389, 'TKNO2603141746001', '2026-03-16', 'Followup', '9600079268', 1, 4, 127, 11, '11:00:00.000000'),
+(1390, 'TKNO2603141747001', '2026-03-16', 'Followup', '9447427494', 1, 4, 125, 12, '16:00:00.000000'),
+(1391, 'TKNO2603141748001', '2026-03-16', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1392, 'TKNO2603141748002', '2026-03-16', 'Followup', '9567665738', 1, 4, 169, 11, '17:00:00.000000'),
+(1393, 'TKNO2603141749001', '2026-03-16', 'Followup', '9447606772', 1, 4, 175, 15, '17:00:00.000000'),
+(1394, 'TKNO2603141749002', '2026-03-16', 'Followup', '9620950581', 1, 4, 93, 11, '18:00:00.000000'),
+(1395, 'TKNO2603141750001', '2026-03-16', 'Followup', '9947904661', 1, 4, 170, 11, '18:00:00.000000'),
+(1396, 'TKNO2603161149001', '2026-03-16', 'Followup', '8939039031', 1, 4, 139, 15, '11:00:00.000000'),
+(1397, 'TKNO2603161229001', '2026-03-16', 'Followup', '9446691926', 1, 4, 131, 11, '09:00:00.000000'),
+(1398, 'TKNO2603161358001', '2026-03-16', 'Followup', '8138890909', 1, 4, 180, 12, '13:00:00.000000'),
+(1399, 'TKNO2603161655001', '2026-03-17', 'Followup', '8845356062', 1, 4, 161, 15, '09:00:00.000000'),
+(1401, 'TKNO2603161656002', '2026-03-17', 'Followup', '8111807233', 1, 4, 179, 15, '09:30:00.000000'),
+(1402, 'TKNO2603161657001', '2026-03-17', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1403, 'TKNO2603161657002', '2026-03-17', 'Followup', '8111807233', 1, 4, 10, 11, '10:00:00.000000'),
+(1406, 'TKNO2603161659002', '2026-03-17', 'Followup', '9947904661', 1, 4, 170, 11, '18:00:00.000000'),
+(1407, 'TKNO2603161910001', '2026-03-16', 'Consultation', '8547337778', 1, 4, 181, 14, '17:30:00.000000'),
+(1408, 'TKNO2603161915001', '2026-03-16', 'Consultation', '8921576104', 1, 4, 182, 14, '17:30:00.000000'),
+(1409, 'TKNO2603161923001', '2026-03-17', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1410, 'TKNO2603161923002', '2026-03-17', 'Followup', '9847543431', 1, 4, 172, 11, '09:00:00.000000'),
+(1411, 'TKNO2603161924001', '2026-03-17', 'Followup', '8921576104', 1, 4, 182, 12, '11:00:00.000000'),
+(1412, 'TKNO2603171648001', '2026-03-17', 'Followup', '9539535599', 1, 4, 183, 12, '15:30:00.000000'),
+(1413, 'TKNO2603171654001', '2026-03-17', 'Followup', '8547337778', 1, 4, 181, 12, '10:00:00.000000'),
+(1414, 'TKNO2603171658001', '2026-03-17', 'Followup', '8138890909', 1, 4, 180, 15, '04:00:00.000000'),
+(1415, 'TKNO2603171733001', '2026-03-17', 'Consultation', '9633012417', 1, 4, 184, 14, '17:00:00.000000'),
+(1417, 'TKNO2603171740001', '2026-03-18', 'Followup', '8111807233', 1, 4, 179, 15, '09:30:00.000000'),
+(1418, 'TKNO2603171740002', '2026-03-18', 'Followup', '9447427494', 1, 4, 125, 15, '10:00:00.000000'),
+(1419, 'TKNO2603171806001', '2026-03-17', 'Consultation', '9961940225', 1, 4, 185, 14, '16:30:00.000000'),
+(1420, 'TKNO2603171807001', '2026-03-17', 'Followup', '9447606772', 1, 4, 175, 15, '17:30:00.000000'),
+(1421, 'TKNO2603171807002', '2026-03-17', 'Followup', '8138890909', 1, 4, 180, 15, '16:00:00.000000'),
+(1422, 'TKNO2603171811001', '2026-03-18', 'Followup', '9446691926', 1, 4, 131, 11, '09:00:00.000000'),
+(1423, 'TKNO2603171811002', '2026-03-18', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1424, 'TKNO2603171812001', '2026-03-18', 'Followup', '9447556337', 1, 4, 47, 11, '14:30:00.000000'),
+(1425, 'TKNO2603171813001', '2026-03-18', 'Followup', '9961940225', 1, 4, 185, 12, '16:30:00.000000'),
+(1426, 'TKNO2603171825001', '2026-03-18', 'Followup', '9947904661', 1, 4, 170, 11, '18:00:00.000000'),
+(1428, 'TKNO2603181315001', '2026-03-18', 'Followup', '8547337778', 1, 4, 181, 12, '10:00:00.000000'),
+(1429, 'TKNO2603181315002', '2026-03-18', 'Followup', '9539535599', 1, 4, 183, 12, '11:00:00.000000'),
+(1430, 'TKNO2603181316001', '2026-03-18', 'Followup', '8075560019', 1, 4, 178, 12, '12:00:00.000000'),
+(1431, 'TKNO2603181727001', '2026-03-18', 'Followup', '8921576104', 1, 4, 182, 11, '17:00:00.000000'),
+(1432, 'TKNO2603181729001', '2026-03-18', 'Followup', '9895133092', 1, 4, 154, 11, '09:00:00.000000'),
+(1433, 'TKNO2603181738001', '2026-03-18', 'Followup', '9847543431', 1, 4, 172, 15, '16:00:00.000000'),
+(1434, 'TKNO2603181739001', '2026-03-18', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1435, 'TKNO2603181743001', '2026-03-19', 'Followup', '8111807233', 1, 4, 179, 15, '09:30:00.000000'),
+(1436, 'TKNO2603181748001', '2026-03-19', 'Followup', '9446691926', 1, 4, 131, 11, '09:00:00.000000'),
+(1437, 'TKNO2603181750001', '2026-03-19', 'Followup', '8921576104', 1, 4, 182, 15, '15:00:00.000000'),
+(1438, 'TKNO2603181751001', '2026-03-19', 'Followup', '8111807233', 1, 4, 10, 11, '09:30:00.000000'),
+(1439, 'TKNO2603181753001', '2026-03-19', 'Followup', '8547337778', 1, 4, 181, 12, '10:00:00.000000'),
+(1440, 'TKNO2603181754001', '2026-03-19', 'Followup', '8075560019', 1, 4, 178, 12, '11:00:00.000000'),
+(1441, 'TKNO2603181755001', '2026-03-19', 'Followup', '9567665738', 1, 4, 169, 11, '16:30:00.000000'),
+(1442, 'TKNO2603181755002', '2026-03-19', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1443, 'TKNO2603181756001', '2026-03-19', 'Followup', '9447142846', 1, 4, 126, 11, '17:00:00.000000'),
+(1444, 'TKNO2603181818001', '2026-03-18', 'Followup', '7907118795', 1, 4, 186, 14, '17:00:00.000000'),
+(1445, 'TKNO2603181858001', '2026-03-18', 'Followup', '9633012417', 1, 4, 184, 11, '17:00:00.000000'),
+(1446, 'TKNO2603191311001', '2026-03-20', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1447, 'TKNO2603191738001', '2026-03-19', 'Followup', '9633012417', 1, 4, 184, 15, '17:00:00.000000'),
+(1448, 'TKNO2603191740001', '2026-03-20', 'Followup', '8845356062', 1, 4, 161, 15, '09:00:00.000000'),
+(1449, 'TKNO2603191741001', '2026-03-20', 'Followup', '8075560019', 1, 4, 178, 15, '09:00:00.000000'),
+(1450, 'TKNO2603191742001', '2026-03-20', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1452, 'TKNO2603191743001', '2026-03-20', 'Followup', '8111807233', 1, 4, 179, 15, '15:00:00.000000'),
+(1453, 'TKNO2603191743002', '2026-03-20', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1454, 'TKNO2603191744001', '2026-03-20', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1456, 'TKNO2603191812001', '2026-03-20', 'Followup', '9567665738', 1, 4, 169, 11, '12:00:00.000000'),
+(1459, 'TKNO2603191813002', '2026-03-20', 'Followup', '8921576104', 1, 4, 182, 11, '17:00:00.000000'),
+(1460, 'TKNO2603191814001', '2026-03-20', 'Followup', '9072361125', 1, 4, 140, 11, '15:00:00.000000'),
+(1462, 'TKNO2603201256001', '2026-03-20', 'Followup', '9539535599', 1, 4, 183, 15, '12:00:00.000000'),
+(1463, 'TKNO2603201538001', '2026-03-20', 'Followup', '8547337778', 1, 4, 181, 11, '11:00:00.000000'),
+(1464, 'TKNO2603201807001', '2026-03-21', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1465, 'TKNO2603201808001', '2026-03-21', 'Followup', '9562060210', 1, 4, 120, 11, '11:00:00.000000'),
+(1466, 'TKNO2603201808002', '2026-03-21', 'Followup', '9567665738', 1, 4, 169, 11, '12:00:00.000000'),
+(1467, 'TKNO2603201809001', '2026-03-21', 'Followup', '8281613995', 1, 4, 114, 11, '15:00:00.000000'),
+(1468, 'TKNO2603201810001', '2026-03-21', 'Followup', '9847543431', 1, 4, 172, 11, '16:00:00.000000'),
+(1469, 'TKNO2603211105001', '2026-03-21', 'Followup', '8075560019', 1, 4, 178, 12, '10:00:00.000000'),
+(1470, 'TKNO2603211227001', '2026-03-21', 'Followup', '9946527538', 1, 4, 69, 12, '11:00:00.000000'),
+(1471, 'TKNO2603211646001', '2026-03-21', 'Followup', '8330107852', 1, 4, 171, 15, '16:00:00.000000'),
+(1472, 'TKNO2603211707001', '2026-03-23', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1473, 'TKNO2603211708001', '2026-03-23', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1474, 'TKNO2603211708002', '2026-03-23', 'Consultation', '9847543431', 1, 4, 172, 11, '16:00:00.000000'),
+(1475, 'TKNO2603211720001', '2026-03-21', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1476, 'TKNO2603211724001', '2026-03-23', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1477, 'TKNO2603211725001', '2026-03-23', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1478, 'TKNO2603211806001', '2026-03-21', 'Followup', '9633012417', 1, 4, 184, 11, '17:00:00.000000'),
+(1479, 'TKNO2603211841001', '2026-03-21', 'Followup', '8547555159', 1, 4, 130, 12, '16:00:00.000000'),
+(1480, 'TKNO2603211841002', '2026-03-21', 'Followup', '9539535599', 1, 4, 183, 12, '17:00:00.000000'),
+(1481, 'TKNO2603211842001', '2026-03-21', 'Followup', '9446595307', 1, 4, 31, 12, '15:00:00.000000'),
+(1484, 'TKNO2603230932001', '2026-03-23', 'Followup', '9895133092', 1, 4, 154, 15, '09:00:00.000000'),
+(1485, 'TKNO2603231722001', '2026-03-24', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1486, 'TKNO2603231724001', '2026-03-24', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1487, 'TKNO2603231724002', '2026-03-24', 'Followup', '8111807233', 1, 4, 10, 11, '12:00:00.000000'),
+(1488, 'TKNO2603240910001', '2026-03-24', 'Followup', '9895133092', 1, 4, 154, 15, '09:00:00.000000'),
+(1489, 'TKNO2603241103001', '2026-03-24', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1490, 'TKNO2603241210001', '2026-03-25', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1491, 'TKNO2603241720001', '2026-03-24', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1492, 'TKNO2603241743001', '2026-03-24', 'Followup', '9961570046', 1, 4, 187, 14, '17:00:00.000000'),
+(1494, 'TKNO2603241808001', '2026-03-24', 'Followup', '9961570046', 1, 4, 187, 14, '17:00:00.000000'),
+(1495, 'TKNO2603251055001', '2026-03-25', 'Followup', '9446691926', 1, 4, 131, 11, '16:00:00.000000'),
+(1496, 'TKNO2603251131001', '2026-03-26', 'Followup', '9567665738', 1, 4, 169, 11, '16:00:00.000000'),
+(1497, 'TKNO2603251206001', '2026-03-25', 'Followup', '7736316281', 1, 4, 188, 11, '11:00:00.000000'),
+(1498, 'TKNO2603251239001', '2026-03-25', 'Followup', '8848219738', 1, 4, 189, 15, '11:30:00.000000'),
+(1499, 'TKNO2603251607001', '2026-03-25', 'Followup', '9447066730', 1, 4, 190, 11, '15:00:00.000000'),
+(1500, 'TKNO2603251620001', '2026-03-25', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1501, 'TKNO2603251633001', '2026-03-25', 'Consultation', '7306633981', 1, 4, 191, 12, '15:00:00.000000'),
+(1502, 'TKNO2603251732001', '2026-03-25', 'Followup', '9895820198', 1, 4, 192, 15, '17:00:00.000000'),
+(1503, 'TKNO2603251753001', '2026-03-25', 'Consultation', '8075354916', 1, 4, 193, 14, '17:00:00.000000'),
+(1504, 'TKNO2603251813001', '2026-03-25', 'Followup', '7907118795', 1, 4, 186, 12, '17:30:00.000000'),
+(1505, 'TKNO2603251814001', '2026-03-25', 'Followup', '9961570046', 1, 4, 187, 12, '11:00:00.000000'),
+(1506, 'TKNO2603251819001', '2026-03-25', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1507, 'TKNO2603251820001', '2026-03-25', 'Followup', '8075354916', 1, 4, 193, 11, '11:00:00.000000'),
+(1508, 'TKNO2603251820002', '2026-03-25', 'Followup', '8111807233', 1, 4, 10, 11, '12:00:00.000000'),
+(1509, 'TKNO2603260955001', '2026-03-26', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1510, 'TKNO2603260955002', '2026-03-26', 'Followup', '8075354916', 1, 4, 193, 11, '11:00:00.000000'),
+(1511, 'TKNO2603260956001', '2026-03-26', 'Followup', '8111807233', 1, 4, 10, 11, '12:00:00.000000'),
+(1512, 'TKNO2603260957001', '2026-03-26', 'Followup', '9447066730', 1, 4, 190, 11, '15:00:00.000000'),
+(1513, 'TKNO2603261051001', '2026-03-26', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1514, 'TKNO2603261052001', '2026-03-26', 'Followup', '9895820198', 1, 4, 192, 15, '17:00:00.000000'),
+(1515, 'TKNO2603261115001', '2026-03-26', 'Followup', '7736316281', 1, 4, 188, 12, '10:00:00.000000'),
+(1516, 'TKNO2603261633001', '2026-03-26', 'Followup', '8848219738', 1, 4, 189, 15, '16:00:00.000000'),
+(1517, 'TKNO2603261714001', '2026-03-26', 'Followup', '9847543431', 1, 4, 172, 12, '16:00:00.000000'),
+(1518, 'TKNO2603261741001', '2026-03-27', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1519, 'TKNO2603261742001', '2026-03-27', 'Followup', '8075354916', 1, 4, 193, 11, '11:00:00.000000'),
+(1520, 'TKNO2603261743001', '2026-03-27', 'Followup', '9567665738', 1, 4, 169, 11, '11:30:00.000000'),
+(1521, 'TKNO2603261743002', '2026-03-27', 'Followup', '9447066730', 1, 4, 190, 11, '15:00:00.000000'),
+(1522, 'TKNO2603271057001', '2026-03-27', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1523, 'TKNO2603271232001', '2026-03-27', 'Followup', '8939039031', 1, 4, 139, 15, '12:00:00.000000'),
+(1524, 'TKNO2603271252001', '2026-03-27', 'Consultation', '9746315349', 1, 4, 194, 12, '11:30:00.000000'),
+(1525, 'TKNO2603271622001', '2026-03-28', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1526, 'TKNO2603271623001', '2026-03-28', 'Followup', '8075354916', 1, 4, 193, 11, '11:00:00.000000'),
+(1527, 'TKNO2603271623002', '2026-03-28', 'Followup', '9567665738', 1, 4, 169, 11, '12:00:00.000000'),
+(1528, 'TKNO2603271624001', '2026-03-28', 'Followup', '9447066730', 1, 4, 190, 11, '15:00:00.000000'),
+(1529, 'TKNO2603271648001', '2026-03-27', 'Followup', '7736316281', 1, 4, 188, 12, '10:00:00.000000'),
+(1530, 'TKNO2603271649001', '2026-03-27', 'Followup', '8848219738', 1, 4, 189, 12, '16:00:00.000000'),
+(1531, 'TKNO2603271722001', '2026-03-27', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1532, 'TKNO2603271723001', '2026-03-27', 'Followup', '9995774452', 1, 4, 68, 15, '16:00:00.000000'),
+(1533, 'TKNO2603271835001', '2026-03-27', 'Followup', '9400355333', 1, 4, 195, 14, '17:00:00.000000'),
+(1534, 'TKNO2603271849001', '2026-03-27', 'Consultation', '9496620003', 1, 4, 196, 14, '18:00:00.000000'),
+(1535, 'TKNO2603281026001', '2026-03-28', 'Followup', '9895133092', 1, 4, 154, 15, '10:00:00.000000'),
+(1536, 'TKNO2603281148001', '2026-03-30', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1537, 'TKNO2603281149001', '2026-03-30', 'Followup', '8075354916', 1, 4, 193, 11, '11:00:00.000000'),
+(1538, 'TKNO2603281156001', '2026-03-28', 'Consultation', '9496030172', 1, 4, 197, 12, '10:00:00.000000'),
+(1539, 'TKNO2603281211001', '2026-03-28', 'Followup', '9746315349', 1, 4, 194, 15, '11:00:00.000000'),
+(1540, 'TKNO2603281216001', '2026-03-28', 'Followup', '7736316281', 1, 4, 188, 12, '11:00:00.000000'),
+(1541, 'TKNO2603281300001', '2026-03-28', 'Followup', '9400355333', 1, 4, 195, 12, '12:00:00.000000'),
+(1542, 'TKNO2603281651001', '2026-03-28', 'Followup', '8330107852', 1, 4, 171, 15, '16:00:00.000000'),
+(1543, 'TKNO2603281708001', '2026-03-28', 'Followup', '9446595307', 1, 4, 31, 12, '15:00:00.000000'),
+(1544, 'TKNO2603281709001', '2026-03-28', 'Followup', '8547555159', 1, 4, 130, 12, '16:00:00.000000'),
+(1545, 'TKNO2603281718001', '2026-03-28', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1546, 'TKNO2603301103001', '2026-03-30', 'Followup', '9637223114', 1, 4, 198, 12, '10:00:00.000000'),
+(1547, 'TKNO2603301552001', '2026-03-30', 'Followup', '9600079268', 1, 4, 127, 11, '11:00:00.000000'),
+(1548, 'TKNO2603301553001', '2026-03-30', 'Followup', '9447066730', 1, 4, 190, 11, '15:00:00.000000'),
+(1549, 'TKNO2603301553002', '2026-03-30', 'Followup', '9496620003', 1, 4, 196, 11, '18:00:00.000000'),
+(1550, 'TKNO2603301644001', '2026-03-30', 'Followup', '9567665738', 1, 4, 169, 12, '12:00:00.000000'),
+(1551, 'TKNO2603301644002', '2026-03-30', 'Followup', '7736316281', 1, 4, 188, 12, '16:00:00.000000'),
+(1552, 'TKNO2603301759001', '2026-03-30', 'Consultation', '8891980795', 1, 4, 199, 14, '17:00:00.000000'),
+(1553, 'TKNO2603310949001', '2026-03-31', 'Followup', '9567665738', 1, 4, 169, 15, '11:00:00.000000'),
+(1554, 'TKNO2603311053001', '2026-03-31', 'Followup', '9637223114', 1, 4, 198, 12, '10:00:00.000000'),
+(1555, 'TKNO2603311054001', '2026-03-31', 'Followup', '7736316281', 1, 4, 188, 12, '11:00:00.000000'),
+(1556, 'TKNO2603311055001', '2026-03-31', 'Followup', '8891980795', 1, 4, 199, 12, '12:00:00.000000'),
+(1557, 'TKNO2603311210001', '2026-03-31', 'Followup', '9446691926', 1, 4, 131, 11, '10:00:00.000000'),
+(1558, 'TKNO2603311215001', '2026-03-31', 'Consultation', '9544036764', 1, 4, 200, 11, '11:00:00.000000'),
+(1559, 'TKNO2603311218001', '2026-03-31', 'Followup', '9446110488', 1, 4, 173, 11, '15:00:00.000000'),
+(1562, 'TKNO2603311604001', '2026-03-31', 'Consultation', '9605932995', 1, 4, 201, 14, '16:00:00.000000'),
+(1563, 'TKNO2603311707001', '2026-03-31', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1564, 'TKNO2603311842001', '2026-03-31', 'Followup', '9496620003', 1, 4, 196, 11, '18:00:00.000000'),
+(1565, 'TKNO2603311842002', '2026-04-01', 'Followup', '9446691926', 1, 4, 131, 11, '08:00:00.000000'),
+(1566, 'TKNO2603311843001', '2026-04-01', 'Followup', '9544036764', 1, 4, 200, 11, '09:00:00.000000'),
+(1567, 'TKNO2604011114001', '2026-04-01', 'Followup', '7736316281', 1, 4, 188, 12, '10:00:00.000000'),
+(1568, 'TKNO2604011130001', '2026-04-01', 'Followup', '8075354916', 1, 4, 193, 15, '10:30:00.000000'),
+(1569, 'TKNO2604011131001', '2026-04-01', 'Followup', '9895820198', 1, 4, 192, 15, '11:00:00.000000'),
+(1570, 'TKNO2604011206001', '2026-04-01', 'Followup', '8891980795', 1, 4, 199, 12, '11:00:00.000000'),
+(1571, 'TKNO2604011614001', '2026-04-01', 'Followup', '9447066730', 1, 4, 190, 12, '16:00:00.000000'),
+(1572, 'TKNO2604011651001', '2026-04-01', 'Followup', '9567665738', 1, 4, 169, 15, '16:00:00.000000'),
+(1573, 'TKNO2604011715001', '2026-04-01', 'Followup', '8075560019', 1, 4, 178, 12, '16:00:00.000000'),
+(1574, 'TKNO2604011829001', '2026-04-01', 'Followup', '9496620003', 1, 4, 196, 15, '18:00:00.000000'),
+(1575, 'TKNO2604021010001', '2026-04-02', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1576, 'TKNO2604021011001', '2026-04-02', 'Followup', '9895820198', 1, 4, 192, 15, '10:00:00.000000'),
+(1577, 'TKNO2604021103001', '2026-04-02', 'Followup', '8848219738', 1, 4, 189, 15, '11:00:00.000000'),
+(1578, 'TKNO2604021122001', '2026-04-02', 'Followup', '7736316281', 1, 4, 188, 12, '10:00:00.000000'),
+(1579, 'TKNO2604021123001', '2026-04-03', 'Followup', '7736316281', 1, 4, 188, 12, '10:00:00.000000'),
+(1580, 'TKNO2604021243001', '2026-04-02', 'Followup', '9567665738', 1, 4, 169, 15, '12:00:00.000000'),
+(1581, 'TKNO2604021302001', '2026-04-03', 'Followup', '8891980795', 1, 4, 199, 12, '11:00:00.000000'),
+(1582, 'TKNO2604021356001', '2026-04-02', 'Followup', '8891980795', 1, 4, 199, 12, '11:00:00.000000'),
+(1583, 'TKNO2604030942001', '2026-04-03', 'Followup', '9895820198', 1, 4, 192, 15, '09:00:00.000000'),
+(1584, 'TKNO2604030942002', '2026-04-03', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1585, 'TKNO2604030942003', '2026-04-03', 'Followup', '8075354916', 1, 4, 193, 15, '11:00:00.000000'),
+(1586, 'TKNO2604031154001', '2026-04-03', 'Followup', '9567665738', 1, 4, 169, 15, '12:00:00.000000'),
+(1587, 'TKNO2604031316001', '2026-04-03', 'Followup', '9544036764', 1, 4, 200, 11, '11:00:00.000000'),
+(1588, 'TKNO2604031317001', '2026-04-03', 'Followup', '9447066730', 1, 4, 190, 11, '15:00:00.000000'),
+(1589, 'TKNO2604031319001', '2026-04-03', 'Followup', '9446110488', 1, 4, 173, 11, '16:00:00.000000'),
+(1590, 'TKNO2604031445001', '2026-04-03', 'Consultation', '7277553882', 1, 4, 202, 12, '12:00:00.000000'),
+(1591, 'TKNO2604031758001', '2026-04-04', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1592, 'TKNO2604031758002', '2026-04-04', 'Followup', '9544036764', 1, 4, 200, 11, '11:00:00.000000'),
+(1593, 'TKNO2604031759001', '2026-04-04', 'Followup', '8281613995', 1, 4, 114, 11, '16:00:00.000000'),
+(1594, 'TKNO2604041255001', '2026-04-04', 'Followup', '7736316281', 1, 4, 188, 12, '10:00:00.000000'),
+(1595, 'TKNO2604041255002', '2026-04-04', 'Followup', '8891980795', 1, 4, 199, 12, '11:00:00.000000'),
+(1596, 'TKNO2604041640001', '2026-04-04', 'Followup', '9446595307', 1, 4, 31, 12, '15:00:00.000000'),
+(1597, 'TKNO2604041645001', '2026-04-04', 'Followup', '9895820198', 1, 4, 192, 12, '16:00:00.000000'),
+(1598, 'TKNO2604041705001', '2026-04-04', 'Consultation', '9349972009', 1, 4, 203, 14, '15:30:00.000000'),
+(1599, 'TKNO2604041747001', '2026-04-06', 'Followup', '9567665738', 1, 4, 169, 11, '09:00:00.000000'),
+(1600, 'TKNO2604041747002', '2026-04-06', 'Followup', '9207620798', 1, 4, 134, 11, '12:00:00.000000'),
+(1601, 'TKNO2604041748001', '2026-04-06', 'Followup', '9446110488', 1, 4, 173, 11, '16:00:00.000000'),
+(1602, 'TKNO2604041749001', '2026-04-06', 'Followup', '9544036764', 1, 4, 200, 11, '17:00:00.000000'),
+(1603, 'TKNO2604041803001', '2026-04-04', 'Followup', '9637223114', 1, 4, 198, 12, '17:00:00.000000'),
+(1604, 'TKNO2604041836001', '2026-04-04', 'Followup', '9544398082', 1, 4, 204, 14, '18:00:00.000000'),
+(1605, 'TKNO2604061047001', '2026-04-06', 'Followup', '8075354916', 1, 4, 193, 15, '11:00:00.000000'),
+(1606, 'TKNO2604061238001', '2026-04-06', 'Followup', '9645542831', 1, 4, 205, 12, '10:00:00.000000'),
+(1607, 'TKNO2604061727001', '2026-04-06', 'Followup', '9847536757', 1, 4, 206, 15, '04:00:00.000000'),
+(1608, 'TKNO2604061730001', '2026-04-07', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1609, 'TKNO2604061731001', '2026-04-07', 'Followup', '8111807233', 1, 4, 10, 11, '11:00:00.000000'),
+(1610, 'TKNO2604061731002', '2026-04-07', 'Followup', '9349972009', 1, 4, 203, 11, '12:00:00.000000'),
+(1611, 'TKNO2604061731003', '2026-04-07', 'Followup', '9447066730', 1, 4, 190, 11, '15:00:00.000000'),
+(1612, 'TKNO2604061733001', '2026-04-07', 'Followup', '9447556337', 1, 4, 47, 11, '16:00:00.000000'),
+(1613, 'TKNO2604061733002', '2026-04-07', 'Followup', '9544036764', 1, 4, 200, 11, '17:00:00.000000'),
+(1614, 'TKNO2604061750001', '2026-04-06', 'Followup', '9895820198', 1, 4, 192, 15, '05:00:00.000000'),
+(1615, 'TKNO2604061755001', '2026-04-06', 'Followup', '7736316281', 1, 4, 188, 12, '16:00:00.000000'),
+(1616, 'TKNO2604061759001', '2026-04-06', 'Followup', '8891980795', 1, 4, 199, 12, '17:00:00.000000'),
+(1617, 'TKNO2604061841001', '2026-04-06', 'Followup', '9496620003', 1, 4, 196, 11, '18:00:00.000000'),
+(1618, 'TKNO2604070853001', '2026-04-07', 'Followup', '9895820198', 1, 4, 192, 15, '09:00:00.000000'),
+(1619, 'TKNO2604070854001', '2026-04-07', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1620, 'TKNO2604070855001', '2026-04-07', 'Followup', '9847536757', 1, 4, 206, 15, '11:30:00.000000'),
+(1621, 'TKNO2604071052001', '2026-04-07', 'Followup', '9496620003', 1, 4, 196, 11, '18:00:00.000000'),
+(1622, 'TKNO2604071203001', '2026-04-07', 'Followup', '8891980795', 1, 4, 199, 12, '09:00:00.000000'),
+(1623, 'TKNO2604071203002', '2026-04-07', 'Followup', '7736316281', 1, 4, 188, 12, '11:00:00.000000'),
+(1624, 'TKNO2604071240001', '2026-04-07', 'Followup', '7907382787', 1, 4, 133, 12, '12:00:00.000000'),
+(1625, 'TKNO2604071805001', '2026-04-07', 'Followup', '9995215009', 1, 4, 207, 12, '16:00:00.000000'),
+(1626, 'TKNO2604080838001', '2026-04-08', 'Followup', '8111807233', 1, 4, 10, 11, '09:00:00.000000'),
+(1627, 'TKNO2604080838002', '2026-04-08', 'Followup', '7907118795', 1, 4, 186, 11, '11:00:00.000000'),
+(1628, 'TKNO2604080838003', '2026-04-08', 'Followup', '9567665738', 1, 4, 169, 11, '12:00:00.000000'),
+(1629, 'TKNO2604080839001', '2026-04-08', 'Followup', '9349972009', 1, 4, 203, 11, '15:00:00.000000'),
+(1631, 'TKNO2604080844001', '2026-04-08', 'Followup', '9446110488', 1, 4, 173, 11, '16:30:00.000000'),
+(1632, 'TKNO2604080844002', '2026-04-08', 'Followup', '9544036764', 1, 4, 200, 11, '18:00:00.000000'),
+(1633, 'TKNO2604081103001', '2026-04-08', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1634, 'TKNO2604081155001', '2026-04-08', 'Followup', '8075354916', 1, 4, 193, 15, '11:00:00.000000'),
+(1635, 'TKNO2604081301001', '2026-04-08', 'Followup', '9847536757', 1, 4, 206, 15, '12:00:00.000000'),
+(1636, 'TKNO2604081722001', '2026-04-08', 'Consultation', '8714139141', 1, 4, 209, 14, '16:00:00.000000'),
+(1637, 'TKNO2604081728001', '2026-04-08', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1638, 'TKNO2604081731001', '2026-04-08', 'Followup', '8714139141', 1, 4, 210, 14, '16:00:00.000000'),
+(1639, 'TKNO2604091208001', '2026-04-09', 'Followup', '8078010726', 1, 4, 208, 11, '11:00:00.000000'),
+(1640, 'TKNO2604091208002', '2026-04-09', 'Followup', '9567665738', 1, 4, 169, 11, '12:00:00.000000'),
+(1641, 'TKNO2604091209001', '2026-04-09', 'Followup', '8111807233', 1, 4, 10, 11, '15:00:00.000000'),
+(1642, 'TKNO2604091210001', '2026-04-09', 'Followup', '8089401534', 1, 4, 211, 11, '17:00:00.000000'),
+(1643, 'TKNO2604091245001', '2026-04-09', 'Consultation', '9447461273', 1, 4, 212, 15, '12:00:00.000000'),
+(1644, 'TKNO2604091343001', '2026-04-09', 'Followup', '9995215009', 1, 4, 207, 12, '11:00:00.000000'),
+(1645, 'TKNO2604091343002', '2026-04-09', 'Followup', '8891980795', 1, 4, 199, 12, '12:00:00.000000'),
+(1646, 'TKNO2604091552001', '2026-04-09', 'Followup', '9349972009', 1, 4, 203, 15, '15:00:00.000000'),
+(1647, 'TKNO2604091610001', '2026-04-09', 'Consultation', '9895413299', 1, 4, 213, 11, '16:00:00.000000'),
+(1648, 'TKNO2604091650001', '2026-04-09', 'Followup', '8089989272', 1, 4, 214, 12, '16:00:00.000000'),
+(1652, 'TKNO2604091704001', '2026-04-10', 'Followup', '8078010726', 1, 4, 208, 11, '11:00:00.000000'),
+(1653, 'TKNO2604091704002', '2026-04-10', 'Followup', '8111807233', 1, 4, 10, 11, '12:00:00.000000'),
+(1655, 'TKNO2604091706001', '2026-04-10', 'Followup', '9544036764', 1, 4, 200, 11, '16:00:00.000000'),
+(1656, 'TKNO2604091707001', '2026-04-10', 'Followup', '9567665738', 1, 4, 169, 11, '18:00:00.000000'),
+(1657, 'TKNO2604091745001', '2026-04-10', 'Followup', '8089401534', 1, 4, 211, 11, '10:00:00.000000'),
+(1658, 'TKNO2604091756001', '2026-04-09', 'Followup', '9544398082', 1, 4, 204, 12, '17:00:00.000000'),
+(1659, 'TKNO2604101108001', '2026-04-10', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1660, 'TKNO2604101117001', '2026-04-10', 'Followup', '8075354916', 1, 4, 193, 15, '11:00:00.000000'),
+(1661, 'TKNO2604101230001', '2026-04-10', 'Followup', '9447461273', 1, 4, 212, 12, '11:00:00.000000'),
+(1662, 'TKNO2604101730001', '2026-04-10', 'Followup', '9895820198', 1, 4, 192, 11, '17:00:00.000000'),
+(1663, 'TKNO2604101730002', '2026-04-11', 'Followup', '8111807233', 1, 4, 10, 11, '10:00:00.000000'),
+(1664, 'TKNO2604101731001', '2026-04-11', 'Followup', '8089401534', 1, 4, 211, 11, '15:00:00.000000'),
+(1665, 'TKNO2604101732001', '2026-04-11', 'Followup', '8078010726', 1, 4, 208, 11, '16:00:00.000000'),
+(1666, 'TKNO2604101733001', '2026-04-11', 'Followup', '9567665738', 1, 4, 169, 11, '17:00:00.000000'),
+(1667, 'TKNO2604101748001', '2026-04-10', 'Followup', '9496620003', 1, 4, 196, 12, '16:30:00.000000'),
+(1668, 'TKNO2604111202001', '2026-04-11', 'Consultation', '7736204459', 1, 4, 216, 11, '11:00:00.000000'),
+(1670, 'TKNO2604111828001', '2026-04-11', 'Followup', '9447461273', 1, 4, 212, 12, '11:00:00.000000'),
+(1671, 'TKNO2604111829001', '2026-04-11', 'Followup', '9995215009', 1, 4, 207, 12, '16:00:00.000000'),
+(1672, 'TKNO2604111829002', '2026-04-11', 'Followup', '8848219738', 1, 4, 189, 12, '18:00:00.000000'),
+(1674, 'TKNO2604111834001', '2026-04-13', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1675, 'TKNO2604111834002', '2026-04-13', 'Followup', '8111807233', 1, 4, 10, 11, '12:00:00.000000'),
+(1677, 'TKNO2604111835002', '2026-04-13', 'Followup', '9446110488', 1, 4, 173, 11, '17:00:00.000000'),
+(1678, 'TKNO2604111836001', '2026-04-13', 'Followup', '9544398082', 1, 4, 204, 11, '18:00:00.000000'),
+(1679, 'TKNO2604111838001', '2026-04-11', 'Followup', '9446537831', 1, 4, 215, 12, '09:00:00.000000'),
+(1680, 'TKNO2604111839001', '2026-04-13', 'Followup', '9995215009', 1, 4, 207, 12, '09:00:00.000000'),
+(1681, 'TKNO2604111839002', '2026-04-13', 'Followup', '9645542831', 1, 4, 205, 12, '11:00:00.000000'),
+(1682, 'TKNO2604111840001', '2026-04-13', 'Followup', '8891980795', 1, 4, 199, 12, '16:00:00.000000'),
+(1683, 'TKNO2604111841001', '2026-04-11', 'Followup', '8848219738', 1, 4, 189, 12, '17:00:00.000000'),
+(1684, 'TKNO2604111846001', '2026-04-13', 'Followup', '8848219738', 1, 4, 189, 12, '17:00:00.000000'),
+(1685, 'TKNO2604131031001', '2026-04-13', 'Followup', '9544036764', 1, 4, 200, 11, '16:00:00.000000'),
+(1686, 'TKNO2604131031002', '2026-04-13', 'Followup', '9446537831', 1, 4, 215, 11, '10:00:00.000000'),
+(1687, 'TKNO2604131538001', '2026-04-14', 'Followup', '7736316281', 1, 4, 188, 12, '09:00:00.000000'),
+(1688, 'TKNO2604131538002', '2026-04-14', 'Followup', '9995215009', 1, 4, 207, 12, '11:00:00.000000'),
+(1689, 'TKNO2604131543001', '2026-04-14', 'Followup', '8848219738', 1, 4, 189, 12, '15:00:00.000000'),
+(1690, 'TKNO2604131748001', '2026-04-14', 'Followup', '9821848398', 1, 4, 217, 11, '08:00:00.000000'),
+(1691, 'TKNO2604131749001', '2026-04-14', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1692, 'TKNO2604140949001', '2026-04-14', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1693, 'TKNO2604140949002', '2026-04-14', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1694, 'TKNO2604141216001', '2026-04-14', 'Followup', '9446537831', 1, 4, 215, 15, '11:00:00.000000'),
+(1695, 'TKNO2604141252001', '2026-04-14', 'Followup', '9447461273', 1, 4, 212, 15, '12:00:00.000000'),
+(1697, 'TKNO2604141253001', '2026-04-14', 'Followup', '8330107852', 1, 4, 171, 15, '16:00:00.000000'),
+(1698, 'TKNO2604141253002', '2026-04-14', 'Followup', '8075354916', 1, 4, 193, 15, '17:00:00.000000'),
+(1699, 'TKNO2604141320001', '2026-04-15', 'Followup', '7736316281', 1, 4, 188, 12, '09:00:00.000000'),
+(1701, 'TKNO2604141458001', '2026-04-14', 'Followup', '9895413299', 1, 4, 213, 15, '15:00:00.000000'),
+(1702, 'TKNO2604141715001', '2026-04-14', 'Followup', '7736204459', 1, 4, 216, 12, '16:00:00.000000'),
+(1703, 'TKNO2604141718001', '2026-04-14', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1704, 'TKNO2604141844001', '2026-04-14', 'Followup', '8606504206', 1, 4, 218, 12, '18:00:00.000000'),
+(1705, 'TKNO2604150847001', '2026-04-15', 'Followup', '8547555159', 1, 4, 130, 12, '08:00:00.000000'),
+(1706, 'TKNO2604150944001', '2026-04-15', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1707, 'TKNO2604150944002', '2026-04-15', 'Followup', '9446537831', 1, 4, 215, 15, '10:00:00.000000'),
+(1709, 'TKNO2604151648001', '2026-04-15', 'Followup', '9895413299', 1, 4, 213, 12, '16:00:00.000000'),
+(1710, 'TKNO2604151651001', '2026-04-15', 'Followup', '9567665738', 1, 4, 169, 15, '16:00:00.000000'),
+(1711, 'TKNO2604151652001', '2026-04-15', 'Followup', '8075354916', 1, 4, 193, 15, '17:00:00.000000'),
+(1712, 'TKNO2604160950001', '2026-04-16', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1713, 'TKNO2604160950002', '2026-04-16', 'Followup', '9446537831', 1, 4, 215, 15, '10:00:00.000000'),
+(1714, 'TKNO2604161158001', '2026-04-16', 'Followup', '9446280009', 1, 4, 219, 15, '11:00:00.000000'),
+(1715, 'TKNO2604161258001', '2026-04-16', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1716, 'TKNO2604161258002', '2026-04-16', 'Followup', '9821848398', 1, 4, 217, 11, '09:00:00.000000'),
+(1717, 'TKNO2604161259001', '2026-04-16', 'Followup', '8111807233', 1, 4, 10, 11, '16:00:00.000000'),
+(1720, 'TKNO2604161656001', '2026-04-16', 'Followup', '8547555159', 1, 4, 130, 15, '16:00:00.000000'),
+(1721, 'TKNO2604161733001', '2026-04-16', 'Consultation', '8547311731', 1, 4, 221, 12, '11:00:00.000000'),
+(1722, 'TKNO2604161739001', '2026-04-16', 'Followup', '7736316281', 1, 4, 188, 12, '09:00:00.000000'),
+(1723, 'TKNO2604161747001', '2026-04-16', 'Followup', '9447461273', 1, 4, 212, 12, '12:00:00.000000'),
+(1724, 'TKNO2604161750001', '2026-04-16', 'Followup', '9995215009', 1, 4, 207, 12, '16:00:00.000000');
+INSERT INTO `x_app_appointment` (`id`, `token_no`, `appointment_date`, `status`, `contact_no`, `branch_id`, `department_id`, `patient_id`, `doctor_id`, `appoinment_time`) VALUES
+(1725, 'TKNO2604161808001', '2026-04-16', 'Consultation', '9745744911', 1, 4, 222, 14, '17:00:00.000000'),
+(1726, 'TKNO2604161809001', '2026-04-17', 'Followup', '9821848398', 1, 4, 217, 11, '08:00:00.000000'),
+(1727, 'TKNO2604161809002', '2026-04-17', 'Followup', '8111807233', 1, 4, 10, 11, '09:00:00.000000'),
+(1728, 'TKNO2604161811001', '2026-04-17', 'Followup', '9562360712', 1, 4, 95, 11, '11:00:00.000000'),
+(1729, 'TKNO2604161836001', '2026-04-16', 'Followup', '9496620003', 1, 4, 196, 12, '18:00:00.000000'),
+(1730, 'TKNO2604170834001', '2026-04-17', 'Followup', '9496620003', 1, 4, 196, 15, '08:00:00.000000'),
+(1731, 'TKNO2604170837001', '2026-04-17', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1732, 'TKNO2604170844001', '2026-04-17', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1733, 'TKNO2604170845001', '2026-04-17', 'Followup', '8075354916', 1, 4, 193, 15, '11:00:00.000000'),
+(1734, 'TKNO2604171203001', '2026-04-17', 'Followup', '9809718779', 1, 4, 220, 15, '11:00:00.000000'),
+(1735, 'TKNO2604171213001', '2026-04-17', 'Followup', '7736316281', 1, 4, 188, 12, '09:00:00.000000'),
+(1736, 'TKNO2604171213002', '2026-04-17', 'Followup', '8547555159', 1, 4, 130, 12, '08:00:00.000000'),
+(1737, 'TKNO2604171214001', '2026-04-17', 'Followup', '9567665738', 1, 4, 169, 12, '12:00:00.000000'),
+(1738, 'TKNO2604171713001', '2026-04-17', 'Followup', '9745744911', 1, 4, 222, 12, '16:00:00.000000'),
+(1739, 'TKNO2604171719001', '2026-04-17', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1740, 'TKNO2604171727001', '2026-04-18', 'Followup', '8547555159', 1, 4, 130, 12, '08:00:00.000000'),
+(1741, 'TKNO2604171728001', '2026-04-18', 'Followup', '7736316281', 1, 4, 188, 12, '09:00:00.000000'),
+(1742, 'TKNO2604171800001', '2026-04-17', 'Followup', '9544036764', 1, 4, 200, 11, '16:00:00.000000'),
+(1743, 'TKNO2604171801001', '2026-04-18', 'Followup', '9562360712', 1, 4, 95, 11, '09:00:00.000000'),
+(1744, 'TKNO2604171802001', '2026-04-18', 'Followup', '9061695397', 1, 4, 116, 11, '11:00:00.000000'),
+(1745, 'TKNO2604171802002', '2026-04-17', 'Followup', '8111807233', 1, 4, 10, 11, '14:00:00.000000'),
+(1746, 'TKNO2604171804001', '2026-04-18', 'Followup', '9745744911', 1, 4, 222, 11, '15:00:00.000000'),
+(1747, 'TKNO2604171804002', '2026-04-18', 'Followup', '8281613995', 1, 4, 114, 11, '16:00:00.000000'),
+(1748, 'TKNO2604181034001', '2026-04-18', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1749, 'TKNO2604181035001', '2026-04-18', 'Followup', '9496620003', 1, 4, 196, 15, '10:00:00.000000'),
+(1750, 'TKNO2604181036001', '2026-04-18', 'Followup', '9809718779', 1, 4, 220, 15, '11:00:00.000000'),
+(1751, 'TKNO2604181036002', '2026-04-18', 'Followup', '8330107852', 1, 4, 171, 15, '16:00:00.000000'),
+(1752, 'TKNO2604181155001', '2026-04-18', 'Followup', '8086242353', 1, 4, 223, 12, '10:00:00.000000'),
+(1753, 'TKNO2604181539001', '2026-04-18', 'Consultation', '8891778280', 1, 4, 224, 15, '14:00:00.000000'),
+(1754, 'TKNO2604181721001', '2026-04-18', 'Consultation', '8921411073', 1, 4, 225, 11, '17:00:00.000000'),
+(1756, 'TKNO2604181732002', '2026-04-20', 'Followup', '9562060210', 1, 4, 120, 11, '11:00:00.000000'),
+(1757, 'TKNO2604181733001', '2026-04-20', 'Consultation', '8921411073', 1, 4, 225, 14, '17:00:00.000000'),
+(1758, 'TKNO2604181734001', '2026-04-20', 'Followup', '9496620003', 1, 4, 196, 11, '18:00:00.000000'),
+(1759, 'TKNO2604200959001', '2026-04-20', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1760, 'TKNO2604201152001', '2026-04-20', 'Followup', '9567665738', 1, 4, 169, 15, '11:00:00.000000'),
+(1761, 'TKNO2604201243001', '2026-04-20', 'Followup', '9809718779', 1, 4, 220, 15, '12:00:00.000000'),
+(1762, 'TKNO2604201615001', '2026-04-20', 'Followup', '8848219738', 1, 4, 189, 15, '16:00:00.000000'),
+(1763, 'TKNO2604201634001', '2026-04-20', 'Followup', '7736316281', 1, 4, 188, 12, '10:00:00.000000'),
+(1764, 'TKNO2604201635001', '2026-04-20', 'Followup', '8547555159', 1, 4, 130, 12, '16:00:00.000000'),
+(1765, 'TKNO2604201713001', '2026-04-21', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1766, 'TKNO2604201714001', '2026-04-21', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1767, 'TKNO2604201745001', '2026-04-20', 'Followup', '9745744911', 1, 4, 222, 11, '15:00:00.000000'),
+(1768, 'TKNO2604201745002', '2026-04-20', 'Followup', '8921411073', 1, 4, 225, 11, '17:00:00.000000'),
+(1769, 'TKNO2604201745003', '2026-04-20', 'Followup', '9446280009', 1, 4, 219, 11, '16:00:00.000000'),
+(1770, 'TKNO2604201757001', '2026-04-20', 'Followup', '9446595307', 1, 4, 31, 12, '17:00:00.000000'),
+(1771, 'TKNO2604201852001', '2026-04-20', 'Consultation', '9562560443', 1, 4, 226, 14, '18:00:00.000000'),
+(1773, 'TKNO2604201906001', '2026-04-20', 'Followup', '9349971267', 1, 4, 228, 12, '18:00:00.000000'),
+(1774, 'TKNO2604201909001', '2026-04-20', 'Followup', '9946962127', 1, 4, 227, 14, '17:00:00.000000'),
+(1775, 'TKNO2604211515001', '2026-04-21', 'Followup', '7736316281', 1, 4, 188, 11, '09:00:00.000000'),
+(1776, 'TKNO2604211516001', '2026-04-21', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1777, 'TKNO2604211517001', '2026-04-21', 'Followup', '8086242353', 1, 4, 223, 11, '11:00:00.000000'),
+(1779, 'TKNO2604211518001', '2026-04-21', 'Followup', '9745744911', 1, 4, 222, 11, '16:00:00.000000'),
+(1780, 'TKNO2604211624001', '2026-04-21', 'Followup', '9446537831', 1, 4, 215, 15, '12:00:00.000000'),
+(1781, 'TKNO2604211624002', '2026-04-21', 'Followup', '8848219738', 1, 4, 189, 15, '16:00:00.000000'),
+(1782, 'TKNO2604211625001', '2026-04-21', 'Followup', '8921411073', 1, 4, 225, 15, '17:00:00.000000'),
+(1783, 'TKNO2604211754001', '2026-04-22', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1784, 'TKNO2604211754002', '2026-04-22', 'Followup', '8848219738', 1, 4, 189, 15, '16:00:00.000000'),
+(1785, 'TKNO2604211755001', '2026-04-22', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1786, 'TKNO2604211823001', '2026-04-21', 'Followup', '9605316919', 1, 4, 229, 11, '17:00:00.000000'),
+(1787, 'TKNO2604211844001', '2026-04-21', 'Followup', '9349971267', 1, 4, 228, 11, '18:00:00.000000'),
+(1789, 'TKNO2604211854001', '2026-04-22', 'Followup', '9544036764', 1, 4, 200, 11, '09:00:00.000000'),
+(1790, 'TKNO2604211854002', '2026-04-21', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1791, 'TKNO2604211855001', '2026-04-22', 'Followup', '7736204459', 1, 4, 216, 11, '12:00:00.000000'),
+(1792, 'TKNO2604211855002', '2026-04-22', 'Followup', '9605316919', 1, 4, 229, 11, '15:00:00.000000'),
+(1793, 'TKNO2604221146001', '2026-04-22', 'Followup', '9902013242', 1, 4, 230, 12, '10:30:00.000000'),
+(1794, 'TKNO2604221236001', '2026-04-22', 'Followup', '7736316281', 1, 4, 188, 12, '09:00:00.000000'),
+(1795, 'TKNO2604221238001', '2026-04-22', 'Followup', '9496620003', 1, 4, 196, 12, '08:00:00.000000'),
+(1796, 'TKNO2604221238002', '2026-04-22', 'Followup', '8547555159', 1, 4, 130, 12, '12:00:00.000000'),
+(1797, 'TKNO2604221714001', '2026-04-22', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1798, 'TKNO2604221716001', '2026-04-22', 'Followup', '9544036764', 1, 4, 200, 11, '10:00:00.000000'),
+(1799, 'TKNO2604221722001', '2026-04-22', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1800, 'TKNO2604221724001', '2026-04-23', 'Followup', '8848219738', 1, 4, 189, 15, '16:00:00.000000'),
+(1801, 'TKNO2604221753001', '2026-04-22', 'Followup', '7907118795', 1, 4, 186, 12, '16:00:00.000000'),
+(1802, 'TKNO2604230849001', '2026-04-23', 'Followup', '9496620003', 1, 4, 196, 11, '08:00:00.000000'),
+(1803, 'TKNO2604230850001', '2026-04-23', 'Followup', '9544036764', 1, 4, 200, 11, '09:00:00.000000'),
+(1804, 'TKNO2604230850002', '2026-04-23', 'Followup', '9567665738', 1, 4, 169, 11, '11:00:00.000000'),
+(1805, 'TKNO2604230851001', '2026-04-23', 'Followup', '8921411073', 1, 4, 225, 11, '17:00:00.000000'),
+(1806, 'TKNO2604230944001', '2026-04-23', 'Followup', '7736316281', 1, 4, 188, 12, '09:00:00.000000'),
+(1807, 'TKNO2604231109001', '2026-04-23', 'Followup', '9446537831', 1, 4, 215, 15, '10:00:00.000000'),
+(1808, 'TKNO2604231659001', '2026-04-24', 'Followup', '9496620003', 1, 4, 196, 11, '08:00:00.000000'),
+(1809, 'TKNO2604231700001', '2026-04-24', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1810, 'TKNO2604231700002', '2026-04-24', 'Followup', '9447556337', 1, 4, 47, 11, '12:00:00.000000'),
+(1811, 'TKNO2604231712001', '2026-04-24', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1812, 'TKNO2604231712002', '2026-04-24', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1813, 'TKNO2604231713001', '2026-04-24', 'Followup', '9446537831', 1, 4, 215, 15, '11:00:00.000000'),
+(1814, 'TKNO2604231713002', '2026-04-24', 'Followup', '8848219738', 1, 4, 189, 15, '16:00:00.000000'),
+(1815, 'TKNO2604231714001', '2026-04-24', 'Followup', '9961940225', 1, 4, 185, 15, '16:30:00.000000'),
+(1816, 'TKNO2604231745001', '2026-04-23', 'Consultation', '8590016678', 1, 4, 231, 12, '14:00:00.000000'),
+(1817, 'TKNO2604231749001', '2026-04-23', 'Followup', '7907118795', 1, 4, 186, 12, '16:00:00.000000'),
+(1818, 'TKNO2604240939001', '2026-04-24', 'Followup', '9447134902', 1, 4, 232, 11, '09:00:00.000000'),
+(1819, 'TKNO2604241219001', '2026-04-24', 'Followup', '7907118795', 1, 4, 186, 12, '10:30:00.000000'),
+(1820, 'TKNO2604241220001', '2026-04-24', 'Followup', '7736316281', 1, 4, 188, 12, '09:00:00.000000'),
+(1821, 'TKNO2604241718001', '2026-04-24', 'Consultation', '8606143381', 1, 4, 233, 14, '16:00:00.000000'),
+(1822, 'TKNO2604241740001', '2026-04-24', 'Consultation', '7907540576', 1, 4, 234, 11, '16:00:00.000000'),
+(1823, 'TKNO2604241741001', '2026-04-24', 'Followup', '8075354916', 1, 4, 193, 11, '17:00:00.000000'),
+(1825, 'TKNO2604241742002', '2026-04-25', 'Followup', '9544036764', 1, 4, 200, 11, '11:00:00.000000'),
+(1826, 'TKNO2604241743001', '2026-04-25', 'Followup', '9349971267', 1, 4, 228, 11, '12:00:00.000000'),
+(1827, 'TKNO2604241743002', '2026-04-25', 'Followup', '7907540576', 1, 4, 234, 11, '14:00:00.000000'),
+(1828, 'TKNO2604241744001', '2026-04-25', 'Followup', '8111807233', 1, 4, 10, 11, '15:00:00.000000'),
+(1829, 'TKNO2604241744002', '2026-04-25', 'Followup', '9447134902', 1, 4, 232, 11, '16:00:00.000000'),
+(1830, 'TKNO2604241805001', '2026-04-24', 'Followup', '7994561508', 1, 4, 235, 12, '16:30:00.000000'),
+(1831, 'TKNO2604241808001', '2026-04-24', 'Followup', '8304848817', 1, 4, 236, 15, '17:00:00.000000'),
+(1832, 'TKNO2604241810001', '2026-04-24', 'Followup', '8606143381', 1, 4, 233, 12, '16:00:00.000000'),
+(1833, 'TKNO2604250946001', '2026-04-25', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1834, 'TKNO2604250947001', '2026-04-25', 'Followup', '9446537831', 1, 4, 215, 15, '10:00:00.000000'),
+(1836, 'TKNO2604251031001', '2026-04-25', 'Followup', '8072413747', 1, 4, 237, 12, '09:00:00.000000'),
+(1837, 'TKNO2604251144001', '2026-04-25', 'Followup', '9496620003', 1, 4, 196, 15, '11:00:00.000000'),
+(1838, 'TKNO2604251243001', '2026-04-25', 'Followup', '9895163676', 1, 4, 239, 14, '09:00:00.000000'),
+(1839, 'TKNO2604251253001', '2026-04-25', 'Followup', '8075354916', 1, 4, 193, 15, '12:00:00.000000'),
+(1840, 'TKNO2604251427001', '2026-04-25', 'Followup', '8943031062', 1, 4, 240, 14, '11:00:00.000000'),
+(1841, 'TKNO2604251538001', '2026-04-25', 'Followup', '7994561508', 1, 4, 235, 15, '15:00:00.000000'),
+(1842, 'TKNO2604251627001', '2026-04-25', 'Followup', '9446595307', 1, 4, 31, 12, '15:00:00.000000'),
+(1843, 'TKNO2604251707001', '2026-04-25', 'Followup', '7356820405', 1, 4, 241, 15, '16:00:00.000000'),
+(1844, 'TKNO2604251805001', '2026-04-25', 'Followup', '8086242353', 1, 4, 223, 11, '16:00:00.000000'),
+(1845, 'TKNO2604251806001', '2026-04-25', 'Followup', '8921411073', 1, 4, 225, 11, '17:00:00.000000'),
+(1846, 'TKNO2604251807001', '2026-04-27', 'Followup', '9496620003', 1, 4, 196, 11, '08:00:00.000000'),
+(1847, 'TKNO2604251808001', '2026-04-25', 'Followup', '9995215009', 1, 4, 207, 12, '11:00:00.000000'),
+(1848, 'TKNO2604251809001', '2026-04-25', 'Followup', '9495897855', 1, 4, 242, 12, '16:30:00.000000'),
+(1849, 'TKNO2604251810001', '2026-04-25', 'Followup', '9496812927', 1, 4, 243, 14, '17:30:00.000000'),
+(1850, 'TKNO2604270839001', '2026-04-27', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1851, 'TKNO2604270840001', '2026-04-27', 'Followup', '8281613995', 1, 4, 114, 11, '12:00:00.000000'),
+(1852, 'TKNO2604270840002', '2026-04-27', 'Followup', '9544036764', 1, 4, 200, 11, '17:00:00.000000'),
+(1853, 'TKNO2604270956001', '2026-04-27', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1854, 'TKNO2604271016001', '2026-04-27', 'Followup', '8075354916', 1, 4, 193, 15, '11:00:00.000000'),
+(1855, 'TKNO2604271033001', '2026-04-27', 'Followup', '8606143381', 1, 4, 233, 12, '10:00:00.000000'),
+(1856, 'TKNO2604271155001', '2026-04-27', 'Followup', '9495897855', 1, 4, 242, 12, '11:00:00.000000'),
+(1857, 'TKNO2604271222001', '2026-04-27', 'Followup', '7356820405', 1, 4, 241, 15, '12:00:00.000000'),
+(1858, 'TKNO2604271607001', '2026-04-27', 'Followup', '8848219738', 1, 4, 189, 15, '16:00:00.000000'),
+(1859, 'TKNO2604271652001', '2026-04-27', 'Followup', '9605316919', 1, 4, 229, 12, '16:00:00.000000'),
+(1860, 'TKNO2604271724001', '2026-04-27', 'Followup', '9656418816', 1, 4, 244, 15, '16:30:00.000000'),
+(1861, 'TKNO2604271738001', '2026-04-27', 'Followup', '7403040407', 1, 4, 88, 11, '16:00:00.000000'),
+(1862, 'TKNO2604271739001', '2026-04-28', 'Followup', '9496620003', 1, 4, 196, 11, '08:00:00.000000'),
+(1863, 'TKNO2604271739002', '2026-04-28', 'Followup', '9447134902', 1, 4, 232, 11, '09:00:00.000000'),
+(1864, 'TKNO2604271739003', '2026-04-28', 'Followup', '9567665738', 1, 4, 169, 11, '10:00:00.000000'),
+(1865, 'TKNO2604271740001', '2026-04-28', 'Followup', '9544036764', 1, 4, 200, 11, '11:00:00.000000'),
+(1866, 'TKNO2604271749001', '2026-04-27', 'Followup', '7907540576', 1, 4, 234, 12, '17:00:00.000000'),
+(1867, 'TKNO2604280844001', '2026-04-28', 'Followup', '9447556337', 1, 4, 47, 11, '15:00:00.000000'),
+(1868, 'TKNO2604281000001', '2026-04-28', 'Followup', '9446691926', 1, 4, 131, 15, '09:00:00.000000'),
+(1869, 'TKNO2604281001001', '2026-04-28', 'Followup', '8606143381', 1, 4, 233, 12, '10:00:00.000000'),
+(1870, 'TKNO2604281129001', '2026-04-28', 'Followup', '9495718873', 1, 4, 27, 15, '10:00:00.000000'),
+(1871, 'TKNO2604281129002', '2026-04-28', 'Followup', '7994561508', 1, 4, 235, 15, '11:00:00.000000'),
+(1872, 'TKNO2604281211001', '2026-04-28', 'Followup', '9446475975', 1, 4, 245, 12, '11:00:00.000000'),
+(1873, 'TKNO2604281509001', '2026-04-29', 'Followup', '9496620003', 1, 4, 196, 11, '08:00:00.000000'),
+(1874, 'TKNO2604281510001', '2026-04-29', 'Followup', '9447134902', 1, 4, 232, 11, '09:00:00.000000'),
+(1876, 'TKNO2604281511001', '2026-04-29', 'Followup', '9544036764', 1, 4, 200, 11, '12:00:00.000000'),
+(1877, 'TKNO2604281511002', '2026-04-29', 'Followup', '7403040407', 1, 4, 88, 11, '15:00:00.000000'),
+(1878, 'TKNO2604281615001', '2026-04-28', 'Consultation', '7558808800', 1, 4, 246, 14, '15:00:00.000000'),
+(1879, 'TKNO2604281615002', '2026-04-28', 'Consultation', '7558808800', 1, 4, 246, 15, '15:00:00.000000'),
+(1880, 'TKNO2604281650001', '2026-04-28', 'Consultation', '7902511511', 1, 4, 247, 14, '16:00:00.000000'),
+(1881, 'TKNO2604281700001', '2026-04-28', 'Followup', '9961940225', 1, 4, 185, 11, '16:30:00.000000'),
+(1882, 'TKNO2604281712001', '2026-04-28', 'Consultation', '9946219100', 1, 4, 249, 14, '16:00:00.000000'),
+(1883, 'TKNO2604281721001', '2026-04-28', 'Followup', '7356820405', 1, 4, 241, 15, '17:00:00.000000'),
+(1884, 'TKNO2604281726001', '2026-04-28', 'Followup', '8921411073', 1, 4, 225, 12, '17:00:00.000000'),
+(1885, 'TKNO2604281727001', '2026-04-28', 'Followup', '9946219100', 1, 4, 249, 15, '16:00:00.000000'),
+(1886, 'TKNO2604290842001', '2026-04-29', 'Followup', '9605316919', 1, 4, 229, 11, '11:00:00.000000'),
+(1887, 'TKNO2604290857001', '2026-04-29', 'Followup', '7994561508', 1, 4, 235, 15, '09:00:00.000000'),
+(1888, 'TKNO2604290858001', '2026-04-29', 'Followup', '9656418816', 1, 4, 244, 15, '10:00:00.000000'),
+(1889, 'TKNO2604290858002', '2026-04-29', 'Followup', '7356820405', 1, 4, 241, 15, '16:00:00.000000'),
+(1890, 'TKNO2604290859001', '2026-04-29', 'Followup', '8075354916', 1, 4, 193, 15, '12:00:00.000000'),
+(1891, 'TKNO2604290908001', '2026-04-29', 'Followup', '9446475975', 1, 4, 245, 12, '08:00:00.000000'),
+(1892, 'TKNO2604290931001', '2026-04-30', 'Followup', '7736204459', 1, 4, 216, 11, '10:00:00.000000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_bankdetails`
+--
+
+CREATE TABLE `x_app_bankdetails` (
+  `id` bigint NOT NULL,
+  `bank_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `account_holder_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `account_number` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `ifsc_code` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `branch_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `upi_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `qr_code` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `medical_store_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_bankdetails`
+--
+
+INSERT INTO `x_app_bankdetails` (`id`, `bank_name`, `account_holder_name`, `account_number`, `ifsc_code`, `branch_name`, `upi_id`, `qr_code`, `medical_store_id`) VALUES
+(1, 'Federal Bank', 'Taurus Surgicals', '21790200001874', 'FDRL0002179', 'Kuravankonam,Thiruvananthapuram', '7902411411@okbizaxis', 'bank_qr/IMG-20251104-WA00072.jpg', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_bodychart`
+--
+
+CREATE TABLE `x_app_bodychart` (
+  `id` bigint NOT NULL,
+  `pain_assessment` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `pain_area` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `type` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `pain_history` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `pain_severity` int NOT NULL,
+  `date_uploaded` date NOT NULL,
+  `patient_id` bigint NOT NULL,
+  `history_id` bigint DEFAULT NULL,
+  `staff_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_bodychart`
+--
+
+INSERT INTO `x_app_bodychart` (`id`, `pain_assessment`, `pain_area`, `type`, `pain_history`, `pain_severity`, `date_uploaded`, `patient_id`, `history_id`, `staff_id`) VALUES
+(9, 'pain during mobilization \r\n', 'left hand\r\n', 'Throbbing', '', 8, '2025-11-20', 8, 7, 11),
+(10, 'NRS', 'lower back', 'Sharp', 'Gradul', 10, '2025-12-04', 51, 8, 11),
+(11, 'Numeric Rating Scale', 'medial side of the knee', 'Dull', '', 5, '2025-12-09', 58, 9, 11),
+(12, 'Sever pain when the leg lift', 'lateral side of right leg', 'Sharp', 'When lifting', 8, '2025-12-09', 60, 10, 12),
+(13, 'PAIN ON BOTH HANDS', 'FINGERS AND WRIST', 'Sharp', 'LESS IN  THE DAY TIME AND HIGH IN THE NIGHT', 9, '2025-12-10', 63, 10, 12),
+(14, 'pain while moving shoulder', 'shoulder joint ', 'Dull', '', 5, '2025-12-11', 64, 10, 12),
+(15, 'pain while moving elbow', 'elbow', 'Sharp', 'sudden onset after fall on elbow', 6, '2025-12-11', 65, 12, 11),
+(16, 'NPRS', 'lateral epicondyle of right elbow', 'Sharp', ' GRADUAL', 8, '2025-12-15', 67, 15, 11),
+(17, 'sharp pain during movement', 'elbow', 'Sharp', 'no', 8, '2025-12-16', 67, 17, 11),
+(18, 'NPS', 'left ring finger', 'Sharp', '', 10, '2025-12-16', 73, 18, 11),
+(19, 'MODERATE PAIN ', 'BACK OF NECK', 'Sharp', 'LONG TIME', 8, '2025-12-23', 82, 19, 12),
+(20, 'Nil', '', 'nil', '', 0, '2025-12-29', 88, 20, 11),
+(21, 'FATIQUE PAIN FOR LONG SITTING AND DURING TRAVEL', 'CERVICAL ', 'Dull', 'CONTINOUS PAIN', 8, '2026-01-13', 82, 25, 12),
+(22, 'SEVERE PAIN', 'LUMBAR REGION', 'Sharp', 'LONG SITTING', 8, '2026-01-13', 93, 27, 12),
+(23, 'SEVERE PAIN AROUND CMC JOINT', 'CMC JOINT', 'Sharp', 'DAY AND NIGHT', 10, '2026-01-13', 49, 28, 12),
+(24, 'MILD PAIN', 'MEDIAL SIDE OF THE LEFT WRIST', 'Dull', 'WEGHT LIFTING,DOING ACTIVITIES', 6, '2026-01-13', 111, 29, 11),
+(25, 'PAIN OCCURS DURING NECK MOVEMENT AND RADIATES TO THE SUBOCCIPITAL', 'SUBOCCIPITAL REGION', 'Sharp', 'REPORTS NECK PAIN RADIATING TO THE BACK OF THE HEAD AROUND 2 MONTH, WORSENS WITH NECK MOVEMENT', 6, '2026-01-14', 68, 32, 15),
+(26, 'IRREGULAR', 'CERVICAL REGION', 'Dull', 'PAIN DURING HOLDING THINGS', 7, '2026-01-14', 113, 33, 12),
+(27, 'NRS', 'Elbow', 'Throbbing', 'Gradual', 7, '2026-01-21', 65, 37, 11),
+(28, 'NRS', 'Left Elbow', 'Dull', 'Gradual', 1, '2026-01-21', 104, 38, 11),
+(29, '', 'Shoulder', 'Sharp', '', 8, '2026-02-03', 131, 44, 11),
+(30, '', '(R) thumb', 'Sharp', '', 9, '2026-02-09', 137, 45, 11),
+(31, '', '(R) Medial epicondyle', 'Sharp', 'Sudden pain', 9, '2026-03-13', 175, 47, 11),
+(32, '', '(L) WRIST', 'Sharp', '', 7, '2026-03-20', 185, 48, 11),
+(33, 'NM PAIN ASSESSMENT', '(L) ELBOW', 'Sharp', 'AFTER SURGERY', 10, '2026-03-25', 188, 50, 11),
+(34, 'WHOLW DAY PAIN WITH RADIATING ON LEFT HAND', 'LEFT SHOULDER', 'Sharp', 'FULL DAY', 7, '2026-03-30', 199, 51, 12),
+(35, '', 'ELBOW JOINT', 'Dull', '', 7, '2026-04-06', 196, 52, 11),
+(36, '', 'LEFT THUMB AND RADIAL WRIST', 'Sharp', 'DURATION MORE THAN 2 MONTH AGGRAVATING WITH GRIPPING, TWISTING AND LIFTING OF THUMB MOVEMENTS', 8, '2026-04-06', 192, 53, 15),
+(37, '', '', 'Dull', '', 5, '2026-04-06', 193, 54, 15),
+(38, 'SEVERE PAIN WHILE DOING EXERCISE', 'ELOBOW,WRIST', 'Sharp', 'WHILE DOING EXERCISE', 7, '2026-04-06', 188, 57, 12),
+(40, 'INTERMITTENT PAIN AND WHILE DOING MOVEMENTS', 'SHOULDER JOINT', 'Sharp', 'INTERMITTENT', 7, '2026-04-06', 199, 60, 12),
+(41, 'PAIN IN SOME MOVEMENTS', 'RIGHT SIDE HIP JOINT', 'Sharp', 'INTERMITTENT', 6, '2026-04-06', 93, 61, 12),
+(42, 'LEFT HAND RADIAL SIDE PAIN WHILE DOING MOVEMENTS', 'RADIAL SIDE ', 'Dull', 'PAIN WHILE DOING MOVEMENTS', 5, '2026-04-06', 202, 62, 12),
+(43, 'WHILE DOING SHOULDER FLEXION', 'GLENOHUMERAL JOINT', 'Sharp', 'DURING SLEEPIMG AND MORNING TIMES', 7, '2026-04-06', 198, 63, 12),
+(44, 'NUMERICAL PAIN RATING SCALE', '(L) SHOULDER PAIN', 'Sharp', '1MONTH\r\nPAIN AGGRAVATING DURING MOVEMENTS', 7, '2026-04-06', 190, 64, 11),
+(45, 'NPRS', '(L) WRIST', 'Sharp', 'PAIN AGGRAVATING DURING MOVEMENTS', 9, '2026-04-06', 204, 65, 11),
+(46, 'NUMERICAL PAIN RATING SCALE', 'PALM', 'Sharp', 'PAIN ONSET: 3 YEARS AGO', 10, '2026-04-06', 206, 66, 15),
+(47, 'NPRS', 'LUMBAR', 'Sharp', '1 MONTH', 8, '2026-04-08', 203, 67, 11),
+(48, 'NPRS', 'BOTH SHOULDER', 'Sharp', '1 MONTH \r\nMOVEMENTS PAIN', 8, '2026-04-08', 208, 68, 11),
+(49, 'NUMERICAL PAIN RATING SCALE', 'RIGHT SHOULDER', 'Sharp', 'AROUND 2 WEEKS', 10, '2026-04-09', 210, 69, 15),
+(50, 'NUMERICAL PAIN RATING SCALE', 'RIGHT SHOULDER', 'Sharp', 'AROUND 3 WK', 8, '2026-04-09', 209, 70, 15),
+(51, 'NRS', '(R) WRIST', 'Dull', '1 MONTH DURATION\r\n\r\n', 8, '2026-04-09', 211, 71, 11),
+(52, 'NUMERICAL PAIN RATING SCALE', 'LEFT SHOULDER PAIN, RADIATING TO THE NECK AND OCCASIONALLY EXTENDING TO FINGERS', 'Sharp', 'AROUND 3 MONTH', 8, '2026-04-09', 212, 72, 15),
+(53, 'NPRS', 'FINGER', 'Sharp', '5 MONTHS\r\nALWAYS PAIN FULL', 6, '2026-04-09', 213, 73, 11),
+(54, 'DURING WALKING OR LONG DRIVING', 'UNDER THE KNEE JOINT', 'Throbbing', 'PAIN ONLY MOVEMENTS', 6, '2026-04-09', 214, 74, 12),
+(55, '', '', '', '', 5, '2026-04-10', 205, 56, 12),
+(56, '', '', '', '', 5, '2026-04-10', 207, 75, 12),
+(57, '', '', '', '', 5, '2026-04-10', 169, 49, 11),
+(58, '', '', '', '', 5, '2026-04-10', 10, 14, 11),
+(59, 'NPRS', '(R) KNEE', 'Dull', '', 6, '2026-04-11', 216, 78, 11),
+(60, 'NO', 'NO', 'nil', 'NO PAIN', 0, '2026-04-14', 218, 79, 12),
+(61, 'NUMERICAL PAIN RATING SCALE', 'ULNAR SIDE OF RIGHT WRIST', 'Dull', 'MORE THAN 3 WEEK', 3, '2026-04-16', 219, 80, 15),
+(62, 'NUMERICAL PAIN RATING SCALE', 'MIDDLE FINGER DIP JOINT', 'Sharp', '', 8, '2026-04-16', 220, 81, 15),
+(63, 'NPRS', 'ELBOW', 'Sharp', 'MOVEMENTS', 8, '2026-04-16', 222, 82, 11),
+(64, 'NPRS', '(R) ELBOW', 'Sharp', 'IN MOVEMENTS', 8, '2026-04-18', 225, 83, 11),
+(65, 'NPRS', '(L) ELBOW', 'Dull', 'WHILE MOVEMENTS', 7, '2026-04-24', 234, 87, 11),
+(66, 'NUMERICAL PAIN RATING SCALE', 'RIGHT KNEE', 'Dull', 'RIGHT KNEE PAIN IS ON AND OFF AROUND FEW MONTHS', 5, '2026-04-25', 241, 88, 11),
+(67, 'NPRS', '(L) THUMB', 'Dull', 'WHILE MOVEMENTS\r\n', 5, '2026-04-28', 232, 91, 11),
+(68, 'LONG TIME PAIN', 'LOWER BACK', 'Throbbing', 'LONG STANDING ', 4, '2026-04-28', 245, 93, 12),
+(69, 'CONTINOUS', 'LOER BACK', 'Throbbing', 'WHILE STANDING AND SITTING', 7, '2026-04-28', 227, 95, 12),
+(70, '', '', '', '', 5, '2026-04-28', 200, 77, 11),
+(71, '', '', 'Dull', 'WHILE MOVEMENTS', 6, '2026-04-28', 228, 100, 11),
+(72, 'NUMERICAL PAIN RATING SCALE', 'HEEL', 'Sharp', 'AROUND 3 WEEKS', 6, '2026-04-28', 246, 101, 15),
+(73, '', '', '', '', 5, '2026-04-29', 235, 96, 12);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_bodychartimage`
+--
+
+CREATE TABLE `x_app_bodychartimage` (
+  `id` bigint NOT NULL,
+  `title` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `image` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `uploaded_at` datetime(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_branch`
+--
+
+CREATE TABLE `x_app_branch` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `contact` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `incharge_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `incharge_phone` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `address` longtext COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_branch`
+--
+
+INSERT INTO `x_app_branch` (`id`, `name`, `contact`, `incharge_name`, `incharge_phone`, `address`) VALUES
+(1, 'Thiruvananthapuram', '7902511511', 'Nanda Gopan R', '7708911791', 'Thiruvananthapuram');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_branch_departments`
+--
+
+CREATE TABLE `x_app_branch_departments` (
+  `id` bigint NOT NULL,
+  `branch_id` bigint NOT NULL,
+  `department_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_branch_departments`
+--
+
+INSERT INTO `x_app_branch_departments` (`id`, `branch_id`, `department_id`) VALUES
+(4, 1, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_company`
+--
+
+CREATE TABLE `x_app_company` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_country`
+--
+
+CREATE TABLE `x_app_country` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_country`
+--
+
+INSERT INTO `x_app_country` (`id`, `name`) VALUES
+(3, 'America'),
+(9, 'Australia'),
+(7, 'Bangladesh'),
+(6, 'Bhutan'),
+(2, 'China'),
+(1, 'India'),
+(5, 'Nepal'),
+(8, 'NewZealand');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_department`
+--
+
+CREATE TABLE `x_app_department` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_department`
+--
+
+INSERT INTO `x_app_department` (`id`, `name`) VALUES
+(4, 'Physiotherapy');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_designation`
+--
+
+CREATE TABLE `x_app_designation` (
+  `id` bigint NOT NULL,
+  `Designation` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_designation`
+--
+
+INSERT INTO `x_app_designation` (`id`, `Designation`) VALUES
+(10, 'Admin'),
+(7, 'Cashier'),
+(9, 'Doctor'),
+(3, 'Nurse'),
+(1, 'Pharmacist'),
+(5, 'PRO'),
+(6, 'Receptionist');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_district`
+--
+
+CREATE TABLE `x_app_district` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `state_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_district`
+--
+
+INSERT INTO `x_app_district` (`id`, `name`, `state_id`) VALUES
+(1, 'Kottayam', 1),
+(2, 'Idukki', 1),
+(3, 'Ernakulam', 1),
+(5, 'Alappuzha', 1),
+(6, 'Thrissur', 1),
+(7, 'Pathanamthitta', 1),
+(9, 'Chennai', 3),
+(10, 'Thiruvananthapuram', 1),
+(11, 'Kollam', 1),
+(12, 'Kochi', 1),
+(13, 'Calicut', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_expense`
+--
+
+CREATE TABLE `x_app_expense` (
+  `id` bigint NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `description` longtext COLLATE utf8mb4_general_ci,
+  `date` date NOT NULL,
+  `status` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `staff_id` bigint DEFAULT NULL,
+  `expense_type_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_expense`
+--
+
+INSERT INTO `x_app_expense` (`id`, `amount`, `description`, `date`, `status`, `staff_id`, `expense_type_id`) VALUES
+(4, 1010.00, '', '2026-01-22', 'active', 15, 1),
+(5, 322.00, '', '2026-01-23', 'active', 11, 1),
+(6, 11100.00, '', '2026-01-27', 'active', 12, 1),
+(7, 22000.00, '', '2026-02-05', 'active', 15, 1),
+(8, 100.00, '', '2026-02-06', 'active', 12, 1),
+(9, 4008.00, '', '2026-02-07', 'active', 11, 1),
+(10, 4008.00, '', '2026-02-07', 'active', 11, 1),
+(11, 790.00, '', '2026-02-09', 'active', 11, 1),
+(12, 100.00, '', '2026-02-10', 'active', 15, 1),
+(13, 500.00, '', '2026-02-14', 'active', 12, 1),
+(14, 4170.00, '', '2026-02-16', 'active', 15, 1),
+(15, 2600.00, '', '2026-02-18', 'active', 12, 1),
+(16, 560.00, '', '2026-02-19', 'active', 15, 1),
+(17, 1550.00, '', '2026-02-20', 'active', 15, 1),
+(18, 240.00, '', '2026-02-26', 'active', 11, 1),
+(19, 260.00, '', '2026-02-27', 'active', 11, 1),
+(20, 500.00, '', '2026-02-28', 'active', 11, 1),
+(21, 500.00, '', '2026-03-07', 'active', 11, 2),
+(22, 500.00, '', '2026-03-10', 'active', 11, 2),
+(23, 600.00, '', '2026-03-12', 'active', 15, 1),
+(24, 400.00, '', '2026-03-14', 'active', 11, 2),
+(25, 27.00, '', '2026-03-14', 'active', 11, 1),
+(26, 15180.00, '', '2026-03-18', 'active', 11, 1),
+(27, 2304.00, '', '2026-03-19', 'active', 15, 1),
+(28, 190.00, '', '2026-03-20', 'active', 11, 1),
+(29, 113.00, '', '2026-03-21', 'active', 11, 1),
+(30, 500.00, '', '2026-03-21', 'active', 11, 2),
+(31, 27.00, '', '2026-03-23', 'active', 15, 1),
+(32, 353.00, '', '2026-03-24', 'active', 15, 1),
+(33, 150.00, '', '2026-03-26', 'active', 12, 1),
+(34, 157.00, '', '2026-03-27', 'active', 11, 1),
+(35, 4000.00, '', '2026-03-27', 'active', 11, 2),
+(36, 250.00, 'harithakarmasena', '2026-03-28', 'active', 15, 1),
+(37, 500.00, '', '2026-03-30', 'active', 12, 2),
+(38, 160.00, '', '2026-03-30', 'active', 12, 1),
+(39, 850.00, '', '2026-03-31', 'active', 15, 1),
+(40, 5549.00, 'SARASWATHY AGENCY\r\nSEAL\r\nSWIMMING CAP', '2026-03-31', 'active', 15, 1),
+(41, 298.00, '', '2026-04-02', 'active', 12, 1),
+(42, 500.00, 'MAID', '2026-04-06', 'active', 12, 2),
+(43, 436.00, '', '2026-04-11', 'active', 12, 1),
+(44, 500.00, 'MAID', '2026-04-13', 'active', 12, 2),
+(45, 500.00, 'maid', '2026-04-18', 'active', 15, 2),
+(46, 15000.00, 'shanthi', '2026-04-18', 'active', 15, 1),
+(47, 1200.00, 'BATTERY', '2026-04-20', 'active', 15, 1),
+(48, 500.00, 'ALEPH DRINKING WATER', '2026-04-21', 'active', 11, 1),
+(49, 1027.00, 'AKSHAYA,MEDICINE,MILK', '2026-04-23', 'active', 11, 1),
+(50, 1027.00, 'AKSHAYA,MEDICINE,MILK', '2026-04-23', 'active', 11, 1),
+(51, 500.00, 'MAID', '2026-04-24', 'active', 11, 2),
+(52, 1000.00, 'FOOD', '2026-04-25', 'active', 15, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_expense_type`
+--
+
+CREATE TABLE `x_app_expense_type` (
+  `id` bigint NOT NULL,
+  `expense_type` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `active` varchar(10) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_expense_type`
+--
+
+INSERT INTO `x_app_expense_type` (`id`, `expense_type`, `active`) VALUES
+(1, 'Purchase', 'active'),
+(2, 'Salary', 'active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_generalobservation`
+--
+
+CREATE TABLE `x_app_generalobservation` (
+  `id` bigint NOT NULL,
+  `built` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `swelling` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `deformities` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tropical_changes` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `skin` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `edema` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `warmth` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `date_recorded` datetime(6) NOT NULL,
+  `patient_id` bigint NOT NULL,
+  `history_id` bigint DEFAULT NULL,
+  `staff_id` bigint NOT NULL,
+  `balance_sitting` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `balance_standing` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `contractures` longtext COLLATE utf8mb4_general_ci,
+  `crude_touch` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `light_touch` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_generalobservation`
+--
+
+INSERT INTO `x_app_generalobservation` (`id`, `built`, `swelling`, `deformities`, `tropical_changes`, `skin`, `edema`, `warmth`, `date_recorded`, `patient_id`, `history_id`, `staff_id`, `balance_sitting`, `balance_standing`, `contractures`, `crude_touch`, `light_touch`) VALUES
+(10, 'mesomorphic', 'no', 'no', 'no', 'normal', 'no', 'no', '2025-12-04 11:51:37.104890', 51, 8, 11, 'independent', 'independent', 'muscle tightness', 'independent', 'independent'),
+(11, 'mesomorphic', 'NIL', 'NO DEFORMITIES', 'no', 'normal', 'no', 'no', '2025-12-09 13:09:31.339712', 60, 10, 12, 'independent', 'independent', 'LIGHT TENDERNESS ON LATERAL SIDE OF RIGHT LEG', 'independent', 'independent'),
+(12, 'mesomorphic', 'SLIGHTLY ON RIGHT HAND', 'NO', 'NO', 'normal', 'SLIGHT', 'SLIGHT', '2025-12-10 12:54:45.310958', 63, 10, 12, NULL, 'independent', 'TIGHTNESS AROUND RIGHT WRIST', 'independent', 'independent'),
+(13, 'mesomorphic', 'no', 'no', 'no', 'normal', 'no', 'no', '2025-12-11 11:49:20.854346', 64, 11, 12, 'independent', 'independent', 'stiffness', 'independent', 'independent'),
+(14, 'mesomorphic', 'yes', 'no', 'no', 'normal', 'no', 'no', '2025-12-11 12:25:18.024124', 65, 12, 11, 'independent', 'independent', 'stiffness on elbow', 'independent', 'independent'),
+(15, 'mesomorphic', 'Present', 'no', 'no', 'normal', 'no', '', '2025-12-15 11:57:52.796145', 10, 14, 11, '', '', '', 'independent', 'independent'),
+(16, 'mesomorphic', 'no', 'no', 'no', 'normal', 'no', 'no', '2025-12-15 12:43:05.778805', 67, 15, 11, 'independent', 'independent', 'NIL', 'independent', 'independent'),
+(17, 'mesomorphic', 'no', 'no', '', '', 'present', '', '2025-12-16 04:13:48.457938', 67, 17, 11, NULL, NULL, '', 'independent', 'independent'),
+(18, 'mesomorphic', 'Present', 'NO', 'NO', 'normal', 'SLIGHT', 'no', '2025-12-16 13:49:26.200494', 73, 18, 11, 'independent', 'independent', 'yes', 'independent', 'independent'),
+(19, 'mesomorphic', 'NIL', 'NO DEFORMITIES', 'NO', 'normal', 'no', 'no', '2025-12-23 12:59:19.446095', 82, 19, 12, 'independent', 'independent', 'SLIGHT', 'independent', 'independent'),
+(20, '', '', 'Rib hump', '', '', '', '', '2025-12-29 13:24:57.103186', 88, 20, 11, 'independent', 'independent', '', 'independent', 'independent'),
+(21, 'ENDOMORPH', 'NO', 'NO', 'NO', 'NORMAL', 'NO', 'NO', '2026-01-14 09:12:34.466150', 68, 32, 15, 'independent', 'independent', 'NECK MUSCLES TIGHTNESS', 'independent', 'independent'),
+(22, 'Endomorphic', 'yes', 'no', 'no', 'normal', 'present', 'no', '2026-01-21 08:52:19.507520', 65, 37, 11, 'independent', 'independent', 'Elbow thightness', 'independent', 'independent'),
+(23, '', 'no', 'no', 'no', 'normal', 'no', 'no', '2026-01-21 09:07:29.344368', 104, 38, 11, 'independent', 'independent', 'no contracture and no stiffness', 'independent', 'independent'),
+(24, '', 'yes', 'flexion with ulnar devotion', '', '', '', '', '2026-01-23 10:54:54.192384', 125, 42, 14, NULL, NULL, '', 'independent', 'independent'),
+(25, '', 'yes', 'no', 'no', 'normal', 'present', 'no', '2026-02-03 04:48:51.375156', 131, 44, 11, 'independent', 'independent', 'Shoulder tightness present', 'independent', 'independent'),
+(26, '', 'no', 'no', 'no', 'normal', 'no', 'no', '2026-02-09 13:30:27.832205', 137, 45, 11, 'independent', 'independent', '', 'independent', 'independent'),
+(27, 'mesomorphic', 'yes', 'no', 'no', 'NORMAL', 'present', 'no', '2026-03-13 13:00:47.318040', 175, 47, 11, 'independent', 'independent', '', 'independent', 'independent'),
+(28, '', 'Present', 'NO', 'NO', 'normal', 'present', 'NO', '2026-03-21 08:57:19.911928', 169, 49, 11, 'independent', 'independent', '(R) Middle finger DIP tightness present', 'independent', 'independent'),
+(29, '', 'NO', 'NO', '', 'NORMAL', 'NO', 'NO', '2026-03-25 06:47:58.929837', 188, 50, 11, 'independent', 'independent', 'TIGHTNESS PRESENT ON (L) ELBOW', 'independent', 'independent'),
+(30, 'NO', 'NO', 'NO', 'NO', 'NORMAL', 'NO', 'NO', '2026-03-30 12:35:29.186878', 199, 51, 12, 'independent', 'independent', 'JOINT STIFFNESS', 'independent', 'independent'),
+(31, 'mesomorphic', 'Present', 'NO', '', 'WOUND', 'present', 'SLIGHT', '2026-04-06 03:21:21.071274', 196, 52, 11, 'independent', 'independent', 'TIGHTNESS PRESENT', 'independent', 'independent'),
+(32, 'mesomorphic', 'SLIGHT', 'NO', 'NO', 'NORMAL', 'SLIGHT', 'NO', '2026-04-06 03:35:56.238256', 192, 53, 15, 'independent', 'independent', '', 'independent', 'independent'),
+(33, '', '', '', '', '', '', '', '2026-04-06 03:47:48.687386', 185, 48, 11, '', '', '', '', ''),
+(34, 'mesomorphic', 'NO', '', '', '', 'NO', '', '2026-04-06 06:31:55.053662', 193, 54, 15, 'independent', 'independent', '', 'independent', 'independent'),
+(35, 'NIL', 'NIL', 'NIL', 'NIL', 'NORMAL', 'NO', 'NO', '2026-04-06 07:11:05.749104', 205, 56, 12, 'independent', 'independent', 'NO', 'independent', 'independent'),
+(37, 'NIL', 'NIL', 'NIL', 'NIL', 'NORMAL', 'NO', 'NO', '2026-04-06 08:44:08.451640', 199, 60, 12, 'independent', 'independent', 'MUSCLE TIGHTNESS AND JOINT STIFFNESS', 'independent', 'independent'),
+(38, 'NIL', 'NO', 'NO', 'NO', 'NORMAL', '', 'NO', '2026-04-06 08:55:36.554371', 93, 61, 12, 'independent', 'independent', 'MUSCLE WEAKNESS', 'independent', 'independent'),
+(39, 'NIL', 'NO', '', 'NO', 'NORMAL', 'No', 'NO', '2026-04-06 09:03:13.189918', 202, 62, 12, 'independent', 'independent', 'SLIGHT,SLIGHT LIGAMENT INSTABILTY', 'independent', 'independent'),
+(40, 'NIL', 'NIL', 'NIL', 'NIL', 'NORMAL', 'No', 'NO', '2026-04-06 09:11:50.806104', 198, 63, 12, 'independent', 'independent', 'MUSCLE TIGHTNESS', 'independent', 'independent'),
+(41, 'MESOMORPHIC', 'NO', 'NO DEFORMITIES', 'NO', 'NORMAL', '', '', '2026-04-06 09:48:10.564086', 190, 64, 11, 'independent', 'independent', 'TIGHTNESS PRESENT', 'independent', 'independent'),
+(42, 'MESOMORPHIC', 'YES', 'NO DEFORMITIES', 'NO', 'NORMAL', 'PRESENT', 'NO', '2026-04-06 10:04:10.267191', 204, 65, 11, 'independent', 'independent', 'NO', 'independent', 'independent'),
+(43, 'MESOMORPHIC', 'YES', '', '', '', '', '', '2026-04-06 10:54:49.831611', 206, 66, 15, 'independent', 'independent', '', 'independent', 'independent'),
+(44, 'MESOMORPHIC', 'NO', 'NO DEFORMITIES', 'NO', 'NORMAL', 'NO', 'NO', '2026-04-08 03:20:35.042444', 203, 67, 11, 'independent', 'independent', 'NO', 'independent', 'independent'),
+(45, 'MESOMORPHIC', 'YES', 'NO DEFORMITIES', 'NO', 'NORMAL', 'PRESENT', 'NO', '2026-04-08 11:34:02.714427', 208, 68, 11, 'independent', 'independent', '', 'independent', 'independent'),
+(46, 'MESOMORPHIC', 'NO', 'NO', 'NO', '', '', '', '2026-04-09 05:20:41.736921', 210, 69, 15, 'independent', 'independent', '', 'independent', 'independent'),
+(47, 'MESOMORPHIC', 'NO', '', '', '', '', '', '2026-04-09 05:27:50.975072', 209, 70, 15, 'independent', 'independent', '', 'independent', 'independent'),
+(48, 'MESOMORPHIC', 'YES', 'NO DEFORMITIES', 'NO', 'NORMAL', 'PRESENT', 'NO', '2026-04-09 07:05:51.490971', 211, 71, 11, 'independent', 'independent', '', 'independent', 'independent'),
+(49, 'MESOMORPHIC', 'NO', '', '', '', '', '', '2026-04-09 07:22:17.903750', 212, 72, 15, 'independent', 'independent', '', 'independent', 'independent'),
+(50, 'MESOMORPHIC', 'YES', 'NO DEFORMITIES', 'NO', 'NORMAL', 'PRESENT', 'NO', '2026-04-09 10:51:20.007264', 213, 73, 11, 'independent', 'independent', 'TIGHTNESS PRESENT', 'independent', 'independent'),
+(51, 'NIL', 'NO', 'NIL', 'NO', 'NORMAL', 'NO', 'NO', '2026-04-09 11:25:37.079265', 214, 74, 12, 'independent', 'independent', 'SLIGHT', 'independent', 'independent'),
+(52, '', '', '', '', '', '', '', '2026-04-10 12:39:47.302069', 207, 75, 12, '', '', '', '', ''),
+(53, 'MESOMORPHIC', 'NO', 'NO DEFORMITIES', 'NO', 'NORMAL', 'NO', 'NO', '2026-04-11 06:42:18.394377', 216, 78, 11, 'needs assistance', 'needs assistance', '', 'independent', 'independent'),
+(54, 'NIL', 'NIL', 'NIL', 'NIL', 'NORMAL', 'NO', 'NO', '2026-04-14 13:21:22.799608', 218, 79, 12, 'independent', 'independent', 'SLIGHT JOINT STIFFNESS', 'independent', 'independent'),
+(55, 'MESOMORPHIC', 'MILD', 'NO', 'NO', '', '', '', '2026-04-16 06:41:46.216909', 219, 80, 15, 'independent', 'independent', '', 'independent', 'independent'),
+(56, 'MESOMORPHIC', 'MILD', '', '', '', '', '', '2026-04-16 12:27:06.932722', 220, 81, 15, 'independent', 'independent', '', 'independent', 'independent'),
+(57, 'MESOMORPHIC', 'Present', 'NO DEFORMITIES', 'YES', 'NORMAL', '', '', '2026-04-16 12:51:09.206224', 222, 82, 11, 'independent', 'independent', 'TIGHTNESS PRESENT', 'independent', 'independent'),
+(58, 'MESOMORPHIC', 'YES', 'NO DEFORMITIES', 'YES', 'NORMAL', 'PRESENT', 'NO', '2026-04-18 11:56:47.860397', 225, 83, 11, 'independent', 'independent', 'TIGHTNESS PRESENT', 'independent', 'independent'),
+(59, 'MESOMORPHIC', 'NO', 'NO', '', 'NORMAL', '', '', '2026-04-21 13:29:08.229930', 229, 84, 11, 'independent', 'independent', '', 'independent', 'independent'),
+(60, 'ENDOMORPH', 'YES', 'NO DEFORMITIES', 'NO', 'NORMAL', 'PRESENT', 'NO', '2026-04-24 12:21:06.584038', 234, 87, 11, 'independent', 'independent', '', 'independent', 'independent'),
+(61, 'ECTOMORPHIC', 'no', 'NO', 'NO', '', '', '', '2026-04-25 11:21:53.731060', 241, 88, 11, 'independent', 'independent', '', 'independent', 'independent'),
+(62, 'MESOMORPHIC', 'NO', 'NO DEFORMITIES', 'NO', 'NORMAL', 'NO', 'NO', '2026-04-28 04:25:55.951677', 232, 91, 11, 'independent', 'independent', 'NO', 'independent', 'independent'),
+(63, '', '', '', '', '', '', '', '2026-04-28 10:18:49.697714', 200, 77, 11, '', '', '', '', ''),
+(64, 'MESOMORPHIC', 'YES', 'NO', 'NO', 'NORMAL', 'PRESENT', 'NO', '2026-04-28 10:33:43.098009', 228, 100, 11, 'independent', 'independent', 'NO', 'independent', 'independent'),
+(65, 'MESOMORPHIC', 'NO', '', '', '', '', '', '2026-04-28 10:49:28.922286', 246, 101, 15, 'independent', 'independent', '', 'independent', 'independent'),
+(66, '', '', '', '', '', '', '', '2026-04-29 03:42:07.168147', 245, 93, 12, '', '', '', '', ''),
+(67, '', '', '', '', '', '', '', '2026-04-29 04:19:38.434275', 235, 96, 12, '', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_gstinvoice`
+--
+
+CREATE TABLE `x_app_gstinvoice` (
+  `id` bigint NOT NULL,
+  `invoice_no` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `date` date NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `taxable_amount` decimal(10,2) NOT NULL,
+  `cgst` decimal(10,2) NOT NULL,
+  `sgst` decimal(10,2) NOT NULL,
+  `discount` decimal(10,2) NOT NULL,
+  `patient_id` bigint DEFAULT NULL,
+  `medical_store_id` bigint NOT NULL,
+  `customer_name` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `customer_phone` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `payment_mode` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `deleted_by_id` bigint DEFAULT NULL,
+  `status` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_gstinvoiceitem`
+--
+
+CREATE TABLE `x_app_gstinvoiceitem` (
+  `id` bigint NOT NULL,
+  `batch_number` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
+  `unit` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `qty` int UNSIGNED NOT NULL,
+  `rate` decimal(10,2) NOT NULL,
+  `tax_percent` decimal(5,2) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `each_taxable_amount` decimal(10,2) NOT NULL,
+  `each_cgst` decimal(10,2) NOT NULL,
+  `each_sgst` decimal(10,2) NOT NULL,
+  `company_name_id` bigint DEFAULT NULL,
+  `invoice_id` bigint NOT NULL,
+  `item_id` bigint DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_hep`
+--
+
+CREATE TABLE `x_app_hep` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_hep`
+--
+
+INSERT INTO `x_app_hep` (`id`, `name`) VALUES
+(2, 'Basic Tension'),
+(9, 'Caterpillar'),
+(5, 'Conscious Walking'),
+(6, 'Corrective Breathing'),
+(8, 'Moving Ribs in Supine'),
+(7, 'Muscle Cylinder'),
+(1, 'Pelvic Correction'),
+(4, 'SCT'),
+(3, 'ST');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_hospital_data`
+--
+
+CREATE TABLE `x_app_hospital_data` (
+  `id` bigint NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `logo` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `registration_number` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `gst_number` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `manager_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `manager_contact` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(254) COLLATE utf8mb4_general_ci NOT NULL,
+  `address` longtext COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_hospital_data`
+--
+
+INSERT INTO `x_app_hospital_data` (`id`, `name`, `logo`, `registration_number`, `gst_number`, `manager_name`, `manager_contact`, `email`, `address`) VALUES
+(1, 'The Physio Clinic', 'hospital_logos/WhatsApp_Image_2026-01-14_at_11.55.18_AM.jpeg', '124', '32AFDET6366', 'Nanda Gopan', '7708911791', 'physio@thephysioclinic.co', 'Toll Jn,Kowdiar,Thiruvananthapuram');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_invoice`
+--
+
+CREATE TABLE `x_app_invoice` (
+  `id` bigint NOT NULL,
+  `particulars` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `created_at` date NOT NULL,
+  `patient_id` bigint DEFAULT NULL,
+  `doctor_id` bigint DEFAULT NULL,
+  `amount` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `qty` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `rate` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `invoice_number` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `payment_mode` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_invoice`
+--
+
+INSERT INTO `x_app_invoice` (`id`, `particulars`, `total_amount`, `created_at`, `patient_id`, `doctor_id`, `amount`, `qty`, `rate`, `invoice_number`, `payment_mode`, `status`) VALUES
+(5, '[\"physiotherapy Hand session\"]', 1200.00, '2025-12-05', 46, 11, '[\"1200.00\"]', '[\"2\"]', '[\"600\"]', 'INV05122025001', 'Cash', 'Active'),
+(6, '[\"physiotherapy long session\"]', 2100.00, '2025-12-06', 51, 13, '[\"2100.00\"]', '[\"3\"]', '[\"700\"]', 'INV06122025001', 'Cash', 'Active'),
+(7, '[\"Physiotherapy short session\"]', 3000.00, '2025-12-06', 52, 13, '[\"3000.00\"]', '[\"6\"]', '[\"500\"]', 'INV06122025002', 'Cash', 'Active'),
+(8, '[\"physiotherapy long session\"]', 900.00, '2025-12-06', 30, 11, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV06122025003', 'Cash', 'Active'),
+(9, '[\"physiotherapy Hand session\"]', 2400.00, '2025-12-06', 49, 13, '[\"2400.00\"]', '[\"4\"]', '[\"600\"]', 'INV06122025004', 'Cash', 'Active'),
+(10, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-06', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06122025005', 'Cash', 'Active'),
+(11, '[\"physiotherapy long session\"]', 700.00, '2025-12-06', 54, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV06122025006', 'Cash', 'Active'),
+(12, '[\"physiotherapy long session\"]', 700.00, '2025-12-06', 55, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV06122025007', 'Cash', 'Active'),
+(13, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-06', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06122025008', 'Cash', 'Active'),
+(14, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-06', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08122025001', 'Cash', 'Active'),
+(15, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-08', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08122025002', 'Cash', 'Active'),
+(16, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-08', 56, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08122025003', 'Cash', 'Active'),
+(17, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-08', 57, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08122025004', 'Cash', 'Active'),
+(18, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-09', 57, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09122025001', 'Cash', 'Active'),
+(19, '[\"physiotherapy long session\"]', 600.00, '2025-12-09', 31, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09122025002', 'Cash', 'Active'),
+(20, '[\"Schroth physiotherapy\"]', 600.00, '2025-12-09', 31, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09122025003', 'Cash', 'Active'),
+(21, '[\"physiotherapy long hand session\"]', 600.00, '2025-12-09', 58, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09122025004', 'Cash', 'Active'),
+(22, '[\"Home care\"]', 600.00, '2025-12-09', 27, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09122025005', 'Cash', 'Active'),
+(23, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-09', 56, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09122025006', 'Cash', 'Active'),
+(24, '[\"physiotherapy long session\"]', 600.00, '2025-12-09', 51, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09122025007', 'Cash', 'Active'),
+(25, '[\"physiotherapy long session\"]', 700.00, '2025-12-09', 60, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV09122025008', 'Cash', 'Active'),
+(26, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-09', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09122025009', 'Cash', 'Active'),
+(27, '[\"physiotherapy long session\"]', 3500.00, '2025-12-10', 51, 13, '[\"3500.00\"]', '[\"5\"]', '[\"700\"]', 'INV10122025001', 'Cash', 'Active'),
+(28, '[\"physiotherapy Hand session\"]', 500.00, '2025-12-10', 12, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10122025002', 'Cash', 'Active'),
+(29, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-10', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10122025003', 'Cash', 'Active'),
+(30, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-10', 56, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10122025004', 'Cash', 'Active'),
+(31, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-10', 57, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10122025005', 'Cash', 'Active'),
+(32, '[\"physiotherapy long session\"]', 400.00, '2025-12-10', 61, 13, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV10122025006', 'Cash', 'Active'),
+(33, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-10', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10122025007', 'Cash', 'Active'),
+(34, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-10', 57, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10122025008', 'Cash', 'Active'),
+(35, '[\"physiotherapy long session\"]', 600.00, '2025-12-10', 60, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10122025009', 'Cash', 'Active'),
+(36, '[\"physiotherapy long session\"]', 500.00, '2025-12-10', 14, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10122025010', 'Cash', 'Active'),
+(37, '[\"physiotherapy long session\"]', 60.00, '2025-12-10', 58, 11, '[\"60.00\"]', '[\"1\"]', '[\"60\"]', 'INV10122025011', 'Cash', 'Active'),
+(38, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2025-12-10', 62, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV10122025012', 'Cash', 'Active'),
+(39, '[\"physiotherapy Hand session\"]', 700.00, '2025-12-10', 63, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV10122025013', 'Cash', 'Active'),
+(40, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-10', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10122025014', 'Cash', 'Active'),
+(41, '[\"physiotherapy long session\"]', 600.00, '2025-12-10', 58, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11122025001', 'Cash', 'Active'),
+(42, '[\"physiotherapy Hand session\"]', 500.00, '2025-12-10', 28, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV11122025002', 'Cash', 'Active'),
+(43, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-10', 56, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11122025003', 'Cash', 'Active'),
+(44, '[\"physiotherapy long session\"]', 1000.00, '2025-12-11', 60, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV11122025004', 'Cash', 'Active'),
+(45, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-11', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11122025005', 'Cash', 'Active'),
+(46, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-11', 57, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11122025006', 'Cash', 'Active'),
+(47, '[\"physiotherapy long session\"]', 600.00, '2025-12-11', 64, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11122025007', 'Cash', 'Active'),
+(48, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-11', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11122025008', 'Cash', 'Active'),
+(49, '[\"physiotherapy long session\"]', 600.00, '2025-12-11', 64, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11122025009', 'Cash', 'Active'),
+(50, '[\"physiotherapy Hand session\"]', 700.00, '2025-12-11', 63, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV11122025010', 'Cash', 'Active'),
+(51, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-11', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11122025011', 'Cash', 'Active'),
+(52, '[\"HOME CARE\"]', 500.00, '2025-12-12', 27, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV12122025001', 'Cash', 'Active'),
+(53, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-12', 56, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12122025002', 'Cash', 'Active'),
+(54, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-12', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12122025003', 'Cash', 'Active'),
+(55, '[\"physiotherapy long session\"]', 600.00, '2025-12-12', 58, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12122025004', 'Cash', 'Active'),
+(56, '[\"physiotherapy long session\"]', 500.00, '2025-12-12', 14, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV12122025005', 'Cash', 'Active'),
+(57, '[\"physiotherapy long session\"]', 600.00, '2025-12-12', 64, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12122025006', 'Cash', 'Active'),
+(58, '[\"physiotherapy long session\"]', 600.00, '2025-12-12', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12122025007', 'Cash', 'Active'),
+(59, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-12', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12122025008', 'Cash', 'Active'),
+(60, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-12', 57, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12122025009', 'Cash', 'Active'),
+(61, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-12', 67, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12122025010', 'Cash', 'Active'),
+(62, '[\"physiotherapy long session\"]', 600.00, '2025-12-12', 68, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12122025011', 'Cash', 'Active'),
+(63, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-13', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13122025001', 'Cash', 'Active'),
+(64, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-13', 57, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13122025002', 'Cash', 'Active'),
+(65, '[\"physiotherapy long session\"]', 600.00, '2025-12-13', 58, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13122025003', 'Cash', 'Active'),
+(66, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-13', 56, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13122025004', 'Cash', 'Active'),
+(67, '[\"physiotherapy Hand session\"]', 500.00, '2025-12-13', 66, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13122025005', 'Cash', 'Active'),
+(68, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2025-12-13', 69, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV13122025006', 'Cash', 'Active'),
+(69, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2025-12-13', 70, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13122025007', 'Cash', 'Active'),
+(70, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-13', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13122025008', 'Cash', 'Active'),
+(71, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2025-12-13', 18, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13122025009', 'Cash', 'Active'),
+(72, '[\"physiotherapy long session\"]', 600.00, '2025-12-13', 68, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13122025010', 'Cash', 'Active'),
+(73, '[\"physiotherapy long session\"]', 600.00, '2025-12-13', 64, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13122025011', 'Cash', 'Active'),
+(74, '[\"physiotherapy Hand session\"]', 700.00, '2025-12-13', 63, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV13122025012', 'Cash', 'Active'),
+(75, '[\"physiotherapy Hand session\"]', 600.00, '2025-12-15', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025001', 'Cash', 'Active'),
+(76, '[\"physiotherapy brachial plexus injury\"]', 300.00, '2025-12-15', 43, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV15122025002', 'Cash', 'Active'),
+(77, '[\"physiotherapy hand session\"]', 600.00, '2025-12-15', 57, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025003', 'Cash', 'Active'),
+(78, '[\"HOME CARE\"]', 600.00, '2025-12-15', 71, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025004', 'Cash', 'Active'),
+(79, '[\"HOME CARE\"]', 600.00, '2025-12-15', 71, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025005', 'Cash', 'Active'),
+(80, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-15', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025006', 'Cash', 'Active'),
+(81, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-15', 57, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025007', 'Cash', 'Active'),
+(82, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2025-12-15', 14, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV15122025008', 'Cash', 'Active'),
+(83, '[\"physiotherapy long session\"]', 600.00, '2025-12-15', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025009', 'Cash', 'Active'),
+(84, '[\"physiotherapy long session\"]', 500.00, '2025-12-15', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV15122025010', 'Cash', 'Active'),
+(85, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-15', 67, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025011', 'Cash', 'Active'),
+(86, '[\"physiotherapy long session\"]', 600.00, '2025-12-15', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025012', 'Cash', 'Active'),
+(87, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-15', 48, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025013', 'Cash', 'Active'),
+(88, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2025-12-15', 63, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV15122025014', 'Cash', 'Active'),
+(89, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-15', 39, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025015', 'Cash', 'Active'),
+(90, '[\"SHCROTH\"]', 600.00, '2025-12-15', 72, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15122025016', 'Cash', 'Active'),
+(91, '[\"PHYSIOTHERAPY HAND SESSION\"]', -500.00, '2025-12-16', 46, 11, '[\"-500.00\"]', '[\"-1\"]', '[\"500\"]', 'INV16122025001', 'Cash', 'Active'),
+(92, '[\"HOME CARE\"]', 500.00, '2025-12-16', 27, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16122025002', 'Cash', 'Active'),
+(93, '[\"PHYSIOTHERAPY HAND SESSION\"]', 60.00, '2025-12-16', 49, 12, '[\"60.00\"]', '[\"1\"]', '[\"60\"]', 'INV16122025003', 'Cash', 'Active'),
+(94, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-16', 50, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16122025004', 'Cash', 'Active'),
+(95, '[\"physiotherapy long session\"]', 600.00, '2025-12-16', 57, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16122025005', 'Cash', 'Active'),
+(96, '[\"SCHROTH PHYSIOTHERAPY\"]', 750.00, '2025-12-16', 72, 11, '[\"750.00\"]', '[\"1\"]', '[\"750\"]', 'INV16122025006', 'Cash', 'Active'),
+(97, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-16', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16122025007', 'Cash', 'Active'),
+(98, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2025-12-16', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16122025008', 'Cash', 'Active'),
+(99, '[\"physiotherapy long session\"]', 500.00, '2025-12-16', 14, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16122025009', 'Cash', 'Active'),
+(100, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2025-12-16', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16122025010', 'Cash', 'Active'),
+(101, '[\"physiotherapy long session\"]', 600.00, '2025-12-16', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16122025011', 'Cash', 'Active'),
+(102, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-16', 39, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16122025012', 'Cash', 'Active'),
+(103, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2025-12-16', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16122025013', 'Cash', 'Active'),
+(104, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-16', 73, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16122025014', 'Cash', 'Active'),
+(105, '[\"physiotherapy long session\"]', 600.00, '2025-12-17', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025001', 'Cash', 'Active'),
+(106, '[\"physiotherapy long session\"]', 600.00, '2025-12-17', 49, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025002', 'Cash', 'Active'),
+(107, '[\"physiotherapy long session\"]', 600.00, '2025-12-17', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025003', 'Cash', 'Active'),
+(108, '[\"physiotherapy long session\"]', 600.00, '2025-12-17', 74, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025004', 'Cash', 'Active'),
+(109, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-17', 72, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV17122025005', 'Cash', 'Active'),
+(110, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-17', 57, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025006', 'Cash', 'Active'),
+(111, '[\"physiotherapy long session\"]', 600.00, '2025-12-17', 39, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025007', 'Cash', 'Active'),
+(112, '[\"physiotherapy long session\"]', 600.00, '2025-12-17', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025008', 'Cash', 'Active'),
+(113, '[\"physiotherapy long session\"]', 500.00, '2025-12-17', 14, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17122025009', 'Cash', 'Active'),
+(114, '[\"physiotherapy long session\"]', 600.00, '2025-12-17', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025010', 'Cash', 'Active'),
+(115, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2025-12-17', 63, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV17122025011', 'Cash', 'Active'),
+(116, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-17', 73, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025012', 'Cash', 'Active'),
+(117, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-17', 48, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17122025013', 'Cash', 'Active'),
+(118, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-18', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025001', 'Cash', 'Active'),
+(119, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-18', 28, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV18122025002', 'Cash', 'Active'),
+(120, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-18', 49, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025003', 'Cash', 'Active'),
+(121, '[\"physiotherapy long session\"]', 600.00, '2025-12-18', 68, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025004', 'Cash', 'Active'),
+(122, '[\"physiotherapy long session\"]', 600.00, '2025-12-18', 52, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025005', 'Cash', 'Active'),
+(123, '[\"physiotherapy long session\"]', 600.00, '2025-12-18', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025006', 'Cash', 'Active'),
+(124, '[\"physiotherapy long session\"]', 600.00, '2025-12-18', 76, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025007', 'Cash', 'Active'),
+(125, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-18', 63, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025008', 'Cash', 'Active'),
+(126, '[\"physiotherapy long session\"]', 600.00, '2025-12-18', 39, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025009', 'Cash', 'Active'),
+(127, '[\"SCHROTH PHYSIOTHERAPY\"]', 750.00, '2025-12-18', 72, 11, '[\"750.00\"]', '[\"1\"]', '[\"750\"]', 'INV18122025010', 'Cash', 'Active'),
+(128, '[\"physiotherapy long session\"]', 500.00, '2025-12-18', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV18122025011', 'Cash', 'Active'),
+(129, '[\"physiotherapy long session\"]', 600.00, '2025-12-18', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025012', 'Cash', 'Active'),
+(130, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-18', 73, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025013', 'Cash', 'Active'),
+(131, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-18', 39, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025014', 'Cash', 'Active'),
+(132, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-18', 77, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18122025015', 'Cash', 'Active'),
+(133, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-19', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19122025001', 'Cash', 'Active'),
+(134, '[\"HOME CARE\"]', 500.00, '2025-12-19', 27, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19122025002', 'Cash', 'Active'),
+(135, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-19', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19122025003', 'Cash', 'Active'),
+(136, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-19', 68, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19122025004', 'Cash', 'Active'),
+(137, '[\"physiotherapy long session\"]', 500.00, '2025-12-19', 14, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19122025005', 'Cash', 'Active'),
+(138, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-19', 57, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19122025006', 'Cash', 'Active'),
+(139, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-19', 72, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV19122025007', 'Cash', 'Active'),
+(140, '[\"physiotherapy long session\"]', 600.00, '2025-12-19', 77, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19122025008', 'Cash', 'Active'),
+(141, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-19', 72, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV19122025009', 'Cash', 'Active'),
+(142, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-19', 48, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19122025010', 'Cash', 'Active'),
+(143, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-19', 73, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19122025011', 'Cash', 'Active'),
+(144, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-20', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20122025001', 'Cash', 'Active'),
+(145, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-20', 73, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20122025002', 'Cash', 'Active'),
+(146, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-20', 51, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV20122025003', 'Cash', 'Active'),
+(147, '[\"physiotherapy long session\"]', 600.00, '2025-12-20', 78, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20122025004', 'Cash', 'Active'),
+(148, '[\"physiotherapy long session\"]', 600.00, '2025-12-20', 74, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20122025005', 'Cash', 'Active'),
+(149, '[\"Physiotherapy short session\"]', 600.00, '2025-12-20', 79, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20122025006', 'Cash', 'Active'),
+(150, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2025-12-20', 69, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV20122025007', 'Cash', 'Active'),
+(151, '[\"physiotherapy long session\"]', 600.00, '2025-12-20', 39, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20122025008', 'Cash', 'Active'),
+(152, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2025-12-20', 63, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV20122025009', 'Cash', 'Active'),
+(153, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-20', 49, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20122025010', 'Cash', 'Active'),
+(154, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-20', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20122025011', 'Cash', 'Active'),
+(155, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-22', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22122025001', 'Cash', 'Active'),
+(156, '[\"HOME CARE\"]', 600.00, '2025-12-22', 71, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22122025002', 'Cash', 'Active'),
+(157, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-22', 78, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22122025003', 'Cash', 'Active'),
+(158, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2025-12-22', 51, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV22122025004', 'Cash', 'Active'),
+(159, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2025-12-22', 63, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV22122025005', 'Cash', 'Active'),
+(160, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-22', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22122025006', 'Cash', 'Active'),
+(161, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2025-12-22', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22122025007', 'Cash', 'Active'),
+(162, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-22', 49, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22122025008', 'Cash', 'Active'),
+(163, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-22', 72, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV22122025009', 'Cash', 'Active'),
+(164, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-22', 80, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22122025010', 'Cash', 'Active'),
+(165, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-22', 49, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23122025001', 'Cash', 'Active'),
+(166, '[\"HOME CARE\"]', 500.00, '2025-12-23', 27, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV23122025002', 'Cash', 'Active'),
+(167, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-23', 49, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23122025003', 'Cash', 'Active'),
+(168, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-23', 80, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23122025004', 'Cash', 'Active'),
+(169, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-23', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23122025005', 'Cash', 'Active'),
+(170, '[\"physiotherapy long session\"]', 600.00, '2025-12-23', 74, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23122025006', 'Cash', 'Active'),
+(171, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-23', 72, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV23122025007', 'Cash', 'Active'),
+(172, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-23', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV23122025008', 'Cash', 'Active'),
+(173, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-23', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23122025009', 'Cash', 'Active'),
+(174, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2025-12-23', 63, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV23122025010', 'Cash', 'Active'),
+(175, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2025-12-23', 82, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV23122025011', 'Cash', 'Active'),
+(176, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2025-12-23', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV23122025012', 'Cash', 'Active'),
+(177, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2025-12-23', 62, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV23122025013', 'Cash', 'Active'),
+(178, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2025-12-23', 82, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV23122025014', 'Cash', 'Active'),
+(179, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-23', 83, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23122025015', 'Cash', 'Active'),
+(180, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-23', 84, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23122025016', 'Cash', 'Active'),
+(181, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-24', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24122025001', 'Cash', 'Active'),
+(182, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-24', 73, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24122025002', 'Cash', 'Active'),
+(183, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-24', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24122025003', 'Cash', 'Active'),
+(184, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-24', 80, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24122025004', 'Cash', 'Active'),
+(185, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2025-12-24', 10, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24122025005', 'Cash', 'Active'),
+(186, '[\"physiotherapy long session\"]', 600.00, '2025-12-24', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24122025006', 'Cash', 'Active'),
+(187, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-24', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24122025007', 'Cash', 'Active'),
+(188, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2025-12-24', 14, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24122025008', 'Cash', 'Active'),
+(189, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-24', 83, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24122025009', 'Cash', 'Active'),
+(190, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-24', 84, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24122025010', 'Cash', 'Active'),
+(191, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2025-12-24', 82, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV24122025011', 'Cash', 'Active'),
+(192, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-24', 75, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24122025012', 'Cash', 'Active'),
+(193, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-24', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24122025013', 'Cash', 'Active'),
+(194, '[\"physiotherapy long session\"]', 700.00, '2025-12-24', 82, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV24122025014', 'Cash', 'Active'),
+(195, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-25', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25122025001', 'Cash', 'Active'),
+(196, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-25', 48, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25122025002', 'Cash', 'Active'),
+(197, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-25', 28, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV25122025003', 'Cash', 'Active'),
+(198, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-25', 68, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25122025004', 'Cash', 'Active'),
+(199, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-25', 85, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV25122025005', 'Cash', 'Active'),
+(200, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-25', 32, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV25122025006', 'Cash', 'Active'),
+(201, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-26', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26122025001', 'Cash', 'Active'),
+(202, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-26', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV26122025002', 'Cash', 'Active'),
+(203, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-26', 32, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV26122025003', 'Cash', 'Active'),
+(204, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-26', 78, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26122025004', 'Cash', 'Active'),
+(205, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2025-12-26', 52, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV26122025005', 'Cash', 'Active'),
+(206, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-26', 83, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26122025006', 'Cash', 'Active'),
+(207, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-26', 32, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV26122025007', 'Cash', 'Active'),
+(208, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-26', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26122025008', 'Cash', 'Active'),
+(209, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2025-12-26', 14, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV26122025009', 'Cash', 'Active'),
+(210, '[\"physiotherapy long session\"]', 600.00, '2025-12-26', 84, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26122025010', 'Cash', 'Active'),
+(211, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-26', 86, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26122025011', 'Cash', 'Active'),
+(212, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2025-12-27', 32, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV27122025001', 'Cash', 'Active'),
+(213, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-27', 50, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27122025002', 'Cash', 'Active'),
+(214, '[\"HOME CARE\"]', 500.00, '2025-12-27', 27, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27122025003', 'Cash', 'Active'),
+(215, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-27', 78, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27122025004', 'Cash', 'Active'),
+(216, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-27', 68, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27122025005', 'Cash', 'Active'),
+(217, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-27', 83, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27122025006', 'Cash', 'Active'),
+(218, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-27', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27122025007', 'Cash', 'Active'),
+(219, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2025-12-27', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27122025008', 'Cash', 'Active'),
+(220, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2025-12-27', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27122025009', 'Cash', 'Active'),
+(221, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2025-12-27', 14, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27122025010', 'Cash', 'Active'),
+(222, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-27', 81, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27122025011', 'Cash', 'Active'),
+(223, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-27', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27122025012', 'Cash', 'Active'),
+(224, '[\"physiotherapy long session\"]', 600.00, '2025-12-27', 86, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27122025013', 'Cash', 'Active'),
+(225, '[\"physiotherapy long session\"]', 700.00, '2025-12-27', 82, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27122025014', 'Cash', 'Active'),
+(226, '[\"HOME CARE\"]', 600.00, '2025-12-29', 71, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29122025001', 'Cash', 'Active'),
+(227, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-29', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV29122025002', 'Cash', 'Active'),
+(228, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2025-12-29', 14, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV29122025003', 'Cash', 'Active'),
+(229, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-29', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29122025004', 'Cash', 'Active'),
+(230, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-29', 78, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29122025005', 'Cash', 'Active'),
+(231, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2025-12-29', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV29122025006', 'Cash', 'Active'),
+(232, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2025-12-29', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29122025007', 'Cash', 'Active'),
+(233, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2025-12-29', 87, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV29122025008', 'Cash', 'Active'),
+(234, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-29', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29122025009', 'Cash', 'Active'),
+(235, '[\"PHYSIOTHERAPY LONG SESSION\"]', 400.00, '2025-12-29', 60, 13, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV29122025010', 'Cash', 'Active'),
+(236, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-29', 84, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29122025011', 'Cash', 'Active'),
+(237, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-29', 82, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29122025012', 'Cash', 'Active'),
+(238, '[\"SCHROTH PHYSIOTHERAPY1\"]', 700.00, '2025-12-29', 88, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV29122025013', 'Cash', 'Active'),
+(239, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-30', 78, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV30122025001', 'Cash', 'Active'),
+(240, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-30', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV30122025002', 'Cash', 'Active'),
+(241, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-30', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV30122025003', 'Cash', 'Active'),
+(242, '[\"HOME CARE\"]', 500.00, '2025-12-30', 27, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV30122025004', 'Cash', 'Active'),
+(243, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2025-12-30', 88, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV30122025005', 'Cash', 'Active'),
+(244, '[\"PHYSIOTHERAPY LONG SESSION\"]', 300.00, '2025-12-30', 19, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV30122025006', 'Cash', 'Active'),
+(245, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2025-12-30', 60, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV30122025007', 'Cash', 'Active'),
+(246, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-30', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV30122025008', 'Cash', 'Active'),
+(247, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-30', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV30122025009', 'Cash', 'Active'),
+(248, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-30', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV30122025010', 'Cash', 'Active'),
+(249, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-30', 84, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV30122025011', 'Cash', 'Active'),
+(250, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2025-12-31', 81, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV31122025001', 'Cash', 'Active'),
+(251, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2025-12-31', 14, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV31122025002', 'Cash', 'Active'),
+(252, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-31', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV31122025003', 'Cash', 'Active'),
+(253, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2025-12-31', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV31122025004', 'Cash', 'Active'),
+(254, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2025-12-31', 72, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV31122025005', 'Cash', 'Active'),
+(255, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2025-12-31', 51, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV31122025006', 'Cash', 'Active'),
+(256, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2025-12-31', 84, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV31122025007', 'Cash', 'Active'),
+(257, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2025-12-31', 60, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV31122025008', 'Cash', 'Active'),
+(258, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2025-12-31', 89, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV31122025009', 'Cash', 'Active'),
+(259, '[\"Brachial plexus\"]', 300.00, '2025-12-31', 43, 13, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV31122025010', 'Cash', 'Active'),
+(260, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-01-01', 84, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV01012026001', 'Cash', 'Active'),
+(261, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-01', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV01012026002', 'Cash', 'Active'),
+(262, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-01', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV01012026003', 'Cash', 'Active'),
+(263, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-01-01', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV01012026004', 'Cash', 'Active'),
+(264, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-01-01', 88, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV01012026005', 'Cash', 'Active'),
+(265, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-01', 60, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV01012026006', 'Cash', 'Active'),
+(266, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-01-01', 89, 13, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV01012026007', 'Cash', 'Active'),
+(267, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-01', 90, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV01012026008', 'Cash', 'Active'),
+(268, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-02', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02012026001', 'Cash', 'Active'),
+(269, '[\"HOME CARE\"]', 500.00, '2026-01-02', 27, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02012026002', 'Cash', 'Active'),
+(270, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-01-02', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02012026003', 'Cash', 'Active'),
+(271, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-02', 68, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02012026004', 'Cash', 'Active'),
+(272, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-02', 14, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02012026005', 'Cash', 'Active'),
+(273, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-02', 91, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV02012026006', 'Cash', 'Active'),
+(274, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-02', 90, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02012026007', 'Cash', 'Active'),
+(275, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-02', 60, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV02012026008', 'Cash', 'Active'),
+(276, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2026-01-02', 89, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV02012026009', 'Cash', 'Active'),
+(277, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-02', 84, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02012026010', 'Cash', 'Active'),
+(278, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-01-02', 51, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV02012026011', 'Cash', 'Active'),
+(279, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-01-02', 72, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV02012026012', 'Cash', 'Active'),
+(280, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-02', 82, 13, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV02012026013', 'Cash', 'Active'),
+(281, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-02', 92, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02012026014', 'Cash', 'Active'),
+(282, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-02', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV02012026015', 'Cash', 'Active'),
+(283, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-02', 92, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02012026016', 'Cash', 'Active'),
+(284, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-02', 48, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02012026017', 'Cash', 'Active'),
+(285, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-02', 94, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02012026018', 'Cash', 'Active'),
+(286, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-03', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03012026001', 'Cash', 'Active'),
+(287, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2026-01-03', 89, 13, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV03012026002', 'Cash', 'Active'),
+(288, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-03', 28, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV03012026003', 'Cash', 'Active'),
+(289, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-03', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03012026004', 'Cash', 'Active'),
+(290, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-01-03', 51, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV03012026005', 'Cash', 'Active'),
+(291, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-01-03', 72, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV03012026006', 'Cash', 'Active'),
+(292, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-01-03', 95, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV03012026007', 'Cash', 'Active'),
+(293, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-03', 91, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV03012026008', 'Cash', 'Active'),
+(294, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-03', 92, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03012026009', 'Cash', 'Active'),
+(295, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-03', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV03012026010', 'Cash', 'Active'),
+(296, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-03', 82, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV03012026011', 'Cash', 'Active'),
+(297, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-03', 94, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03012026012', 'Cash', 'Active'),
+(298, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-03', 96, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03012026013', 'Cash', 'Active'),
+(299, '[\"physiotherapy long session\"]', 500.00, '2026-01-03', 59, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV03012026014', 'Cash', 'Active'),
+(300, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-03', 90, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03012026015', 'Cash', 'Active'),
+(301, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-05', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV05012026001', 'Cash', 'Active'),
+(302, '[\"HOME CARE\"]', 600.00, '2026-01-05', 71, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05012026002', 'Cash', 'Active'),
+(303, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-01-05', 89, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV05012026003', 'Cash', 'Active'),
+(304, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-05', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05012026004', 'Cash', 'Active'),
+(305, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-05', 52, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV05012026005', 'Cash', 'Active'),
+(306, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-05', 68, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05012026006', 'Cash', 'Active'),
+(307, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-05', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05012026007', 'Cash', 'Active'),
+(308, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-05', 92, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05012026008', 'Cash', 'Active'),
+(309, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-01-05', 72, 14, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV05012026009', 'Cash', 'Active'),
+(310, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-05', 97, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05012026010', 'Cash', 'Active'),
+(311, '[\"PHYSIOTHERAPY HAND SESSION\"]', 400.00, '2026-01-05', 90, 12, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV05012026011', 'Cash', 'Active'),
+(312, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2026-01-05', 89, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV06012026001', 'Cash', 'Active'),
+(313, '[\"HOME CARE\"]', 500.00, '2026-01-06', 27, 13, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06012026002', 'Cash', 'Active'),
+(314, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-06', 14, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06012026003', 'Cash', 'Active'),
+(315, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-06', 81, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06012026004', 'Cash', 'Active'),
+(316, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-06', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06012026005', 'Cash', 'Active'),
+(317, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-06', 94, 13, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06012026006', 'Cash', 'Active'),
+(318, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-06', 92, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06012026007', 'Cash', 'Active'),
+(319, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2026-01-06', 89, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV06012026008', 'Cash', 'Active'),
+(320, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-06', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06012026009', 'Cash', 'Active'),
+(321, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-06', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06012026010', 'Cash', 'Active'),
+(322, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-06', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06012026011', 'Cash', 'Active'),
+(323, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-06', 99, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06012026012', 'Cash', 'Active'),
+(324, '[\"PHYSIOTHERAPY HAND SESSION\"]', 400.00, '2026-01-06', 90, 12, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV06012026013', 'Cash', 'Active'),
+(325, '[\"PHYSIOTHERAPY HAND SESSION\"]', 400.00, '2026-01-06', 90, 12, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV06012026014', 'Cash', 'Active'),
+(326, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-06', 100, 14, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV06012026015', 'Cash', 'Active'),
+(327, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-07', 92, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07012026001', 'Cash', 'Active'),
+(328, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2026-01-07', 89, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV07012026002', 'Cash', 'Active'),
+(329, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-07', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV07012026003', 'Cash', 'Active'),
+(330, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-07', 94, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07012026004', 'Cash', 'Active'),
+(331, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-07', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07012026005', 'Cash', 'Active'),
+(332, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-07', 97, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07012026006', 'Cash', 'Active'),
+(333, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-07', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07012026007', 'Cash', 'Active'),
+(334, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-07', 65, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV07012026008', 'Cash', 'Active'),
+(335, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-07', 75, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV07012026009', 'Cash', 'Active'),
+(336, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-07', 102, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07012026010', 'UPI', 'Active'),
+(337, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-01-07', 101, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV07012026011', 'UPI', 'Active'),
+(338, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-01-07', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV07012026012', 'UPI', 'Active'),
+(339, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-08', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08012026001', 'UPI', 'Active'),
+(340, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-08', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08012026002', 'UPI', 'Active'),
+(341, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-08', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV08012026003', 'UPI', 'Active'),
+(342, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-01-08', 89, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV08012026004', 'Cash', 'Active'),
+(343, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-08', 94, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08012026005', 'UPI', 'Active'),
+(344, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-08', 102, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08012026006', 'UPI', 'Active'),
+(345, '[\"physiotherapy long session\"]', 300.00, '2026-01-08', 103, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV08012026007', 'Cash', 'Active'),
+(346, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-08', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08012026008', 'UPI', 'Active');
+INSERT INTO `x_app_invoice` (`id`, `particulars`, `total_amount`, `created_at`, `patient_id`, `doctor_id`, `amount`, `qty`, `rate`, `invoice_number`, `payment_mode`, `status`) VALUES
+(347, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-08', 97, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV08012026009', 'Cash', 'Active'),
+(348, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-08', 104, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08012026010', 'Cash', 'Active'),
+(349, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-08', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08012026011', 'Cash', 'Active'),
+(350, '[\"physiotherapy long session\"]', 600.00, '2026-01-08', 105, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08012026012', 'Cash', 'Active'),
+(351, '[\"physiotherapy long session\"]', 300.00, '2026-01-09', 103, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV09012026001', 'Cash', 'Active'),
+(352, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-09', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09012026002', 'UPI', 'Active'),
+(353, '[\"HOME CARE\"]', 500.00, '2026-01-09', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV09012026003', 'Cash', 'Active'),
+(354, '[\"physiotherapy long session\"]', 700.00, '2026-01-09', 82, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV09012026004', 'UPI', 'Active'),
+(355, '[\"physiotherapy long session\"]', 600.00, '2026-01-09', 94, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09012026005', 'UPI', 'Active'),
+(356, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-09', 92, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09012026006', 'UPI', 'Active'),
+(357, '[\"physiotherapy long session\"]', 600.00, '2026-01-09', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09012026007', 'Cash', 'Active'),
+(358, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-09', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV09012026008', 'UPI', 'Active'),
+(359, '[\"physiotherapy long session\"]', 600.00, '2026-01-09', 99, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09012026009', 'UPI', 'Active'),
+(360, '[\"physiotherapy long session\"]', 600.00, '2026-01-09', 102, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09012026010', 'UPI', 'Active'),
+(361, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-09', 104, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09012026011', 'Cash', 'Active'),
+(362, '[\"physiotherapy long session\"]', 900.00, '2026-01-09', 106, 14, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV09012026012', 'Cash', 'Active'),
+(363, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-09', 28, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10012026001', 'UPI', 'Active'),
+(364, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-10', 28, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10012026002', 'UPI', 'Active'),
+(365, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-10', 94, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10012026003', 'UPI', 'Active'),
+(366, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-01-10', 101, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV10012026004', 'UPI', 'Active'),
+(367, '[\"physiotherapy long session\"]', 500.00, '2026-01-10', 107, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10012026005', 'Cash', 'Active'),
+(368, '[\"Physiotherapy short session\"]', 300.00, '2026-01-10', 103, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV10012026006', 'UPI', 'Active'),
+(369, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-10', 104, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10012026007', 'Cash', 'Active'),
+(370, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-10', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10012026008', 'UPI', 'Active'),
+(371, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-01-10', 62, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV10012026009', 'UPI', 'Active'),
+(372, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-10', 82, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10012026010', 'UPI', 'Active'),
+(373, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-12', 92, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12012026001', 'UPI', 'Active'),
+(374, '[\"HOME CARE\"]', 600.00, '2026-01-12', 71, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12012026002', 'Cash', 'Active'),
+(375, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-12', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12012026003', 'UPI', 'Active'),
+(376, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-12', 107, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV12012026004', 'Cash', 'Active'),
+(377, '[\"physiotherapy long session\"]', 600.00, '2026-01-12', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12012026005', 'Cash', 'Active'),
+(378, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-12', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12012026006', 'Cash', 'Active'),
+(379, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-12', 108, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12012026007', 'UPI', 'Active'),
+(380, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-12', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12012026008', 'Cash', 'Active'),
+(381, '[\"PHYSIOTHERAPY LONG SESSION\"]', 900.00, '2026-01-12', 106, 12, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV12012026009', 'Cash', 'Active'),
+(382, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-13', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13012026001', 'UPI', 'Active'),
+(383, '[\"HOME CARE\"]', 500.00, '2026-01-13', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13012026002', 'Cash', 'Active'),
+(384, '[\"Brachial plexus\"]', 300.00, '2026-01-13', 109, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV13012026003', 'UPI', 'Active'),
+(385, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-13', 107, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13012026004', 'Cash', 'Active'),
+(386, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-13', 52, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13012026005', 'Cash', 'Active'),
+(387, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-13', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13012026006', 'UPI', 'Active'),
+(388, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-13', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13012026007', 'Cash', 'Active'),
+(389, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-13', 94, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13012026008', 'UPI', 'Active'),
+(390, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-13', 82, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV13012026009', 'UPI', 'Active'),
+(391, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-13', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13012026010', 'Cash', 'Active'),
+(392, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-13', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13012026011', 'UPI', 'Active'),
+(393, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-01-13', 111, 11, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV13012026012', 'UPI', 'Active'),
+(394, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-13', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV13012026013', 'UPI', 'Active'),
+(395, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-13', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14012026001', 'UPI', 'Active'),
+(396, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-14', 81, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14012026002', 'UPI', 'Active'),
+(397, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-14', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14012026003', 'Cash', 'Active'),
+(398, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-14', 107, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14012026004', 'Cash', 'Active'),
+(399, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-14', 112, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV14012026005', 'UPI', 'Active'),
+(400, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-14', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14012026006', 'Cash', 'Active'),
+(401, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-14', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14012026007', 'Cash', 'Active'),
+(402, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-14', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14012026008', 'UPI', 'Active'),
+(403, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-14', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14012026009', 'Cash', 'Active'),
+(404, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-14', 75, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14012026010', 'Cash', 'Active'),
+(405, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-14', 94, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14012026011', 'Cash', 'Active'),
+(406, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-14', 108, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14012026012', 'UPI', 'Active'),
+(407, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-14', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV14012026013', 'UPI', 'Active'),
+(408, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-15', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15012026001', 'UPI', 'Active'),
+(409, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-15', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15012026002', 'UPI', 'Active'),
+(410, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-15', 107, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV15012026003', 'Cash', 'Active'),
+(411, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-01-15', 101, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV15012026004', 'UPI', 'Active'),
+(412, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-15', 93, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV15012026005', 'UPI', 'Active'),
+(413, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-15', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15012026006', 'UPI', 'Active'),
+(414, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-15', 94, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15012026007', 'Cash', 'Active'),
+(415, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-01-15', 85, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV15012026008', 'Cash', 'Active'),
+(416, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-01-15', 108, 12, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV15012026009', 'UPI', 'Active'),
+(417, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-15', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15012026010', 'Cash', 'Active'),
+(418, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-01-15', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15012026011', 'UPI', 'Active'),
+(419, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-15', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15012026012', 'Cash', 'Active'),
+(420, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-16', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16012026001', 'UPI', 'Active'),
+(421, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-16', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16012026002', 'Cash', 'Active'),
+(422, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-01-16', 69, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV16012026003', 'Cash', 'Active'),
+(423, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 600.00, '2026-01-16', 99, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16012026004', 'UPI', 'Active'),
+(424, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-16', 68, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16012026005', 'Cash', 'Active'),
+(425, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-16', 94, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16012026006', 'Cash', 'Active'),
+(426, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-16', 108, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16012026007', 'UPI', 'Active'),
+(427, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-16', 46, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16012026008', 'Cash', 'Active'),
+(428, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-16', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16012026009', 'Cash', 'Active'),
+(429, '[\"HOME CARE\"]', 500.00, '2026-01-17', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17012026001', 'Cash', 'Active'),
+(430, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-17', 105, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17012026002', 'Cash', 'Active'),
+(431, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-17', 94, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17012026003', 'UPI', 'Active'),
+(432, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-01-17', 115, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV17012026004', 'Cash', 'Active'),
+(433, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-17', 116, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV17012026005', 'UPI', 'Active'),
+(434, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-01-17', 117, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV17012026006', 'UPI', 'Active'),
+(435, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-17', 118, 14, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17012026007', 'UPI', 'Active'),
+(436, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-17', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17012026008', 'Cash', 'Active'),
+(437, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-17', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17012026009', 'UPI', 'Active'),
+(438, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-17', 48, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17012026010', 'UPI', 'Active'),
+(439, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-17', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17012026011', 'Cash', 'Active'),
+(440, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-01-17', 119, 14, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV17012026012', 'Cash', 'Active'),
+(441, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-17', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19012026001', 'UPI', 'Active'),
+(442, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-17', 108, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19012026002', 'UPI', 'Active'),
+(443, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-17', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19012026003', 'UPI', 'Active'),
+(444, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-17', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19012026004', 'Cash', 'Active'),
+(445, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-19', 81, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19012026005', 'UPI', 'Active'),
+(446, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-19', 108, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19012026006', 'UPI', 'Active'),
+(447, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-19', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19012026007', 'UPI', 'Active'),
+(448, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-19', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19012026008', 'Cash', 'Active'),
+(449, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-19', 120, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19012026009', 'Cash', 'Active'),
+(450, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-01-19', 118, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV19012026010', 'UPI', 'Active'),
+(451, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-01-19', 121, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19012026011', 'UPI', 'Active'),
+(452, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-19', 122, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19012026012', 'UPI', 'Active'),
+(453, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-19', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19012026013', 'Cash', 'Active'),
+(454, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-01-19', 119, 14, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV19012026014', 'Cash', 'Active'),
+(455, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-19', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV19012026015', 'UPI', 'Active'),
+(456, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-20', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20012026001', 'UPI', 'Active'),
+(457, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-20', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20012026002', 'UPI', 'Active'),
+(458, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-01-20', 120, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV20012026003', 'Cash', 'Active'),
+(459, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-20', 122, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20012026004', 'Cash', 'Active'),
+(460, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-20', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20012026005', 'Cash', 'Active'),
+(461, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-20', 65, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20012026006', 'Cash', 'Active'),
+(462, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-01-20', 120, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV20012026007', 'Cash', 'Active'),
+(463, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-20', 94, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20012026008', 'UPI', 'Active'),
+(464, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-01-20', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20012026009', 'UPI', 'Active'),
+(465, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-20', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20012026010', 'Cash', 'Active'),
+(466, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-20', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20012026011', 'UPI', 'Active'),
+(467, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-20', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV20012026012', 'UPI', 'Active'),
+(468, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-01-20', 118, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV20012026013', 'UPI', 'Active'),
+(469, '[\"HOME CARE\"]', 600.00, '2026-01-21', 71, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21012026001', 'Cash', 'Active'),
+(470, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-01-21', 120, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV21012026002', 'Cash', 'Active'),
+(471, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-01-21', 104, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV21012026003', 'Cash', 'Active'),
+(472, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-21', 108, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21012026004', 'UPI', 'Active'),
+(473, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-21', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21012026005', 'Cash', 'Active'),
+(474, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-21', 123, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV21012026006', 'Cash', 'Active'),
+(475, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-21', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21012026007', 'Cash', 'Active'),
+(476, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-21', 75, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV21012026008', 'Cash', 'Active'),
+(477, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-21', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21012026009', 'UPI', 'Active'),
+(478, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-21', 124, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21012026010', 'Cash', 'Active'),
+(479, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-01-21', 118, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV21012026011', 'UPI', 'Active'),
+(480, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-01-21', 93, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV21012026012', 'UPI', 'Active'),
+(481, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-01-21', 119, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV21012026013', 'Cash', 'Active'),
+(482, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-21', 122, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21012026014', 'Cash', 'Active'),
+(483, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-21', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22012026001', 'UPI', 'Active'),
+(484, '[\"HOME CARE\"]', 500.00, '2026-01-22', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV22012026002', 'Cash', 'Active'),
+(485, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-22', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22012026003', 'Cash', 'Active'),
+(486, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-22', 124, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22012026004', 'Cash', 'Active'),
+(487, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-22', 14, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV22012026005', 'Cash', 'Active'),
+(488, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-01-22', 118, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV22012026006', 'UPI', 'Active'),
+(489, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-22', 123, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV22012026007', 'Cash', 'Active'),
+(490, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-22', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22012026008', 'UPI', 'Active'),
+(491, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-22', 94, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22012026009', 'Cash', 'Active'),
+(492, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-22', 52, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV22012026010', 'Cash', 'Active'),
+(493, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-22', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22012026011', 'Cash', 'Active'),
+(494, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-01-22', 31, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22012026012', 'UPI', 'Active'),
+(495, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-01-22', 106, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV22012026013', 'Cash', 'Active'),
+(496, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-01-22', 93, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV22012026014', 'Cash', 'Active'),
+(497, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-23', 52, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV23012026001', 'Cash', 'Active'),
+(498, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-23', 108, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23012026002', 'UPI', 'Active'),
+(499, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-23', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23012026003', 'UPI', 'Active'),
+(500, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-23', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23012026004', 'Cash', 'Active'),
+(501, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-01-23', 118, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV23012026005', 'UPI', 'Active'),
+(502, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-23', 94, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23012026006', 'Cash', 'Active'),
+(503, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-23', 125, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23012026007', 'UPI', 'Active'),
+(504, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-23', 68, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23012026008', 'Cash', 'Active'),
+(505, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-23', 123, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV23012026009', 'Cash', 'Active'),
+(506, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-23', 126, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23012026010', 'Cash', 'Active'),
+(507, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-24', 125, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24012026001', 'UPI', 'Active'),
+(508, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-24', 49, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24012026002', 'UPI', 'Active'),
+(509, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-24', 14, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24012026003', 'Cash', 'Active'),
+(510, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-24', 105, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24012026004', 'Cash', 'Active'),
+(511, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-24', 126, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24012026005', 'Cash', 'Active'),
+(512, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-01-24', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24012026006', 'Cash', 'Active'),
+(513, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1050.00, '2026-01-24', 125, 11, '[\"1050.00\"]', '[\"1\"]', '[\"1050\"]', 'INV26012026001', 'UPI', 'Active'),
+(514, '[\"HOME CARE\"]', 600.00, '2026-01-26', 71, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26012026002', 'Cash', 'Active'),
+(515, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-01-26', 120, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV26012026003', 'Cash', 'Active'),
+(516, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-26', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26012026004', 'UPI', 'Active'),
+(517, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-26', 92, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26012026005', 'UPI', 'Active'),
+(518, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-26', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV26012026006', 'UPI', 'Active'),
+(519, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1050.00, '2026-01-26', 125, 11, '[\"1050.00\"]', '[\"1\"]', '[\"1050\"]', 'INV26012026007', 'UPI', 'Active'),
+(520, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-01-26', 69, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV26012026008', 'Cash', 'Active'),
+(521, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-26', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26012026009', 'Cash', 'Active'),
+(522, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-26', 52, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV26012026010', 'Cash', 'Active'),
+(523, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-26', 128, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26012026011', 'UPI', 'Active'),
+(524, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-26', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26012026012', 'Cash', 'Active'),
+(525, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-26', 127, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26012026013', 'UPI', 'Active'),
+(526, '[\"HOME CARE\"]', 500.00, '2026-01-26', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27012026001', 'Cash', 'Active'),
+(527, '[\"HOME CARE\"]', 500.00, '2026-01-27', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27012026002', 'Cash', 'Active'),
+(528, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-27', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27012026003', 'Cash', 'Active'),
+(529, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-27', 14, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27012026004', 'Cash', 'Active'),
+(530, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-27', 128, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27012026005', 'UPI', 'Active'),
+(531, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-01-27', 52, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27012026006', 'Cash', 'Active'),
+(532, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-27', 129, 14, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27012026007', 'UPI', 'Active'),
+(533, '[\"PHYSIOTHERAPY LONG SESSION\"]', 850.00, '2026-01-27', 127, 11, '[\"850.00\"]', '[\"1\"]', '[\"850\"]', 'INV27012026008', 'UPI', 'Active'),
+(534, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-28', 52, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV28012026001', 'Cash', 'Active'),
+(535, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-28', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28012026002', 'UPI', 'Active'),
+(536, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-28', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28012026003', 'Cash', 'Active'),
+(537, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-28', 129, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28012026004', 'UPI', 'Active'),
+(538, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-28', 68, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28012026005', 'Cash', 'Active'),
+(539, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-28', 128, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28012026006', 'UPI', 'Active'),
+(540, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-28', 108, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28012026007', 'UPI', 'Active'),
+(541, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-28', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28012026008', 'UPI', 'Active'),
+(542, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-28', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28012026009', 'UPI', 'Active'),
+(543, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-29', 52, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV29012026001', 'Cash', 'Active'),
+(544, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-29', 128, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29012026002', 'Cash', 'Active'),
+(545, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-01-29', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29012026003', 'Cash', 'Active'),
+(546, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-01-29', 129, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV29012026004', 'UPI', 'Active'),
+(547, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-29', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV29012026005', 'UPI', 'Active'),
+(548, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-30', 105, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV30012026001', 'Cash', 'Active'),
+(549, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-01-30', 14, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV30012026002', 'Cash', 'Active'),
+(550, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-30', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV30012026003', 'UPI', 'Active'),
+(551, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-01-30', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV30012026004', 'UPI', 'Active'),
+(552, '[\"HOME CARE\"]', 500.00, '2026-01-30', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV30012026005', 'Cash', 'Active'),
+(553, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-02-02', 52, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02022026001', 'Cash', 'Active'),
+(554, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-02', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02022026002', 'Cash', 'Active'),
+(555, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-02', 108, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02022026003', 'UPI', 'Active'),
+(556, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-02', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02022026004', 'UPI', 'Active'),
+(557, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-02-02', 131, 14, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02022026005', 'UPI', 'Active'),
+(558, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-02', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02022026006', 'UPI', 'Active'),
+(559, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-02', 132, 14, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02022026007', 'UPI', 'Active'),
+(560, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-02', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02022026008', 'UPI', 'Active'),
+(561, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-02-02', 133, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV02022026009', 'Cash', 'Active'),
+(562, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-02-02', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV02022026010', 'UPI', 'Active'),
+(563, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-03', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV03022026001', 'UPI', 'Active'),
+(564, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-03', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03022026002', 'UPI', 'Active'),
+(565, '[\"HOME CARE\"]', 500.00, '2026-02-03', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV03022026003', 'Cash', 'Active'),
+(566, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-03', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03022026004', 'Cash', 'Active'),
+(567, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-02-03', 14, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV03022026005', 'Cash', 'Active'),
+(568, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-02-03', 134, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV03022026006', 'UPI', 'Active'),
+(569, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-03', 111, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV03022026007', 'UPI', 'Active'),
+(570, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-03', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03022026008', 'UPI', 'Active'),
+(571, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-03', 48, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03022026009', 'UPI', 'Active'),
+(572, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-02-03', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV03022026010', 'UPI', 'Active'),
+(573, '[\"HOME CARE\"]', 600.00, '2026-02-04', 71, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04022026001', 'Cash', 'Active'),
+(574, '[\"PHYSIOTHERAPY LONG SESSION\"]', 950.00, '2026-02-04', 131, 11, '[\"950.00\"]', '[\"1\"]', '[\"950\"]', 'INV04022026002', 'UPI', 'Active'),
+(575, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-04', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04022026003', 'UPI', 'Active'),
+(576, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-04', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04022026004', 'UPI', 'Active'),
+(577, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-04', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04022026005', 'Cash', 'Active'),
+(578, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-04', 111, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV04022026006', 'UPI', 'Active'),
+(579, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-04', 135, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04022026007', 'Cash', 'Active'),
+(580, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-02-04', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV04022026008', 'Cash', 'Active'),
+(581, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-04', 108, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04022026009', 'UPI', 'Active'),
+(582, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-04', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04022026010', 'UPI', 'Active'),
+(583, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-04', 75, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV04022026011', 'Cash', 'Active'),
+(584, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-04', 126, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04022026012', 'UPI', 'Active'),
+(585, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-02-04', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV04022026013', 'UPI', 'Active'),
+(586, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-05', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV05022026001', 'UPI', 'Active'),
+(587, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-05', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05022026002', 'UPI', 'Active'),
+(588, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-05', 135, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05022026003', 'Cash', 'Active'),
+(589, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-05', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05022026004', 'Cash', 'Active'),
+(590, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-05', 111, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV05022026005', 'UPI', 'Active'),
+(591, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-06', 111, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06022026001', 'UPI', 'Active'),
+(592, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-06', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06022026002', 'UPI', 'Active'),
+(593, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-06', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06022026003', 'UPI', 'Active'),
+(594, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-06', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06022026004', 'UPI', 'Active'),
+(595, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-06', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06022026005', 'Cash', 'Active'),
+(596, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-06', 14, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06022026006', 'Cash', 'Active'),
+(597, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-06', 136, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06022026007', 'Cash', 'Active'),
+(598, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-02-07', 111, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV07022026001', 'UPI', 'Active'),
+(599, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-07', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV07022026002', 'UPI', 'Active'),
+(600, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-07', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07022026003', 'UPI', 'Active'),
+(601, '[\"HOME CARE\"]', 500.00, '2026-02-07', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV07022026004', 'Cash', 'Active'),
+(602, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-07', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07022026005', 'UPI', 'Active'),
+(603, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-07', 105, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07022026006', 'Cash', 'Active'),
+(604, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-07', 125, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07022026007', 'UPI', 'Active'),
+(605, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-02-07', 69, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV07022026008', 'Cash', 'Active'),
+(606, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-02-07', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV07022026009', 'UPI', 'Active'),
+(607, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-07', 135, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07022026010', 'UPI', 'Active'),
+(608, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-07', 136, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07022026011', 'Cash', 'Active'),
+(609, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-02-07', 101, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV07022026012', 'Cash', 'Active'),
+(610, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-09', 125, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09022026001', 'UPI', 'Active'),
+(611, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-09', 111, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV09022026002', 'UPI', 'Active'),
+(612, '[\"HOME CARE\"]', 600.00, '2026-02-09', 71, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09022026003', 'Cash', 'Active'),
+(613, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-09', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV09022026004', 'UPI', 'Active'),
+(614, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-09', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09022026005', 'UPI', 'Active'),
+(615, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-09', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09022026006', 'UPI', 'Active'),
+(616, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-09', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09022026007', 'Cash', 'Active'),
+(617, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-09', 136, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09022026008', 'Cash', 'Active'),
+(618, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-09', 108, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09022026009', 'UPI', 'Active'),
+(619, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-09', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09022026010', 'UPI', 'Active'),
+(620, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-02-09', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV09022026011', 'UPI', 'Active'),
+(621, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-09', 137, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09022026012', 'UPI', 'Active'),
+(622, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-10', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10022026001', 'UPI', 'Active'),
+(623, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-10', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10022026002', 'UPI', 'Active'),
+(624, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-10', 111, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10022026003', 'UPI', 'Active'),
+(625, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-10', 138, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10022026004', 'UPI', 'Active'),
+(626, '[\"HOME CARE\"]', 500.00, '2026-02-10', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10022026005', 'Cash', 'Active'),
+(627, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-02-10', 139, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV10022026006', 'Cash', 'Active'),
+(628, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-10', 14, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10022026007', 'Cash', 'Active'),
+(629, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-10', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10022026008', 'Cash', 'Active'),
+(630, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-02-10', 120, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10022026009', 'Cash', 'Active'),
+(631, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-10', 125, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10022026010', 'UPI', 'Active'),
+(632, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-10', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10022026011', 'UPI', 'Active'),
+(633, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-10', 137, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10022026012', 'UPI', 'Active'),
+(634, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-11', 130, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11022026001', 'UPI', 'Active'),
+(635, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-11', 105, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11022026002', 'Cash', 'Active'),
+(636, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-11', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV11022026003', 'UPI', 'Active'),
+(637, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-02-11', 47, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV11022026004', 'Cash', 'Active'),
+(638, '[\"SCHROTH PHYSIOTHERAPY\"]', 100.00, '2026-02-11', 47, 11, '[\"100.00\"]', '[\"1\"]', '[\"100\"]', 'INV11022026005', 'UPI', 'Active'),
+(639, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-11', 114, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11022026006', 'UPI', 'Active'),
+(640, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-11', 108, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11022026007', 'UPI', 'Active'),
+(641, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-11', 127, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11022026008', 'UPI', 'Active'),
+(642, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-12', 111, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV12022026001', 'UPI', 'Active'),
+(643, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-12', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV12022026002', 'UPI', 'Active'),
+(644, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-12', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12022026003', 'Cash', 'Active'),
+(645, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-12', 140, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12022026004', 'Cash', 'Active'),
+(646, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-12', 132, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12022026005', 'UPI', 'Active'),
+(647, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-12', 48, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12022026006', 'UPI', 'Active'),
+(648, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-13', 140, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13022026001', 'Cash', 'Active'),
+(649, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-13', 111, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV13022026002', 'UPI', 'Active'),
+(650, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-13', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13022026003', 'UPI', 'Active'),
+(651, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-02-13', 14, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13022026004', 'Cash', 'Active'),
+(652, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-13', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13022026005', 'UPI', 'Active'),
+(653, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-02-13', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13022026006', 'UPI', 'Active'),
+(654, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-13', 141, 14, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV13022026007', 'UPI', 'Active'),
+(655, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-13', 142, 14, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV13022026008', 'UPI', 'Active'),
+(656, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-13', 136, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13022026009', 'Cash', 'Active'),
+(657, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-13', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13022026010', 'UPI', 'Active'),
+(658, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-13', 143, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13022026011', 'UPI', 'Active'),
+(659, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-13', 125, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13022026012', 'UPI', 'Active'),
+(660, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-13', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13022026013', 'UPI', 'Active'),
+(661, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-02-14', 140, 15, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV14022026001', 'UPI', 'Active'),
+(662, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-14', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14022026002', 'UPI', 'Active'),
+(663, '[\"HOME CARE\"]', 500.00, '2026-02-14', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14022026003', 'Cash', 'Active'),
+(664, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-14', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14022026004', 'Cash', 'Active'),
+(665, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-14', 144, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV14022026005', 'UPI', 'Active'),
+(666, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-14', 143, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14022026006', 'UPI', 'Active'),
+(667, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-02-14', 101, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV14022026007', 'UPI', 'Active'),
+(668, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-14', 142, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV14022026008', 'UPI', 'Active'),
+(669, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2026-02-14', 130, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV14022026009', 'UPI', 'Active'),
+(670, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-02-14', 145, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV14022026010', 'Cash', 'Active'),
+(671, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-02-14', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14022026011', 'UPI', 'Active'),
+(672, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-16', 140, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16022026001', 'UPI', 'Active'),
+(673, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-16', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16022026002', 'UPI', 'Active'),
+(674, '[\"HOME CARE\"]', 600.00, '2026-02-16', 71, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16022026003', 'Cash', 'Active'),
+(675, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-16', 14, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16022026004', 'Cash', 'Active'),
+(676, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-16', 111, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16022026005', 'UPI', 'Active'),
+(677, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-16', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16022026006', 'UPI', 'Active'),
+(678, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-16', 130, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16022026007', 'Cash', 'Active'),
+(679, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-16', 143, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16022026008', 'UPI', 'Active'),
+(680, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-16', 127, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16022026009', 'UPI', 'Active'),
+(681, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-16', 142, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV16022026010', 'UPI', 'Active'),
+(682, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-02-16', 93, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV16022026011', 'UPI', 'Active'),
+(683, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-16', 144, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV16022026012', 'UPI', 'Active'),
+(684, '[\"HOME CARE\"]', 500.00, '2026-02-17', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17022026001', 'Cash', 'Active'),
+(685, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-17', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17022026002', 'UPI', 'Active'),
+(686, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-17', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17022026003', 'Cash', 'Active'),
+(687, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-17', 143, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17022026004', 'UPI', 'Active');
+INSERT INTO `x_app_invoice` (`id`, `particulars`, `total_amount`, `created_at`, `patient_id`, `doctor_id`, `amount`, `qty`, `rate`, `invoice_number`, `payment_mode`, `status`) VALUES
+(688, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-17', 142, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV17022026005', 'UPI', 'Active'),
+(689, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-17', 147, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV17022026006', 'Cash', 'Active'),
+(690, '[\"PHYSITHERAPY SHORT SESSION\"]', 500.00, '2026-02-17', 146, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17022026007', 'Cash', 'Active'),
+(691, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-17', 126, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17022026008', 'UPI', 'Active'),
+(692, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-02-17', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV17022026009', 'UPI', 'Active'),
+(693, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-17', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17022026010', 'Cash', 'Active'),
+(694, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-18', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV18022026001', 'UPI', 'Active'),
+(695, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-02-18', 133, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV18022026002', 'UPI', 'Active'),
+(696, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-18', 105, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18022026003', 'Cash', 'Active'),
+(697, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-18', 114, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18022026004', 'UPI', 'Active'),
+(698, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-18', 142, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18022026005', 'UPI', 'Active'),
+(699, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-18', 147, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV18022026006', 'UPI', 'Active'),
+(700, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-02-18', 116, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18022026007', 'Cash', 'Active'),
+(701, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-18', 148, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18022026008', 'UPI', 'Active'),
+(702, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-18', 127, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18022026009', 'UPI', 'Active'),
+(703, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-18', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18022026010', 'UPI', 'Active'),
+(704, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-02-18', 14, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV18022026011', 'Cash', 'Active'),
+(705, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-18', 143, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18022026012', 'UPI', 'Active'),
+(706, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-18', 144, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV18022026013', 'UPI', 'Active'),
+(707, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1150.00, '2026-02-18', 150, 14, '[\"1150.00\"]', '[\"1\"]', '[\"1150\"]', 'INV18022026014', 'UPI', 'Active'),
+(708, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-18', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19022026001', 'UPI', 'Active'),
+(709, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-19', 147, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV19022026002', 'UPI', 'Active'),
+(710, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-19', 148, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19022026003', 'UPI', 'Active'),
+(711, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-19', 143, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19022026004', 'UPI', 'Active'),
+(712, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-19', 125, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19022026005', 'UPI', 'Active'),
+(713, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-19', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19022026006', 'UPI', 'Active'),
+(714, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-19', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19022026007', 'UPI', 'Active'),
+(715, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-20', 147, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV20022026001', 'UPI', 'Active'),
+(716, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-20', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV20022026002', 'UPI', 'Active'),
+(717, '[\"HOME CARE\"]', 500.00, '2026-02-20', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV20022026003', 'Cash', 'Active'),
+(718, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-20', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20022026004', 'Cash', 'Active'),
+(719, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-20', 125, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV20022026005', 'UPI', 'Active'),
+(720, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-20', 14, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV20022026006', 'Cash', 'Active'),
+(721, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-02-20', 87, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV20022026007', 'UPI', 'Active'),
+(722, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-02-20', 139, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV20022026008', 'Cash', 'Active'),
+(723, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-20', 143, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20022026009', 'UPI', 'Active'),
+(724, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-20', 149, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV20022026010', 'UPI', 'Active'),
+(725, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-20', 114, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20022026011', 'UPI', 'Active'),
+(726, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-20', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20022026012', 'UPI', 'Active'),
+(727, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-02-20', 93, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV20022026013', 'UPI', 'Active'),
+(728, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-21', 150, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21022026001', 'UPI', 'Active'),
+(729, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-21', 147, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV21022026002', 'Cash', 'Active'),
+(730, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-21', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV21022026003', 'UPI', 'Active'),
+(731, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-21', 125, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV21022026004', 'UPI', 'Active'),
+(732, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-21', 151, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21022026005', 'Cash', 'Active'),
+(733, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-02-21', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21022026006', 'UPI', 'Active'),
+(734, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-02-21', 31, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21022026007', 'UPI', 'Active'),
+(735, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-21', 143, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21022026008', 'UPI', 'Active'),
+(736, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-21', 148, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV21022026009', 'UPI', 'Active'),
+(737, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-21', 152, 14, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV21022026010', 'UPI', 'Active'),
+(738, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-02-21', 101, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV21022026011', 'UPI', 'Active'),
+(739, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-02-21', 120, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV21022026012', 'Cash', 'Active'),
+(740, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-23', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV23022026001', 'UPI', 'Active'),
+(741, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-23', 153, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23022026002', 'UPI', 'Active'),
+(742, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-23', 143, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23022026003', 'UPI', 'Active'),
+(743, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-23', 125, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV23022026004', 'UPI', 'Active'),
+(744, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-02-23', 14, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV23022026005', 'Cash', 'Active'),
+(745, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-23', 114, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23022026006', 'UPI', 'Active'),
+(746, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-23', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23022026007', 'UPI', 'Active'),
+(747, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-23', 148, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV23022026008', 'UPI', 'Active'),
+(748, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-23', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23022026009', 'UPI', 'Active'),
+(749, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-23', 108, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23022026010', 'UPI', 'Active'),
+(750, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-23', 147, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV23022026011', 'UPI', 'Active'),
+(751, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-23', 156, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV23022026012', 'Cash', 'Active'),
+(752, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-02-23', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV23022026013', 'Cash', 'Active'),
+(753, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 400.00, '2026-02-23', 157, 11, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV23022026014', 'UPI', 'Active'),
+(754, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-23', 127, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23022026015', 'UPI', 'Active'),
+(755, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-24', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24022026001', 'UPI', 'Active'),
+(756, '[\"HOME CARE\"]', 500.00, '2026-02-24', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24022026002', 'Cash', 'Active'),
+(757, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-24', 153, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24022026003', 'UPI', 'Active'),
+(758, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-24', 149, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV24022026004', 'UPI', 'Active'),
+(759, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-24', 143, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24022026005', 'UPI', 'Active'),
+(760, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-24', 125, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV24022026006', 'UPI', 'Active'),
+(761, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-02-24', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24022026007', 'UPI', 'Active'),
+(762, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-24', 147, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV24022026008', 'UPI', 'Active'),
+(763, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-24', 159, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24022026009', 'Cash', 'Active'),
+(764, '[\"PHYSIOTHERAPY LONG SESSION\"]', 2000.00, '2026-02-24', 160, 14, '[\"2000.00\"]', '[\"1\"]', '[\"2000\"]', 'INV24022026010', 'Cash', 'Active'),
+(765, '[\"PHYSIOTHERAPY LONG SESSION\"]', 400.00, '2026-02-24', 155, 11, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV24022026011', 'UPI', 'Active'),
+(766, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-24', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24022026012', 'Cash', 'Active'),
+(767, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-24', 161, 14, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV24022026013', 'UPI', 'Active'),
+(768, '[\"HOME CARE\"]', 600.00, '2026-02-25', 71, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25022026001', 'Cash', 'Active'),
+(769, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-25', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV25022026002', 'UPI', 'Active'),
+(770, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-25', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25022026003', 'UPI', 'Active'),
+(771, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-25', 143, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25022026004', 'UPI', 'Active'),
+(772, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-25', 125, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV25022026005', 'UPI', 'Active'),
+(773, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-25', 111, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV25022026006', 'UPI', 'Active'),
+(774, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-25', 148, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV25022026007', 'UPI', 'Active'),
+(775, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-02-25', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV25022026008', 'UPI', 'Active'),
+(776, '[\"PHYSIOTHERAPY LONG SESSION\"]', 3000.00, '2026-02-25', 163, 12, '[\"3000.00\"]', '[\"3\"]', '[\"1000\"]', 'INV25022026009', 'UPI', 'Active'),
+(777, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-25', 159, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25022026010', 'Cash', 'Active'),
+(778, '[\"PHYSIOTHERAPY SHORT  SESSION\"]', 400.00, '2026-02-25', 157, 11, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV25022026011', 'UPI', 'Active'),
+(779, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-02-25', 93, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV25022026012', 'Cash', 'Active'),
+(780, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-25', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25022026013', 'Cash', 'Active'),
+(781, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-25', 161, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV25022026014', 'UPI', 'Active'),
+(782, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-26', 125, 12, '[\"800.00\"]', '[\"2\"]', '[\"400\"]', 'INV26022026001', 'UPI', 'Active'),
+(783, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-26', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26022026002', 'Cash', 'Active'),
+(784, '[\"PHYSIOTHERAPY LONG SESSION\"]', 2100.00, '2026-02-26', 158, 11, '[\"2100.00\"]', '[\"1\"]', '[\"2100\"]', 'INV26022026003', 'UPI', 'Active'),
+(785, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-26', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26022026004', 'UPI', 'Active'),
+(786, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-26', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV26022026005', 'UPI', 'Active'),
+(787, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-26', 143, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26022026006', 'UPI', 'Active'),
+(788, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-02-26', 148, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV26022026007', 'Cash', 'Active'),
+(789, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-26', 159, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26022026008', 'Cash', 'Active'),
+(790, '[\"PHYSIOTHERAPY LONG SESSION\"]', 2000.00, '2026-02-26', 163, 12, '[\"2000.00\"]', '[\"2\"]', '[\"1000\"]', 'INV26022026009', 'UPI', 'Active'),
+(791, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 400.00, '2026-02-26', 157, 11, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV26022026010', 'UPI', 'Active'),
+(792, '[\"SCHROTH PHYSIOTHERAPY\"]', 400.00, '2026-02-26', 93, 12, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV26022026011', 'UPI', 'Active'),
+(793, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-26', 161, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV26022026012', 'UPI', 'Active'),
+(794, '[\"HOME CARE\"]', 500.00, '2026-02-26', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27022026001', 'Cash', 'Active'),
+(795, '[\"HOME CARE\"]', 500.00, '2026-02-27', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27022026002', 'Cash', 'Active'),
+(796, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-02-27', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27022026003', 'UPI', 'Active'),
+(797, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-02-27', 14, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27022026004', 'Cash', 'Active'),
+(798, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-27', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27022026005', 'UPI', 'Active'),
+(799, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-27', 148, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV27022026006', 'UPI', 'Active'),
+(800, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-27', 159, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27022026007', 'Cash', 'Active'),
+(801, '[\"PHYSIOTHERAPY LONG SESSION\"]', 400.00, '2026-02-27', 155, 11, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV27022026008', 'UPI', 'Active'),
+(802, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-27', 125, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27022026009', 'UPI', 'Active'),
+(803, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-02-27', 164, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27022026010', 'Cash', 'Active'),
+(804, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-27', 154, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27022026011', 'Cash', 'Active'),
+(805, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-02-27', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27022026012', 'UPI', 'Active'),
+(806, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-27', 161, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV27022026013', 'UPI', 'Active'),
+(807, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-28', 161, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV28022026001', 'UPI', 'Active'),
+(808, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-28', 125, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28022026002', 'UPI', 'Active'),
+(809, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-02-28', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV28022026003', 'UPI', 'Active'),
+(810, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-02-28', 120, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV28022026004', 'Cash', 'Active'),
+(811, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-02-28', 148, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV28022026005', 'UPI', 'Active'),
+(812, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-02-28', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28022026006', 'UPI', 'Active'),
+(813, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-02-28', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28022026007', 'Cash', 'Active'),
+(814, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-02-28', 152, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV28022026008', 'UPI', 'Active'),
+(815, '[\"PHYSIOTHERAPY LONG SESSION\"]', 5000.00, '2026-02-28', 163, 12, '[\"5000.00\"]', '[\"4\"]', '[\"1250.00\"]', 'INV28022026009', 'UPI', 'Active'),
+(816, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-02-28', 101, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV28022026010', 'UPI', 'Active'),
+(817, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 400.00, '2026-02-28', 155, 11, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV28022026011', 'UPI', 'Active'),
+(818, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-02-28', 164, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28022026012', 'Cash', 'Active'),
+(819, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-02', 161, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV02032026001', 'UPI', 'Active'),
+(820, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-02', 164, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV02032026002', 'Cash', 'Active'),
+(821, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-03-02', 127, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV02032026003', 'UPI', 'Active'),
+(822, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-02', 165, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02032026004', 'UPI', 'Active'),
+(823, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-02', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02032026005', 'UPI', 'Active'),
+(824, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-02', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02032026006', 'Cash', 'Active'),
+(825, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-02', 149, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV02032026007', 'UPI', 'Active'),
+(826, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-02', 14, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02032026008', 'Cash', 'Active'),
+(827, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-02', 166, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02032026009', 'Cash', 'Active'),
+(828, '[\"PHYSIOTHERAPY LONG SESSION\"]', 4000.00, '2026-03-02', 163, 12, '[\"4000.00\"]', '[\"1\"]', '[\"4000\"]', 'INV02032026010', 'UPI', 'Active'),
+(829, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-02', 125, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02032026011', 'UPI', 'Active'),
+(830, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-02', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02032026012', 'UPI', 'Active'),
+(831, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-04', 161, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV04032026001', 'UPI', 'Active'),
+(832, '[\"HOME CARE\"]', 500.00, '2026-03-04', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV04032026002', 'Cash', 'Active'),
+(833, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-04', 165, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV04032026003', 'UPI', 'Active'),
+(834, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-04', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04032026004', 'UPI', 'Active'),
+(835, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-04', 149, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV04032026005', 'UPI', 'Active'),
+(838, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-04', 149, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV04032026006', 'UPI', 'Active'),
+(839, '[\"PHYSIOTHERAPY LONG SESSION\"]', 400.00, '2026-03-04', 155, 11, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV04032026007', 'UPI', 'Active'),
+(840, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-04', 164, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV04032026008', 'Cash', 'Active'),
+(841, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-04', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04032026009', 'UPI', 'Active'),
+(842, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-03-04', 144, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV04032026010', 'UPI', 'Active'),
+(843, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-04', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04032026011', 'Cash', 'Active'),
+(844, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-04', 167, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04032026012', 'UPI', 'Active'),
+(845, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-03-04', 166, 11, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV04032026013', 'Cash', 'Active'),
+(846, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-03-04', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV04032026014', 'UPI', 'Active'),
+(847, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-04', 131, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV04032026015', 'UPI', 'Active'),
+(848, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-04', 125, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04032026016', 'UPI', 'Active'),
+(849, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-04', 161, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV05032026001', 'UPI', 'Active'),
+(850, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-05', 161, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV05032026002', 'UPI', 'Active'),
+(851, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-05', 164, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV05032026003', 'Cash', 'Active'),
+(852, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-05', 165, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV05032026004', 'UPI', 'Active'),
+(853, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-05', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05032026005', 'Cash', 'Active'),
+(854, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-05', 148, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV05032026006', 'UPI', 'Active'),
+(855, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-05', 168, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05032026007', 'UPI', 'Active'),
+(856, '[\"PHYSIOTHERAPY LONG SESSION\"]', 300.00, '2026-03-05', 68, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV05032026008', 'Cash', 'Active'),
+(857, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-03-05', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV05032026009', 'UPI', 'Active'),
+(858, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-05', 166, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05032026010', 'Cash', 'Active'),
+(859, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-05', 125, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV05032026011', 'UPI', 'Active'),
+(860, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-05', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV05032026012', 'UPI', 'Active'),
+(861, '[\"PHYSIOTHERAPY LONG SESSION\"]', 200.00, '2026-03-05', 165, 11, '[\"200.00\"]', '[\"1\"]', '[\"200\"]', 'INV05032026013', 'UPI', 'Active'),
+(862, '[\"HOME CARE\"]', 500.00, '2026-03-06', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06032026001', 'Cash', 'Active'),
+(863, '[\"PHYSIOTHERAPY SHORT  SESSION\"]', 500.00, '2026-03-06', 165, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06032026002', 'UPI', 'Active'),
+(864, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-06', 164, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV06032026003', 'Cash', 'Active'),
+(865, '[\"PHYSIOTHERAPY LONG SESSION\"]', 300.00, '2026-03-06', 139, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV06032026004', 'Cash', 'Active'),
+(866, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-06', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV06032026005', 'Cash', 'Active'),
+(867, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-03-06', 32, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV06032026006', 'UPI', 'Active'),
+(868, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-06', 125, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06032026007', 'UPI', 'Active'),
+(869, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-06', 170, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06032026008', 'UPI', 'Active'),
+(870, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-06', 168, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06032026009', 'UPI', 'Active'),
+(871, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-06', 171, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV06032026010', 'Cash', 'Active'),
+(872, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-06', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06032026011', 'UPI', 'Active'),
+(873, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-06', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06032026012', 'UPI', 'Active'),
+(874, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-06', 166, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06032026013', 'Cash', 'Active'),
+(875, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-06', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06032026014', 'Cash', 'Active'),
+(876, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-06', 148, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV06032026015', 'UPI', 'Active'),
+(877, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-07', 170, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07032026001', 'UPI', 'Active'),
+(878, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-07', 68, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV07032026002', 'Cash', 'Active'),
+(879, '[\"PHYSIOTHERAPY LONG SESSION\"]', 8500.02, '2026-03-07', 163, 12, '[\"8500.02\"]', '[\"6\"]', '[\"1416.67\"]', 'INV07032026003', 'Cash', 'Active'),
+(880, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-07', 166, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07032026004', 'Cash', 'Active'),
+(881, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-07', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV07032026005', 'UPI', 'Active'),
+(882, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-07', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07032026006', 'UPI', 'Active'),
+(883, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-07', 125, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07032026007', 'UPI', 'Active'),
+(884, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-07', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV07032026008', 'UPI', 'Active'),
+(885, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-07', 154, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07032026009', 'Cash', 'Active'),
+(886, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-03-07', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07032026010', 'UPI', 'Active'),
+(887, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-07', 152, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV07032026011', 'UPI', 'Active'),
+(888, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-09', 166, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09032026001', 'Cash', 'Active'),
+(889, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-09', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV09032026002', 'UPI', 'Active'),
+(890, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-09', 149, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV09032026003', 'UPI', 'Active'),
+(891, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-09', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09032026004', 'UPI', 'Active'),
+(892, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-03-09', 69, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV09032026005', 'UPI', 'Active'),
+(893, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-09', 108, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09032026006', 'UPI', 'Active'),
+(894, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-09', 68, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV09032026007', 'Cash', 'Active'),
+(895, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-09', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV09032026008', 'Cash', 'Active'),
+(896, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-09', 125, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09032026009', 'UPI', 'Active'),
+(897, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-09', 172, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09032026010', 'UPI', 'Active'),
+(898, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-09', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09032026011', 'Cash', 'Active'),
+(899, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-09', 170, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09032026012', 'UPI', 'Active'),
+(900, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-10', 161, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV10032026001', 'UPI', 'Active'),
+(901, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-10', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10032026002', 'UPI', 'Active'),
+(902, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-10', 149, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV10032026003', 'UPI', 'Active'),
+(903, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-10', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV10032026004', 'UPI', 'Active'),
+(904, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-10', 68, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV10032026005', 'Cash', 'Active'),
+(905, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-10', 172, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10032026006', 'UPI', 'Active'),
+(906, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-10', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10032026007', 'Cash', 'Active'),
+(907, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-10', 170, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10032026008', 'UPI', 'Active'),
+(908, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-10', 168, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10032026009', 'UPI', 'Active'),
+(909, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-10', 161, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV11032026001', 'UPI', 'Active'),
+(910, '[\"HOME CARE\"]', 500.00, '2026-03-11', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV11032026002', 'Cash', 'Active'),
+(911, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-11', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV11032026003', 'UPI', 'Active'),
+(912, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-11', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11032026004', 'UPI', 'Active'),
+(913, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-11', 166, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11032026005', 'Cash', 'Active'),
+(914, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-11', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV11032026006', 'UPI', 'Active'),
+(915, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-03-11', 173, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV11032026007', 'Cash', 'Active'),
+(916, '[\"PHYSIOTHERAPY SHORT  SESSION\"]', 300.00, '2026-03-11', 68, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV11032026008', 'Cash', 'Active'),
+(917, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-11', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11032026009', 'UPI', 'Active'),
+(918, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-03-11', 93, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV11032026010', 'UPI', 'Active'),
+(919, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-11', 170, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11032026011', 'UPI', 'Active'),
+(920, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-11', 161, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV11032026012', 'UPI', 'Active'),
+(921, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-11', 172, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11032026013', 'UPI', 'Active'),
+(922, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-11', 148, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV11032026014', 'UPI', 'Active'),
+(923, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-12', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV12032026001', 'UPI', 'Active'),
+(924, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-12', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV12032026002', 'UPI', 'Active'),
+(925, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2026-03-12', 166, 15, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV12032026003', 'Cash', 'Active'),
+(926, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-03-12', 133, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV12032026004', 'Cash', 'Active'),
+(927, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-12', 68, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV12032026005', 'Cash', 'Active'),
+(928, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-12', 172, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12032026006', 'UPI', 'Active'),
+(929, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-12', 154, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12032026007', 'Cash', 'Active'),
+(930, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-12', 170, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV12032026008', 'UPI', 'Active'),
+(931, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-13', 161, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV13032026001', 'UPI', 'Active'),
+(932, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-03-13', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13032026002', 'UPI', 'Active'),
+(933, '[\"HOME CARE\"]', 500.00, '2026-03-13', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13032026003', 'Cash', 'Active'),
+(934, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-13', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV13032026004', 'UPI', 'Active'),
+(935, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-03-13', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13032026005', 'UPI', 'Active'),
+(936, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-13', 174, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV13032026006', 'Cash', 'Active'),
+(937, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-13', 172, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13032026007', 'UPI', 'Active'),
+(938, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2026-03-13', 175, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV13032026008', 'UPI', 'Active'),
+(939, '[\"PHYSIOTHERAPY HAND SESSION\"]', 200.00, '2026-03-13', 166, 15, '[\"200.00\"]', '[\"1\"]', '[\"200\"]', 'INV13032026009', 'Cash', 'Active'),
+(940, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-03-14', 171, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV14032026001', 'Cash', 'Active'),
+(941, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-14', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14032026002', 'UPI', 'Active'),
+(942, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-14', 172, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14032026003', 'UPI', 'Active'),
+(943, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-14', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV14032026004', 'UPI', 'Active'),
+(944, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-14', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14032026005', 'UPI', 'Active'),
+(945, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-14', 170, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14032026006', 'UPI', 'Active'),
+(946, '[\"SCHROTH PHYSIOTHERAPY\"]', 7000.00, '2026-03-14', 176, 11, '[\"7000.00\"]', '[\"7\"]', '[\"1000\"]', 'INV14032026007', 'UPI', 'Active'),
+(947, '[\"HOME CARE\"]', 1000.00, '2026-03-14', 177, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV14032026008', 'UPI', 'Active'),
+(948, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-14', 175, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV14032026009', 'UPI', 'Active'),
+(949, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-14', 178, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV14032026010', 'UPI', 'Active'),
+(950, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-14', 179, 14, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14032026011', 'UPI', 'Active'),
+(951, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-14', 172, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14032026012', 'UPI', 'Active'),
+(952, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-14', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14032026013', 'UPI', 'Active'),
+(953, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-14', 152, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14032026014', 'UPI', 'Active'),
+(954, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-16', 179, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16032026001', 'UPI', 'Active'),
+(955, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-16', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16032026002', 'UPI', 'Active'),
+(956, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-16', 178, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV16032026003', 'UPI', 'Active'),
+(957, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-03-16', 139, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV16032026004', 'Cash', 'Active'),
+(958, '[\"PHYSIOTHERAPY LONG SESSION\"]', 2150.00, '2026-03-16', 127, 11, '[\"2150.00\"]', '[\"1\"]', '[\"2150\"]', 'INV16032026005', 'UPI', 'Active'),
+(959, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-16', 180, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV16032026006', 'UPI', 'Active'),
+(960, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-16', 125, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16032026007', 'UPI', 'Active'),
+(961, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-16', 170, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16032026008', 'UPI', 'Active'),
+(962, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 900.00, '2026-03-16', 68, 15, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV16032026009', 'Cash', 'Active'),
+(963, '[\"PHYSIOTHERAPY LONG SESSION\"]', 7000.00, '2026-03-16', 163, 12, '[\"7000.00\"]', '[\"5\"]', '[\"1400\"]', 'INV16032026010', 'UPI', 'Active'),
+(964, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-16', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV16032026011', 'UPI', 'Active'),
+(965, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-16', 175, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV16032026012', 'UPI', 'Active'),
+(966, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-03-16', 93, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV16032026013', 'UPI', 'Active'),
+(967, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-16', 181, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV16032026014', 'Cash', 'Active'),
+(968, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-03-16', 182, 12, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV16032026015', 'Cash', 'Active'),
+(969, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-03-17', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17032026001', 'UPI', 'Active'),
+(970, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-17', 172, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17032026002', 'Cash', 'Active'),
+(971, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-17', 179, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17032026003', 'UPI', 'Active'),
+(972, '[\"HOME CARE\"]', 500.00, '2026-03-17', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17032026004', 'Cash', 'Active'),
+(973, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-17', 181, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV17032026005', 'Cash', 'Active'),
+(974, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-17', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17032026006', 'UPI', 'Active'),
+(975, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-17', 182, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17032026007', 'Cash', 'Active'),
+(976, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-17', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV17032026008', 'Cash', 'Active'),
+(977, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-17', 183, 14, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV17032026009', 'Cash', 'Active'),
+(978, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-17', 184, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17032026010', 'Cash', 'Active'),
+(979, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-17', 180, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV17032026011', 'UPI', 'Active'),
+(980, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-17', 175, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV17032026012', 'UPI', 'Active'),
+(981, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-18', 179, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV18032026001', 'UPI', 'Active'),
+(982, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-18', 125, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18032026002', 'UPI', 'Active'),
+(983, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-18', 154, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV18032026003', 'Cash', 'Active'),
+(984, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-18', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV18032026004', 'Cash', 'Active'),
+(985, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-18', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV18032026005', 'UPI', 'Active'),
+(986, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-18', 181, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV18032026006', 'Cash', 'Active'),
+(987, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-18', 183, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV18032026007', 'Cash', 'Active'),
+(988, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-18', 178, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV18032026008', 'UPI', 'Active'),
+(989, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-03-18', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18032026009', 'Cash', 'Active'),
+(990, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-18', 68, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV18032026010', 'Cash', 'Active'),
+(991, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-18', 172, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18032026011', 'UPI', 'Active'),
+(992, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-18', 182, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18032026012', 'Cash', 'Active'),
+(993, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-03-18', 186, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18032026013', 'UPI', 'Active'),
+(994, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-18', 184, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18032026014', 'Cash', 'Active'),
+(995, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-18', 170, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18032026015', 'UPI', 'Active'),
+(996, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-19', 179, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19032026001', 'UPI', 'Active'),
+(997, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-03-19', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19032026002', 'UPI', 'Active'),
+(998, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-19', 181, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV19032026003', 'UPI', 'Active'),
+(999, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-19', 178, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV19032026004', 'UPI', 'Active'),
+(1000, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-19', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV19032026005', 'UPI', 'Active'),
+(1001, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-19', 182, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19032026006', 'Cash', 'Active'),
+(1002, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-03-19', 173, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV19032026007', 'Cash', 'Active'),
+(1003, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-19', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV19032026008', 'UPI', 'Active'),
+(1004, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-19', 184, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV19032026009', 'Cash', 'Active'),
+(1005, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-20', 161, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV20032026001', 'UPI', 'Active'),
+(1006, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-20', 178, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV20032026002', 'Cash', 'Active'),
+(1007, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-20', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV20032026003', 'UPI', 'Active'),
+(1008, '[\"HOME CARE\"]', 500.00, '2026-03-20', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV20032026004', 'Cash', 'Active'),
+(1009, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-20', 181, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV20032026005', 'Cash', 'Active'),
+(1010, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-20', 183, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV20032026006', 'Cash', 'Active'),
+(1011, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-20', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV20032026007', 'UPI', 'Active'),
+(1012, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-03-20', 140, 11, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV20032026008', 'UPI', 'Active'),
+(1013, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-20', 68, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV20032026009', 'Cash', 'Active'),
+(1014, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-20', 184, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20032026010', 'Cash', 'Active'),
+(1015, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-20', 182, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20032026011', 'Cash', 'Active'),
+(1016, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1300.00, '2026-03-20', 179, 15, '[\"1300.00\"]', '[\"1\"]', '[\"1300\"]', 'INV20032026012', 'UPI', 'Active'),
+(1017, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-21', 178, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV21032026001', 'UPI', 'Active'),
+(1018, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-03-21', 131, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV21032026002', 'UPI', 'Active'),
+(1019, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-03-21', 69, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV21032026003', 'UPI', 'Active'),
+(1020, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-03-21', 120, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV21032026004', 'Cash', 'Active'),
+(1021, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-21', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV21032026005', 'UPI', 'Active'),
+(1022, '[\"PHYSIOTHERAPY LONG SESSION\"]', 950.00, '2026-03-21', 114, 11, '[\"950.00\"]', '[\"1\"]', '[\"950\"]', 'INV21032026006', 'UPI', 'Active'),
+(1023, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-03-21', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21032026007', 'UPI', 'Active'),
+(1024, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-03-21', 171, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV21032026008', 'Cash', 'Active'),
+(1025, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-21', 172, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21032026009', 'Cash', 'Active'),
+(1026, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-21', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21032026010', 'UPI', 'Active'),
+(1027, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-21', 184, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21032026011', 'Cash', 'Active'),
+(1028, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-21', 183, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV21032026012', 'Cash', 'Active'),
+(1029, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-23', 154, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23032026001', 'Cash', 'Active');
+INSERT INTO `x_app_invoice` (`id`, `particulars`, `total_amount`, `created_at`, `patient_id`, `doctor_id`, `amount`, `qty`, `rate`, `invoice_number`, `payment_mode`, `status`) VALUES
+(1030, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-03-23', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV23032026002', 'UPI', 'Active'),
+(1031, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-03-23', 169, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV23032026003', 'UPI', 'Active'),
+(1032, '[\"PHYSIOTHERAPY LONG SESSION\"]', 300.00, '2026-03-23', 68, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV23032026004', 'Cash', 'Active'),
+(1033, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-23', 172, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23032026005', 'Cash', 'Active'),
+(1034, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-24', 154, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24032026001', 'Cash', 'Active'),
+(1035, '[\"HOME CARE\"]', 500.00, '2026-03-24', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24032026002', 'Cash', 'Active'),
+(1036, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-24', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24032026003', 'UPI', 'Active'),
+(1037, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-24', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV24032026004', 'UPI', 'Active'),
+(1038, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-03-24', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24032026005', 'UPI', 'Active'),
+(1039, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-24', 41, 14, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24032026006', 'Cash', 'Inactive'),
+(1040, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-24', 187, 14, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV24032026007', 'UPI', 'Active'),
+(1041, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-25', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV25032026001', 'UPI', 'Active'),
+(1042, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-03-25', 188, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV25032026002', 'Cash', 'Active'),
+(1043, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-25', 187, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV25032026003', 'UPI', 'Active'),
+(1044, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-03-25', 189, 15, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV25032026004', 'UPI', 'Active'),
+(1045, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-25', 190, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV25032026005', 'UPI', 'Active'),
+(1046, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-03-25', 191, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV25032026006', 'UPI', 'Active'),
+(1047, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-25', 68, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV25032026007', 'Cash', 'Active'),
+(1048, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-25', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV25032026008', 'UPI', 'Active'),
+(1049, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-25', 193, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV25032026009', 'UPI', 'Active'),
+(1050, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-25', 192, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25032026010', 'UPI', 'Active'),
+(1051, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-03-25', 186, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV25032026011', 'UPI', 'Active'),
+(1052, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-26', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV26032026001', 'Cash', 'Active'),
+(1053, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-03-26', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV26032026002', 'UPI', 'Active'),
+(1054, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-03-26', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV26032026003', 'UPI', 'Active'),
+(1055, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-26', 190, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV26032026004', 'UPI', 'Active'),
+(1056, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-26', 189, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26032026005', 'UPI', 'Active'),
+(1057, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-26', 172, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26032026006', 'Cash', 'Active'),
+(1058, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-26', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV26032026007', 'UPI', 'Active'),
+(1059, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-26', 193, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV26032026008', 'UPI', 'Active'),
+(1060, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-26', 192, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV26032026009', 'UPI', 'Active'),
+(1061, '[\"HOME CARE\"]', 500.00, '2026-03-27', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27032026001', 'Cash', 'Active'),
+(1062, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-27', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27032026002', 'UPI', 'Active'),
+(1063, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-27', 188, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27032026003', 'Cash', 'Active'),
+(1064, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-27', 193, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27032026004', 'UPI', 'Active'),
+(1065, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-03-27', 139, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV27032026005', 'Cash', 'Active'),
+(1066, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-27', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27032026006', 'Cash', 'Active'),
+(1067, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-27', 194, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27032026007', 'UPI', 'Active'),
+(1068, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-27', 190, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27032026008', 'UPI', 'Active'),
+(1069, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-27', 68, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV27032026009', 'Cash', 'Active'),
+(1070, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-27', 189, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27032026010', 'UPI', 'Active'),
+(1071, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-27', 195, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27032026011', 'UPI', 'Active'),
+(1072, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-27', 192, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27032026012', 'UPI', 'Active'),
+(1073, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-27', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV27032026013', 'UPI', 'Active'),
+(1074, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-03-27', 93, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27032026014', 'Cash', 'Active'),
+(1075, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-28', 154, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28032026001', 'Cash', 'Active'),
+(1076, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-28', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV28032026002', 'UPI', 'Active'),
+(1077, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-28', 193, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28032026003', 'UPI', 'Active'),
+(1078, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-28', 197, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV28032026004', 'UPI', 'Active'),
+(1079, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-28', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV28032026005', 'Cash', 'Inactive'),
+(1080, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-28', 194, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28032026006', 'UPI', 'Active'),
+(1081, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-03-28', 195, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28032026007', 'UPI', 'Active'),
+(1082, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-03-28', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28032026008', 'UPI', 'Active'),
+(1083, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-28', 190, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28032026009', 'UPI', 'Active'),
+(1084, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-03-28', 171, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV28032026010', 'Cash', 'Active'),
+(1085, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-28', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV28032026011', 'UPI', 'Active'),
+(1086, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-03-28', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28032026012', 'UPI', 'Active'),
+(1087, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-28', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28032026013', 'UPI', 'Active'),
+(1088, '[\"PHYSIOTHERAPY HAND SESSION\"]', 100.00, '2026-03-28', 188, 12, '[\"100.00\"]', '[\"1\"]', '[\"100\"]', 'INV28032026014', 'Cash', 'Active'),
+(1089, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-30', 198, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV30032026001', 'UPI', 'Active'),
+(1090, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-03-30', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV30032026002', 'UPI', 'Active'),
+(1091, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1100.00, '2026-03-30', 127, 11, '[\"1100.00\"]', '[\"1\"]', '[\"1100\"]', 'INV30032026003', 'UPI', 'Active'),
+(1092, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-30', 169, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV30032026004', 'UPI', 'Active'),
+(1093, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-03-30', 193, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV30032026005', 'UPI', 'Active'),
+(1094, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-30', 190, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV30032026006', 'UPI', 'Active'),
+(1095, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-03-30', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV30032026007', 'Cash', 'Active'),
+(1096, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-30', 199, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV30032026008', 'UPI', 'Active'),
+(1097, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-30', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV30032026009', 'UPI', 'Active'),
+(1098, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-31', 198, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV31032026001', 'UPI', 'Active'),
+(1099, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-03-31', 188, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV31032026002', 'Cash', 'Active'),
+(1100, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-03-31', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV31032026003', 'UPI', 'Active'),
+(1101, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-31', 169, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV31032026004', 'UPI', 'Active'),
+(1102, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-03-31', 200, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV31032026005', 'Cash', 'Active'),
+(1103, '[\"SCHROTH PHYSIOTHERAPY\"]', 300.00, '2026-03-31', 200, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV31032026006', 'UPI', 'Active'),
+(1104, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-03-31', 199, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV31032026007', 'UPI', 'Active'),
+(1105, '[\"CONSULTATION\"]', 500.00, '2026-03-31', 201, 14, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV31032026008', 'Cash', 'Active'),
+(1106, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-03-31', 173, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV31032026009', 'Cash', 'Active'),
+(1107, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-03-31', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV31032026010', 'UPI', 'Active'),
+(1108, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 100.00, '2026-04-01', 188, 12, '[\"100.00\"]', '[\"1\"]', '[\"100\"]', 'INV01042026001', 'Cash', 'Active'),
+(1109, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-01', 193, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV01042026002', 'UPI', 'Active'),
+(1110, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-04-01', 131, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV01042026003', 'UPI', 'Active'),
+(1111, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-01', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV01042026004', 'UPI', 'Active'),
+(1112, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-01', 192, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV01042026005', 'Cash', 'Active'),
+(1113, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-01', 199, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV01042026006', 'UPI', 'Active'),
+(1114, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-01', 190, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV01042026007', 'UPI', 'Active'),
+(1115, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-01', 169, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV01042026008', 'UPI', 'Active'),
+(1116, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-01', 178, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV01042026009', 'UPI', 'Active'),
+(1117, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-01', 196, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV01042026010', 'UPI', 'Active'),
+(1118, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-02', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02042026001', 'UPI', 'Active'),
+(1119, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-02', 192, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02042026002', 'Cash', 'Active'),
+(1120, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-04-02', 188, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV02042026003', 'Cash', 'Active'),
+(1121, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-02', 189, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV02042026004', 'UPI', 'Active'),
+(1122, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-02', 169, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV02042026005', 'UPI', 'Active'),
+(1123, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-02', 199, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV02042026006', 'UPI', 'Active'),
+(1124, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-03', 192, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03042026001', 'UPI', 'Active'),
+(1125, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 100.00, '2026-04-03', 188, 12, '[\"100.00\"]', '[\"1\"]', '[\"100\"]', 'INV03042026002', 'Cash', 'Active'),
+(1126, '[\"HOME CARE\"]', 500.00, '2026-04-03', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV03042026003', 'Cash', 'Active'),
+(1127, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-03', 193, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV03042026004', 'UPI', 'Active'),
+(1128, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-03', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03042026005', 'UPI', 'Active'),
+(1129, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1000.00, '2026-04-03', 169, 15, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV03042026006', 'Cash', 'Active'),
+(1130, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-03', 190, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV03042026007', 'UPI', 'Active'),
+(1131, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-03', 202, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV03042026008', 'UPI', 'Active'),
+(1132, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-04', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04042026001', 'UPI', 'Active'),
+(1133, '[\"PHYSIOTHERAPY LONG SESSION\"]', 300.00, '2026-04-04', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV04042026002', 'Cash', 'Active'),
+(1134, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-04', 199, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV04042026003', 'Cash', 'Active'),
+(1135, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-04-04', 169, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV04042026004', 'Cash', 'Active'),
+(1136, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-04', 31, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04042026005', 'UPI', 'Active'),
+(1137, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-04-04', 192, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV04042026006', 'Cash', 'Active'),
+(1138, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-04', 203, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04042026007', 'Cash', 'Active'),
+(1139, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-04', 114, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV04042026008', 'UPI', 'Active'),
+(1140, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-04', 198, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV04042026009', 'UPI', 'Active'),
+(1141, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-04', 204, 14, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV04042026010', 'Cash', 'Active'),
+(1142, '[\"PHYSIOTHERAPY HAND SESSION\"]', 1050.00, '2026-04-06', 169, 11, '[\"1050.00\"]', '[\"1\"]', '[\"1050\"]', 'INV06042026001', 'UPI', 'Active'),
+(1143, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-06', 193, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV06042026002', 'UPI', 'Active'),
+(1144, '[\"SCOLIOSIS\"]', 1000.00, '2026-04-06', 205, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV06042026003', 'UPI', 'Active'),
+(1145, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-06', 134, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV06042026004', 'UPI', 'Active'),
+(1146, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-06', 203, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06042026005', 'Cash', 'Active'),
+(1147, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-06', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV06042026006', 'UPI', 'Active'),
+(1148, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-04-06', 188, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV06042026007', 'Cash', 'Active'),
+(1149, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-04-06', 206, 15, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV06042026008', 'Cash', 'Active'),
+(1150, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-06', 192, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV06042026009', 'Cash', 'Active'),
+(1151, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-06', 199, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV06042026010', 'Cash', 'Active'),
+(1152, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-06', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV06042026011', 'UPI', 'Active'),
+(1153, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-07', 192, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07042026001', 'Cash', 'Active'),
+(1154, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-07', 199, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV07042026002', 'Cash', 'Active'),
+(1155, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-07', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV07042026003', 'UPI', 'Active'),
+(1156, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 100.00, '2026-04-07', 188, 12, '[\"100.00\"]', '[\"1\"]', '[\"100\"]', 'INV07042026004', 'UPI', 'Active'),
+(1157, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-04-07', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV07042026005', 'UPI', 'Active'),
+(1158, '[\"BRACHIAL PLEXUS\"]', 300.00, '2026-04-07', 133, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV07042026006', 'Cash', 'Active'),
+(1159, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-07', 206, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07042026007', 'Cash', 'Active'),
+(1160, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-07', 203, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07042026008', 'Cash', 'Active'),
+(1161, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-07', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07042026009', 'Cash', 'Active'),
+(1162, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-07', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV07042026010', 'UPI', 'Active'),
+(1163, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-07', 207, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV07042026011', 'UPI', 'Active'),
+(1164, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-07', 196, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV07042026012', 'UPI', 'Active'),
+(1165, '[\"HOME CARE\"]', 500.00, '2026-04-08', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV08042026001', 'Cash', 'Active'),
+(1166, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-08', 193, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV08042026002', 'UPI', 'Active'),
+(1167, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-08', 186, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08042026003', 'UPI', 'Active'),
+(1168, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-04-08', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV08042026004', 'UPI', 'Active'),
+(1169, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-08', 206, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08042026005', 'Cash', 'Active'),
+(1170, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-08', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV08042026006', 'UPI', 'Active'),
+(1171, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-08', 145, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV08042026007', 'UPI', 'Active'),
+(1172, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-08', 192, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV08042026008', 'Cash', 'Active'),
+(1173, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-04-08', 210, 15, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV08042026009', 'Cash', 'Active'),
+(1174, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1000.00, '2026-04-08', 209, 15, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV08042026010', 'Cash', 'Active'),
+(1175, '[\"PHYSIOTHERAPY LONG SESSION\"]', 1600.00, '2026-04-09', 208, 11, '[\"1600.00\"]', '[\"1\"]', '[\"1600\"]', 'INV09042026001', 'Cash', 'Active'),
+(1176, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-09', 212, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09042026002', 'Cash', 'Active'),
+(1177, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-09', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV09042026003', 'UPI', 'Active'),
+(1178, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-09', 207, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV09042026004', 'UPI', 'Active'),
+(1179, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-09', 199, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV09042026005', 'Cash', 'Active'),
+(1180, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-09', 203, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09042026006', 'Cash', 'Active'),
+(1181, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-04-09', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV09042026007', 'UPI', 'Active'),
+(1182, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-09', 213, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09042026008', 'UPI', 'Active'),
+(1183, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-09', 206, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV09042026009', 'Cash', 'Active'),
+(1184, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-09', 214, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV09042026010', 'UPI', 'Active'),
+(1185, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-09', 204, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV09042026011', 'Cash', 'Active'),
+(1186, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-04-09', 211, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV09042026012', 'UPI', 'Active'),
+(1187, '[\"HOME CARE\"]', 500.00, '2026-04-10', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10042026001', 'Cash', 'Active'),
+(1188, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-10', 193, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV10042026002', 'UPI', 'Active'),
+(1189, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-10', 212, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10042026003', 'Cash', 'Active'),
+(1190, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-10', 208, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV10042026004', 'Cash', 'Active'),
+(1191, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-04-10', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV10042026005', 'UPI', 'Active'),
+(1192, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-04-10', 211, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV10042026006', 'UPI', 'Active'),
+(1193, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-10', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10042026007', 'UPI', 'Active'),
+(1194, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-10', 192, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10042026008', 'Cash', 'Active'),
+(1195, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-10', 196, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV10042026009', 'UPI', 'Active'),
+(1196, '[\"HOME CARE\"]', 600.00, '2026-04-10', 215, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV10042026010', 'Cash', 'Active'),
+(1197, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-10', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV10042026011', 'UPI', 'Active'),
+(1198, '[\"HOME CARE\"]', 600.00, '2026-04-11', 215, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11042026001', 'Cash', 'Active'),
+(1199, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-04-11', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV11042026002', 'UPI', 'Active'),
+(1200, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-11', 212, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11042026003', 'Cash', 'Active'),
+(1201, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-11', 216, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11042026004', 'UPI', 'Active'),
+(1202, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-11', 208, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV11042026005', 'Cash', 'Active'),
+(1203, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-11', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV11042026006', 'UPI', 'Active'),
+(1204, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-11', 207, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV11042026007', 'UPI', 'Active'),
+(1205, '[\"PHYSIOTHERAPY HAND SESSION\"]', 800.00, '2026-04-11', 211, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV11042026008', 'UPI', 'Active'),
+(1206, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-11', 189, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV11042026009', 'UPI', 'Active'),
+(1207, '[\"HOME CARE\"]', 600.00, '2026-04-13', 215, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13042026001', 'Cash', 'Active'),
+(1208, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-13', 207, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV13042026002', 'UPI', 'Active'),
+(1209, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-13', 205, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV13042026003', 'UPI', 'Active'),
+(1210, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-04-13', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV13042026004', 'UPI', 'Active'),
+(1211, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-13', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV13042026005', 'UPI', 'Active'),
+(1212, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-13', 189, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13042026006', 'UPI', 'Active'),
+(1213, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-13', 173, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV13042026007', 'Cash', 'Active'),
+(1214, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-13', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13042026008', 'UPI', 'Active'),
+(1215, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-13', 213, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV13042026009', 'UPI', 'Inactive'),
+(1216, '[\"PHYSIOTHERAPY HAND SESSION\"]', 400.00, '2026-04-13', 213, 12, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV13042026010', 'UPI', 'Active'),
+(1217, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 299.00, '2026-04-14', 188, 12, '[\"299.00\"]', '[\"1\"]', '[\"299\"]', 'INV14042026001', 'Cash', 'Inactive'),
+(1218, '[\"PHYSIOTHERAPY HAND SESSION\"]', 499.98, '2026-04-14', 131, 15, '[\"499.98\"]', '[\"1\"]', '[\"499.98\"]', 'INV14042026002', 'UPI', 'Inactive'),
+(1219, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-14', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14042026003', 'UPI', 'Active'),
+(1220, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-14', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV14042026004', 'UPI', 'Active'),
+(1221, '[\"HOME CARE\"]', 500.00, '2026-04-14', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV14042026005', 'Cash', 'Active'),
+(1222, '[\"HOME CARE\"]', 599.99, '2026-04-14', 215, 15, '[\"599.99\"]', '[\"1\"]', '[\"599.99\"]', 'INV14042026006', 'Cash', 'Inactive'),
+(1223, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-14', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV14042026007', 'Cash', 'Active'),
+(1224, '[\"HOME CARE\"]', 600.00, '2026-04-14', 215, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14042026008', 'Cash', 'Active'),
+(1225, '[\"PHYSIOTHERAPY HAND SESSION\"]', 599.00, '2026-04-14', 212, 15, '[\"599.00\"]', '[\"1\"]', '[\"599\"]', 'INV14042026009', 'UPI', 'Inactive'),
+(1226, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-14', 212, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14042026010', 'UPI', 'Active'),
+(1227, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-14', 189, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14042026011', 'UPI', 'Active'),
+(1228, '[\"PHYSIOTHERAPY HAND SESSION\"]', 400.00, '2026-04-14', 213, 15, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV14042026012', 'UPI', 'Active'),
+(1229, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-14', 216, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14042026013', 'UPI', 'Active'),
+(1230, '[\"PHYSIOTHERAPY HAND SESSION\"]', 598.00, '2026-04-14', 130, 12, '[\"598.00\"]', '[\"1\"]', '[\"598\"]', 'INV14042026014', 'UPI', 'Inactive'),
+(1231, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-14', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14042026015', 'UPI', 'Active'),
+(1232, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-14', 218, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV14042026016', 'UPI', 'Active'),
+(1233, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-14', 207, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV14042026017', 'UPI', 'Active'),
+(1234, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-04-15', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV15042026001', 'Cash', 'Active'),
+(1235, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-15', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV15042026002', 'UPI', 'Active'),
+(1236, '[\"HOME CARE\"]', 600.00, '2026-04-15', 215, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15042026003', 'Cash', 'Active'),
+(1237, '[\"PHYSIOTHERAPY HAND SESSION\"]', 400.00, '2026-04-15', 213, 12, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV15042026004', 'UPI', 'Active'),
+(1238, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-15', 169, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV15042026005', 'UPI', 'Active'),
+(1239, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-15', 193, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV15042026006', 'UPI', 'Active'),
+(1240, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-15', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV15042026007', 'UPI', 'Active'),
+(1241, '[\"PHYSIOTHERAPY HAND SESSION\"]', 498.00, '2026-04-16', 131, 15, '[\"498.00\"]', '[\"1\"]', '[\"498\"]', 'INV16042026001', 'UPI', 'Inactive'),
+(1242, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-16', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16042026002', 'UPI', 'Active'),
+(1243, '[\"HOME CARE\"]', 600.00, '2026-04-16', 215, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16042026003', 'Cash', 'Active'),
+(1244, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-04-16', 219, 15, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV16042026004', 'UPI', 'Active'),
+(1245, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-16', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV16042026005', 'UPI', 'Active'),
+(1246, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-16', 212, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16042026006', 'Cash', 'Active'),
+(1247, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-16', 130, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16042026007', 'UPI', 'Active'),
+(1248, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-04-16', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16042026008', 'Cash', 'Active'),
+(1249, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-16', 221, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16042026009', 'Cash', 'Active'),
+(1250, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 500.00, '2026-04-16', 188, 12, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV16042026010', 'Cash', 'Active'),
+(1251, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-16', 207, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV16042026011', 'UPI', 'Active'),
+(1252, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-16', 207, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV16042026012', 'UPI', 'Inactive'),
+(1253, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-16', 222, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV16042026013', 'UPI', 'Active'),
+(1254, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-16', 196, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV16042026014', 'UPI', 'Active'),
+(1255, '[\"PHYSIOTHERAPY HAND SESSION\"]', 900.00, '2026-04-16', 219, 15, '[\"900.00\"]', '[\"1\"]', '[\"900\"]', 'INV16042026015', 'UPI', 'Inactive'),
+(1256, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-16', 220, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV16042026016', 'Cash', 'Active'),
+(1257, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-17', 196, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV17042026001', 'UPI', 'Active'),
+(1258, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-17', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17042026002', 'UPI', 'Active'),
+(1259, '[\"PHYSIOTHERAPY HAND SESSION\"]', 100.00, '2026-04-17', 188, 12, '[\"100.00\"]', '[\"1\"]', '[\"100\"]', 'INV17042026003', 'Cash', 'Active'),
+(1260, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-17', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17042026004', 'UPI', 'Active'),
+(1261, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-17', 220, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17042026005', 'UPI', 'Active'),
+(1262, '[\"HOME CARE\"]', 500.00, '2026-04-17', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17042026006', 'Cash', 'Active'),
+(1263, '[\"HOME CARE\"]', 500.00, '2026-04-17', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17042026007', 'Cash', 'Inactive'),
+(1264, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-17', 95, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV17042026008', 'Cash', 'Active'),
+(1265, '[\"SCHROTH PHYSIOTHERAPY\"]', 500.00, '2026-04-17', 10, 11, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV17042026009', 'UPI', 'Active'),
+(1266, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-17', 222, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV17042026010', 'UPI', 'Active'),
+(1267, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-17', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17042026011', 'UPI', 'Active'),
+(1268, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-17', 216, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV17042026012', 'UPI', 'Active'),
+(1269, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-18', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18042026001', 'UPI', 'Active'),
+(1270, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-04-18', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV18042026002', 'Cash', 'Active'),
+(1271, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-18', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV18042026003', 'UPI', 'Active'),
+(1272, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-18', 196, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV18042026004', 'UPI', 'Active'),
+(1273, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-18', 95, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV18042026005', 'Cash', 'Active'),
+(1274, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-18', 223, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV18042026006', 'UPI', 'Active'),
+(1275, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-18', 116, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18042026007', 'UPI', 'Active'),
+(1276, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-18', 224, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18042026008', 'UPI', 'Active'),
+(1277, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-18', 171, 15, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV18042026009', 'Cash', 'Active'),
+(1278, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-18', 225, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18042026010', 'UPI', 'Active'),
+(1279, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-18', 220, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV18042026011', 'UPI', 'Active'),
+(1280, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-20', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV20042026001', 'UPI', 'Active'),
+(1281, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-04-20', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV20042026002', 'Cash', 'Active'),
+(1282, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-04-20', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV20042026003', 'Cash', 'Inactive'),
+(1283, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-20', 169, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV20042026004', 'UPI', 'Active'),
+(1284, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-20', 220, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20042026005', 'UPI', 'Active'),
+(1285, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-20', 120, 11, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV20042026006', 'Cash', 'Active'),
+(1286, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-20', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20042026007', 'UPI', 'Active'),
+(1287, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-20', 189, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20042026008', 'UPI', 'Active'),
+(1288, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-20', 222, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV20042026009', 'UPI', 'Active'),
+(1289, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-20', 219, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20042026010', 'UPI', 'Active'),
+(1290, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-04-20', 31, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV20042026011', 'UPI', 'Active'),
+(1291, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-20', 225, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20042026012', 'UPI', 'Active'),
+(1292, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-20', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV20042026013', 'UPI', 'Active'),
+(1293, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-20', 226, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20042026014', 'UPI', 'Active'),
+(1294, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-20', 228, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20042026015', 'UPI', 'Active'),
+(1295, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-20', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV20042026016', 'UPI', 'Active'),
+(1296, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-21', 188, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV21042026001', 'UPI', 'Active'),
+(1297, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-04-21', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV21042026002', 'UPI', 'Active'),
+(1298, '[\"HOME CARE\"]', 499.99, '2026-04-21', 27, 15, '[\"499.99\"]', '[\"1\"]', '[\"499.99\"]', 'INV21042026003', 'Cash', 'Inactive'),
+(1299, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-04-21', 223, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV21042026004', 'UPI', 'Active'),
+(1300, '[\"HOME CARE\"]', 600.00, '2026-04-21', 215, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21042026005', 'Cash', 'Active'),
+(1301, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-21', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV21042026006', 'UPI', 'Active'),
+(1302, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-21', 227, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21042026007', 'UPI', 'Active'),
+(1303, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-21', 189, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21042026008', 'UPI', 'Active'),
+(1304, '[\"HOME CARE\"]', 500.00, '2026-04-21', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV21042026009', 'Cash', 'Active'),
+(1305, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-21', 225, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21042026010', 'UPI', 'Active'),
+(1306, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-21', 228, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV21042026011', 'UPI', 'Active'),
+(1307, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-04-21', 229, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV21042026012', 'UPI', 'Active'),
+(1308, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-21', 222, 11, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV21042026013', 'UPI', 'Active'),
+(1309, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-22', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV22042026001', 'Cash', 'Active'),
+(1310, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-22', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22042026002', 'UPI', 'Active'),
+(1311, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-22', 196, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV22042026003', 'UPI', 'Active'),
+(1312, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-04-22', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV22042026004', 'UPI', 'Active'),
+(1313, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-22', 230, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV22042026005', 'Cash', 'Active'),
+(1314, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-22', 130, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22042026006', 'UPI', 'Active'),
+(1315, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-22', 216, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22042026007', 'UPI', 'Active'),
+(1316, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-04-22', 229, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV22042026008', 'UPI', 'Active'),
+(1317, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-22', 189, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22042026009', 'UPI', 'Active'),
+(1318, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-22', 186, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV22042026010', 'Cash', 'Active'),
+(1319, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-22', 225, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV22042026011', 'UPI', 'Active'),
+(1320, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-22', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV22042026012', 'UPI', 'Active'),
+(1321, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-23', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV23042026001', 'UPI', 'Active'),
+(1322, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-04-23', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV23042026002', 'Cash', 'Active'),
+(1323, '[\"HOME CARE\"]', 600.00, '2026-04-23', 215, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23042026003', 'Cash', 'Active'),
+(1324, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-23', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV23042026004', 'UPI', 'Active'),
+(1325, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-23', 189, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23042026005', 'UPI', 'Active'),
+(1326, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-23', 225, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV23042026006', 'UPI', 'Active'),
+(1327, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-23', 186, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV23042026007', 'UPI', 'Inactive'),
+(1328, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-23', 231, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV23042026008', 'UPI', 'Active'),
+(1329, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-23', 186, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV23042026009', 'UPI', 'Active'),
+(1330, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-24', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV24042026001', 'UPI', 'Active'),
+(1331, '[\"PHYSIOTHERAPY SHORT SESSION\"]', 300.00, '2026-04-24', 188, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV24042026002', 'Cash', 'Active'),
+(1332, '[\"PHYSIOTHERAPY LONG SESSION\"]', 500.00, '2026-04-24', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24042026003', 'UPI', 'Active'),
+(1333, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-24', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV24042026004', 'UPI', 'Active'),
+(1334, '[\"HOME CARE\"]', 500.00, '2026-04-24', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV24042026005', 'Cash', 'Active'),
+(1335, '[\"HOME CARE\"]', 600.00, '2026-04-24', 215, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24042026006', 'Cash', 'Active'),
+(1336, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-24', 186, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV24042026007', 'UPI', 'Active'),
+(1337, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-24', 47, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24042026008', 'Cash', 'Active'),
+(1338, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-24', 189, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24042026009', 'UPI', 'Active'),
+(1339, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-24', 233, 14, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV24042026010', 'Cash', 'Active'),
+(1340, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-24', 234, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV24042026011', 'UPI', 'Active'),
+(1341, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-24', 193, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV24042026012', 'UPI', 'Active'),
+(1342, '[\"PHYSIOTHERAPY LONG SESSION\"]', 5600.00, '2026-04-24', 235, 12, '[\"5600.00\"]', '[\"8\"]', '[\"700\"]', 'INV24042026013', 'UPI', 'Inactive'),
+(1343, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-24', 236, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV24042026014', 'UPI', 'Active'),
+(1344, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-24', 235, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV24042026015', 'UPI', 'Active'),
+(1345, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-25', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV25042026001', 'UPI', 'Active'),
+(1346, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-25', 237, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV25042026002', 'UPI', 'Active'),
+(1347, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-25', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25042026003', 'UPI', 'Active'),
+(1348, '[\"HOME CARE\"]', 600.00, '2026-04-25', 215, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25042026004', 'Cash', 'Active'),
+(1349, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-25', 196, 15, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV25042026005', 'UPI', 'Active'),
+(1350, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-25', 228, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25042026006', 'UPI', 'Active'),
+(1351, '[\"SCHROTH PHYSIOTHERAPY\"]', 1200.00, '2026-04-25', 239, 14, '[\"1200.00\"]', '[\"1\"]', '[\"1200\"]', 'INV25042026007', 'UPI', 'Active'),
+(1352, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-25', 193, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV25042026008', 'UPI', 'Active'),
+(1353, '[\"SCHROTH PHYSIOTHERAPY\"]', 1000.00, '2026-04-25', 207, 12, '[\"1000.00\"]', '[\"1\"]', '[\"1000\"]', 'INV25042026009', 'UPI', 'Active'),
+(1354, '[\"SCHROTH PHYSIOTHERAPY\"]', 1200.00, '2026-04-25', 240, 14, '[\"1200.00\"]', '[\"1\"]', '[\"1200\"]', 'INV25042026010', 'Cash', 'Active'),
+(1355, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-25', 234, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25042026011', 'UPI', 'Active'),
+(1356, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-25', 235, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV25042026012', 'UPI', 'Active'),
+(1357, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-04-25', 31, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV25042026013', 'UPI', 'Active'),
+(1358, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-25', 241, 14, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25042026014', 'UPI', 'Inactive'),
+(1359, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-25', 241, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25042026015', 'UPI', 'Active'),
+(1360, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-25', 242, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV25042026016', 'Cash', 'Active'),
+(1361, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-04-25', 223, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV25042026017', 'UPI', 'Active'),
+(1362, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-25', 225, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV25042026018', 'UPI', 'Active'),
+(1363, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-25', 243, 14, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV25042026019', 'UPI', 'Active'),
+(1364, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-25', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV25042026020', 'UPI', 'Active'),
+(1365, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-27', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV27042026001', 'UPI', 'Active'),
+(1366, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-27', 233, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV27042026002', 'UPI', 'Active'),
+(1367, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-27', 193, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27042026003', 'UPI', 'Active'),
+(1368, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-27', 242, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27042026004', 'Cash', 'Active');
+INSERT INTO `x_app_invoice` (`id`, `particulars`, `total_amount`, `created_at`, `patient_id`, `doctor_id`, `amount`, `qty`, `rate`, `invoice_number`, `payment_mode`, `status`) VALUES
+(1369, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-27', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27042026005', 'UPI', 'Active'),
+(1370, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-27', 241, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27042026006', 'UPI', 'Active'),
+(1371, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-27', 189, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27042026007', 'UPI', 'Active'),
+(1372, '[\"SCHROTH PHYSIOTHERAPY\"]', 800.00, '2026-04-27', 229, 12, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV27042026008', 'UPI', 'Active'),
+(1373, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-27', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV27042026009', 'UPI', 'Active'),
+(1374, '[\"SCHROTH PHYSIOTHERAPY\"]', 700.00, '2026-04-27', 88, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV27042026010', 'UPI', 'Active'),
+(1375, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-27', 234, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27042026011', 'UPI', 'Active'),
+(1376, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-27', 225, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV27042026012', 'UPI', 'Active'),
+(1377, '[\"PHYSIOTHERAPY LONG SESSION\"]', 400.00, '2026-04-27', 244, 15, '[\"400.00\"]', '[\"1\"]', '[\"400\"]', 'INV27042026013', 'Cash', 'Active'),
+(1378, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-28', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV28042026001', 'UPI', 'Active'),
+(1379, '[\"PHYSIOTHERAPY HAND SESSION\"]', 500.00, '2026-04-28', 131, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV28042026002', 'UPI', 'Active'),
+(1380, '[\"PHYSIOTHERAPY HAND SESSION\"]', 300.00, '2026-04-28', 233, 12, '[\"300.00\"]', '[\"1\"]', '[\"300\"]', 'INV28042026003', 'Cash', 'Active'),
+(1381, '[\"PHYSIOTHERAPY HAND SESSION\"]', 700.00, '2026-04-28', 169, 11, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28042026004', 'UPI', 'Active'),
+(1382, '[\"HOME CARE\"]', 500.00, '2026-04-28', 27, 15, '[\"500.00\"]', '[\"1\"]', '[\"500\"]', 'INV28042026005', 'Cash', 'Active'),
+(1383, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-28', 235, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28042026006', 'UPI', 'Active'),
+(1384, '[\"SCHROTH PHYSIOTHERAPY\"]', 600.00, '2026-04-28', 200, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28042026007', 'UPI', 'Active'),
+(1385, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-28', 245, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28042026008', 'UPI', 'Active'),
+(1386, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-28', 246, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28042026009', 'UPI', 'Active'),
+(1387, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-28', 247, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28042026010', 'UPI', 'Active'),
+(1388, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-28', 248, 11, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28042026011', 'Cash', 'Active'),
+(1389, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-28', 249, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV28042026012', 'UPI', 'Active'),
+(1390, '[\"PHYSIOTHERAPY LONG SESSION\"]', 600.00, '2026-04-28', 241, 15, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28042026013', 'UPI', 'Active'),
+(1391, '[\"PHYSIOTHERAPY HAND SESSION\"]', 600.00, '2026-04-28', 225, 12, '[\"600.00\"]', '[\"1\"]', '[\"600\"]', 'INV28042026014', 'UPI', 'Inactive'),
+(1392, '[\"PHYSIOTHERAPY LONG SESSION\"]', 800.00, '2026-04-29', 196, 11, '[\"800.00\"]', '[\"1\"]', '[\"800\"]', 'INV29042026001', 'UPI', 'Active'),
+(1393, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-29', 245, 12, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV29042026002', 'UPI', 'Active'),
+(1394, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-29', 235, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV29042026003', 'UPI', 'Active'),
+(1397, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-29', 235, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV29042026004', 'UPI', 'Active'),
+(1398, '[\"PHYSIOTHERAPY LONG SESSION\"]', 700.00, '2026-04-29', 235, 15, '[\"700.00\"]', '[\"1\"]', '[\"700\"]', 'INV29042026005', 'UPI', 'Active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_invoiceparticular`
+--
+
+CREATE TABLE `x_app_invoiceparticular` (
+  `id` bigint NOT NULL,
+  `name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `created_by_id` bigint DEFAULT NULL,
+  `hospital_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_invoiceparticular`
+--
+
+INSERT INTO `x_app_invoiceparticular` (`id`, `name`, `status`, `created_at`, `created_by_id`, `hospital_id`) VALUES
+(1, 'PHYSIOTHERAPY HAND SESSION', 1, '2026-01-15 02:41:14.477705', 9, 1),
+(2, 'PHYSIOTHERAPY LONG SESSION', 1, '2026-01-15 02:41:39.347801', 9, 1),
+(3, 'SCHROTH PHYSIOTHERAPY', 1, '2026-01-15 02:43:18.448813', 9, 1),
+(4, 'HOME CARE', 1, '2026-01-15 02:43:30.854243', 9, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_managemententry`
+--
+
+CREATE TABLE `x_app_managemententry` (
+  `id` bigint NOT NULL,
+  `date` date NOT NULL,
+  `management` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `review_date` date NOT NULL,
+  `signature` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `staff_id` bigint NOT NULL,
+  `treatment_plan_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_managemententry`
+--
+
+INSERT INTO `x_app_managemententry` (`id`, `date`, `management`, `review_date`, `signature`, `staff_id`, `treatment_plan_id`) VALUES
+(19, '2026-01-13', 'pendular execise\r\nanterior deltoid\r\nretraction\r\nshoulder rotation\r\nactive asisted forwrd flexion', '2026-01-14', 'aiswarya', 11, 9),
+(20, '2026-01-13', 'pendular exercise\r\nant.deltoid\r\nretraction\r\npassive flexion\r\nactive assisted flexion\r\nisometric,internal external rotation in scapular plane', '2026-01-22', 'aiswarya', 11, 10),
+(21, '2026-01-13', 'PERISCAPULAR\r\nNECK EXTENTION\r\nOPEN THE BOOK\r\nCAT AND CAMEL\r\nTHREAD THE NEEDLE\r\nLWT', '2026-01-14', 'Surumi', 12, 11),
+(22, '2026-01-13', 'ANKLE TOE\r\nSLR\r\nKNEE TO CHEST STRETCH\r\nKNEE TO SIDE STRETCH\r\nBOTH KNEE TO STRECH\r\nKNEE SIDE TI SIDE\r\nSPLIT SIDE TO SIDE \r\nTRIGGER  RELEASE', '2026-01-14', 'Surumi', 12, 12),
+(23, '2026-01-13', 'THUMB STRENGTHENING WITH BALLOON\r\nFOREARM STRENGTHENING\r\nPNF', '2026-01-13', 'Surumi', 12, 13),
+(24, '2026-01-14', 'Shoulder glide,muscle release,ant.deltoid,retraction,\r\nUST,TENS, ICE', '2026-01-15', 'Aiswarya', 11, 14),
+(25, '2026-01-14', 'NECK ISOMETRICS\r\nCHIN TUCK\r\nPERISCAPULARR EX\r\nOPEN THE BOOK\r\nTENS', '2026-01-14', '.', 15, 15),
+(26, '2026-01-14', 'Wrist mobilisation,radial head mobilisation,wrist strenghthenin proprioception,hand gripping', '2026-01-21', 'Aiswarya', 11, 16),
+(27, '2026-01-16', 'Passive flexion,Ant.deltoid,Retraction,Active assisted forward flexion,Pendular exercise\r\nAnkle isometric,Ankle movements', '2026-01-17', 'Aiswarya', 11, 17),
+(28, '2026-01-17', 'elbow mobilisation,supination,pronation,wrist movements,', '2026-01-24', 'Aiswarya', 11, 18),
+(29, '2026-01-20', 'Elbow mobilisation ,ant.deltoid retraction ,periscapular, TENS ICE', '2026-01-25', 'Aiswarya', 11, 19),
+(30, '2026-01-21', 'NMES\r\nstrengthening with 1.5 kg ,proprioception ,LWT ,snow angel', '2026-02-08', 'Aiswarya', 11, 20),
+(31, '2026-01-13', 'PERISCAPULAR\r\nNECK EXTENSION\r\nOPEN THE BOOK LWT', '2026-01-14', 'Surumi', 12, 21),
+(32, '2026-01-23', 'Scapular plane active internal external rotation ,RC isometric, red band push and pull', '2026-01-24', 'Aiswarya', 11, 22),
+(33, '2026-01-23', 'PASSIVE FLEXION,\r\nACTIVE ASSITED FORWARD FLEXION,\r\nANTERIOR DELTOID,\r\nRETRACTION\r\nPENDULAR EXERCISE,\r\nSCAPULAR PLANE EXTERNAL ROTATION', '2026-01-24', 'Surumi', 12, 23),
+(34, '2026-01-23', 'Hand and wrist mobilization', '2026-01-24', 'nanda', 14, 24),
+(35, '2026-02-03', 'Passive shoulder flexion ,elbow flexion ,wrist movements  ant.deltoid ,retraction', '2026-02-04', 'Aiswarya', 11, 25),
+(36, '2026-02-09', 'wrist isometric thumb isometric , UST TENS', '2026-02-10', 'Aiswarya', 11, 26),
+(37, '2026-02-13', 'UPPER AND LOWER LIMB MOBILITY EXERCISE', '2026-02-14', 'Surumi', 12, 27),
+(38, '2026-03-13', 'fore arm streches\r\nisometric\r\nUST $TENS', '2026-03-14', 'Aiswarya', 11, 28),
+(41, '2026-03-25', 'ELBOW MOBILISATION\r\nPASSIVE ELBOW FLEXION AND EXTENSION ,ICE', '2026-03-26', 'Aiswarya', 11, 31),
+(42, '2026-03-30', '. MUSCLE RELASE\r\n.MOBILIZATION\r\n.SPENCER TECHNIQUE\r\n.IFT', '2026-03-31', 'SURUMI', 12, 32),
+(44, '2026-04-04', 'PAIN MANAGEMENT- TENS, ULTRASOUND\r\nISOMETRICS\r\nTHUMB STRENGTHENING EXERCISES', '2026-04-06', 'KOKILA', 15, 34),
+(46, '2026-03-20', 'WRIST ISOMETRIC WRIST MOVEMENTSUST ,TENS ,ICE', '2026-03-21', 'Aiswarya', 11, 29),
+(47, '2026-03-31', 'WRIST STRENGTHENING PROPRIOCEPTION TENS', '2026-04-07', 'KOKILA', 11, 29),
+(48, '2026-04-06', 'WRIST MOBILIZATION\r\nPERISCAPULAR\r\nWRIST MOVEMENTS', '2026-04-08', 'KOKILA', 15, 35),
+(50, '2026-04-01', 'PROM FOR WRIST,ELBOW,SHOULDER\r\nAA FORWARD FLEXION', '2026-04-02', 'SURUMI', 12, 37),
+(51, '2026-04-01', '.MUSCLE RELEASE\r\n. FASCIA RELEASE\r\n.MOBILIZATION\r\nSPENCER TECHNIQUE', '2026-04-02', 'SURUMI', 12, 38),
+(52, '2026-04-04', '.MUSCLE RELEASE\r\n. FASCIA RELEASE\r\n.MOBILIZATION\r\nSPENCER TECHNIQUE\r\n. ACTIVE ASSISTED FORWARD FLEXION\r\nECCENTRIC SHOULDER FLEXION\r\n.RHYTHEMIC STABILIZATION\r\nPENDULAR\r\nANTERIOR DELTOID\r\nRETRACTION', '2026-04-06', 'Surumi', 12, 38),
+(53, '2026-04-01', 'PELVIC TILT\r\nBASIC TENSION\r\nRIB UPWARD\r\nMUSCLE CYLINDER', '2026-04-07', 'SURUMI', 12, 39),
+(54, '2026-04-03', 'WIST JOINT MOBILIZATION\r\nWRIST ISOMETRIC AND TENS', '2026-04-06', 'SURUMI', 12, 40),
+(55, '2026-04-04', 'MOBILIZATION\r\nSPENCER TECHNIQUE\r\nANTERIOR DELTOID\r\nRETRACTION\r\nINTERNAL AND EXTERNAL ISOMETRIC\r\nPUSH AND PULL', '2026-04-11', 'SURUMI', 12, 41),
+(56, '2026-04-03', '1.PENDULAR EXRCISE\r\n2.PERISCAPULAR\r\n3.WAND EXRCISE\r\n4.ANT.DELTOID\r\n5.RETRACTION\r\n6.PRONE LINE RETRACTION AND A\r\n7.TENS', '2026-04-07', 'Aiswarya', 11, 42),
+(57, '2026-04-04', 'SPLINT MANAGEMENT', '2026-04-09', 'Aiswarya', 11, 43),
+(58, '2026-04-11', '1.PELVIC TILT \r\n2.PLANK\r\n3.SIDE PLANK\r\n5.DEDBUG\r\n6.CLAM\r\n7.BASIC TENSION\r\n8.POSITOINING\r\n9.UPWARD LIFT\r\n10.MUSCLE CYLINDER\r\n11.CONSCIOUS WALKING', '2026-04-07', 'Aiswarya', 11, 44),
+(59, '2026-04-06', 'WRIST AND THUMB ISOMETRICS\r\nPAIN MANAGEMENT- ULTRASOUND, TENS', '2026-04-07', 'KOKILA', 15, 46),
+(60, '2026-04-08', '1.PELVIC TILIT\r\n2.WARMUP\r\n3.BASIC TENSION\r\n4.MUSCLA CYLINDER\r\n5.CONSCIOUS WALK', '2026-04-09', 'Aiswarya', 11, 47),
+(61, '2026-04-08', 'TIGGER RELEASE\r\nUST \r\nTENS\r\nICE', '2026-04-08', 'Aiswarya', 11, 48),
+(62, '2026-04-08', 'PAIN MANAGEMENT- IFT, ULTRASOUND', '2026-04-09', 'KOKILA', 15, 49),
+(63, '2026-04-08', 'PAIN MANAGEMENT- TENS, ULTRASOUND\r\nSHOULDER ISOMETRICS', '2026-04-09', 'KOKILA', 15, 50),
+(64, '2026-04-08', '1.IWRIST ISOMETRIC\r\n2. UST\r\n3.TENS\r\n4.ICE PACK', '2026-04-09', 'Aiswarya', 11, 51),
+(66, '2026-04-09', 'FINGER MOBILISATION\r\nWRIST MOBILISATION\r\nICE', '2026-04-10', 'Aiswarya', 11, 53),
+(67, '2026-04-09', 'HAMSTRING STRETCH\r\nPATELLA MOBILIZATION\r\nANKLE TOE\r\nSLR\r\nSTATIC HAMSTRING\r\nSTATIC QUADS WITH PATELLA USE\r\nBACK ISOMETRIC \r\nUST\r\nTENS', '2026-04-09', 'SURUMI', 12, 54),
+(68, '2026-04-06', '. WARM UP . PELVIC TILT. BASIC TENSION. POSITIONINGCLAMSHELL. MUSCLE CYLINDER.CONSIOUS WALKING', '2026-04-13', 'SURUMI', 12, 36),
+(71, '2026-04-07', 'PELVIC TILTWARMUP', '2026-04-08', 'SURUMI', 12, 55),
+(72, '2026-04-08', 'PELVIC TILTWARMUPBASIC TENSIONMUSCLE CYLINDERCONCIOUS WALKING', '2026-04-09', 'AISWARYA', 12, 55),
+(73, '2026-04-08', 'PELVIC TILT\r\nWARMUP\r\nBASIC TENSION\r\nPOSITIONING\r\nMUSCLE CYLINDER\r\nCONCIOUS WALKING', '2026-04-15', 'AISWARYA', 12, 56),
+(75, '2026-04-09', 'PAIN MANAGEMENT- IFT,PERISCAPULAR EXERCISE, ANTERIOR DELTOID, RETRACTION', '2026-04-09', 'KOKILA', 15, 52),
+(76, '2026-04-10', 'MOBILIZATION,SPENCER TECHNIQUE,ACTIVE ASSISTED SHOULDER FLEXION,ARM KINETIC CONTROL,SHOULDER STRAIGHT FLEXION,ANTERIOR DELTOID,RETRACTION,TENS', '2026-04-10', 'SURUMI', 15, 52),
+(81, '2026-04-11', 'ANKLE MOVEMENTS\r\nSLR\r\nSTATIC QUARDS\r\nGLUTES ACTIVATION\r\nROM@90\r\nHEEL SLIDING\r\nTERMINAL KNEE EXTENSION', '2026-04-14', 'AISWARYA', 11, 59),
+(82, '2026-04-14', 'JOINT MOBILIZATION\r\nROLLER EXERCISE\r\nBALL ON WALL EXERCISE\r\nFOAM ROLLER', '2026-04-18', 'SURUMI', 12, 60),
+(83, '2026-04-16', 'IWRIST STRENGTHENING- ISOMETRICS\r\nPAIN MANAGEMENT- ULTRASOUND, TENS', '2026-04-20', 'KOKILA', 15, 61),
+(84, '2026-04-16', 'COLD PACK\r\nDIP JOINT MOBILIZATION', '2026-04-17', 'KOKILA', 15, 62),
+(85, '2026-04-16', 'ELBOW MOBILISATION\r\nROM\r\nICE', '2026-04-17', 'AISWARYA', 11, 63),
+(86, '2026-04-18', 'ELBOW MOBILISATION\r\nICE \r\nACTIVE ELBOW MOVEMENTS', '2026-04-20', 'AISWARYA', 11, 64),
+(87, '2026-04-21', '1.PELVIC TILT\r\n2.WARM UP\r\n3.BASIC TENSION\r\n4.POSITIONING\r\n5.MUSCLE CYLINDER\r\n6.COCIOUS WALK', '2026-04-22', 'AISWARYA', 11, 65),
+(88, '2026-04-22', 'MUSCLE RELEASE\r\nANKLE TOE\r\nSLR\r\nSTATIC QUADS\r\nSTATIC HAMSTRINGS\r\nQLUTEUS ACTIVATION', '2026-04-22', 'SURUMI', 12, 66),
+(89, '2026-04-24', '1.PERISCAPULAR\r\n2.ELBOW MOBILISATION\r\n3.WRIST MOVEMENTS\r\n4.ICE\r\n5.TENS', '2026-04-25', 'AISWARYA', 11, 67),
+(94, '2026-04-25', 'PELVIC TILIT\r\nWARMUP\r\nBASIC TENSION\r\nPOSITIONING\r\nMUSCLE CYLINDER\r\nUPWARD RIB MOVEMENTS', '2026-04-29', 'AISWARYA', 11, 69),
+(95, '2026-04-27', 'PELVIC TILIT\r\nWARMUP\r\nBASIC TENSION', '2026-04-29', 'AISWARYA', 11, 70),
+(97, '2026-04-28', 'ACTIVE ASSITED SHOULDER FLEXION\r\nACTIVE ASSISTED SHOULDER 90 DEGREE FLEXION\r\nPERISCAPULAR\r\nFINGER MOBILIZATION AND MOVEMENTS', '2026-04-30', 'SURUMI', 12, 72),
+(99, '2026-04-20', 'PELVIC TILT \r\nWARMUP\r\nBASIC TENSION\r\nPOSITIONING\r\nRIB UPWARD\r\nMUSCLE CYLINDER\r\nCONCIOUS WALKING', '2026-04-28', 'SURUMI', 12, 74),
+(100, '2026-04-21', 'TRIGGER RELEASE STRETCHES TENS', '2026-04-22', 'SURUMI', 12, 75),
+(102, '2026-04-27', 'PERISCAPULAR\r\nOPEN THE BOOK\r\nLEVATOR SCAPULAE KINETIC CONTROL', '2026-04-28', 'SURUMI', 12, 77),
+(103, '2026-04-10', 'ANLE TOE\r\nSLR\r\nSTATIC HAM\r\nSTATIC QUADS ADDUCTOR\r\nHEEL STRIKE\r\nQLUTS\r\nUST\r\nTENS', '2026-04-11', 'KOKILA', 12, 78),
+(104, '2026-03-20', 'FINGER MOBILISATIONWRIST MOBILISATIONMCP MOBILISATIONWRIST ACIVE MOVEMENTS', '2026-03-21', 'Aiswarya', 11, 30),
+(105, '2026-04-10', 'FINGER MOBILIS,GEL BALL ,NMESATIONWRIST MOBILISATIONMCP MOBILISATIONWRIST ACIVE MOVEMENTS', '2026-04-11', 'Aiswarya', 11, 30),
+(106, '2026-04-28', 'INDEX FINGER MOBILISATION,MOVEMENTS THUMB STRENGTHENING ,NMES', '2026-04-30', 'AISWARYA', 11, 30),
+(109, '2026-04-10', 'PELVIC TILTWARMUPBASIC TENSIONPOSITIONINGMUSCLE CYLINDERRIB UPWARD LIFTCONCIOUS WALKING', '2026-04-13', 'AISWARYA', 11, 58),
+(110, '2026-04-23', 'PELVIC TILT ,WARMUP ,BASIC TENSION,POSITIONING, UPWARD RIB MOVEMENT,MUSCLE CYLINDER ,CONCIOUS WALK', '2026-04-25', 'AISWARYA', 11, 58),
+(111, '2026-04-25', 'PELVIC TILTWARMUPBASIC TENSIONPOSITIONINGMUSCLE CYLINDERRIB UPWARD LIFTCONCIOUS WALKING', '2026-04-28', 'AISWARYA', 11, 58),
+(112, '2026-04-28', 'PELVIC TILTWARMUPBASIC TENSIONPOSITIONINGMUSCLE CYLINDERRIB UPWARD LIFTCONCIOUS WALKING', '2026-04-29', 'AISWARYA', 11, 58),
+(117, '2026-04-21', 'FLEXION AND EXTENSION ISOMETRIC WITH DYNAMIC SUPPORTER', '2026-04-25', 'SURUMI', 11, 79),
+(118, '2026-04-28', 'CALF STRETCH\r\nTOWEL CURLS\r\nTOE RAISE\r\nPAIN MANAGEMENT', '2026-04-28', 'KOKILA', 15, 80),
+(119, '2026-04-28', 'TRIGGER RELEASE\r\nPERISCAPULAR\r\nOPEN THE BOOK\r\nIFT', '2026-04-29', 'SURUMI', 12, 81),
+(120, '2026-04-25', 'LOWER LIMB STRETCHINGISOMETRICS- QUADS, HAMS, GLUTESPAIN MANAGEMENT- ULTRASOUND, TENS', '2026-04-27', 'KOKILA', 11, 68),
+(121, '2026-04-28', 'SLR - ALL PLANES, CLAMPSHELL', '2026-04-29', 'KOKILA', 11, 68),
+(122, '2026-04-01', 'ELBOW MOBILIZATIONANKLE MOBILIZATION ACTIVE ANKLE MOVEMENTSWELLING REDUCTION', '2026-04-06', 'Aiswarya', 11, 33),
+(123, '2026-04-28', 'ELBOW STRENGTHENING WITH 1KG DUMBELL ,ANKLE STRENGTHENING WITH GREEN BAND', '2026-04-29', 'AISWARYA', 11, 33),
+(124, '2026-04-29', 'ELBOW MOBILIZATIONANKLE MOBILIZATION ACTIVE ANKLE MOVEMENTSWELLING REDUCTION', '2026-05-05', 'AISWARYA', 11, 33),
+(125, '2026-04-28', 'TRIGGER RELEASESTRERCHESFLEXION EXERCISES', '2026-04-29', 'SURUMI', 12, 73),
+(126, '2026-04-29', 'TRIGGER RELEASE\'STRETCHES,FLEXION EXERCISE TENS', '2026-05-01', 'SURUMI', 12, 73),
+(127, '2026-04-24', 'WRIST ISOMETRICSTHUMB ISOMETRICSTHUMB MOVEMENTSUST ,TENS', '2026-04-25', 'AISWARYA', 11, 71),
+(128, '2026-04-25', 'WRIST ISOMETRIC WRIST MOVEMENTSUST ,TENS ,ICE', '2026-04-27', 'AISWARYA', 11, 71),
+(129, '2026-04-27', 'WRIST ISOMETRIC WRIST MOVEMENTSUST ,TENS ,ICE', '2026-04-28', 'AISWARYA', 11, 71),
+(130, '2026-04-28', 'WRIST ISOMETRIC WRIST MOVEMENTSUST ,TENS ,ICE', '2026-04-29', 'AISWARYA', 11, 71),
+(131, '2026-04-29', 'WRIST ISOMETRIC WRIST MOVEMENTSUST ,TENS ,ICE', '2026-04-30', 'AISWARYA', 11, 71),
+(132, '2026-04-25', 'LWTOPEN THE BOOKSUNRISETHREAD THE NEEDLE', '2026-04-27', 'SURUMI', 12, 76),
+(133, '2026-04-29', 'LWT, OPE THE BOOK, THREAD THE NEEDLE, SUNRISE', '2026-04-30', 'KOKILA', 12, 76);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_manualtechnique`
+--
+
+CREATE TABLE `x_app_manualtechnique` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_manualtechnique`
+--
+
+INSERT INTO `x_app_manualtechnique` (`id`, `name`) VALUES
+(3, 'LP Direct'),
+(4, 'LP DR Prone'),
+(1, 'Rib hump DR sitting'),
+(2, 'Ventral P DR sitting');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_medical_store`
+--
+
+CREATE TABLE `x_app_medical_store` (
+  `id` bigint NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `logo` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `registration_number` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `gst_number` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `manager_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `manager_contact` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(254) COLLATE utf8mb4_general_ci NOT NULL,
+  `address` longtext COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_medical_store`
+--
+
+INSERT INTO `x_app_medical_store` (`id`, `name`, `logo`, `registration_number`, `gst_number`, `manager_name`, `manager_contact`, `email`, `address`) VALUES
+(1, 'Taurus Surgicals', 'medical_store/IMG-20251104-WA00071.jpg', '52454534567', '32AQYPN4766G1Z9', 'Nanda Gopan', '7902411411', 'nandan.physio@gmail.com', 'Toll Jn,Kowdiar, Thiruvananthapuram');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_medicinemaster`
+--
+
+CREATE TABLE `x_app_medicinemaster` (
+  `id` bigint NOT NULL,
+  `item_code` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `hsn_code` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `medicine_name` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `generic_name` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `rack_number` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `base_unit` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `side_effects` longtext COLLATE utf8mb4_general_ci,
+  `created_at` datetime(6) NOT NULL,
+  `category_id` bigint DEFAULT NULL,
+  `staff_id` bigint DEFAULT NULL,
+  `tax_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_medicine_category`
+--
+
+CREATE TABLE `x_app_medicine_category` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_medicine_category`
+--
+
+INSERT INTO `x_app_medicine_category` (`id`, `name`, `status`) VALUES
+(1, 'Ointment', 1),
+(2, 'Antibiotic', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_menu`
+--
+
+CREATE TABLE `x_app_menu` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `category` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `url` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_menu`
+--
+
+INSERT INTO `x_app_menu` (`id`, `name`, `category`, `url`) VALUES
+(1, 'Department_Table', 'Masters', 'departmenttable'),
+(2, 'Branches', 'Masters', 'branches'),
+(3, 'Country', 'Masters', 'country'),
+(4, 'State', 'Masters', 'state'),
+(5, 'District', 'Masters', 'district'),
+(6, 'Department', 'Masters', 'department'),
+(7, 'Hospital', 'Masters', 'hospitalreg'),
+(8, 'Add Role', 'Role_Management', 'role_add'),
+(9, 'Role_Allocation', 'Role_Management', 'role_assign'),
+(10, 'Menu_Add', 'Role_Management', 'menu_add'),
+(11, 'Menu_Allocation', 'Role_Management', 'menu_allocation'),
+(12, 'Staff_Registration', 'Staff', 'staff_registration'),
+(13, 'Staff_Allocation', 'Staff', 'staff_allocation'),
+(14, 'Staff_Registration_Table', 'Staff', 'stafftable'),
+(15, 'Staff_Allocation_Table', 'Staff', 'staff_allocation_table'),
+(16, 'Menu Allocation Table', 'Role_Management', 'menu_allocation_table'),
+(17, 'Patient', 'Patient', 'patient'),
+(18, 'Appointment', 'Appointment', 'appoinment'),
+(19, 'Prescription', 'Prescription', 'prescription_home'),
+(20, 'Invoice', 'Invoice', 'invoice'),
+(21, 'Scoliosis', 'Scoliosis', 'scoliosis'),
+(22, 'Expense Tracker', 'Expense', 'add_expense'),
+(23, 'Calendar', 'Calendar', 'calendar'),
+(24, 'Tax Settings', 'Pharmacy', 'tax_master'),
+(25, 'GST_Report', 'GST_Report', 'GST_Report'),
+(26, 'Medicine Category', 'Pharmacy', 'medicine_category'),
+(27, 'Medical Store', 'Pharmacy', 'medical_store'),
+(28, 'Medicine Master', 'Pharmacy', 'medicine_master'),
+(29, 'Company Master', 'Pharmacy', 'company_master'),
+(30, 'Supplier Master', 'Pharmacy', 'supplier_master'),
+(31, 'Add stock', 'Pharmacy', 'purchase_medicine'),
+(32, 'Add Bank Details', 'Pharmacy', 'bank_details_add'),
+(33, 'Purchase', 'Purchase', 'purchase_invoice'),
+(34, 'Body Chart Master', 'Masters', 'body_chart_master'),
+(35, 'Invoice Particular', 'Masters', 'invoice_particular_add'),
+(36, 'HEP', 'Masters', 'hep_add'),
+(37, 'Manual Technique', 'Masters', 'manual_technique'),
+(38, 'Expense type', 'Masters', 'add_expense_type');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_menupermission`
+--
+
+CREATE TABLE `x_app_menupermission` (
+  `id` bigint NOT NULL,
+  `can_view` tinyint(1) NOT NULL,
+  `can_add` tinyint(1) NOT NULL,
+  `can_edit` tinyint(1) NOT NULL,
+  `can_delete` tinyint(1) NOT NULL,
+  `menu_id` bigint NOT NULL,
+  `role_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_menupermission`
+--
+
+INSERT INTO `x_app_menupermission` (`id`, `can_view`, `can_add`, `can_edit`, `can_delete`, `menu_id`, `role_id`) VALUES
+(1, 1, 1, 1, 1, 2, 1),
+(2, 1, 1, 1, 1, 3, 1),
+(3, 1, 1, 1, 1, 6, 1),
+(4, 1, 1, 1, 1, 1, 1),
+(5, 1, 1, 1, 1, 5, 1),
+(6, 1, 1, 1, 1, 7, 1),
+(7, 1, 1, 1, 1, 4, 1),
+(8, 1, 1, 1, 1, 8, 1),
+(9, 1, 1, 1, 1, 9, 1),
+(10, 1, 1, 1, 1, 10, 1),
+(11, 1, 1, 1, 1, 11, 1),
+(12, 1, 1, 1, 1, 12, 1),
+(13, 1, 1, 1, 1, 13, 1),
+(14, 1, 1, 1, 1, 15, 1),
+(15, 1, 1, 1, 1, 14, 1),
+(16, 1, 1, 1, 1, 16, 1),
+(17, 0, 0, 0, 0, 2, 2),
+(18, 0, 0, 0, 0, 3, 2),
+(19, 0, 0, 0, 0, 6, 2),
+(20, 0, 0, 0, 0, 1, 2),
+(21, 0, 0, 0, 0, 5, 2),
+(22, 0, 0, 0, 0, 7, 2),
+(23, 0, 0, 0, 0, 4, 2),
+(24, 0, 0, 0, 0, 8, 2),
+(25, 0, 0, 0, 0, 10, 2),
+(26, 0, 0, 0, 0, 11, 2),
+(27, 0, 0, 0, 0, 16, 2),
+(28, 0, 0, 0, 0, 9, 2),
+(29, 0, 0, 0, 0, 13, 2),
+(30, 0, 0, 0, 0, 15, 2),
+(31, 0, 0, 0, 0, 12, 2),
+(32, 0, 0, 0, 0, 14, 2),
+(33, 1, 1, 1, 1, 17, 1),
+(34, 1, 1, 1, 1, 18, 1),
+(35, 1, 1, 1, 1, 19, 1),
+(36, 1, 1, 1, 1, 18, 2),
+(37, 1, 1, 1, 1, 17, 2),
+(38, 1, 1, 1, 1, 19, 2),
+(39, 1, 1, 1, 1, 18, 3),
+(40, 0, 0, 0, 0, 2, 3),
+(41, 0, 0, 0, 0, 3, 3),
+(42, 0, 0, 0, 0, 6, 3),
+(43, 0, 0, 0, 0, 1, 3),
+(44, 0, 0, 0, 0, 5, 3),
+(45, 0, 0, 0, 0, 7, 3),
+(46, 0, 0, 0, 0, 4, 3),
+(47, 1, 1, 1, 1, 17, 3),
+(48, 0, 0, 0, 0, 19, 3),
+(49, 0, 0, 0, 0, 8, 3),
+(50, 0, 0, 0, 0, 16, 3),
+(51, 0, 0, 0, 0, 10, 3),
+(52, 0, 0, 0, 0, 11, 3),
+(53, 0, 0, 0, 0, 9, 3),
+(54, 0, 0, 0, 0, 13, 3),
+(55, 0, 0, 0, 0, 15, 3),
+(56, 0, 0, 0, 0, 12, 3),
+(57, 0, 0, 0, 0, 14, 3),
+(58, 1, 1, 1, 1, 20, 2),
+(59, 1, 1, 1, 1, 21, 2),
+(60, 1, 1, 1, 1, 20, 3),
+(61, 0, 0, 0, 0, 21, 3),
+(62, 1, 1, 1, 1, 20, 1),
+(63, 1, 1, 1, 1, 21, 1),
+(64, 1, 1, 1, 1, 22, 1),
+(65, 1, 1, 1, 1, 23, 1),
+(66, 1, 1, 1, 1, 23, 2),
+(67, 1, 1, 1, 1, 22, 2),
+(68, 1, 1, 1, 1, 25, 1),
+(69, 1, 1, 1, 1, 24, 1),
+(70, 1, 1, 1, 1, 25, 2),
+(71, 1, 1, 1, 1, 24, 2),
+(72, 1, 1, 1, 1, 32, 1),
+(73, 1, 1, 1, 1, 31, 1),
+(74, 1, 1, 1, 1, 29, 1),
+(75, 1, 1, 1, 1, 27, 1),
+(76, 1, 1, 1, 1, 26, 1),
+(77, 1, 1, 1, 1, 28, 1),
+(78, 1, 1, 1, 1, 30, 1),
+(79, 0, 0, 0, 0, 23, 3),
+(80, 0, 0, 0, 0, 22, 3),
+(81, 0, 0, 0, 0, 25, 3),
+(82, 0, 0, 0, 0, 32, 3),
+(83, 0, 0, 0, 0, 31, 3),
+(84, 0, 0, 0, 0, 29, 3),
+(85, 0, 0, 0, 0, 27, 3),
+(86, 0, 0, 0, 0, 26, 3),
+(87, 0, 0, 0, 0, 28, 3),
+(88, 0, 0, 0, 0, 24, 3),
+(89, 0, 0, 0, 0, 30, 3),
+(90, 1, 1, 1, 1, 32, 2),
+(91, 1, 1, 1, 1, 31, 2),
+(92, 1, 1, 1, 1, 29, 2),
+(93, 1, 1, 1, 1, 27, 2),
+(94, 1, 1, 1, 1, 26, 2),
+(95, 1, 1, 1, 1, 28, 2),
+(96, 1, 1, 1, 1, 30, 2),
+(97, 1, 1, 1, 1, 18, 5),
+(98, 1, 1, 1, 1, 23, 5),
+(99, 1, 1, 1, 1, 22, 5),
+(100, 1, 1, 1, 1, 25, 5),
+(101, 1, 1, 1, 1, 20, 5),
+(102, 1, 1, 1, 1, 2, 5),
+(103, 1, 1, 1, 1, 3, 5),
+(104, 1, 1, 1, 1, 6, 5),
+(105, 1, 1, 1, 1, 1, 5),
+(106, 1, 1, 1, 1, 5, 5),
+(107, 1, 1, 1, 1, 7, 5),
+(108, 1, 1, 1, 1, 4, 5),
+(109, 1, 1, 1, 1, 17, 5),
+(110, 1, 1, 1, 1, 32, 5),
+(111, 1, 1, 1, 1, 31, 5),
+(112, 1, 1, 1, 1, 29, 5),
+(113, 1, 1, 1, 1, 27, 5),
+(114, 1, 1, 1, 1, 26, 5),
+(115, 1, 1, 1, 1, 28, 5),
+(116, 1, 1, 1, 1, 30, 5),
+(117, 1, 1, 1, 1, 24, 5),
+(118, 1, 1, 1, 1, 19, 5),
+(119, 1, 1, 1, 1, 8, 5),
+(120, 1, 1, 1, 1, 16, 5),
+(121, 1, 1, 1, 1, 10, 5),
+(122, 1, 1, 1, 1, 11, 5),
+(123, 1, 1, 1, 1, 9, 5),
+(124, 0, 0, 0, 0, 21, 5),
+(125, 1, 1, 1, 1, 13, 5),
+(126, 1, 1, 1, 1, 15, 5),
+(127, 1, 1, 1, 1, 12, 5),
+(128, 1, 1, 1, 1, 14, 5),
+(129, 1, 1, 1, 1, 33, 5),
+(130, 1, 1, 1, 1, 33, 1),
+(131, 1, 1, 1, 1, 34, 1),
+(132, 1, 1, 1, 1, 38, 1),
+(133, 1, 1, 1, 1, 36, 1),
+(134, 1, 1, 1, 1, 35, 1),
+(135, 1, 1, 1, 1, 37, 1),
+(136, 1, 1, 1, 1, 34, 5),
+(137, 1, 1, 1, 1, 38, 5),
+(138, 1, 1, 1, 1, 36, 5),
+(139, 1, 1, 1, 1, 35, 5),
+(140, 1, 1, 1, 1, 37, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_outcomemeasure`
+--
+
+CREATE TABLE `x_app_outcomemeasure` (
+  `id` bigint NOT NULL,
+  `date` date NOT NULL,
+  `outcome_used` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `pretest_score` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `posttest_score` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `history_id` bigint DEFAULT NULL,
+  `patient_id` bigint DEFAULT NULL,
+  `staff_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_outcomemeasure`
+--
+
+INSERT INTO `x_app_outcomemeasure` (`id`, `date`, `outcome_used`, `pretest_score`, `posttest_score`, `history_id`, `patient_id`, `staff_id`) VALUES
+(11, '2025-12-11', 'NEUMERICAL', '85', '180', 10, 64, 12),
+(12, '2025-12-11', 'rom', '90', '130', 12, 65, 11),
+(13, '2026-04-06', 'VAS', 'HAWKINS TEST', '', 60, 199, 12),
+(14, '2026-04-06', 'VAS', 'HAWKINS TEST', '100', 60, 199, 12),
+(15, '2026-04-04', 'VAS', '100', '180', 63, 198, 12);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_patient`
+--
+
+CREATE TABLE `x_app_patient` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `gender` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `age` int UNSIGNED NOT NULL,
+  `address` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(254) COLLATE utf8mb4_general_ci NOT NULL,
+  `date_of_admission` date NOT NULL,
+  `mr_no` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `branch_id` bigint DEFAULT NULL,
+  `country_id` bigint DEFAULT NULL,
+  `district_id` bigint DEFAULT NULL,
+  `staff_id` bigint DEFAULT NULL,
+  `state_id` bigint DEFAULT NULL,
+  `city` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL
+) ;
+
+--
+-- Dumping data for table `x_app_patient`
+--
+
+INSERT INTO `x_app_patient` (`id`, `name`, `gender`, `phone`, `age`, `address`, `email`, `date_of_admission`, `mr_no`, `branch_id`, `country_id`, `district_id`, `staff_id`, `state_id`, `city`) VALUES
+(8, 'MAALA PARVATHY', 'Female', '9895023031', 55, 'tvm', 'aashrose.rose209@gmail.com', '2025-11-11', 'MRNO20251111001', 1, 1, NULL, 11, 1, 'TRIVANDRUM'),
+(9, 'AMBILI RAJESH', 'Female', '7902678090', 40, 'THIRUMALA\r\nTHIRUVANANTHAPURAM', 'aashrose.rose209@gmail.com', '2025-11-05', 'MRNO20251105001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(10, 'ARCHITHA ASHOK', 'Female', '8111807233', 11, 'THEJAS \r\nNETTA ROAD\r\nPAZHAKUTTY\r\nNEDUMANGAD', 'thejes2011@gmail.com', '2025-03-28', 'MRNO20250328001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(11, 'INDHIRA', 'Female', '9847063733', 85, 'SRIVIDHYA\r\nTRIVANDRUM', 'indhira@gmail.com', '2025-03-27', 'MRNO20250327001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(12, 'NAVANEETH', 'Male', '9961260404', 17, 'S S NIVAS\r\nKOTTIYAM P O\r\nKOLLAM', 'snavaneeth416@gmail.com', '2025-11-06', 'MRNO20251106001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(13, 'SURYA DEVAN', 'Male', '9447740216', 16, 'JYOTHIS T/C52/4015(2)\r\nARA101J \r\nEDAGRAMAM,\r\nKARUMOM\r\nTRIVANDRUM', 'devansir@gmail.com', '2025-11-14', 'MRNO20251114001', 1, 1, 10, 11, 1, ''),
+(14, 'SHIVAKUMARI', 'Female', '8137984818', 54, 'KAVUVILA VEEDU \r\nVAZHAYILA \r\nPEROORKADA', 'aashrose.rose209@gmail.com', '2025-10-30', 'MRNO20251030001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(15, 'DEVASHISH', 'Male', '8606069024', 7, 'SREEVILAS LINE\r\nTRIVANDRUM', 'aashrose.rose209@gmail.com', '2025-01-04', 'MRNO20250104001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(16, 'Vijayakumari Pillai', 'Female', '8086840612', 68, 'Cordon sreevalsam flat No 7D', 'surumiphysio@gmail.com', '2025-11-18', 'MRNO20251118001', 1, 1, 10, 12, 1, ''),
+(17, 'Jisha S Justin', 'Female', '7907492400', 33, 'Kallayam', 'surumiphysio@gmail.com', '2025-11-18', 'MRNO20251118002', 1, 1, NULL, 12, NULL, ''),
+(18, 'Thanmayi', 'Female', '9446595307', 11, 'kannamoola', 'surumiphysio@gmail.com', '2025-11-18', 'MRNO20251118003', 1, 1, 10, 12, 1, ''),
+(19, 'Alhan', 'Male', '9895446617', 11, 'Poonthottathil House, Manjeri', 'fasnajouhar836@gmail.com', '2025-09-15', 'MRNO20250915001', 1, 1, 10, 12, 1, ''),
+(20, 'GOKUL KRISHNAN', 'Male', '9074650793', 29, '8/548, thoppuvilakathu veedu,\r\nsarkara chiraynkeezhu, TVM-695304', 'gkrish1996@gmail.com', '2025-11-18', 'MRNO20251118004', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(21, 'Sera Mariam George', 'Female', '8547140501', 24, 'Manalil CP Nagar 37 muttada PO 20', 'leelasera19@gmail.com', '2025-11-19', 'MRNO20251119001', 1, 1, NULL, 11, NULL, ''),
+(22, 'Ranitha', 'Female', '9995811668', 44, 'Poika ,Mukkola Maruthoor Road Kallayam P O', 'nair.ranitha@gmail.com', '2025-11-18', 'MRNO20251118005', 1, 1, 10, 11, 1, ''),
+(23, 'Srikumari', 'Female', '9895568804', 62, 'Nikunjam Imperial court flat No. 3AB Kowdiar PO ', 'sreekumariamma63@gmail.com', '2025-06-19', 'MRNO20250619001', 1, 1, 10, 11, 1, ''),
+(24, 'NALINI', 'Female', '9449058458', 64, 'V M NALINI\r\nSRIDHATHRI\r\nNEAR SREEMOOLAM BHAGAVATHI TEMPLE\r\nRANNI LANE PERRORKADA', 'viniviji@yaho.com', '2025-11-08', 'MRNO20251108001', 1, NULL, 10, 11, 1, 'TRIVANDRUM'),
+(25, 'SUDHA KRISHNAN', 'Female', '9447435447', 62, 'SWARGAM DN 338\r\nDASHAN NAGAR\r\nKUDAPPANAKUNN', 'krishnansudha63@gmail.com', '2025-05-03', 'MRNO20250503001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(26, 'UDAYA CHANDRIKA', 'Female', '9821848398', 60, 'Udaypalace\r\nkowdiyar\r\nThiruvananthapuram', 'udsnair@gmail.com', '2024-03-10', 'MRNO20240310001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(27, 'MOHANAMMAL', 'Female', '9495718873', 74, 'sreekrishna lane\r\n37A\r\npipline road\r\nThiruvananthapuram', 'chandana@gmail.com', '2024-11-20', 'MRNO20241120001', 1, 1, 10, 11, 1, ''),
+(28, 'SUHAIB', 'Male', '8589855519', 29, 'Melekalluvila Veedu, Chilakoor, Varkala', 'suhaibpodi54@gmail.com', '2025-11-15', 'MRNO20251115001', 1, 1, 10, 12, 1, ''),
+(29, 'ARUNIMA JYOTHI', 'Female', '9207663343', 14, 'Ammus\r\nAvanavanchery\r\nAyilam (p.o)\r\nAttingal', 'anilaworld@gmail.com', '2025-09-12', 'MRNO20250912001', 1, 1, 10, 12, 1, ''),
+(30, 'USHA TK', 'Female', '8547123387', 55, 'Artech ', 'iamlalsujith@gmail.com', '2025-11-21', 'MRNO20251121001', 1, 1, 10, 11, 1, ''),
+(31, 'THANMAY JAYASANKAR', 'Female', '9446595307', 11, 'Neelanjanam KRAD 58/1 Kalakaumudi Road', 'mithilachandran87@gmail.com', '2025-11-22', 'MRNO20251122001', 1, 1, 10, 12, 1, ''),
+(32, 'NAYANA V S', 'Female', '7994644946', 14, 'Thanikal ,Mangad , kollam', 'vinodvijayan8@gmail.com', '2025-11-22', 'MRNO20251122002', 1, 1, 10, 12, 1, ''),
+(33, 'ABHINAV NAIR A S', 'Male', '8921477167', 24, 'Paniker\'s lane TC 9/935(9) Shasthamangalam', 'abhinav2001nair@gmail.com', '2025-08-29', 'MRNO20250829001', 1, 1, 10, 12, 1, ''),
+(34, 'SUSHEELA PHILIP', 'Female', '9387812847', 87, 'MUTTADA NEAR COSMOPOLITIAN CLUB', 'surumi@gmail.com', '2025-11-24', 'MRNO20251124001', 1, 1, 10, 12, 1, ''),
+(35, 'DR BIMAL SAJU', 'Male', '9495309175', 24, '112D DD DIMOND \r\nPANGAPARA HEALTH CENTER\r\nKARYAVATTAM', 'bimalsaju@gmail.com', '2025-11-24', 'MRNO20251124002', 1, 1, NULL, 13, 1, 'TRIVANDRUM'),
+(36, 'VIJAYALEKSHMI', 'Female', '9995454213', 60, 'Vanjiyoor', 'surumi@gmail.com', '2025-11-24', 'MRNO20251124003', 1, 1, 10, 12, 1, ''),
+(37, 'MEENU CHANDRAN', 'Female', '9567301324', 30, 'Geethanjali\r\nA2,pillaveedu nagar\r\nkesavadasapuram', 'meenuchandran1995@gmail.com', '2025-11-24', 'MRNO20251124004', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(38, 'USHA KUMARI', 'Female', '9048366577', 49, 'MEENU VIHAR SOORYA 182\r\nEDAKKULAM\r\nMANNAMOOLA\r\n', 'meenun1996@gmail.com', '2025-11-26', 'MRNO20251126001', 1, 1, 10, 12, 1, ''),
+(39, 'VIJITHA V G', 'Female', '8547441968', 36, 'ATHAM NAMBATTUMOOLA ANADU NEDUMANGAD', 'vijithavinodkumarkp@gmail.com', '2025-11-26', 'MRNO20251126002', 1, 1, 10, 12, 1, ''),
+(40, 'SREEKALA RAMAN', 'Female', '9847091137', 55, 'SIGMA, ULRA-32 ULLOOR LANE, THYCAUD PO', 'kalaraman45@gmil.com', '2025-11-27', 'MRNO20251127001', 1, 1, 10, 12, 1, ''),
+(41, 'testpatient', 'Male', '9749939019', 25, 'Kottayam', 'test_dummy@gmail.com', '2026-01-06', 'MRNO20251127002', 1, 1, 1, 9, 1, NULL),
+(42, 'Ajikumar', 'Male', '8921351971', 55, 'KALABHAVAN ENIKARA KARAKULAM PO', 'ajikumarg008@gmail.com', '2025-11-27', 'MRNO20251127003', 1, 1, 10, 13, 1, 'TRIVANDRUM'),
+(43, 'kARTHIK', 'Male', '7306739871', 26, 'Charuvila veedu\r\nbhoothakulam\r\nkollam', 'akshayachuabhi@gmail.com', '2025-11-27', 'MRNO20251127004', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(44, 'GEETHA KUMARI', 'Female', '7293777264', 54, 'Kavil veedu\r\nKarakulam p o\r\nThiruvananthapuram', 'ashokamkavil@gmail.com', '2025-12-01', 'MRNO20251201001', 1, 1, 10, 11, 1, ''),
+(45, 'BIJUKUMAR', 'Male', '9400877222', 50, 'Kottarathil\r\nANRA 22A\r\nAltharanagar\r\nVellayambalam', 'bijukdavidson@gmail.com', '2025-12-01', 'MRNO20251201002', 1, NULL, 10, 11, 1, 'TRIVANDRUM'),
+(46, 'SAM MATHEW', 'Male', '9400779977', 39, 'G ARTECH SRIREMA VILLA \r\nJAWAHAR NAGAR TVM', 'md@movieininteriors.com', '2025-12-01', 'MRNO20251201003', 1, 1, 10, 13, 1, ''),
+(47, 'MAYUKHA SAJIKUMAR', 'Female', '9447556337', 14, 'Megha gardens\r\nPNRA17\r\nPanchami nagar\r\nVattapara', 'nskv3000@gmail.com', '2025-12-02', 'MRNO20251202001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(48, 'VISHNU', 'Male', '8891177854', 35, 'Sasi villas\r\nVazhayila\r\nPeroorkada\r\n', 'iamssvishnu@gmail.com', '2025-12-02', 'MRNO20251202002', 1, NULL, 10, 11, 1, 'TRIVANDRUM'),
+(49, 'RESHMI V S', 'Female', '9400954654', 42, 'SREELAKAM TC 55/1200(1), OPPOSITE ANJALI GARDENS GATE-2 MARUTHOORKADAVU', 'reshmivs@gmail.com', '2025-12-02', 'MRNO20251202003', 1, 1, 10, 12, 1, ''),
+(50, 'AKSHARA LEKSHMI', 'Female', '8891906199', 19, 'DISTRICT SPORTS ACADEMY KOLLAM', 'aksharalekshmia@gmail.com', '2025-12-02', 'MRNO20251202004', 1, 1, 10, 12, 1, ''),
+(51, 'MADHULA', 'Female', '9495002517', 24, 'Mnavilayi\r\n1A Silvercastle\r\nAKG Nagar\r\nPeroorkada', 'madhulask@gmail.com', '2025-12-04', 'MRNO20251204001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(52, 'CARMEL KAMALIUS', 'Female', '9656612677', 63, 'Carmel kamalius\r\njoshy cottage\r\nTC 34/365 Beach p o\r\nTrivandrum', 'bjkc20@gmail.com', '2025-12-05', 'MRNO20251205001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(53, 'LAILA HANEEF', 'Female', '9645079875', 71, 'NEETHI NAGAR, INDIRA NAGAR, PEROORKADA', 'lailahaneef@gmail.com', '2025-12-05', 'MRNO20251205002', 1, 1, 10, 12, 1, ''),
+(54, 'AKHIL ', 'Male', '8136959777', 35, '112f TRAVANCORE MERIDIAN', 'akhilkrbz@gmail.com', '2025-12-05', 'MRNO20251205003', 1, 1, 10, 12, 1, ''),
+(55, 'AKHIL ASOK', 'Male', '9656977749', 30, 'ASOKAM 62C VV ,NAGAR, NCC ROAD ,AMBALAMUKKU', 'akhil_a27@yahoo.in', '2025-12-06', 'MRNO20251206001', 1, 1, 10, 12, 1, ''),
+(56, 'SURESHKUMAR', 'Male', '9846244944', 65, 'BNRA 67B\r\nGolflink road\r\nBhagavathy nagar\r\nkowdiar', 'sureshkumar@gmail.com', '2025-12-08', 'MRNO20251208001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(57, 'SWATHY S', 'Female', '9539101165', 28, 'AISHWARYA BHAVAN ,POOCHEDIVILA, KATTAIKODE PO,KATTAKADA', 'sudhimuthumol@gmail.com', '2025-12-08', 'MRNO20251208002', 1, 1, 10, 11, 1, ''),
+(58, 'ANITHAKUMARI', 'Female', '9446100487', 60, 'MRA 64\r\nDhanya\r\nMannady lane\r\nAmbalamukk', 'anitharatheesh1965@gmail.com', '2025-12-09', 'MRNO20251209001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(59, 'ARDRA S KRISHNAN', 'Female', '8921414788', 22, 'Chithralayam\r\nANRA 37\r\nkaryavattom \r\nTrivandrum', 'ardrasunil23@gmail.com', '2025-12-09', 'MRNO20251209002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(60, 'LALSREE S R', 'Female', '9400980427', 53, 'SREEDEPAM, KUNNAPUZHA THIRUMALA', 'srlalsree@gmail.com', '2025-12-09', 'MRNO20251209003', 1, 1, 10, 11, 1, ''),
+(61, 'AMALESH A S', 'Male', '9446143144', 14, 'BHAGATH SINGH NAGAR\r\nNALANCHIRA', 'amaleshas2020@gmail.com', '2025-12-10', 'MRNO20251210001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(62, 'RITHUNANDA ', 'Female', '8281092232', 11, 'MANIMANDIRAM \r\nTC 49/2143\r\nSTUDIO ROAD \r\nNEMAM', 'rajisrkrishna@gmail.com', '2025-12-10', 'MRNO20251210002', 1, 1, 10, 11, 1, ''),
+(63, 'SUDHAMINI', 'Female', '9495200066', 57, 'SATHYAMANGALATH ,CITY GARDEN, MANJADI,PEYAD PO', 'sudhaimini68@gmail.com', '2025-12-10', 'MRNO20251210003', 1, 1, 10, 12, 1, ''),
+(64, 'PRASANTH R S', 'Male', '9447750108', 51, 'HARSHAM ENIKARA\r\nKARAGULAM', 'prasanthrspwd@gmail.com', '2025-12-11', 'MRNO20251211001', 1, 1, 10, 12, 1, ''),
+(65, 'THANKAMANI', 'Female', '9567551524', 71, 'Aishwarya\r\nPVR 38\r\nPalamvila lane\r\nNcc road \r\nAmbalamukk', 'thankamanisasidharan@gmail.com', '2025-12-11', 'MRNO20251211002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(66, 'SREE DEVI', 'Female', '9497272596', 49, ' Thodiyil DN235A Kodappanakunnu ', 'arjunsreedevi@gmail.com', '2025-12-12', 'MRNO20251212001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(67, 'RAMYA RAVEENDRAN', 'Female', '9745682054', 36, 'FLAT 3D\r\nAISWARYA HOMES VISTA\r\nPILLAVEED NAGAR PATTOM', 'ramya8082@gmail.com', '2025-12-12', 'MRNO20251212002', 1, 1, 10, 13, 1, 'TRIVANDRUM'),
+(68, 'CAPTAIN G NAIR', 'Male', '9995774452', 73, '6B CARDINAL ADITHYA\r\nNCC ROAD\r\nAMBALAMUKK', 'ramkrishnair@gmail.com', '2025-12-12', 'MRNO20251212003', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(69, 'THEERTHA B S', 'Female', '9946527538', 12, 'PUNNAVILA VEED\r\nMELLATINGAL ALANGODU P O\r\nATTINGAL', 'soumyapvnair@gmail.com', '2025-12-13', 'MRNO20251213001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(70, 'MANUSREE', 'Female', '9940131030', 14, 'RAJESH BHAVAN\r\nALAMCODE P O', 'rajeshbs2k@gmail.com', '2025-12-13', 'MRNO20251213002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(71, 'RAJASHEKARAN', 'Male', '9495202009', 74, 'SREVILASAM LANE', 'chandana@gmail.com', '2025-12-15', 'MRNO20251215001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(72, 'MADHULYA ', 'Female', '9495002517', 23, 'MANIVILAI, 1A SILVER CASTLE, AKG NAGAR, PEROORKADA', 'madhulyamk@gmail.com', '2025-12-15', 'MRNO20251215002', 1, 1, 10, 11, 1, ''),
+(73, 'SREEJITH S', 'Male', '9633531991', 36, 'SREELEKSHMI ,DNRA 45, DURGA NAGAR,POOMALLIYORKONAM, PEROORKADA PO', 'sreejith89@yahoo.com', '2025-12-16', 'MRNO20251216001', 1, 1, 10, 12, 1, ''),
+(74, 'AMEETA NAIR', 'Female', '9567700796', 69, 'KRA C 401\r\nPRAKRITHI\r\nMATHILMUKKA\r\nKUDAPPANAKUN \r\nTVM ', 'nairameeta@yahoo.co.in', '2025-12-17', 'MRNO20251217001', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(75, 'JIHANGIR', 'Male', '9446029107', 72, 'TC 60/2040\r\nKumarapuram\r\nMedical college\r\nTrivandrum', 'm_jihangir@gmail.com', '2025-12-17', 'MRNO20251217002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(76, 'SREEKALA S', 'Female', '9495002517', 55, 'FLAT 1A,SILVERCASTLE BLISS,AKG NAGAR, PEROORKADA', 'kalaunnithan@gmail.com', '2025-12-18', 'MRNO20251218001', 1, 1, 10, 12, 1, ''),
+(77, 'REEJA C', 'Female', '9020337370', 58, 'NIRVRITHI,HOUSE NO :73 KKV NAGAR,6TH STONE KARAKULAM', 'reejac16@gmail.com', '2025-12-18', 'MRNO20251218002', 1, 1, 10, 12, 1, ''),
+(78, 'NIRMALA KUMARI S', 'Female', '8547879784', 47, 'AYILYAM MULLASSERY', 'chandana@gmail.com', '2025-12-20', 'MRNO20251220001', 1, 1, 10, 13, 1, 'TRIVANDRUM'),
+(79, 'MADAV S', 'Male', '7306481407', 15, 'VIGAS NAGAR\r\nHOUSE NO 55\r\nNETTAYAM', 'sunojm2016@gmail.com', '2025-12-20', 'MRNO20251220002', 1, 1, 10, 13, 1, 'TRIVANDRUM'),
+(80, 'NAYANA', 'Female', '9961872998', 15, 'SREEKARYAM', 'senejacob200@gmail.com', '2025-12-22', 'MRNO20251222001', 1, 1, 10, 13, 1, ''),
+(81, 'ASWIN U S', 'Male', '8921788913', 28, 'COUTAGE NO 207\r\nINCOME TAX COUTAGE\r\nKOWDIAR', 'aswinus112@gmail.com', '2025-12-23', 'MRNO20251223001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(82, 'MURALI KRISHNAN G', 'Male', '7356171039', 42, 'ORAF 132,ODANKUZHI LANE THIRUMALA', 'muralilrishnangaya@gmail.com', '2025-12-23', 'MRNO20251223002', 1, 1, 10, 12, 1, ''),
+(83, 'RANI', 'Female', '9846164000', 50, 'PEROORKADA', 'rani@gmail.com', '2025-12-23', 'MRNO20251223003', 1, 1, 10, 12, 1, ''),
+(84, 'PRASAD L P', 'Male', '8547701892', 68, 'SVLRA-MR1B,TOLL JUNCTION', 'prasadlp016@gmail.com', '2025-12-23', 'MRNO20251223004', 1, 1, 10, 12, 1, ''),
+(85, 'SHIVANI VJ', 'Female', '9746512541', 13, 'Arackal Kizhakkathil Ashramam PO Kollam', 'jeenavinod11@yahoo.com', '2025-12-25', 'MRNO20251225001', 1, 1, 11, 11, 1, 'Kollam'),
+(86, 'SANJAY S', 'Male', '9496813393', 15, 'TC 21/2664 NIRMALYAM NGRA 8, NCC NAGAR PEROORKADA PO', 'santhosh7004@gmail.com', '2025-12-26', 'MRNO20251226001', 1, 1, 10, 11, 1, ''),
+(87, 'MARZUQ M SALIM', 'Male', '9447533613', 15, 'MARZUQ MANZIL, AVANESWARAM, RS PO KUNNIKODE KOLLAM', 'salimmeerasahib@gmail.com', '2025-12-29', 'MRNO20251229001', 1, 1, 11, 12, 1, ''),
+(88, 'ANU ELIZABETH MATHEW', 'Female', '7403040407', 40, 'Adarsh Nagar\r\nPattom \r\nThiruvananthapuram', 'anuelizmathew@gmail.com', '2025-12-29', 'MRNO20251229002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(89, 'HUSNA ABDULLA', 'Female', '8606510007', 37, 'Galadunge\r\nMaldives', 'ahmedyakko8@gmail.com', '2025-12-31', 'MRNO20251231001', 1, 1, 10, 11, 1, ''),
+(90, 'SANGEETHA SURESH', 'Female', '9074676112', 32, 'TC 31/778[2], APRA 54 B, CHACKAI,PETTAH PO', 'sanheethasangi159@mail.com', '2026-01-01', 'MRNO20260101001', 1, 1, 10, 13, 1, ''),
+(91, 'LAL SATHYA', 'Male', '9446043452', 55, 'B1 kowdiar Gardens\r\nThiruvananthapuram', 'lalanjanam@gmail.com', '2026-01-02', 'MRNO20260102001', 1, 1, 10, 12, 1, ''),
+(92, 'KOUSHIK KRISHNA VM', 'Male', '9072330722', 13, 'AISWARYA HOMES INFINITY FLAT NO:BF3 KULATHOOR', 'maheswari266@gmail.com', '2026-01-02', 'MRNO20260102002', 1, 1, 10, 13, 1, 'TRIVANDRUM'),
+(93, 'ANITTA SUSAN JACOB', 'Female', '9620950581', 38, 'KALEECKAL, PRANAVAM NAGAR HILLS,MUKKOLACAL MANNAMTHALA', 'anittasusan@gmail.com', '2026-01-02', 'MRNO20260102003', 1, 1, 10, 13, 1, ''),
+(94, 'VISHNU V NAIR', 'Male', '9447868219', 35, 'THIRUVONAM TC 19/20542,MUDAVANMUGHAL,POOJAPURA ', 'vishnuganapatipara@gmail.com', '2026-01-02', 'MRNO20260102004', 1, 1, 10, 13, 1, ''),
+(95, 'ABIGAIL', 'Female', '9562360712', 13, 'ANICKATTU BETHSAIDA PADA SOUTH KARUNAGAPALLY 690518 KOLLAM', 'anuannieabraham@gmail.com', '2026-01-03', 'MRNO20260103001', 1, 1, 11, 13, 1, 'Kollam'),
+(96, 'AYYAPPAN ASOKAN', 'Male', '8089980844', 43, 'HOUSE NO:46 CHEMBAKASHERINAGAR KESAVADASAPURAM', 'ayyappansmail@gmail.com', '2026-01-03', 'MRNO20260103002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(97, 'VINAY VARMA', 'Male', '9633226541', 77, 'VP7/1284,AMRITA LANE ,THOPPUMUKKU,VATTIYOORKAVU', 'vinayvarma@gmail.com', '2026-01-05', 'MRNO20260105001', 1, 1, 10, 13, 1, ''),
+(98, 'test', 'Male', '7649939019', 35, 'Kottayam', 'testadmin@gmail.com', '2026-01-06', 'MRNO20260106001', 1, 1, 1, 11, 1, NULL),
+(99, 'ABHIJITH A B', 'Male', '7306533743', 23, 'Theruvila veedu\r\nMRA B9\r\nMukkola\r\nNettayam', 'abhijith00710@gmail.com', '2026-01-06', 'MRNO20260106002', 1, 1, 10, 11, 1, ''),
+(100, 'HEERA', 'Female', '9388152221', 16, 'PEYYAD', 'rpgtvc@gmail.com', '2026-01-06', 'MRNO20260106003', 1, 1, 10, 12, 1, ''),
+(101, 'DIYA DS', 'Female', '9715294228', 13, 'RAJNIVAS CHENNANCODE VARKALA', 'avsnehya@gmail.com', '2026-01-07', 'MRNO20260107001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(102, 'REKHA RS', 'Female', '9037455797', 42, 'SPTRA64 SREEVARAHAM MANACADU', 'rekhavivek425@gmail.com', '2026-01-07', 'MRNO20260107002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(103, 'AYSHA RAJA N', 'Female', '7907058276', 10, 'NELLIYOTT KOLATHARA PALLIPARAMBU KOZHIKODE', 'sidhiquesidhiquenelliyotte5744@gmail.com', '2026-01-08', 'MRNO20260108001', 1, 1, 13, 12, 1, 'kozhikode'),
+(104, 'SURYA MARY SAM', 'Female', '9847660305', 42, 'TC4-2239(33) NILAMEL KAIRALINAGAR KURAVANKONAM KOWDIAR', 'suryamarysam@gmail.com', '2026-01-08', 'MRNO20260108002', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(105, 'SHALINI', 'Female', '9633272200', 52, 'Thulasi bhavan\r\nBhagavathy lane\r\nJawahar nagar\r\nTVM', 'anjuajayan19@gmail.com', '2026-01-08', 'MRNO20260108003', 1, 1, 10, 11, 1, ''),
+(106, 'SABEENA MATTAPALLI', 'Female', '6446093366', 60, 'MATTAPALLI VAZHAYILA HOUSE NO: 18, KARAKULAM PO', 'sabeena@gmail.com', '2026-01-09', 'MRNO20260109001', 1, 1, 10, 12, 1, ''),
+(107, 'BINDHI M J', 'Female', '8547001042', 42, 'BCRA A-16,RAMANS COLONY KOWDIAR', 'sunilchettikulangara@gmail.com', '2026-01-09', 'MRNO20260109002', 1, 1, 10, 12, 1, ''),
+(108, 'KRISHNA CHANDRAN', 'Male', '9539606626', 46, 'Sree ambadi\r\nAmbalanagar\r\nKowdiar', 'b.krishnachandran1@gmail.com', '2026-01-12', 'MRNO20260112001', 1, 1, 10, 11, 1, ''),
+(109, 'JESNA JOHN', 'Female', '7356308196', 31, 'Elavakkattu\r\nThekkeputhenveedu\r\nAnchal \r\nKollam', 'jesjom94@gmail.com', '2026-01-13', 'MRNO20260113001', 1, 1, 11, 15, 1, ''),
+(110, 'LEKHA O', 'Female', '9895651311', 50, 'VISHAK BHAVAN, BN DURGA NAGAR,PONGUMOODU', 'vishakkannan@gmail.com', '2026-01-13', 'MRNO20260113002', 1, 1, 10, 15, 1, ''),
+(111, 'SUJITH K K', 'Male', '8137882848', 25, 'TC 55/413(1) VILAYIL ROAD KALADY SOUTH', 'sksujith2000@gmail.com', '2026-01-13', 'MRNO20260113003', 1, 1, 10, 12, 1, ''),
+(112, 'JAYADEV   V', 'Male', '7019901176', 40, 'NCC road\r\nPeroorkada', 'punjuyesha@gmail.com', '2026-01-14', 'MRNO20260114001', 1, 1, 10, 15, 1, ''),
+(113, 'ARAVIND NK', 'Male', '9995334159', 39, 'SREENANDINI,MANNAMOOLA,PEROORKADA', 'aravindk107@gmail.com', '2026-01-14', 'MRNO20260114002', 1, 1, 10, 12, 1, ''),
+(114, 'JINSON THOMAS', 'Male', '8281613995', 37, 'Plot no-114\r\nPS nagar\r\nNedumangad', 'jinuvjt@gmail.com', '2026-01-16', 'MRNO20260116001', 1, 1, 10, 11, 1, ''),
+(115, 'SREELEKSHMI', 'Female', '6282166541', 16, 'Earthumele veedu\r\nVeniyoor,Nellivila', 'jayalekshmikj04@gmail.com', '2026-01-17', 'MRNO20260117001', 1, 1, 10, 11, 1, ''),
+(116, 'REVA FERIN', 'Female', '9061695397', 23, 'Chungasseril manzil\r\nPada north\r\nKarunagapalli', 'revaferin@gmail.com', '2026-01-17', 'MRNO20260117002', 1, 1, 11, 11, 1, ''),
+(117, 'SIYAN', 'Male', '7012890496', 12, 'Ottupara house\r\nMannarkadu\r\nPalakad', 'mohammedsakker320@gmail.com', '2026-01-17', 'MRNO20260117003', 1, 1, 10, 11, 1, ''),
+(118, 'JAISHANKAR MENON', 'Male', '7338777466', 40, '14A Oakleaj,\r\nHeera,swistown\r\nSasthamangalam', 'jaishankar.menon@gmail.com', '2026-01-17', 'MRNO20260117004', 1, 1, 10, 11, 1, ''),
+(119, 'AIBY ELIAS  ', 'Female', '8714631668', 40, 'NCC road \r\nAmbalamukk', 'empowering.hr@gmail.com', '2026-01-17', 'MRNO20260117005', 1, 1, 10, 11, 1, ''),
+(120, 'PRIYA SHAIJU', 'Female', '9562060210', 12, 'THEKKUVILA VEEDU,PUNALOOR', 'valliyatachan@gmail.com', '2026-01-19', 'MRNO20260119001', 1, 1, 10, 15, 1, ''),
+(121, 'AKSHAY J B', 'Male', '9496390911', 27, 'KALPADA,KALLAYAM PO', 'jbakshay555@gmail.com', '2026-01-19', 'MRNO20260119002', 1, 1, 10, 15, 1, ''),
+(122, 'K JAYAKUMAR ', 'Male', '9496390911', 64, 'SAIKRISHNANEDUMAN,KALPADA KALLAYAM PO', 'jbakshay555@gmail.com', '2026-01-19', 'MRNO20260119003', 1, 1, 10, 15, 1, ''),
+(123, 'SUKU ABRAHAM JACOB', 'Male', '9847066700', 64, 'CHAKKA LINE ,VALLIVILA VATTAPARA', 'suku.aj@gmail.com', '2026-01-21', 'MRNO20260121001', 1, 1, 10, 12, 1, ''),
+(124, 'PRIYA PS', 'Female', '9446047009', 41, 'VAISHNAVAM MG21 PEROORKADA', 'priyaps@gmail.com', '2026-01-21', 'MRNO20260121002', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(125, 'MUTHUKRISHNAN  R', 'Male', '9447427494', 50, 'PRA 52 Punnakkal Road\r\nWest Fort', 'trmkrishnan.@rediffmail.com2', '2026-01-23', 'MRNO20260123001', 1, 1, 10, 12, 1, ''),
+(126, 'MARIAMMA A', 'Female', '9447142846', 56, 'OTTAPLAMOTTIL VEEDU, KUNNARAVILA,MUNDAIKONAM,MUTTADA PO', 'pmmintiz@gmail.com', '2026-02-14', 'MRNO20260123002', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(127, 'SAFA FATHIMA I J', 'Female', '9600079268', 15, 'BISMILLAH MANZIL SHANTHI NAGAR SHANTHIVILA NEMOM', 'jasooti@gmail.com', '2026-01-26', 'MRNO20260126001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(128, 'NAJEEB KHAN M I', 'Male', '7012531778', 50, 'VVLRA 16 AMRITHAM VALYAVEEDU LANE KAMALESHWARAM MANACAD PO', 'mohammedzayedn10@gmail.com', '2026-01-26', 'MRNO20260126002', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(129, 'JANANI BALAJI', 'Female', '9179034518', 42, '14D,ASSET SUNNYDAYS,KUDAPANAKUNNU.PEROORKADA PO', 'janani.balaji1@gmail.com', '2026-01-27', 'MRNO20260127001', 1, 1, 10, 12, 1, ''),
+(130, 'FIDHA  FATHIMA', 'Female', '8547555159', 25, 'NANDAVANAM PALAYAM', 'shafeekmohammed8@gmail.com', '2026-02-02', 'MRNO20260202001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(131, 'LATHIKA V', 'Female', '9446691926', 48, 'ROADARIKATH VEEDU, KARAMOODU KALLAYAM PO', 'lathikatitus008@gmail.com', '2026-02-02', 'MRNO20260202002', 1, 1, 10, 15, 1, ''),
+(132, 'SANDEEP K', 'Male', '8129956166', 41, 'SAI PRASATHAM,MOOLAYIL LANE ,SHASTHAMANGALAM', 'sandeepk84@gmail.com', '2026-02-02', 'MRNO20260202003', 1, 1, 10, 15, 1, ''),
+(133, 'VISAKH', 'Male', '7907382787', 26, 'PUTHUVAL PUTHAN VEEDU,MITHRMALA,VENJARAMOODU', 'rexa71433@gmail.com', '2026-02-02', 'MRNO20260202004', 1, 1, 10, 15, 1, ''),
+(134, 'FATHIMA N', 'Female', '9207620798', 13, 'SHAHINA MANZIL CHINGOLI ALAPPUZHA', 'vahidmajeed1@gmail.com', '2026-02-03', 'MRNO20260203001', 1, 1, 5, 15, 1, 'ALAPPUZHA'),
+(135, 'ASOK', 'Male', '8111807233', 46, 'THEJAS, NETTA ROAD ,PAZHAKUTTI', 'sujiasok@gmail.com', '2026-02-04', 'MRNO20260204001', 1, 1, 10, 12, 1, ''),
+(136, 'DAISY ANTONY', 'Female', '8547333653', 72, '29, ganthinagar, peroorkada', 'daisyantony@gmail.com', '2026-02-06', 'MRNO20260206001', 1, 1, 10, 12, 1, ''),
+(137, 'NIYA PETER', 'Female', '9746480840', 15, 'CORDON IMPERIAL GARDENS \r\nVAZHAYILA', 'dinu219@gmail.com', '2026-02-09', 'MRNO20260209001', 1, 1, 10, 11, 1, ''),
+(138, 'DILIP', 'Male', '9995150990', 42, 'PLR 2 PULIMOODU LANE \r\nVATTIYURKAVU', 'dilipcs@live.com', '2026-02-10', 'MRNO20260210001', 1, 1, 10, 11, 1, ''),
+(139, 'PRAVEEN G', 'Male', '8939039031', 25, '5/9 PILLAIYAR KOVIL STREET KADANGAR THIRUNELVELI', 'nlbpraveen490@gmail.com', '2026-02-10', 'MRNO20260210002', 1, 1, 9, 11, 3, 'THIRUNELVELI'),
+(140, 'HASEEB MUHAMMED', 'Male', '9072361125', 17, 'HASHIM MANZIL KALLOOR,MANJAMALA, PO,POTHENKODE', 'hashimhaseebm1974@gmail.com', '2026-02-12', 'MRNO20260212001', 1, 1, 10, 15, 1, ''),
+(141, 'ARJUN B', 'Male', '9747931899', 23, 'TC47/1973 METHODE LANE,POOJAPURA PO', 'arjunbiju472@gmail.com', '2026-02-13', 'MRNO20260213001', 1, 1, 10, 11, 1, ''),
+(142, 'USHA S A', 'Female', '9605455122', 47, 'USHAS,NETHAJI POST ROAD NANTHANKODE,KOWDIAR PO', 'usha31051979@gmail.com', '2026-02-13', 'MRNO20260213002', 1, 1, 10, 12, 1, ''),
+(143, 'LALY VD', 'Female', '8547117297', 60, 'PRANAVAM AVUKULAM CHEMBAZHATHY PO', 'lalyprakash65@gmail.com', '2026-02-13', 'MRNO20260213003', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(144, 'ASHOK S', 'Male', '9895125223', 43, 'TC 64/1107(5) ARAVINDHAM, THEKKUMTHALA,KARUMOM TVM', 'ashoktvm@gmail.com', '2026-02-14', 'MRNO20260214001', 1, 1, 10, 15, 1, ''),
+(145, 'SADIYA M', 'Female', '9446994666', 14, 'LAMIYA MAHAL, MUKKATHALA,KOLLAM', 'amsaalih@gmail.com', '2026-02-14', 'MRNO20260214002', 1, 1, 10, 12, 1, ''),
+(146, 'VINITHA NAYER', 'Female', '8129676647', 70, 'A/1A KOTTAKAL JAWAHARNAGAR THIRUVANANTHAPURAM', 'vinithanayer@gmail.com', '2026-02-17', 'MRNO20260217001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(147, 'NANDHITHA ', 'Female', '9871668361', 43, 'A/1A KOTTAKAL JAWAHARNAGAR ,TVM', 'nandhitha@gmail.com', '2026-02-17', 'MRNO20260217002', 1, 1, 10, 15, 1, ''),
+(148, 'INDHIRA DEVI', 'Female', '7994735377', 72, 'AURELIA VATTIYOORKAVU', 'breezeb83@gmail.com', '2026-02-18', 'MRNO20260218001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(149, 'INDIRA DEVI', 'Female', '7994735377', 72, 'AURELIA, VATTIYOORKAVU', 'breezeb83@gmail.com', '2026-02-18', 'MRNO20260218002', 1, 1, 10, 12, 1, ''),
+(150, 'NIKHIL SASI', 'Male', '9496815401', 37, 'NANDHANAM,140,NSS KARAYOGAM ROAD ANAYARA', 'nikhil.unni@gmail.com', '2026-02-18', 'MRNO20260218003', 1, 1, 10, 12, 1, ''),
+(151, 'VIGNESH KP', 'Male', '9895411262', 22, 'M27 RP LANE KOWDIYAR', 'appuv7761@gmail.com', '2026-02-21', 'MRNO20260221001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(152, 'RYAN KOSHI GEORGE', 'Male', '9895356435', 13, 'FLAT 1/B CASTLE ROCK APARTMENT MANJADIMOODU VATTIYOORKAVU', 'sandyfy155@gmail.com', '2026-02-21', 'MRNO20260221002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(153, 'MUHAMMED  P K ', 'Male', '9061112886', 25, 'AMBALAMUKK', 'muhammedpk707@gmail.com', '2026-02-23', 'MRNO20260223001', 1, 1, 10, 15, 1, ''),
+(154, 'VALSALA BAI', 'Female', '9895133092', 68, 'V V S VIHAR\r\nKARIKONAM\r\nVELLANAD \r\n', 'gotoshijuvv@gmail.com', '2026-02-23', 'MRNO20260223002', 1, 1, 10, 12, 1, ''),
+(155, 'RYAN R STANLY', 'Female', '9744220766', 10, 'TRA36 KUMARAPURAM', 'stanlygeorge@gmail.com', '2026-02-23', 'MRNO20260223003', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(156, 'SIDHIK P', 'Male', '8848454973', 44, 'MISIRIYA MANZIL PANIVILA ROAD PUNALAL PO', 'sidhik0@gmail.com', '2026-02-23', 'MRNO20260223004', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(157, 'REYYAN R STANLY', 'Male', '9895356435', 10, 'FLAT 1/3 CASTLE ROCK APARTMENT,MANJADEMOODU,VATTIYOORKAVU', 'sandyfy155@gmail.com', '2026-02-23', 'MRNO20260223005', 1, 1, 10, 15, 1, ''),
+(158, 'APPUKUTTAN NAIR', 'Male', '9847031192', 83, ' WINDSOR CASTLE KURAVANKONAM', 'aknair1943@gmail.com', '2026-02-24', 'MRNO20260224001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(159, 'MARY ALPHONSA', 'Female', '9645107839', 78, 'PIPE LANE ROAD KOWDIYAR', 'joshineggf@gmail.com', '2026-02-24', 'MRNO20260224002', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(160, 'USHA NAIR', 'Female', '9895487052', 60, 'NAIRS HOSPITAL KOLLAM', 'ushanair@gmail.com', '2026-02-24', 'MRNO20260224003', 1, 1, 11, 15, 1, 'Kollam'),
+(161, 'RUBY ROSE MATHEWS', 'Female', '8845356062', 30, 'VAIDIKAM ,\r\nDPN 25B ,DEVAPALAN LANE\r\nPEROORKADA', 'rubyrosemathews17@gmail.com', '2026-02-24', 'MRNO20260224004', 1, 1, 10, 15, 1, ''),
+(162, 'LIYANA', 'Female', '7012890496', 15, 'MANNARKAD\r\nPALAKAD', 'sakeerpm@gmail.com', '2026-02-25', 'MRNO20260225001', 1, 1, 10, 11, 1, ''),
+(163, 'NOUMIRA ABDULLA', 'Female', '7293119209', 38, 'NOUSHAD MANSION,KANHANGAD,KASARKODE', 'noumipm@gmail.com', '2026-02-25', 'MRNO20260225002', 1, 1, NULL, 15, 1, ''),
+(164, 'PREMALATHA SOMAN', 'Female', '9846245945', 59, 'TC 27/217\r\nKUNNUKUZHY ,\r\nTRIVANDRUM', 'sudhirraghavan45945@gmail.com', '2026-02-27', 'MRNO20260227001', 1, 1, 10, 12, 1, ''),
+(165, 'ISMAIL', 'Male', '9600079368', 50, 'BISMILAH MANZIL\r\nSHANTI NAGAR\r\nSHANTIVILA\r\nTRIVANDRUM', 'jasooti@gmail.com', '2026-03-05', 'MRNO20260302001', 1, NULL, 10, 15, 1, NULL),
+(166, 'BINU S', 'Male', '7012246092', 51, 'BINOY BHAVAN PATTUVILA MALAYINKEEZHU', 'sbinu1814@gmail.com', '2026-03-02', 'MRNO20260302002', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(167, 'VISHNU S ANAND ', 'Male', '9020388301', 36, 'SREESADANAM \r\nPALLIVILA LANE ,EZHAKODE\r\nTHIRUMALA\r\n', 'vishnusanand2023@gmail.com', '2026-03-04', 'MRNO20260304001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(168, 'LAKSHMI M KUMARAN', 'Female', '9448495706', 62, 'NO 52 BHANUMATHI NORTH NAVARANGAM LANE 2 MEDICAL COLLEGE PO ', 'laxmimk@hotmail.com', '2026-03-04', 'MRNO20260304002', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(169, 'ABHISHEKH S KUMAR', 'Male', '9567665738', 20, 'DEVADHEYAM\r\nVINAYAKANAGAR\r\nEAST MUKKOLA , TRIVANDRUM', 'ashasrees18@gmail.com', '2026-03-05', 'MRNO20260305001', 1, 1, 10, 12, 1, ''),
+(170, 'RESMI ML', 'Female', '9947904661', 45, 'FLAT NO.2B\r\nSFS PALACE COURT\r\nNEAR NARMADA', 'resmimi2014@gmail.com', '2026-03-06', 'MRNO20260306001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(171, 'SHIBU', 'Male', '8330107852', 42, 'KOTTARAKONAM \r\nMELE PUTHAN VEEDU\r\nKOOVALASERRY\r\nKOTTAMUKAL', 'shibu@gmail.com', '2026-03-06', 'MRNO20260306002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(172, 'VAISHNAV VARMA', 'Male', '9847543431', 7, 'TRRA 206 B\r\nNADAKAV LANE\r\nAMBALAMUK\r\n', 'unithiri@gmail.com', '2026-03-09', 'MRNO20260309001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(173, 'FYHA M', 'Female', '9446110488', 15, 'A R VIHAR\r\nANDOORKONAM\r\nPOTHENCODE', 'suhaershad@gmail.com', '2026-03-11', 'MRNO20260311001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(174, 'MOHAMMED SHAFEEQ', 'Male', '9633148926', 40, 'SM COTTAGE NEAR FEDERAL BANK VEMBAYAM', 'drshafeeq87@gmail.com', '2026-03-13', 'MRNO20260313001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(175, 'MANOJ', 'Male', '9447606772', 47, 'SURYA NANDA\r\nNILAMEI\r\nKARAKULAM\r\nTRIVANDRUM', 'manoj@keltron.org', '2026-03-13', 'MRNO20260313002', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(176, 'RYAN SAJU JOHN', 'Female', '8075648193', 14, 'JOHN VILLA NEDIYAVILA PULLUVILA', 'ja.saju@gmail.com', '2026-03-14', 'MRNO20260314001', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(177, 'ROSE MARY', 'Female', '9895993252', 69, 'THENNAL PLOT NO:115 PTP NAGAR PO TRIVANDRUM 695038', 'rosemary@gmail.com', '2026-03-14', 'MRNO20260314002', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(178, 'RAJI R', 'Female', '8075560019', 36, 'NEDUMANGAD', 'rajiarun.223@gmail.com', '2026-03-14', 'MRNO20260314003', 1, 1, NULL, 15, 1, ''),
+(179, 'SUJILA ', 'Female', '8111807233', 41, 'THEJAS NETTA ROAD PAZHAKUTTY NEDUMANGAD', 'sujila@gmail.com', '2026-03-14', 'MRNO20260314004', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(180, 'ATHUL JOSY', 'Male', '8138890909', 22, 'AMBALAMUKKU', 'athuljosy96@gmail.com', '2026-03-16', 'MRNO20260316001', 1, 1, 10, 15, 1, ''),
+(181, 'VIJITHA', 'Female', '8547337778', 53, 'T C 12/3233\r\nBVNRA 3A\r\nKP SREEVARAHAM\r\nMUKKOLA', 'memanoharan41@gmail.com', '2026-03-16', 'MRNO20260316002', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(182, 'ASHIN', 'Male', '8921576104', 19, 'SASNEHAM\r\nMENALLOORKONAM\r\nKARYAVATTOM\r\nTHIRUVANANTHAPURAM', 'sheelavk03@gmail.com', '2026-03-16', 'MRNO20260316003', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(183, 'K KRISHNAN', 'Male', '9539535599', 72, 'KRISHNA VILAS, PERUKAVU PO,MANKATTUKADAVU', 'abhithara4@gmail.com', '2026-03-17', 'MRNO20260317001', 1, 1, 10, 12, 1, ''),
+(184, 'AMBIKA L', 'Female', '9633012417', 45, 'SREENILAYAM RRA60 RAMAPURAM LANE NCC ROAD AMBALAMUKK', 'ambikarknair@gmail.com', '2026-03-17', 'MRNO20260317002', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(185, 'CHINNU G T', 'Female', '9961940225', 32, 'T G NIVAS\r\nAINTHALAKONAM\r\nVADACODE\r\nNEYYATINKARA', 'lekshmisara219@gmail.com', '2026-03-17', 'MRNO20260317003', 1, 1, 10, 11, 1, ''),
+(186, 'AMITH S', 'Male', '7907118795', 14, 'B1, AKSHAYA APARTMENTS,BAKERY LANE,NANTHANKODE,KOWDIAR PO', 'ahalya.mk@gmail.com', '2026-03-18', 'MRNO20260318001', 1, 1, 10, 12, 1, ''),
+(187, 'MARY MAGLINE', 'Female', '9961570046', 48, 'GVRA24 OXFORD ACADEMY LANE VETTUKADE THIRUVANANTHAPURAM', 'magline1978@gmail.com', '2026-03-24', 'MRNO20260324001', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(188, 'LIDIYA SAIBIN', 'Female', '7736316281', 10, 'CHERAYAPARAMBIL HOUSE\r\nSCHOOLPPADY\r\nVADUTHALA', 'gishamolsaibin18@gmail.com', '2026-03-25', 'MRNO20260325001', 1, 1, 3, 11, 1, ''),
+(189, 'ARUN NR', 'Male', '8848219738', 39, 'NJARATHADATHIL VENGANOOR PO THIRUVANANTHAPURAM', 'nr.0471@gmail.com', '2026-03-25', 'MRNO20260325002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(190, 'GEETHA SATHEESH', 'Female', '9447066730', 68, 'HOUSE NO 10 NIRMI HOMES KANJIRAMPARA THIRUVANATHAPURAM', 'geethasatheesh57@gmail.com', '2026-03-25', 'MRNO20260325003', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(191, 'KRISHNAPRIYA S', 'Female', '7306633981', 15, 'KRISHNANIVAS AVRAB18/3 ARAYALLOR THIRUMALA', 'suja46678@gmail.com', '2026-03-25', 'MRNO20260325004', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(192, 'SHYLA', 'Female', '9895820198', 51, 'SGRA HOUSE NO24 CONVENT LANE NALANCHIRA', 'tomalex5@gmail.com', '2026-03-25', 'MRNO20260325005', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(193, 'ADITHYAN K', 'Male', '8075354916', 26, 'MUTHOOT VILLA \r\nSASTHANAGAR\r\nPALLIMUKK', 'adithyan999@gmail.com', '2026-04-06', 'MRNO20260325006', 1, 1, 10, 15, 1, NULL),
+(194, 'THOMAS T KURUVILA', 'Male', '9746315349', 69, 'MR 15\r\nSREEVILAS LANE \r\nKOWDIAR', 'thomas.tvm67@gmail.com', '2026-03-27', 'MRNO20260327001', 1, 1, 10, 15, 1, ''),
+(195, 'RAGHESH ', 'Male', '9400355333', 44, 'SHANTINIKETAN DARSHAN NAGAR, PEROORKADA', 'raghesh.anu@gmail.com', '2026-03-27', 'MRNO20260327002', 1, 1, 10, 11, 1, ''),
+(196, 'MEGHA SURESH', 'Female', '9496620003', 25, 'C22 RBI STAFF QUARTERS\r\nNANTHANCODE', 'meghasuresh05@gmail.com', '2026-03-27', 'MRNO20260327003', 1, 1, 10, 11, 1, ''),
+(197, ' A G DINESH', 'Male', '9496030172', 67, 'TC 24/115 ROSE NAGAR\r\nAMBALAMUK\r\nTVM', 'dinesh_ag@yahoo.in', '2026-03-28', 'MRNO20260328001', 1, 1, 10, 15, 1, ''),
+(198, 'HAREESH N', 'Male', '9637223114', 46, 'TKRA,72 THIRUMALA, TVM', 'hareesh@gmail.com', '2026-03-30', 'MRNO20260330001', 1, 1, 10, 12, 1, ''),
+(199, 'DEEPA D', 'Female', '8891980795', 50, 'ORCHID ENCLAVE LANE, VAZHAYILA', 'deepadinakaran@75gmail.com', '2026-03-30', 'MRNO20260330002', 1, 1, 10, 12, 1, ''),
+(200, 'SANNAPRAMOD', 'Female', '9544036764', 24, 'KAILAS\r\nORIVATHIL KOTTA\r\nAAKULAM ,AANAYARA\r\nTRIVANDRUM', 'sanna.pramod@gmail.com', '2026-03-31', 'MRNO20260331001', 1, 1, 10, 15, 1, ''),
+(201, 'MOHAMMED ASIF', 'Female', '9605932995', 15, 'TC 67/323, HOUSE NO 15, KALLATTU NAGAR, MANACAUD PO TVM', 'siniazeem@gmail.com', '2026-03-31', 'MRNO20260331002', 1, 1, 10, 15, 1, ''),
+(202, 'RAMESHKUMAR', 'Male', '7277553882', 29, 'C220ISRO QUARTERES\r\nHOUSING COLONY\r\nPALLITHURA\r\n', 'rameshraja1533@gmail.com', '2026-04-03', 'MRNO20260403001', 1, 1, 10, 11, 1, ''),
+(203, 'LAKSHMI ', 'Female', '9349972009', 66, '3C CORDIAL DEEPAM\r\nSASTHAMANGALAM', 'lrkalpa@gmail.com', '2026-04-04', 'MRNO20260404001', 1, 1, 10, 11, 1, ''),
+(204, 'R SHYLAJA', 'Female', '9544398082', 62, 'AMMUSHYLAM PARUTHIKUZHI, MANACAUD PO', 'shibinkrish184@gmail.com', '2026-04-04', 'MRNO20260404002', 1, 1, 10, 11, 1, ''),
+(205, 'NAVAMI S', 'Female', '9645542831', 15, 'KEERTHANAM , MANOOR BHAGHAM,ALAMCODE P O ATTINGAL', 'lainashibukeerthana@gmail.com', '2026-04-06', 'MRNO20260406001', 1, 1, 10, 15, 1, ''),
+(206, 'LEKHA SURESH', 'Female', '9847536757', 53, 'GRAG 53/A KAILASAM GANDHIPURAM SREEKARYAM ', 'kailassuresh97@gmail.com', '2026-04-06', 'MRNO20260406002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(207, 'ZAABIA MEHRIN', 'Female', '9995215009', 12, 'MEHFIL THAPASAGIRI,KALLARA PO', 'jaznazeppu@gmail.com', '2026-04-09', 'MRNO20260407001', 1, 1, 10, 15, 1, NULL),
+(208, 'ANNAMMA G EAPEN', 'Female', '8078010726', 83, '7A REGENTS COURT\r\nKURAVANKONAM\r\nTHIRUVANANTHAPURAM', 'eeapen23@gmail.com', '2026-04-08', 'MRNO20260408001', 1, 1, 10, 11, 1, ''),
+(209, 'FAISAL ', 'Male', '8714139141', 41, 'UKULHAS VAADHEE\r\nMALDIVES', 'faisal@gmail.com', '2026-04-08', 'MRNO20260408002', 1, 1, 10, 11, 1, ''),
+(210, 'FARZANA', 'Female', '8714139141', 46, 'UKULHAS VAADHEE MALDIVES', 'farzana@gmail.com', '2026-04-08', 'MRNO20260408003', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(211, 'MALAVIKA ', 'Female', '8089401534', 18, 'RAJASREE \r\nTC 41/329\r\nKURIYATHI\r\nMANACAUD\r\nTHIRUVANANTHAPURAM', 'shivapriyarv@gmail.com', '2026-04-09', 'MRNO20260409001', 1, 1, 10, 15, 1, ''),
+(212, 'KRISHNAKUMAR KP', 'Male', '9447461273', 49, 'AMRITHA VARSHINI MOLIUOORKONAM KATTAKADA', 'amritha.media@gmail.com', '2026-04-09', 'MRNO20260409002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(213, 'MARIAPPAN N', 'Male', '9895413299', 68, 'J 10 \r\nAMRUTHA NAGAR\r\nBEHIND ARUTHAVIDHYALAYAM SCHOOL\r\nKAIMANAM\r\nTVM', 'rekarenuvas@yahoo.com', '2026-04-09', 'MRNO20260409003', 1, 1, 10, 15, 1, ''),
+(214, 'MORISON FREDERICK', 'Male', '8089989272', 37, 'SBNA 21 SREE BHADRA NAGAR AMBALAMUKKU, TVM', 'fredrerickmorison@gmail.com', '2026-04-09', 'MRNO20260409004', 1, 1, 10, 12, 1, ''),
+(215, 'HARIDAS', 'Male', '9446537831', 79, 'VAISHNAV\r\nTC 5/2163\r\nKOWDIAR\r\nTRIVANDRUM', 'thankappanharidas@yahoo.com', '2026-04-11', 'MRNO20260410001', 1, 1, 10, 12, 1, NULL),
+(216, 'BINOY BABU', 'Male', '7736204459', 27, 'RAJU HOUSE\r\nVALIYATHURA\r\nVALLAKADAV\r\nNEAR FCI\r\nTHIRUVANANTHAPURAM', 'binoybabu055@gmail.com', '2026-04-11', 'MRNO20260411001', 1, 1, 10, 11, 1, ''),
+(217, 'RADHA NAIR', 'Female', '9821848398', 50, 'UDAYPALACE \r\nKOWDIAR', 'udsnair@gmail.com', '2026-04-13', 'MRNO20260413001', 1, 1, 10, 12, 1, ''),
+(218, 'GOKUL BS', 'Male', '8606504206', 28, 'DEVANANDANAM KALPADA,KALLAYAM PO TVM', 'gokulmmm9@gmail.com', '2026-04-14', 'MRNO20260414001', 1, 1, 10, 12, 1, ''),
+(219, 'ANILKUMAR  PR', 'Male', '9446280009', 52, 'VRINDHAVANAM VAYALAANCHAL KOLLAM', 'anilanchal009@gmail.com', '2026-04-16', 'MRNO20260416001', 1, 1, 11, 15, 1, 'Kollam'),
+(220, 'PADMAJA S', 'Female', '9809718779', 55, 'SREEPADAM GRAJ/10H GREENVALLEY GARDENS CHEMPAZHANTHY GANDHIPURAM SREEKARYAM', 'peeyeskrishna@gmail.com', '2026-04-16', 'MRNO20260416002', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(221, 'NALINI ', 'Female', '8547311731', 90, 'JAWAHAR NAGAR,KOWDIAR', 'nalini@gmail.com', '2026-04-16', 'MRNO20260416003', 1, 1, 10, 15, 1, ''),
+(222, 'MUHAMMED ADIL', 'Male', '9745744911', 11, 'EROCHALIL\r\nMALAYAMMA\r\nKOZHIKODE', 'muhammedadil@gmail.com', '2026-04-16', 'MRNO20260416004', 1, 1, 10, 15, 1, ''),
+(223, 'VEDHIKA  V', 'Female', '8086242353', 14, 'VINEETHA BHAVAN PARAPPARAMUKAL OTTUKUNNAM PO VAMANAPURAM', 'gopikavinod1987@gmail.com', '2026-04-18', 'MRNO20260418001', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(224, 'SWOROOP JOSEPH DANIELL', 'Male', '8891778280', 27, 'PNRA C47 PEROORNAGAR AMBALAMUKK KOWDIAR', 'sworoopjosephdaniell@gmail.com', '2026-04-18', 'MRNO20260418002', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(225, 'MITHRANANTH', 'Male', '8921411073', 12, 'SREEPADMAM\r\nANTHIYOORKONAM\r\nMALAYANKEEZHU\r\nTRIVANDRUM', 'sreejithsankar130@gmail.com', '2026-04-18', 'MRNO20260418003', 1, 1, 10, 15, 1, ''),
+(226, 'SNIDIN', 'Male', '9562560443', 34, 'PUTHENVEEDU\r\nNAGARIKUNNU\r\nPAZHAKUTTY\r\nNEDUMAMGAD', 'snidin.88@gmail.com', '2026-04-20', 'MRNO20260420001', 1, 1, 10, 15, 1, ''),
+(227, 'SREEREKHA R', 'Female', '9946962127', 50, '5C HEERADAIL APARTMENTS\r\nJAGATHY\r\n', 'sreerekha@gmail.com', '2026-04-20', 'MRNO20260420002', 1, 1, 10, 15, 1, ''),
+(228, 'MAHENDRA KUMAR THAKRE', 'Male', '9349971267', 50, '6C, SOUPARNIKA RIKA TOWER,PALLIMUKKU, JUNCTION KALLAYAM PO TVM 43', 'thakre.mahendra33@gmail.com', '2026-04-20', 'MRNO20260420003', 1, 1, 10, 15, 1, ''),
+(229, 'VAISAKHA', 'Female', '9605316919', 17, 'KANIMANGALAM\r\nMALAYANKEEZHU\r\nTRIVANDRUM', 'kani3232l@gmail.com', '2026-04-21', 'MRNO20260421001', 1, 1, 10, 11, 1, ''),
+(230, 'NANDAKUMAR NAIR', 'Male', '9902013242', 64, '12 B SREEDHANYA HEAVEN AMBALAMUKKU', 'nanda@ma.com.sg', '2026-04-22', 'MRNO20260422001', 1, 1, 10, 15, 1, ''),
+(231, 'REENA S', 'Female', '8590016678', 43, '5 B BECON GREEN LEAVES APARTMENT \r\nKANJIRAMPARA\r\n', 'reens2000in@gmail.com', '2026-04-23', 'MRNO20260423001', 1, 1, 10, 11, 1, ''),
+(232, 'VARGHEESE PANICKER', 'Male', '9447134902', 62, 'H NO.11 VAINS COMPIUND\r\nNANTHANCODE\r\nKOWDIAR', 'vargheesepanicker@gmail.com', '2026-04-24', 'MRNO20260424001', 1, 1, NULL, 11, 1, ''),
+(233, 'JISHNU T', 'Male', '8606143381', 32, 'JISHNU T SON OF KRISHNANKUTTY, CHUNDBATTA PO NATTYAMANGALAM PALAKAD', 'www.jishnuclassic@gmail.com', '2026-04-24', 'MRNO20260424002', 1, 1, 10, 11, 1, ''),
+(234, 'BEENU J V', 'Female', '7907540576', 57, 'TRRA 55(A) KAITHAVILAKAM LANE AMBALAMUKK', 'kaliveedu123@gmail.com', '2026-04-24', 'MRNO20260424003', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(235, ' ELIZABETH CHACKO', 'Female', '7994561508', 27, 'VN 34 VIVEKANANTHA NAGAR KESAVADASAPURAM TVM', 'tinaliz1998@gmail.com', '2026-04-24', 'MRNO20260424004', 1, 1, 10, 11, 1, ''),
+(236, 'LAWRENSHIA', 'Female', '8304848817', 46, 'TC 79/200 MADUVAM POONTHURA PO', 'lawrenshiapraveen79@gmail.com', '2026-04-24', 'MRNO20260424005', 1, 1, 10, 11, 1, ''),
+(237, 'SAMVRITHA NAIR', 'Female', '8072413747', 14, '8E B-BLOCK HEERA INFOCITY KULATHOOR', 'sameekshanair1382@gmail.com', '2026-04-25', 'MRNO20260425001', 1, 1, 10, 15, 1, ''),
+(238, 'PARANAV ', 'Male', '9895163676', 15, 'KANDOOSSERIL HOUSE\r\nCHINGAVANAM P.O\r\nKOTTAYAM', 'balisandra@gmail.com', '2026-04-25', 'MRNO20260425002', 1, 1, 10, 15, 1, ''),
+(239, 'PRANAV', 'Male', '9895163676', 15, 'KANDOOSSERIL HOUSE\r\nCHINGAVANAM P.O\r\nKOTTAYAM', 'balusandra@gmail.com', '2026-04-25', 'MRNO20260425003', 1, 1, 1, 15, 1, ''),
+(240, 'HARSHA V', 'Female', '8943031062', 23, 'AMBADI\r\nAYITANCHIRA\r\nNAVAYIKULAM', 'harshav06082002@gmail.com', '2026-04-25', 'MRNO20260425004', 1, 1, 10, 11, 1, ''),
+(241, 'SREEJA NAIR', 'Female', '7356820405', 60, 'SREEDHANYA HEAVEN AMBALAMUK TVM', 'drnairtvm@yahoo.com', '2026-04-25', 'MRNO20260425005', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(242, 'SAKTHIPRABHA M', 'Male', '9495897855', 37, 'KPRA A31 MURINJAPALAM MEDICAL COLLEGE PO TVM ', 'sakthiprabham@gmail.com', '2026-04-25', 'MRNO20260425006', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(243, 'VISWANATH', 'Female', '9496812927', 34, 'VISWAVEENA PVRA-72 PALAMVVILA LANE NCC ROAD AMBALAMUKK', 'viswanath@gmail.com', '2026-04-25', 'MRNO20260425007', 1, 1, 10, 15, 1, 'TRIVANDRUM'),
+(244, 'NOURAL HISANA', 'Female', '9656418816', 18, 'EDAYIL VEEDU VAZHOTTUKONAM VATTIYOORKAVU', 'mahins9001@gmail.com', '2026-04-27', 'MRNO20260427001', 1, 1, 10, 12, 1, 'TRIVANDRUM'),
+(245, 'RATHIKA NATH G', 'Female', '9446475975', 50, 'SARANGAM SHASTHA NAGAR , VAZHAYILA TVM', 'rakhignath@yahoo.com', '2026-04-28', 'MRNO20260428001', 1, 1, 10, 12, 1, ''),
+(246, 'BIJUKUMAR', 'Male', '7558808800', 50, 'KOTTARATHIL A22 AALTHARANAGAR VELLAYAMBALAM TVM', 'bijukdavidson@gmail.com', '2026-04-28', 'MRNO20260428002', 1, 1, 10, 11, 1, 'TRIVANDRUM'),
+(247, 'SHAILA M', 'Female', '6238438704', 58, 'AMBADI RAVI NAGAR A32 PIPELANE ROAD AMBALAMUKKU', 'shailafazil51@gmail.com', '2026-04-28', 'MRNO20260428003', 1, 1, 10, 15, 1, ''),
+(248, 'JOSE K J', 'Male', '8606089927', 73, '25CHGRA \r\nMANNANOOLA\r\nPEROORKADA', 'joffinkjose@gmail.com', '2026-04-28', 'MRNO20260428004', 1, 1, 10, 12, 1, ''),
+(249, 'ABHIRAMI KANIYADI', 'Female', '9946219100', 26, '20I PATTOM SQUARE,PATTOM TVM', 'abhiramikaniyadi9@gmail.com', '2026-04-28', 'MRNO20260428005', 1, 1, 10, 12, 1, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_patienthistory`
+--
+
+CREATE TABLE `x_app_patienthistory` (
+  `id` bigint NOT NULL,
+  `chief_complaints` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `past_medical_history` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `present_history` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `drug_history` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `date_recorded` date NOT NULL,
+  `patient_id` bigint NOT NULL,
+  `staff_id` bigint NOT NULL,
+  `appointment_status` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `provisional_diagnosis` longtext COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_patienthistory`
+--
+
+INSERT INTO `x_app_patienthistory` (`id`, `chief_complaints`, `past_medical_history`, `present_history`, `drug_history`, `date_recorded`, `patient_id`, `staff_id`, `appointment_status`, `provisional_diagnosis`) VALUES
+(7, 'left hand mcp and phalenges stiffness ', 'shoulder pain', 'Dog bite', '', '2025-11-20', 8, 11, 'Consultation', 'left hand stiffness'),
+(8, 'pain in lower back\r\npain feel in sitting ,standing, ', 'nill', 'pain in lower back\r\n', 'nill', '2025-12-04', 51, 11, 'Consultation', 'muscle catch on lower back'),
+(9, 'pain on knee \r\nwalking difficulty\r\n', 'nillnill', 'diabetic\r\n', 'yes', '2025-12-09', 58, 11, 'Consultation', 'Pes Anserine Bursitis'),
+(10, 'Pain on right leg latereal side', 'Back pain', 'pain on right leg', 'Nil', '2025-12-09', 60, 12, 'Consultation', 'Leg pain'),
+(11, 'Pain on shoulder joint\r\nBalance issue after waking up', 'Balance issue', 'stiffness and pain while flexion , abduction, Ir ', 'vertin', '2025-12-11', 64, 12, 'Consultation', 'cervical spondylitis'),
+(12, '  Patient complaints of pain and inability to move elbow', 'knee pain\r\nback pain', 'elbow stiffness\r\nosteoporotic', 'cilacar\r\nestavil', '2025-12-11', 65, 11, 'Consultation', 'stiffness of elbow joint'),
+(13, 'Ankle pain during walking', 'no past history', 'ankle strain\r\n', 'no drug', '2025-12-15', 10, 11, 'Consultation', 'Ankle sprain'),
+(14, 'Ankle pain during walking', 'no past history', 'ankle strain\r\n', 'no drug', '2025-12-15', 10, 11, 'Consultation', 'Ankle sprain'),
+(15, 'pain on right lateral epicondyle pain\r\n', 'Tennis elbow', 'pain on right elbow\r\n', 'nill', '2025-12-15', 67, 11, 'Consultation', 'Tennis elbow'),
+(16, 'Pain during wrist movement \r\n', 'no ', 'tennis elbow', 'no', '2025-12-16', 67, 11, 'Consultation', 'Tennis elbow'),
+(17, 'Pain during wrist movement \r\n', 'no ', 'tennis elbow', 'no', '2025-12-16', 67, 11, 'Consultation', 'Tennis elbow'),
+(18, 'difficulty of bending fingers\r\npain', 'Tendon injury of right middle finger', 'RTA left finger\r\nintra articular fracture of ring finger\r\n', 'metformin\r\nbasalock\r\n', '2025-12-16', 73, 11, 'Consultation', 'intra articular fracture of left ring finger'),
+(19, 'NECK PAIN AND BACK PAIN', 'SHOULDER PAIN', 'NECK PAIN', 'NIL', '2025-12-23', 82, 12, 'Consultation', 'NECK PAIN'),
+(20, 'Long thoracic scoliosis\r\n', 'nil', 'scoliosis', 'no', '2025-12-29', 88, 11, 'Consultation', 'T HS'),
+(21, 'Difficulty in shoulder movements', 'nil', 'Difficulty in shoulder movements', 'nil', '2026-01-13', 94, 11, 'Consultation', 'Glenoid labrum tear\r\nsupraspinatus tendinitis'),
+(22, 'Difficulty in shoulder movements', 'nill', 'Difficulty in shoulder movements', 'nill', '2026-01-13', 94, 11, 'Consultation', 'Glenoid labrum tear\r\nsupraspinatus tendinitis'),
+(23, 'difficulty in shoulder movements', 'hypertension', 'difficulty in shoulder movements', '', '2026-01-13', 52, 11, 'Consultation', 'Rotator cuff tear'),
+(24, 'difficulty in shoulder movements', 'hypertension', 'difficulty in shoulder movements', '', '2026-01-13', 52, 11, 'Consultation', 'Rotator cuff tear'),
+(25, 'NECK PAIN', 'NIL', 'NECK PAIN,BACK PAIN', 'NIL', '2026-01-13', 82, 12, 'Consultation', 'NECK PAIN,LOW BACK PAIN'),
+(26, 'DIFFICULTY IN NECK MOVEMENTS', 'NILL', 'DIFFICULTY IN NECK MOVEMENTS', '', '2026-01-13', 68, 15, 'Consultation', 'CERVICAL SPONDYLOSIS'),
+(27, 'BACK PAIN', 'BACK PAIN', 'BACK PAIN AND SCOLIOSIS', 'NIL', '2026-01-13', 93, 12, 'Consultation', 'LBP,SCOLIOSIS'),
+(28, 'THUMB PAIN,MOVEMENT WITH PAIN', 'NIL', 'PAIN AROUND WRIST AND LACK OF MOVEMENTS', 'NIL', '2026-01-13', 49, 12, 'Consultation', 'DQD'),
+(29, 'PAIN AROUND MEDIAL SIDE OF THE WRIST LEFT SIDE', 'TENDON INJURY LEFT SIDE THUMP', 'PAIN WHILE DOING ACTIVITIES OR WEGHT LIFTING LEFT SIDE', 'VITAMIN TABLETS', '2026-01-13', 111, 11, 'Consultation', 'TFCC'),
+(30, 'Difficulty in shoulder movements', 'Experienced shoulder pain after push-up', 'Shoulder pain', 'Nill', '2026-01-14', 112, 11, 'Consultation', 'AC Joint impingement'),
+(32, 'DIFFICULTY IN NECK MOVEMENTS AND PAIN RADIATING TO BACK OF THE HEAD', 'NIL', 'DIFFICULTY IN NECK MOVEMENT AND PAIN RADIATING TO SUBOCCIPITAL', 'ANTIARRYTHMIC DRUGS\r\nDIGOXIN', '2026-01-14', 68, 15, 'Consultation', 'CERVICAL SPONDYLOSIS'),
+(33, 'NECK PAIN,RADIATING PAIN ON RIGHT ARM', 'SHOULDER PAIN', 'CERVICAL SPONDYLITIS', 'ANTI-INFLAMATORY FOR NECK PAIN', '2026-01-14', 113, 12, 'Consultation', 'CERVICAL SPONDYLITIS'),
+(34, 'Wrist pain,difficulty in wrist movements ,swelling', 'nill', 'Wrist movements difficulty', 'nill', '2026-01-14', 75, 11, 'Consultation', ' Surgical Scaphoid fracture'),
+(35, 'Difficulty in movements', 'nill', 'Fall from bike. Fracture on right humerus. surgically corrected', 'nill', '2026-01-16', 114, 11, 'Consultation', '(R) Humerus fracture\r\n(R) Ankle 4th metatarsal fracture'),
+(36, 'pain.,movement restriction,swelling', 'nill', 'Fall outstreched hand', 'nill', '2026-01-17', 117, 11, 'Consultation', '(L) Elbow both bone fracture'),
+(37, 'pain on the left elbow\r\nmovements restriction', 'Back pain', 'RTA', 'nill', '2026-01-21', 65, 11, 'Consultation', 'Elbow stiffness\r\nTennis elbow\r\n'),
+(38, 'Pain on the left elbow\r\n', 'nill', 'Weight lift', 'nill', '2026-01-21', 104, 11, 'Consultation', 'Tennis elbow'),
+(39, 'Neck pain,radiating to the right hand', 'NIL', 'CERVICAL SPONDYLITIES', 'NIL', '2026-01-21', 113, 12, 'Consultation', 'CERVICAL SPONDYLITIES'),
+(40, 'CATCH ON RIGHT ARM WHILE ROTATION', 'BLOOD PRESSURE', 'CATCH ON RIGHT ARN', 'TELMA 40', '2026-01-21', 123, 12, 'Consultation', 'ARM PAIN'),
+(41, 'SHOULDER PAIN,UNABLE TO LIFT THE RIGHT HAND,MUSCLE REPAIR SURGERY 60 DAYS AGO', 'NIL', 'NO ROM,SHOULDER PAIN', 'NIL', '2026-01-23', 105, 12, 'Consultation', 'SUPRASPINATUS TEAR SURGERY'),
+(42, 'DER fracture ORIF done 16/12/25', 'nil', 'DER fracture ORIF done 16/12/25', 'BP', '2026-01-23', 125, 14, 'Consultation', ''),
+(43, 'DISC BULDGING, BACK PAIN FOR LONG TIME', 'BACK PAIN EIGHT YEARS AGO', 'MILD DEGENERATIVE CHANGES IN LUMBAR  SPINE', 'AYUERVEDA MEDICINE INTERMITTENT AND TOOK THREE DAYS AGO', '2026-01-23', 126, 12, 'Consultation', 'DISC BULDGE '),
+(44, 'Difficulty in shoulder flexion, swelling,', 'nill', 'RTA Proximal humerus fracture and shoulder dislocation', 'Novamixin', '2026-02-03', 131, 11, 'Consultation', 'Proximal Humerus fracture with Shoulder dislocation'),
+(45, 'Difficulty in writing  ,thumb movements', 'nil', 'Pain on the (R) thumb', 'nil', '2026-02-09', 137, 11, 'Consultation', 'FLEXOR TENOSYNOVITIS (R) THUMB'),
+(46, 'NECK PAIN FOR LONG SITTING', 'NIL', 'POSTURE PROBLEM ', 'NIL', '2026-02-13', 141, 12, 'Consultation', 'MUSCLE WEAKNESS'),
+(47, 'Pain on (R) medial epikondyle  ', 'no', 'Pain  on (R) Medial epicondyle', 'no', '2026-03-13', 175, 11, 'Consultation', 'Golfer\'s Elbow'),
+(48, 'PAIN ON MEDIAL SIDE OF THE WRIST', 'NO ', 'PAIN ON MEDIAL SIDE OF THE WRIST', 'NO', '2026-03-20', 185, 11, 'Consultation', 'TFCC'),
+(49, 'PAIN ON  WRIST , DIFFICULTY IN FINGER MOVEMENTS', 'NO', 'RTA', 'NO', '2026-03-21', 169, 11, 'Consultation', 'MCP FRACTURE OF (R) WRIST \r\nEXTENSOR TENDON INJURY OF (R) INDEX FINFER'),
+(50, 'DIFFULTY IN (L)ELBOW FLEXION AND\r\nWRIST MOVEMENTS ,', 'NO', '(L) ELBOEW  WRIST FINGER MOVEMENTS DIFFICULTY', 'NO', '2026-03-25', 188, 11, 'Consultation', 'OSTEOSARCOMA (L) ELBOW'),
+(51, 'SHOULDER PAIN', 'NIL', 'FROZEN SHOULDER', 'NIL', '2026-03-30', 199, 12, 'Consultation', 'FROZHEN SHOULDER MOVEMENT RESTRICTION'),
+(52, 'STIFNESS ON THE (R) ELBOW\r\nANKLE MOVEMENTS DIFFICULTY\r\n', 'NILL', 'RTA\r\nMEDIAL EPICONDYLE FRACTURE ON (R) ELBOW\r\n 2&3rd METATARSL FRACTURE ON (R) FOOT\r\n', 'NILL', '2026-04-06', 196, 11, 'Consultation', 'RTA\r\nMEDIL EPICONDYLE FRACTURE ON(R) ELBOW\r\n'),
+(53, 'PAIN AND STIFFNESS IN HER LEFT THUMB', 'TENNIS ELBOW ', 'PAIN AND STIFFNESS IN HER T\r\nLEFT THUMB', 'NO', '2026-04-06', 192, 15, 'Consultation', 'DE QUERVAINS TENOSYNOVITIS'),
+(54, 'DIFFICULTY MOVING WRIST AND PAIN ON TWISTING MOVEMENT OF HAND', 'RTA', 'DIFFICULTY MOVING WRIST , DIFFICULTY PERFORMING SUPINATION AND PRONATION', 'NO', '2026-04-06', 193, 15, 'Consultation', 'BOTH BONE FRACTURE ON RIGHT HAND'),
+(56, 'SCOLIOSIS', 'NIL', 'SCOLIOSIS', 'NIL', '2026-04-06', 205, 12, 'Consultation', 'SCOLIOSIS'),
+(57, 'LEFT ARM PAIN,NO ROM OF WRIST,ELBOW AND SHOULDER AFTER SURGERY.OSTEOSARCOMA ', 'NIL', 'OSTEOSARCOMA , LOSS OF ROM OF LEFT ARM,WRIST,ELBOW', 'NIL', '2026-04-06', 188, 12, 'Consultation', 'OSTEOSARCOMA'),
+(58, 'DIFFICULTY IN FINGER MOVEMENTS', 'NILL', 'RTA', 'NILL', '2026-04-06', 169, 11, 'Consultation', '1.TYPE 3A OPEN FRACTURE 2nd MIDDLE PHALANX RIGHT INDEX FINGER WITH EXTENSOR TENDON INJURY\r\n2. 2nd METACARPAL BASE FRACTURE (R)\r\n3.3 RD AND 4th MCP SHAFT FRACTURE (R) HAND\r\n4.TRAPEZIUM FRACTURE\r\n5.1st DIP JOINT DISLOCATION (R) FOOT\r\n6.2nd METATARSAL NECK  FRACTURE (R) FOOT'),
+(60, 'PAIN IN LEFT SHOULDER FLEXION,ABDUCTION AND INTERNAL ROTATION', 'NO', 'PAIN IN LEFT SHOULDER FLEXION,ABDUCTION AND INTERNAL ROTATION', 'NO', '2026-04-06', 199, 12, 'Consultation', 'FROZEN SHOULDER'),
+(61, 'BACK PAIN', 'NIL', 'BACK PAIN, POSTURE CORRECTION', 'NIL', '2026-04-06', 93, 12, 'Consultation', 'SCOLIOSIS ,BACK PAIN'),
+(62, 'WRIST PAIN', 'NIL', 'WRIST PIN', 'NIL', '2026-04-06', 202, 12, 'Consultation', 'TFCC INJURY'),
+(63, 'BOTH SHOULDER PAIN', 'STARTED RIGHT SHOULDER PAIN TWO YEARS AGAIN', 'BOTH SHOULDER PAIN AND LEFT SHOULDER MOVEMENT RESTRICTION', 'NIL', '2026-04-06', 198, 12, 'Consultation', 'LIGAMENT IMPENGEMENT'),
+(64, 'PAIN ON(L) SHOULDER', 'PA SHOULDER', 'SHOULDER PAIN', 'NO', '2026-04-06', 190, 11, 'Consultation', 'SUBACROMIAL IMPINGEMENT'),
+(65, 'PAIN ON WRIST', 'NO', 'WRIST PAIN', 'NO', '2026-04-06', 204, 11, 'Consultation', 'SCAPHOLUNATE DISSOCIATION'),
+(66, 'PRICKING LIKE PAIN RADIATING FROM FINGERS\r\nPAIN ON THE WRIST AND THUMB SIDE', 'THYROID', 'PAIN AND  NUMBNESS', 'TENDOZIZ PRO TAB\r\nTHYRONORM 100\r\nALTRADAY', '2026-04-06', 206, 15, 'Consultation', ''),
+(67, 'PAIN ON BACK\r\nDIFFIULTY IN BENDING\r\nPAIN RADIATE TO (L) LEG', 'NO', 'LBA WITH RADIATING', 'NO', '2026-04-08', 203, 11, 'Consultation', 'SCIATICA'),
+(68, 'BOTH SHOULDER PAIN\r\nDIFFICULTY TO LIFT THE SHOULDER', 'NO', 'SHOULDER PAIN', 'NO', '2026-04-08', 208, 11, 'Consultation', 'BOTH SHOULDER BICIPITAL TENDINITIS'),
+(69, 'RIGHT SHOULDER PAIN WORSENING WHILE LIFTING AND DRESSING', 'NO', 'SHOULDER PAIN', 'NO', '2026-04-09', 210, 15, 'Consultation', 'ROTATOR CUFF TENDINOSIS'),
+(70, 'SHOULDER PAIN AND LIMITED ROM', 'NO', 'SHOULDER PAIN', 'NO', '2026-04-09', 209, 15, 'Consultation', 'ROTATOR CUFF TENDINOSIS'),
+(71, 'PAIN ON WRIST\r\nDIFFICULTY IN WRITING , MOVEMENTS', 'NO', 'WRIST PAIN', 'NO', '2026-04-09', 211, 11, 'Consultation', 'TFCC'),
+(72, 'SHOULDER PAIN WHILE PERFORMING OVEEHEAD ACTIVITIES, DRESSING', 'NO', 'SHOULDER PAIN', 'NO', '2026-04-09', 212, 15, 'Consultation', 'SHOULDER PAIN'),
+(73, 'SWELLING ON WRIST \r\nPAIN ON FINGERS\r\nDIFFUCULTY TO FINGER FLEXION', '\r\nCATARACT SURGERY DONE', 'POST FRACTURE DIFFICULTY TO FINGER FLEXION', 'AMRYIL\r\nMETSMOL', '2026-04-09', 213, 11, 'Consultation', 'POST FRACTURE FINGER STIFFNESS'),
+(74, 'PAIN UNDER THE PATELLA FOR PAST TWO MONTHS', 'NIL', 'PAIN UNDER THE PATELLA', 'NIL', '2026-04-09', 214, 12, 'Consultation', 'PATELLAR TENDONITIS'),
+(75, 'SPINE CORRECTION', 'NO', 'SPINE CORRECTION', 'NO', '2026-04-10', 207, 12, 'Consultation', 'SCOLIOSIS'),
+(76, 'SPINE CORRECTION', 'NO ', 'SPINE CORRCTION', 'NO', '2026-04-10', 186, 12, 'Consultation', 'SCOLIOSIS'),
+(77, 'SPINE CORRECTION', 'NO', 'SPINE CORRECTION', 'NO', '2026-04-10', 200, 11, 'Consultation', 'SCOLIOSIS'),
+(78, 'PAIN ON KNEE\r\nINSTABILITY', 'NO', ' (R) KNEE SUGERY DONE\r\nSWELLING\r\n\r\n', 'NO', '2026-04-11', 216, 11, 'Consultation', 'ACL COMPLETE TEAR\r\nPCL TEAR\r\nLCL TEAE'),
+(79, 'LEFT WRIST STIFFNESS,SCAPHOID FRACTURE THREE MONTHS AGO', 'NIL', 'WRIST JOINT STIFFNES', 'NO', '2026-04-14', 218, 12, 'Consultation', 'SCAPHOID FRACTURE'),
+(80, 'PAIN WHILE WRINGING A TOWEL, ACCELERATING BIKE', 'NO', 'PAIN WHILE HOLDING A MOUSE FOR LONGER', 'CONCORE 5mg', '2026-04-16', 219, 15, 'Consultation', ''),
+(81, 'PAIN AND SWELLING IN MIDDLE FINGER DISTAL JOINT', 'NO', 'PAIN AND SWELLING IN MIDDLE FINGER DIP JOINT', 'NO', '2026-04-16', 220, 15, 'Consultation', 'FRACTURE OF DIP JOINT'),
+(82, 'PAIN\r\nSWELLING ,DIFFICULTY IN ELBOW MOVEMENTS', 'NO', 'ELBOW MOVEMENTS DIFFICULTY', 'NO', '2026-04-16', 222, 11, 'Consultation', 'SYNOVIAL SARCOMA'),
+(83, 'ELBOW PAIN AND DIFFICULTY IN MOVEMENTS', 'NO', 'ELBOW PAIN AND STIFFNESS', 'NO', '2026-04-18', 225, 11, 'Consultation', 'BOTH BONE FRACTURE (R) ELBOW'),
+(84, 'SPINE CURVE', 'NO', 'SPINE CURVE', 'NO', '2026-04-21', 229, 11, 'Consultation', 'SCOLIOSIS'),
+(85, 'RIGHT LEG STIFFNESS,LIMITED ROM', 'NIL', 'RIGHT KNEE JOINT STIFFNESS', 'NIL', '2026-04-22', 230, 12, 'Consultation', 'RIGHT KNEE JOINT PAIN'),
+(86, 'ELBOW STINESS AND PAIN', 'NO', 'FALL \r\nELBOW MOVEMENTS STIFNESS', 'NO', '2026-04-24', 234, 11, 'Consultation', '(L)ELBOW DISLOCATION'),
+(87, 'ELBOW STINESS AND PAIN', 'NO', 'FALL \r\nELBOW MOVEMENTS STIFNESS', 'NO', '2026-04-24', 234, 11, 'Consultation', '(L)ELBOW DISLOCATION'),
+(88, 'RIGHT KNEE HURTS WHILE STANDING FOR A LONG TIME', 'NIL', 'KNEE PAIN', 'NO', '2026-04-25', 241, 11, 'Consultation', 'PES CAVUS BURSITIS'),
+(89, 'SPINE CURVE', 'NO', 'SPINE CURVE', 'NO', '2026-04-28', 223, 11, 'Consultation', 'SCOLIOSIS'),
+(90, 'SPINE CURVE', 'NO', 'SPINE CURVE', 'NO', '2026-04-28', 88, 11, 'Consultation', 'LONG THORACIC SCOLIOSIS'),
+(91, 'PAIN ON THUMB', 'NO', 'PAIN (L) THU,B', 'NO', '2026-04-28', 232, 11, 'Consultation', 'DEQUERVAIN TENOSYNOVITIS (L) THUMB'),
+(92, 'SHOULDER RANGE RESTRICTION, NO FINGER MOVEMENTS', 'NO', 'SHOULDER RANGE RESTRICTION, NO FINGER MOVEMENTS', 'NO', '2026-04-28', 233, 12, 'Consultation', '5MET SURGERY TWO MONTS AGO DUE TO SARCOMA'),
+(93, 'BACK PAIN FOR TWO WEEKS , NUMBNESS ON ANTERIOR THIGH AND HAND FOR ONE YEAR', 'NO', 'BACK PAN', 'NO', '2026-04-28', 245, 12, 'Consultation', 'LOW BACK PAIN'),
+(94, 'SPINE CURVE', 'NO', 'SCOLIOSIS', 'NO', '2026-04-28', 18, 12, 'Consultation', 'SCOLIOSIS'),
+(95, 'BACK PAIN', 'NO ', 'BACK PAIN', 'NO', '2026-04-28', 227, 12, 'Consultation', 'LOWER BACK PAIN'),
+(96, 'NECK PAIN', 'NO ', 'NECK PAIN', 'NO', '2026-04-28', 235, 12, 'Consultation', 'NECK PAIN'),
+(97, 'NECK MUSCLE WEAKNESS', 'NECK PAIN', 'NECK MUSLE WEAKNESS', 'PAIN KILLERS', '2026-04-28', 242, 12, 'Consultation', 'NECK MUSCLE WEAKNESS'),
+(98, 'KNEE PAIN', 'CA,ATHRITIS', 'KNEE PAIN', 'NIL', '2026-04-28', 215, 12, 'Consultation', 'KNEE PAIN'),
+(100, 'PAIN (L) ELBOW', 'NO', 'LIGAMENT INJURY (L) ELBOW', 'NO', '2026-04-28', 228, 11, 'Consultation', 'UCL INJURY'),
+(101, 'SHARP PAIN UNDER RIGHT HEEL', 'NO', 'HEEL PAIN', 'NO', '2026-04-28', 246, 15, 'Consultation', 'PLANTAR FASCITIS'),
+(102, 'RIGHT ARM NUMBNESS', 'DIEBETICS', 'RIGHT ARM NUMBNESS', 'ISTAMET', '2026-04-28', 247, 12, 'Consultation', 'SPONDYLOSIS');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_physicalstock`
+--
+
+CREATE TABLE `x_app_physicalstock` (
+  `id` bigint NOT NULL,
+  `supplier_contact` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `unit` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `batch_number` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `manufacture_date` date DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
+  `rate` decimal(10,2) NOT NULL,
+  `quantity` int UNSIGNED NOT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `item_id` bigint DEFAULT NULL,
+  `medicine_company_id` bigint DEFAULT NULL,
+  `staff_id` bigint DEFAULT NULL,
+  `supplier_id` bigint DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_purchaseinvoice`
+--
+
+CREATE TABLE `x_app_purchaseinvoice` (
+  `id` bigint NOT NULL,
+  `purchase_no` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `date` date NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `taxable_amount` decimal(10,2) NOT NULL,
+  `cgst` decimal(10,2) NOT NULL,
+  `sgst` decimal(10,2) NOT NULL,
+  `discount` decimal(10,2) NOT NULL,
+  `bill_number` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_by_id` bigint DEFAULT NULL,
+  `medical_store_id` bigint NOT NULL,
+  `supplier_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_purchaseinvoiceitem`
+--
+
+CREATE TABLE `x_app_purchaseinvoiceitem` (
+  `id` bigint NOT NULL,
+  `batch_number` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
+  `unit` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `qty` int UNSIGNED NOT NULL,
+  `rate` decimal(10,2) NOT NULL,
+  `tax_percent` decimal(5,2) NOT NULL,
+  `each_taxable_amount` decimal(10,2) NOT NULL,
+  `each_cgst` decimal(10,2) NOT NULL,
+  `each_sgst` decimal(10,2) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `company_name_id` bigint DEFAULT NULL,
+  `invoice_id` bigint NOT NULL,
+  `item_id` bigint DEFAULT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_rangeofmotion`
+--
+
+CREATE TABLE `x_app_rangeofmotion` (
+  `id` bigint NOT NULL,
+  `joint` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `arom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `prom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `fall_risk` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `muscle_power` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `recorded_on` date NOT NULL,
+  `history_id` bigint DEFAULT NULL,
+  `patient_id` bigint NOT NULL,
+  `staff_id` bigint NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_rangeofmotion`
+--
+
+INSERT INTO `x_app_rangeofmotion` (`id`, `joint`, `arom`, `prom`, `fall_risk`, `muscle_power`, `recorded_on`, `history_id`, `patient_id`, `staff_id`, `date`) VALUES
+(10, 'HIP ', '20', '35', 'NO', 'PAINFULL', '2025-12-09', 10, 60, 12, '2025-12-09'),
+(11, ' ELBOW', '45', '45', 'NO', '2', '2025-12-10', 10, 63, 12, '2025-12-10'),
+(12, 'WRIST', '10', '10', 'NO', '2', '2025-12-10', 10, 63, 12, '2025-12-10'),
+(13, 'Shoulder', '85', '90', 'no', '2', '2025-12-11', 10, 64, 12, '2025-12-11'),
+(14, 'elbow joint', '90', '120', 'no', '3', '2025-12-11', 12, 65, 11, '2025-12-11'),
+(15, 'shoulder', '', '160', '', '', '2026-01-13', 22, 94, 11, '2026-01-13'),
+(16, 'shoulder', '', '170', '', '', '2026-01-13', 24, 52, 11, '2026-01-13'),
+(17, 'Shoulder', '180', '180', '', '', '2026-01-14', 30, 112, 11, '2026-01-14'),
+(18, 'Shoulder', '', '110', '', '', '2026-01-16', 35, 114, 11, '2026-01-16'),
+(19, 'elbow', '130', '145', '', '', '2026-01-21', 37, 65, 11, '2026-01-20'),
+(20, ' ELBOW', '', '', '', '', '2026-01-21', 38, 104, 11, '2026-01-21'),
+(21, 'Wrist flexion', '30', '45', '', '', '2026-01-23', 42, 125, 14, '2026-01-23'),
+(22, 'Wrist flexion', '30', '45', '', '', '2026-01-23', 42, 125, 14, '2026-01-23'),
+(23, 'Wrist flexion', '30', '45', '', '', '2026-01-23', 42, 125, 14, '2026-01-23'),
+(24, 'Wrist flexion', '30', '45', '', '', '2026-01-23', 42, 125, 14, '2026-01-23'),
+(25, 'WRI', '0', '0', '', '', '2026-01-23', 42, 125, 14, '2026-01-23'),
+(26, 'shoulder', '', '90', '', '', '2026-02-03', 44, 131, 11, '2026-02-03'),
+(27, ' ELBOW', '', '', '', '', '2026-03-25', 50, 188, 11, '2026-03-25'),
+(28, ' ELBOW', '', '', '', '', '2026-04-06', 52, 196, 11, '2026-04-04'),
+(29, 'WRIST', '40', '50', '', '', '2026-04-06', 54, 193, 15, '2026-04-06'),
+(30, 'SHOULDER', '0', '100', 'NO', 'NO ACTION', '2026-04-06', 57, 188, 12, '2026-04-01'),
+(32, 'SHOULDER', '70', '90', 'NIL', '4', '2026-04-06', 60, 199, 12, '2026-04-01'),
+(33, 'SHOULDER', '100', '120', 'NIL', 'NORMAL', '2026-04-06', 63, 198, 12, '2026-04-04'),
+(34, 'SHOULDER', '110', '140', '', '', '2026-04-06', 64, 190, 11, '2026-04-03'),
+(35, 'WRIST', '', '', '', '', '2026-04-06', 65, 204, 11, '2026-04-04'),
+(36, 'LUMBAR', '', '', '', '', '2026-04-08', 67, 203, 11, '2026-04-07'),
+(37, 'SHOULDER', '180', '180', '', '', '2026-04-08', 68, 208, 11, '2026-04-08'),
+(38, 'SHOULDER', '120', '140', '', '', '2026-04-09', 70, 209, 15, '2026-04-08'),
+(39, 'SHOULDER', '170', '180', '', '', '2026-04-09', 72, 212, 15, '2026-04-09'),
+(40, 'ELBOW', '35', '35', 'NO', '2', '2026-04-10', NULL, 188, 12, '2026-04-01'),
+(41, 'WRIST', '0', '25', 'NO', '0', '2026-04-10', NULL, 188, 12, '2026-04-01'),
+(42, 'KNEE', '90', '90', '', '', '2026-04-11', 78, 216, 11, '2026-04-11'),
+(43, ' ELBOW', '', '', '', '', '2026-04-16', 82, 222, 11, '2026-04-16'),
+(44, 'ELBOW', '50', '55', '', '', '2026-04-18', 83, 225, 11, '2026-04-18'),
+(45, ' ELBOW', '', '', '', '', '2026-04-24', 87, 234, 11, '2026-04-24'),
+(46, 'THUMB', '', '', '', '', '2026-04-28', 91, 232, 11, '2026-04-28'),
+(47, 'ELBOW', '140', '140', '', '', '2026-04-28', 100, 228, 11, '2026-04-25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_role`
+--
+
+CREATE TABLE `x_app_role` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_role`
+--
+
+INSERT INTO `x_app_role` (`id`, `name`, `status`) VALUES
+(1, 'Admin', 1),
+(2, 'Doctor', 1),
+(3, 'Appointment/Booking Staff', 1),
+(4, 'Security', 0),
+(5, 'Chief Doctor', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_roleassignment`
+--
+
+CREATE TABLE `x_app_roleassignment` (
+  `id` bigint NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `branch_id` bigint NOT NULL,
+  `role_id` bigint NOT NULL,
+  `staff_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_roleassignment`
+--
+
+INSERT INTO `x_app_roleassignment` (`id`, `status`, `branch_id`, `role_id`, `staff_id`) VALUES
+(2, 0, 1, 4, 8),
+(3, 0, 1, 4, 6),
+(4, 1, 1, 1, 9),
+(5, 0, 1, 4, 4),
+(6, 0, 1, 4, 3),
+(7, 0, 1, 3, 7),
+(9, 0, 1, 2, 10),
+(10, 1, 1, 2, 11),
+(11, 1, 1, 2, 12),
+(12, 0, 1, 2, 13),
+(13, 1, 1, 2, 14),
+(14, 1, 1, 2, 15);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_schrothclassification`
+--
+
+CREATE TABLE `x_app_schrothclassification` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_schrothclassification`
+--
+
+INSERT INTO `x_app_schrothclassification` (`id`, `name`) VALUES
+(6, 'Le Ht ri KT'),
+(5, 'Le Ht ri S le'),
+(4, 'Le Tr ri S le'),
+(2, 'Tr lt S le'),
+(3, 'Tr ri HS le'),
+(1, 'Tr ri S le');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_scoliosisassessment`
+--
+
+CREATE TABLE `x_app_scoliosisassessment` (
+  `id` bigint NOT NULL,
+  `date` date NOT NULL,
+  `height_cm` decimal(5,1) DEFAULT NULL,
+  `weight_kg` decimal(5,1) DEFAULT NULL,
+  `diagnosis_pattern` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `uev` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `lev` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `lumbar_lev` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cobbs_angle` decimal(5,1) DEFAULT NULL,
+  `scoliometer_ut` decimal(5,1) DEFAULT NULL,
+  `scoliometer_t` decimal(5,1) DEFAULT NULL,
+  `scoliometer_l` decimal(5,1) DEFAULT NULL,
+  `brace_used` tinyint(1) NOT NULL,
+  `menses_since` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `other_diseases` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `shoe_lift` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `family_history` longtext COLLATE utf8mb4_general_ci,
+  `schroth_classification` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `xray` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `diagram` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hep` json DEFAULT NULL,
+  `manual_technique` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `doctor_id` bigint DEFAULT NULL,
+  `patient_id` bigint NOT NULL,
+  `cobbs_angle_L` decimal(5,1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_scoliosisassessment`
+--
+
+INSERT INTO `x_app_scoliosisassessment` (`id`, `date`, `height_cm`, `weight_kg`, `diagnosis_pattern`, `uev`, `lev`, `lumbar_lev`, `cobbs_angle`, `scoliometer_ut`, `scoliometer_t`, `scoliometer_l`, `brace_used`, `menses_since`, `other_diseases`, `shoe_lift`, `family_history`, `schroth_classification`, `xray`, `diagram`, `hep`, `manual_technique`, `created_at`, `doctor_id`, `patient_id`, `cobbs_angle_L`) VALUES
+(5, '2026-01-07', 185.0, 55.0, 'None', 'None', 'None', 'None', NULL, NULL, NULL, NULL, 1, 'None', 'None', 'None', 'None', 'Le Ht ri S le', '', '', '[\"Caterpillar\", \"Corrective Breathing\"]', 'LP Direct', '2026-01-07 14:33:50.426157', 10, 41, NULL),
+(6, '2026-01-19', NULL, NULL, 'IAS', NULL, NULL, NULL, 40.0, NULL, NULL, NULL, 1, '13', NULL, NULL, 'no', 'Le Ht ri S le', '', '', '[\"Pelvic Correction\"]', NULL, '2026-01-19 13:02:49.860255', 11, 120, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_scoliosisfollowup`
+--
+
+CREATE TABLE `x_app_scoliosisfollowup` (
+  `id` bigint NOT NULL,
+  `followup_date` date NOT NULL,
+  `diagnosis_pattern` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `uev` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `lev` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `lumbar_lev` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `cobbs_angle` decimal(5,1) DEFAULT NULL,
+  `cobbs_angle_L` decimal(5,1) DEFAULT NULL,
+  `scoliometer_ut` decimal(5,1) DEFAULT NULL,
+  `scoliometer_t` decimal(5,1) DEFAULT NULL,
+  `scoliometer_l` decimal(5,1) DEFAULT NULL,
+  `brace_used` tinyint(1) NOT NULL,
+  `pain_level` int DEFAULT NULL,
+  `notes` longtext COLLATE utf8mb4_general_ci,
+  `scoliosis_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_staffallocation`
+--
+
+CREATE TABLE `x_app_staffallocation` (
+  `id` bigint NOT NULL,
+  `email` varchar(254) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `department_id` bigint DEFAULT NULL,
+  `designation_id` bigint DEFAULT NULL,
+  `staff_id` bigint NOT NULL,
+  `status` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `branch_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_staffallocation`
+--
+
+INSERT INTO `x_app_staffallocation` (`id`, `email`, `password`, `department_id`, `designation_id`, `staff_id`, `status`, `branch_id`) VALUES
+(4, 'naveen@gmail.com', 'root', NULL, 9, 3, 'Inactive', NULL),
+(5, 'ganga@gmail.com', 'root', NULL, 9, 4, 'Inactive', 1),
+(6, 'jayaraj@gmail.com', 'root', NULL, 5, 5, 'Inactive', NULL),
+(7, 'syshmaf@gmail.com', 'root', NULL, 9, 6, 'inactive', 1),
+(8, 'merin@gmail.com', 'merin', NULL, 9, 8, 'Inactive', NULL),
+(10, 'suresh@gmail.com', 'root', NULL, 7, 7, 'Inactive', NULL),
+(11, 'admin@gmail.com', 'Admin123', NULL, 10, 9, 'active', 1),
+(12, 'cblake@gmail.com', 'root', NULL, 9, 10, 'inactive', 1),
+(13, 'aishwarya@gmail.com', '100390', 4, 9, 11, 'active', 1),
+(14, 'surumi@gmail.com', '280793', 4, 9, 12, 'active', 1),
+(15, 'chandana@gmail.com', '230801', 4, 9, 13, 'inactive', 1),
+(16, 'nandan@gmail.com', '67890', 4, 9, 14, 'active', 1),
+(17, 'jrkokila@gmail.com', '12345', 4, 9, 15, 'active', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_staffregistration`
+--
+
+CREATE TABLE `x_app_staffregistration` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `gender` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `age` int UNSIGNED NOT NULL,
+  `contact` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `qualification_details` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `joining_date` date NOT NULL,
+  `pancard` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `address` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(254) COLLATE utf8mb4_general_ci NOT NULL,
+  `branch_id` bigint DEFAULT NULL,
+  `status` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
+) ;
+
+--
+-- Dumping data for table `x_app_staffregistration`
+--
+
+INSERT INTO `x_app_staffregistration` (`id`, `name`, `gender`, `age`, `contact`, `qualification_details`, `joining_date`, `pancard`, `address`, `email`, `branch_id`, `status`) VALUES
+(3, 'Naveen Prince Thomas', 'Male', 25, '9774476780', 'MBBS', '2025-08-11', 'CPACF5677E', 'Alappuzha', 'naveen@gmail.com', NULL, 'Inactive'),
+(4, 'Ganga', 'Female', 35, '9774476780', 'MBBS', '2025-08-11', 'CGSSY7788L', 'Manganam', 'ganga@gmail.com', 1, 'Inactive'),
+(5, 'Jayaraj J Pillai', 'Male', 25, '9572378291', 'MCA', '2025-08-11', 'CPACF5677F', 'Pathanamthitta', 'jayaraj@gmail.com', NULL, 'Inactive'),
+(6, 'Syshma F', 'Female', 54, '9572378291', 'MSc Nursing', '2025-08-12', 'ABCDE1234F', 'Kottayam', 'syshmaf@gmail.com', 1, 'Inactive'),
+(7, 'Suresh', 'Male', 25, '9032993240', 'BSc Computer Science', '2025-08-13', 'CPACF5677K', 'Ernakulam', 'suresh@gmail.com', NULL, 'Inactive'),
+(8, 'Merin', 'Female', 25, '8973778778', 'MBBS', '2025-07-27', 'ABCDE1234F', 'Kottayam', 'merin@gmail.com', NULL, 'Inactive'),
+(9, 'Admin', 'Male', 25, '7677388383', 'MBBS', '2025-08-29', 'CPACF5677S', 'Kottayam', 'admin@gmail.com', 1, 'Active'),
+(10, 'Feradey', 'Male', 45, '9876543214', 'MBBS', '2025-10-31', 'ABCDE2314R', 'Kottayam', 'cblake@gmail.com', 1, 'Inactive'),
+(11, 'Aiswarya N', 'Female', 35, '9995429100', 'BPT', '2020-12-07', 'ABCDE6789F', 'Alappuzha', 'aishwarya@gmail.com', 1, 'Active'),
+(12, 'Surumi S', 'Female', 33, '6282259471', 'BPT', '2019-11-09', 'ABCDE1234F', 'Trivandrum', 'surumi@gmail.com', 1, 'Active'),
+(13, 'Chandana  S', 'Female', 24, '8590392359', 'BPT', '2024-11-06', 'ABCDE1357F', 'Trivandrum', 'chandana@gmail.com', 1, 'Inactive'),
+(14, 'Nanda Gopan R ', 'Male', 40, '7708911791', 'MPT', '2018-02-07', 'ABCDE0000F', 'Kowdiar', 'nandan@gmail.com', 1, 'Active'),
+(15, 'Kokila ', 'Female', 23, '8921292034', 'BPT', '2025-11-25', 'ABCDE1234F', 'Nedumangadu', 'jrkokila@gmail.com', 1, 'Active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_state`
+--
+
+CREATE TABLE `x_app_state` (
+  `id` bigint NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `country_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_state`
+--
+
+INSERT INTO `x_app_state` (`id`, `name`, `country_id`) VALUES
+(1, 'Kerala', 1),
+(2, 'Karnataka', 1),
+(3, 'Tamil Nadu', 1),
+(4, 'Maharashtra', 1),
+(5, 'Andhra Pradesh', 1),
+(6, 'Telangana', 1),
+(7, 'Goa', 1),
+(8, 'Uttar Pradesh', 1),
+(10, 'Jammu & Kashmir', 1),
+(12, 'Haryana', 1),
+(13, 'Beijing', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_suppliermaster`
+--
+
+CREATE TABLE `x_app_suppliermaster` (
+  `id` bigint NOT NULL,
+  `supplier_code` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `supplier_name` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `contact_number` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(254) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address` longtext COLLATE utf8mb4_general_ci,
+  `created_at` datetime(6) NOT NULL,
+  `staff_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_taxmaster`
+--
+
+CREATE TABLE `x_app_taxmaster` (
+  `id` bigint NOT NULL,
+  `tax_percent` decimal(5,2) NOT NULL,
+  `created_at` datetime(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_taxmaster`
+--
+
+INSERT INTO `x_app_taxmaster` (`id`, `tax_percent`, `created_at`) VALUES
+(1, 18.00, '2025-11-10 11:37:29.162373');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `x_app_treatmentplan`
+--
+
+CREATE TABLE `x_app_treatmentplan` (
+  `id` bigint NOT NULL,
+  `short_term_goals` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `long_term_goals` longtext COLLATE utf8mb4_general_ci NOT NULL,
+  `date_created` date NOT NULL,
+  `history_id` bigint DEFAULT NULL,
+  `patient_id` bigint NOT NULL,
+  `staff_id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `x_app_treatmentplan`
+--
+
+INSERT INTO `x_app_treatmentplan` (`id`, `short_term_goals`, `long_term_goals`, `date_created`, `history_id`, `patient_id`, `staff_id`) VALUES
+(9, 'restoring basic movements\r\navoiding aggravating activities\r\nprotect the joint\r\n', 'achieving full strength\r\nflexibility\r\nfunctional range of motion\r\npreventing reinjury\r\n', '2026-01-13', 22, 94, 11),
+(10, 'protect the joint\r\nrestore range of motion\r\nreduce pain and inflammation', 'achieving full,pain free function\r\nrestore strength and stability\r\npreventing reinjury\r\nimproving posture', '2026-01-13', 24, 52, 11),
+(11, 'PAIN FREE', 'PAIN FREE ,ROM', '2026-01-13', 25, 82, 12),
+(12, 'PAIN FREE,EASY MOVEMENT', 'BACK MUSCLE STRENGTHENING', '2026-01-13', 27, 93, 12),
+(13, 'PAIN FREE MOVEMENTS', 'FOREARM STRENGTHENING,DAILY LIFE ACTIVITIES', '2026-01-13', 28, 49, 12),
+(14, 'Reduce pain and inflammation\r\nPain free range of motion\r\npatient education\r\nJoint protection', 'Pain management and elimination\r\nRestoration of strength and stability\r\nReturn to activity and function\r\n', '2026-01-14', 30, 112, 11),
+(15, 'TO REDUCE PAIN\r\nIMPROVE NECK ROM\r\nREDUCE TIGHTNESS', '', '2026-01-14', 32, 68, 15),
+(16, 'Raduce pain and swelling\r\npreventing stiffness\r\npromote bone healing', 'complete bone healing,retore full wrist function,increasing strength,returning activity', '2026-01-14', 34, 75, 11),
+(17, 'Control pain and swelling\r\nprotect the healing bone\r\nmaintain the function and range of motion\r\n\r\n', 'Achieving pain free movement,restore full range of motion,improved muscle strength and endurance,return to daily activites and hobbies', '2026-01-16', 35, 114, 11),
+(18, 'Stabilising the fracture,managing pain and swelling,prevent joint stiffness', 'Restoration of a stable painfree and functional limb that allows return to all previous activites ', '2026-01-17', 36, 117, 11),
+(19, 'Reducing pain,minimizing swelling,\r\nmaintaining joint mobility to prevent long term stiffness', 'Achieve a full ,pain free range of motion ,restore complete strength to the surrounding muscle.prevent chronic complication such as stiffness weakness ', '2026-01-21', 37, 65, 11),
+(20, 'Reducing pain and inflammation ,regaining basic arm movement ,activity modification', 'Complete pain resolution ,full restoration of forearm strength and flexibility ,prevent recurrence', '2026-01-21', 38, 104, 11),
+(21, 'PAIN FREE MOVEMENTS', 'PAIN FREE MOVEMENTS AND DAILY ACTIVITIES', '2026-01-21', 39, 113, 12),
+(22, 'Reduce pain ', 'Active function', '2026-01-23', 40, 94, 11),
+(23, 'ROM', 'ROM,PAIN FREE', '2026-01-23', 41, 105, 12),
+(24, 'ROM and pain relief', 'ROM and pain relief', '2026-01-23', 42, 125, 14),
+(25, 'Pain management ,protecting healing fracture/ fixation preventing joint stiffness', 'Pain free range of motion , improved strength and functional independance\r\n', '2026-02-03', 44, 131, 11),
+(26, 'Reduced pain', '', '2026-02-09', 45, 137, 11),
+(27, 'MOBILITY', 'STRENGTH AND CONDITIONING', '2026-02-13', 46, 141, 12),
+(28, 'Reduce pain \r\nReduce swelling\r\n support', 'Eccentric strengthening exercise', '2026-03-13', 47, 175, 11),
+(29, 'REDUCED PAIN AND SWELLING\r\nSTABILIZING THE WRIST', 'PAIN FREE FUNCTIONALITY\r\nGRIP STRENGTH AND STABILITY\r\nOPTIMAL STRENGTH AND RANGE OF MOTION\r\nRETURN TO WORK\r\n\r\n', '2026-03-21', 48, 185, 11),
+(30, 'REDUCED PAIN AND SWELLING\r\nEARLY ROM\r\nMAINTENANCE OF JOINT FUNCTION', 'MAXIMIZE RANGE OF MOTION\r\nPREVENT CHRONIC COMPLICATION\r\nACHIEVE STRONG BONY UNION', '2026-03-21', 49, 169, 11),
+(31, 'REDUCE THE PAIN \r\nSWELLING \r\nIMPROVE ROM', 'RESTORING FULL ROM\r\nBUILDING FUNCTIONAL STRENGTH\r\nRETURNING TO DAILY ACTIVITIES', '2026-03-25', 50, 188, 11),
+(32, 'PAIN MANAGEMENT FOR THREE DAYS', 'INCREASE ROM AND PAIN MANAGEMENT', '2026-03-30', 51, 199, 12),
+(33, 'REDUCE PAIN AND SWELLING\r\nRESTORE ANKLE RANGE OF MOTION \r\nIMPROVE STRENGTH', 'RETURN TO PRE INJURY LEVEL\r\nACHIEVE FULL ACTIVE ROM AND STRENGTH\r\nIMPROVE BALANCE AND FUNCTIONAL ABILITIES', '2026-04-06', 52, 196, 11),
+(34, 'REDUCE PAIN \r\nIMPROVE THUMB ROM AND STRENGTH\r\nRESUME DAILY ACTIVITIES WITH MINIMAL PAIN', 'FULL RECOVERY OF THUB FUNCTION AND STRENGTH\r\nRETURN TO PRE INJURY ACTIVITY LEVEL\r\n', '2026-04-06', 53, 192, 15),
+(35, 'REDUCE PAIN \r\nMAINTAIN JOINT MOBILITY\r\nREDUCE STIFFNESS', 'RESTORE FULL WRIST AND FOREARM ROM\r\nREGAIN STRENGHT AND FUNCTION OF HAND', '2026-04-06', 54, 193, 15),
+(36, 'SPINE CORRECTION', 'SPINE CORRECTION', '2026-04-06', 56, 205, 12),
+(37, 'ROM', 'ROM', '2026-04-06', 57, 188, 12),
+(38, 'PAIN RELIEF,ROM', 'ACTIVE RANGE OF MOTION', '2026-04-06', 60, 199, 12),
+(39, 'POSTURE CORRECTION ,PAIN MANGEMENT', 'POSTURE CORRECTION', '2026-04-06', 61, 93, 12),
+(40, 'PAIN MANGEMENT', 'PAIN FREE MOVEMENTS', '2026-04-06', 62, 202, 12),
+(41, 'PAIN MANAGEMENT', 'ACTIVE MOVEMENTS', '2026-04-06', 63, 198, 12),
+(42, 'PAIN REDUCTION\r\nIMPROVE ROM\r\nREDUCE INFLAMMATION\r\nGENTLE EXRCISE', 'PAIN FREE FUNCTIONALITY\r\nFULL ROM\r\nMUSCULAR BALANCE AND STABILITY\r\nSTRENGTH RESTORATION \r\nRECUURENCE PREVENTION', '2026-04-06', 64, 190, 11),
+(43, 'PROTECTION OF THE  LIGAMENT REPAIR\r\nPAIN AND SWELLING MANAGEMENTS\r\nPAIN SITE CARE', 'REDUCE PAIN \r\nMAXIMISE FUNCTION AND STRENGTH', '2026-04-06', 65, 204, 11),
+(44, 'REDUCED MUSCLE FATIGUE\r\nPOSTURE CORRECTION\r\nIMPROVE BREATHING MECHANISM', 'PREVENTING CURVE PROGRESSION\r\nIMPROVING QUALITY OF LIFE\r\nPREVENTING COMPLICATION', '2026-04-06', 66, 200, 11),
+(45, 'TO REDUCE PAIN AND SWELLING\r\nIMPROVE WRIST AND HUMB ROM AND STRENGHT', 'FULL RECOVERY OF WRIST AND THUMB FUNCTION\r\nRESTORE PRE INJURY LEVEL OF MOVEMENT AND STRENGTH', '2026-04-06', 66, 206, 15),
+(46, 'REDUCE PAIN AND SWELLING\r\nIMPROVE WRIST AND THUMB ROM', 'FYLL RECOVERY OF WRIST AND THUMB FUNCTION\r\nRETURN TO PRE INJURY LEVEL OF WRIST MOVEMENT AND STRENGTH', '2026-04-06', NULL, 206, 15),
+(47, 'IMPROVED POSTURE\r\nCORE STABILITY AND STRENGTH\r\nRESPIRATORY FUNCTION\r\nPREVENT PROGRESSION\r\nBRACE COMPLIANCE\r\n', 'PREVENT CURVE PROGRESSION\r\nIMPROE FUNCTIONAL MOBILITY\r\nAVOID SURGICAL INTERVENTION', '2026-04-08', 67, 145, 11),
+(48, 'REDUCE PAIN AND INFLMMATION\r\nRESTORE PAIN FREE ROM', 'OPTIMAL STRENGTH AND STABILITY                                    \r\nFULL RANGE OF MOTION\r\nRETURN TO ACTIVITY\r\n', '2026-04-08', 68, 208, 11),
+(49, 'REDUCE PAIN\r\nIMPROVE SHOULDER ROM', 'FULL RECOVERY OF SHOULDER FUNCTIONING AND STRENGTHENING', '2026-04-09', 69, 210, 15),
+(50, 'REDUCE PAIN\r\nIMPROVE ROM\r\nSTRENGTHEN ROTATOR CUFF MUSCLE', 'FULL RECOVERY OF SHOULDER FUNCTION\r\nRETURN TO PRE INJURY LEVEL OF SHOULDER FUNCTION', '2026-04-09', 70, 209, 15),
+(51, 'PAIN AND INFLAMMATION REDUCTION\r\nPROTECTION OF INJURED STRUCTURE\r\nMAINTAINING ROM\r\nACTIVITY MODIFICATION\r\n', 'RESTORING STABILITY\r\nPAIN REDUCTION\r\nFUCTIONAL RECOVERY\r\nRETURN TO ACTIVITY', '2026-04-09', 71, 211, 11),
+(52, 'REDUCE PAIN\r\nIMPROVRE ROM', 'FULL RECOVERY OF SHOULDERS TO PRE INJURY LEVEL', '2026-04-09', 72, 212, 15),
+(53, 'REDUCE PAIN AND SWELLING\r\n', 'RESTORE MOVEMENTS\r\nMAINTAIN JOINT STABILITY\r\nREDUCE PAIN\r\n', '2026-04-09', 73, 213, 11),
+(54, 'PAIN MANGEMENT', 'MUSCLE STRENGHTENING', '2026-04-09', 74, 214, 12),
+(55, 'POSTURE CORRECTION', 'POSTURE CORRECTION', '2026-04-10', 75, 207, 12),
+(56, 'POSTURE CORRECTION', 'POSTURE CORRECTION', '2026-04-10', 76, 186, 12),
+(57, 'IMPROVE POSTURE AWARENESS\r\nPREVENT CURVE PROGRESSION\r\nIMPROVE RESPIRATORY CAPACITY\r\nIMPROVE FUNCTIONAL MOVEMENT', 'PREVENT SURGICAL PREVENTION\r\nMAXIMIZE PULMONARY FUNCTION\r\nIMPROVE POSTURAL SYMMETRY', '2026-04-10', 14, 10, 11),
+(58, 'POSTURE CORRECTION', 'POSTURE CORRECTION', '2026-04-10', 77, 200, 11),
+(59, 'PROTECTING THE GRAFT\r\nREDUCE PAIN\r\nMANAGING SWELLING\r\nRESTORING BASIC MOBILITY', 'RESTORE KNEE STABILITY\r\nFULL ROM\r\nPREVENT INJURY\r\n', '2026-04-11', 78, 216, 11),
+(60, 'INCREASE ROM', 'INCREASE ROM', '2026-04-14', 79, 218, 12),
+(61, 'REDUCE PAIN DURING DAILY ACTIVITIES\r\nDECREASE PAIN AND SWELLING', 'ACHIEVE FULL PAIN FREE ACTIVE ROM OF WRIST AND FOREARM\r\n', '2026-04-16', 80, 219, 15),
+(62, 'REDUCE SWELLING AND PAIN\r\nIMPROVE ROM', 'REDUCE PAIN AND IMPROVE ROM AND REGAIN TO NORMAL DAILY ACTIVITIES', '2026-04-16', 81, 220, 15),
+(63, 'REDUCE PAIN AND SWELLING\r\nPROTECTING HEELING TISSUE\r\nEARLY ACTIVE ROM', 'RESTORATION OF FUNCTIONAL ROM\r\nPAIN FREE FUNCTION\r\nMUSCLE STRENGTH RECOVERY\r\nINDEPENDANCE IN DAILY LIVING', '2026-04-16', 82, 222, 11),
+(64, 'PAIN AND SWELLING MANAGEMENT\r\nMAINTAIN HAND MOBILITY\r\n', 'FUNCTIONAL ROM\r\nBONE STABILITY AND ALIGNMENT\r\nRETURN TO ACTIVITY\r\nPAIN FREE FUNCTION\r\n', '2026-04-18', 83, 225, 11),
+(65, 'IMPROVING POSTURAL AWARENESS\r\nSTRENGTHENING CORE MUSCLE\r\nBREATHING FUNCTION\r\n', 'STABILIZING SPINE\r\nPREVENTING CURVE\r\nSTRUCTURAL STABILITY\r\nIMPROVED POSTURE AND FUNCTION\r\n', '2026-04-21', 84, 229, 11),
+(66, 'INCREASE RANGE OF MOTION', 'INCREASE RANGE OF MOTION,MUSCLE STRENGTH', '2026-04-22', 85, 230, 12),
+(67, 'REDUCE PAIN AND SWELLING\r\nSTABILIZING THE JOINT\r\nPREVENTION OF STIFNESS', 'JOINT STABILITY AND STRENGTH\r\nPAIN REDUCTION\r\nPREVENTING COMPLICATION', '2026-04-24', 87, 234, 11),
+(68, 'REDUCE PAIN AND SWELLING \r\nIMPROVE KNEE ROM AND STRENGHTENINH', 'RETAIN AND FULL ROM AND RETURN TO  DAILY ACTIVITIES', '2026-04-25', 88, 241, 11),
+(69, 'IMPROVING POSTURAL AWARENESS\r\nENHANCING BREATHING MECHNICS\r\nSTRENGTHENING CORE MUSCLE AND STABILISE THE SPINE\r\n', 'MAXIMIZING SPINAL FUCTION ,STABILITY ,AND AESTHETICS\r\nPREVENT CURVE PROGRESSION', '2026-04-28', 89, 223, 11),
+(70, 'IMPROVING POSTURAL AWARENESS\r\nINCREASING STABILITY\r\nENHANCING BREATHING MECHANICS\r\nCORE STABILISATION', 'MAXIMISING SPINAL FUNCTION\r\n,STABILITY ,AESTHETICS\r\nPREVENT CURVE PROGRESSION\r\n\r\n', '2026-04-28', 90, 88, 11),
+(71, 'REDUCE THE PAIN \r\nREDUCE INFLAMMATION\r\nMAINTAIN JOINT STABILITY', 'IMPROVE THE FUNCTIOAL MOVEMENTS\r\n', '2026-04-28', 91, 232, 11),
+(72, 'RANGE IMPROVEMENT', 'RANGE IMPROVEMENT', '2026-04-28', 92, 233, 12),
+(73, 'TO REDUCE PAIN', 'PAIN FREE', '2026-04-28', 93, 245, 12),
+(74, 'POSTURE CORRECTION', 'POSTURE CORRECTION', '2026-04-28', 94, 18, 12),
+(75, 'PAIN RELIEF', 'TO REDUCE PAIN AND INCREASE MOBILITY', '2026-04-28', 95, 227, 12),
+(76, 'IMPROVE STRENGTH', 'INCREASE MOBILITY', '2026-04-28', 96, 235, 12),
+(77, 'NECK MOBILITY', 'NRCK MOBILITY', '2026-04-28', 97, 242, 12),
+(78, 'TO REDUCE PAIN ', 'IMPROVE MOBILITY', '2026-04-28', 98, 215, 12),
+(79, 'TO REDUCE PAIN AND INFLAMMATION', 'IMPROVE MOBILITY', '2026-04-28', 100, 228, 11),
+(80, 'TO REDUCE PAIN\r\nTO IMPROVE ROM', 'RETAIN TO NORMAL ACTIVITIES', '2026-04-28', 101, 246, 15),
+(81, 'TO REDUCE THE DIFFICULTIES', 'IMPROVE THE MOBILITY', '2026-04-28', 102, 247, 12);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `auth_group`
+--
+ALTER TABLE `auth_group`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `auth_group_permissions`
+--
+ALTER TABLE `auth_group_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  ADD KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`);
+
+--
+-- Indexes for table `auth_permission`
+--
+ALTER TABLE `auth_permission`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`);
+
+--
+-- Indexes for table `auth_user`
+--
+ALTER TABLE `auth_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `auth_user_groups`
+--
+ALTER TABLE `auth_user_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
+  ADD KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`);
+
+--
+-- Indexes for table `auth_user_user_permissions`
+--
+ALTER TABLE `auth_user_user_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
+  ADD KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`);
+
+--
+-- Indexes for table `django_admin_log`
+--
+ALTER TABLE `django_admin_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  ADD KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`);
+
+--
+-- Indexes for table `django_content_type`
+--
+ALTER TABLE `django_content_type`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`);
+
+--
+-- Indexes for table `django_migrations`
+--
+ALTER TABLE `django_migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `django_session`
+--
+ALTER TABLE `django_session`
+  ADD PRIMARY KEY (`session_key`),
+  ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
+
+--
+-- Indexes for table `x_app_appointment`
+--
+ALTER TABLE `x_app_appointment`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `token_no` (`token_no`),
+  ADD KEY `x_app_appointment_branch_id_56f6d903_fk_x_app_branch_id` (`branch_id`),
+  ADD KEY `x_app_appointment_department_id_73b44ac3_fk_x_app_department_id` (`department_id`),
+  ADD KEY `x_app_appointment_patient_id_a6ef405e_fk_x_app_patient_id` (`patient_id`),
+  ADD KEY `x_app_appointment_doctor_id_4ba1abc3_fk_x_app_sta` (`doctor_id`);
+
+--
+-- Indexes for table `x_app_bankdetails`
+--
+ALTER TABLE `x_app_bankdetails`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_bankdetails_medical_store_id_a7ef60fe_fk_x_app_med` (`medical_store_id`);
+
+--
+-- Indexes for table `x_app_bodychart`
+--
+ALTER TABLE `x_app_bodychart`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_bodychart_patient_id_b094b942_fk_x_app_patient_id` (`patient_id`),
+  ADD KEY `x_app_bodychart_history_id_af3e10cd_fk_x_app_patienthistory_id` (`history_id`),
+  ADD KEY `x_app_bodychart_staff_id_e15b33d3_fk_x_app_staffregistration_id` (`staff_id`);
+
+--
+-- Indexes for table `x_app_bodychartimage`
+--
+ALTER TABLE `x_app_bodychartimage`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `x_app_branch`
+--
+ALTER TABLE `x_app_branch`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `x_app_branch_departments`
+--
+ALTER TABLE `x_app_branch_departments`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `x_app_branch_departments_branch_id_department_id_36a19568_uniq` (`branch_id`,`department_id`),
+  ADD KEY `x_app_branch_departm_department_id_7aba1070_fk_x_app_dep` (`department_id`);
+
+--
+-- Indexes for table `x_app_company`
+--
+ALTER TABLE `x_app_company`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `x_app_country`
+--
+ALTER TABLE `x_app_country`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `x_app_department`
+--
+ALTER TABLE `x_app_department`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `x_app_designation`
+--
+ALTER TABLE `x_app_designation`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Designation` (`Designation`);
+
+--
+-- Indexes for table `x_app_district`
+--
+ALTER TABLE `x_app_district`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `x_app_district_state_id_871456e1_fk_x_app_state_id` (`state_id`);
+
+--
+-- Indexes for table `x_app_expense`
+--
+ALTER TABLE `x_app_expense`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_expense_staff_id_42e3de05_fk_x_app_staffregistration_id` (`staff_id`),
+  ADD KEY `x_app_expense_expense_type_id_bb0980d2_fk_x_app_expense_type_id` (`expense_type_id`);
+
+--
+-- Indexes for table `x_app_expense_type`
+--
+ALTER TABLE `x_app_expense_type`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `expense_type` (`expense_type`);
+
+--
+-- Indexes for table `x_app_generalobservation`
+--
+ALTER TABLE `x_app_generalobservation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_generalobservation_patient_id_dc03c338_fk_x_app_patient_id` (`patient_id`),
+  ADD KEY `x_app_generalobserva_history_id_702fc5b6_fk_x_app_pat` (`history_id`),
+  ADD KEY `x_app_generalobserva_staff_id_c6176ded_fk_x_app_sta` (`staff_id`);
+
+--
+-- Indexes for table `x_app_gstinvoice`
+--
+ALTER TABLE `x_app_gstinvoice`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `invoice_no` (`invoice_no`),
+  ADD KEY `x_app_gstinvoice_patient_id_39307d87_fk_x_app_patient_id` (`patient_id`),
+  ADD KEY `x_app_gstinvoice_medical_store_id_fe2fe04b_fk_x_app_med` (`medical_store_id`),
+  ADD KEY `x_app_gstinvoice_deleted_by_id_07a532db_fk_x_app_sta` (`deleted_by_id`);
+
+--
+-- Indexes for table `x_app_gstinvoiceitem`
+--
+ALTER TABLE `x_app_gstinvoiceitem`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_gstinvoiceitem_company_name_id_7c3a3018_fk_x_app_com` (`company_name_id`),
+  ADD KEY `x_app_gstinvoiceitem_invoice_id_c4d05bd9_fk_x_app_gstinvoice_id` (`invoice_id`),
+  ADD KEY `x_app_gstinvoiceitem_item_id_5df671e1_fk_x_app_medicinemaster_id` (`item_id`);
+
+--
+-- Indexes for table `x_app_hep`
+--
+ALTER TABLE `x_app_hep`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `x_app_hospital_data`
+--
+ALTER TABLE `x_app_hospital_data`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `registration_number` (`registration_number`);
+
+--
+-- Indexes for table `x_app_invoice`
+--
+ALTER TABLE `x_app_invoice`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `invoice_number` (`invoice_number`),
+  ADD KEY `x_app_invoice_patient_id_31d4c698_fk_x_app_patient_id` (`patient_id`),
+  ADD KEY `x_app_invoice_doctor_id_c92e44de_fk_x_app_staffregistration_id` (`doctor_id`);
+
+--
+-- Indexes for table `x_app_invoiceparticular`
+--
+ALTER TABLE `x_app_invoiceparticular`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_invoiceparticu_created_by_id_84360a2c_fk_x_app_sta` (`created_by_id`),
+  ADD KEY `x_app_invoiceparticu_hospital_id_cbc5ad9e_fk_x_app_hos` (`hospital_id`);
+
+--
+-- Indexes for table `x_app_managemententry`
+--
+ALTER TABLE `x_app_managemententry`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_managemententr_staff_id_c9e784aa_fk_x_app_sta` (`staff_id`),
+  ADD KEY `x_app_managemententr_treatment_plan_id_625e812b_fk_x_app_tre` (`treatment_plan_id`);
+
+--
+-- Indexes for table `x_app_manualtechnique`
+--
+ALTER TABLE `x_app_manualtechnique`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `x_app_medical_store`
+--
+ALTER TABLE `x_app_medical_store`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `registration_number` (`registration_number`);
+
+--
+-- Indexes for table `x_app_medicinemaster`
+--
+ALTER TABLE `x_app_medicinemaster`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_medicinemaster_category_id_115d7ed7_fk_x_app_med` (`category_id`),
+  ADD KEY `x_app_medicinemaster_staff_id_d8a3d597_fk_x_app_sta` (`staff_id`),
+  ADD KEY `x_app_medicinemaster_tax_id_2fad0c22_fk_x_app_taxmaster_id` (`tax_id`);
+
+--
+-- Indexes for table `x_app_medicine_category`
+--
+ALTER TABLE `x_app_medicine_category`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `x_app_menu`
+--
+ALTER TABLE `x_app_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `x_app_menupermission`
+--
+ALTER TABLE `x_app_menupermission`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_menupermission_menu_id_530f9f83_fk_x_app_menu_id` (`menu_id`),
+  ADD KEY `x_app_menupermission_role_id_668a5f0a_fk_x_app_role_id` (`role_id`);
+
+--
+-- Indexes for table `x_app_outcomemeasure`
+--
+ALTER TABLE `x_app_outcomemeasure`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_outcomemeasure_history_id_fb3177e9_fk_x_app_pat` (`history_id`),
+  ADD KEY `x_app_outcomemeasure_patient_id_c7dd92c4_fk_x_app_patient_id` (`patient_id`),
+  ADD KEY `x_app_outcomemeasure_staff_id_6da63a6e_fk_x_app_sta` (`staff_id`);
+
+--
+-- Indexes for table `x_app_patient`
+--
+ALTER TABLE `x_app_patient`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `mr_no` (`mr_no`),
+  ADD KEY `x_app_patient_staff_id_aa89548c_fk_x_app_staffregistration_id` (`staff_id`),
+  ADD KEY `x_app_patient_state_id_981b0fab_fk_x_app_state_id` (`state_id`),
+  ADD KEY `x_app_patient_branch_id_ed1ce328_fk_x_app_branch_id` (`branch_id`),
+  ADD KEY `x_app_patient_country_id_7f75afb3_fk_x_app_country_id` (`country_id`),
+  ADD KEY `x_app_patient_district_id_c55c701a_fk_x_app_district_id` (`district_id`);
+
+--
+-- Indexes for table `x_app_patienthistory`
+--
+ALTER TABLE `x_app_patienthistory`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_patienthistory_staff_id_3454f401_fk_x_app_sta` (`staff_id`),
+  ADD KEY `x_app_patienthistory_patient_id_ae05ec54_fk_x_app_patient_id` (`patient_id`);
+
+--
+-- Indexes for table `x_app_physicalstock`
+--
+ALTER TABLE `x_app_physicalstock`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_physicalstock_item_id_e6ec3b9f_fk_x_app_medicinemaster_id` (`item_id`),
+  ADD KEY `x_app_physicalstock_medicine_company_id_ff48779b_fk_x_app_com` (`medicine_company_id`),
+  ADD KEY `x_app_physicalstock_staff_id_9a6a7f5a_fk_x_app_sta` (`staff_id`),
+  ADD KEY `x_app_physicalstock_supplier_id_7520c34f_fk_x_app_sup` (`supplier_id`);
+
+--
+-- Indexes for table `x_app_purchaseinvoice`
+--
+ALTER TABLE `x_app_purchaseinvoice`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `purchase_no` (`purchase_no`),
+  ADD KEY `x_app_purchaseinvoic_created_by_id_a0de28c8_fk_x_app_sta` (`created_by_id`),
+  ADD KEY `x_app_purchaseinvoic_medical_store_id_6638f58b_fk_x_app_med` (`medical_store_id`),
+  ADD KEY `x_app_purchaseinvoic_supplier_id_d82d06a5_fk_x_app_sup` (`supplier_id`);
+
+--
+-- Indexes for table `x_app_purchaseinvoiceitem`
+--
+ALTER TABLE `x_app_purchaseinvoiceitem`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_purchaseinvoic_company_name_id_4da1d8c1_fk_x_app_com` (`company_name_id`),
+  ADD KEY `x_app_purchaseinvoic_invoice_id_372d2ffb_fk_x_app_pur` (`invoice_id`),
+  ADD KEY `x_app_purchaseinvoic_item_id_04eab330_fk_x_app_med` (`item_id`);
+
+--
+-- Indexes for table `x_app_rangeofmotion`
+--
+ALTER TABLE `x_app_rangeofmotion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_rangeofmotion_history_id_1823916c_fk_x_app_pat` (`history_id`),
+  ADD KEY `x_app_rangeofmotion_patient_id_1d459e35_fk_x_app_patient_id` (`patient_id`),
+  ADD KEY `x_app_rangeofmotion_staff_id_02968524_fk_x_app_sta` (`staff_id`);
+
+--
+-- Indexes for table `x_app_role`
+--
+ALTER TABLE `x_app_role`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `x_app_roleassignment`
+--
+ALTER TABLE `x_app_roleassignment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_roleassignment_branch_id_3b16ad03_fk_x_app_branch_id` (`branch_id`),
+  ADD KEY `x_app_roleassignment_role_id_c8fd58d0_fk_x_app_role_id` (`role_id`),
+  ADD KEY `x_app_roleassignment_staff_id_06ffd5b5_fk_x_app_sta` (`staff_id`);
+
+--
+-- Indexes for table `x_app_schrothclassification`
+--
+ALTER TABLE `x_app_schrothclassification`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `x_app_scoliosisassessment`
+--
+ALTER TABLE `x_app_scoliosisassessment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_scoliosisasses_doctor_id_6fba62f3_fk_x_app_sta` (`doctor_id`),
+  ADD KEY `x_app_scoliosisasses_patient_id_3466ffa9_fk_x_app_pat` (`patient_id`);
+
+--
+-- Indexes for table `x_app_scoliosisfollowup`
+--
+ALTER TABLE `x_app_scoliosisfollowup`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_scoliosisfollo_scoliosis_id_0a63fc94_fk_x_app_sco` (`scoliosis_id`);
+
+--
+-- Indexes for table `x_app_staffallocation`
+--
+ALTER TABLE `x_app_staffallocation`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `x_app_staffallocatio_department_id_b5017f9b_fk_x_app_dep` (`department_id`),
+  ADD KEY `x_app_staffallocatio_designation_id_b3e155ec_fk_x_app_des` (`designation_id`),
+  ADD KEY `x_app_staffallocatio_staff_id_2c7d2d71_fk_x_app_sta` (`staff_id`),
+  ADD KEY `x_app_staffallocation_branch_id_70882157_fk_x_app_branch_id` (`branch_id`);
+
+--
+-- Indexes for table `x_app_staffregistration`
+--
+ALTER TABLE `x_app_staffregistration`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `x_app_staffregistration_branch_id_5a7c5dea_fk_x_app_branch_id` (`branch_id`);
+
+--
+-- Indexes for table `x_app_state`
+--
+ALTER TABLE `x_app_state`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `x_app_state_country_id_b122b26f_fk_x_app_country_id` (`country_id`);
+
+--
+-- Indexes for table `x_app_suppliermaster`
+--
+ALTER TABLE `x_app_suppliermaster`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `supplier_code` (`supplier_code`),
+  ADD KEY `x_app_suppliermaster_staff_id_3abf5d34_fk_x_app_sta` (`staff_id`);
+
+--
+-- Indexes for table `x_app_taxmaster`
+--
+ALTER TABLE `x_app_taxmaster`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `x_app_treatmentplan`
+--
+ALTER TABLE `x_app_treatmentplan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `x_app_treatmentplan_history_id_8377294c_fk_x_app_pat` (`history_id`),
+  ADD KEY `x_app_treatmentplan_patient_id_7f859912_fk_x_app_patient_id` (`patient_id`),
+  ADD KEY `x_app_treatmentplan_staff_id_159b94da_fk_x_app_sta` (`staff_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `auth_group`
+--
+ALTER TABLE `auth_group`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `auth_group_permissions`
+--
+ALTER TABLE `auth_group_permissions`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `auth_permission`
+--
+ALTER TABLE `auth_permission`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
+
+--
+-- AUTO_INCREMENT for table `auth_user`
+--
+ALTER TABLE `auth_user`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `auth_user_groups`
+--
+ALTER TABLE `auth_user_groups`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `auth_user_user_permissions`
+--
+ALTER TABLE `auth_user_user_permissions`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `django_admin_log`
+--
+ALTER TABLE `django_admin_log`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `django_content_type`
+--
+ALTER TABLE `django_content_type`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
+-- AUTO_INCREMENT for table `django_migrations`
+--
+ALTER TABLE `django_migrations`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
+--
+-- AUTO_INCREMENT for table `x_app_appointment`
+--
+ALTER TABLE `x_app_appointment`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1893;
+
+--
+-- AUTO_INCREMENT for table `x_app_bankdetails`
+--
+ALTER TABLE `x_app_bankdetails`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `x_app_bodychart`
+--
+ALTER TABLE `x_app_bodychart`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+
+--
+-- AUTO_INCREMENT for table `x_app_bodychartimage`
+--
+ALTER TABLE `x_app_bodychartimage`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `x_app_branch`
+--
+ALTER TABLE `x_app_branch`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `x_app_branch_departments`
+--
+ALTER TABLE `x_app_branch_departments`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `x_app_company`
+--
+ALTER TABLE `x_app_company`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `x_app_country`
+--
+ALTER TABLE `x_app_country`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `x_app_department`
+--
+ALTER TABLE `x_app_department`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `x_app_designation`
+--
+ALTER TABLE `x_app_designation`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `x_app_district`
+--
+ALTER TABLE `x_app_district`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `x_app_expense`
+--
+ALTER TABLE `x_app_expense`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT for table `x_app_expense_type`
+--
+ALTER TABLE `x_app_expense_type`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `x_app_generalobservation`
+--
+ALTER TABLE `x_app_generalobservation`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+
+--
+-- AUTO_INCREMENT for table `x_app_gstinvoice`
+--
+ALTER TABLE `x_app_gstinvoice`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `x_app_gstinvoiceitem`
+--
+ALTER TABLE `x_app_gstinvoiceitem`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `x_app_hep`
+--
+ALTER TABLE `x_app_hep`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `x_app_hospital_data`
+--
+ALTER TABLE `x_app_hospital_data`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `x_app_invoice`
+--
+ALTER TABLE `x_app_invoice`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1400;
+
+--
+-- AUTO_INCREMENT for table `x_app_invoiceparticular`
+--
+ALTER TABLE `x_app_invoiceparticular`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `x_app_managemententry`
+--
+ALTER TABLE `x_app_managemententry`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+
+--
+-- AUTO_INCREMENT for table `x_app_manualtechnique`
+--
+ALTER TABLE `x_app_manualtechnique`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `x_app_medical_store`
+--
+ALTER TABLE `x_app_medical_store`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `x_app_medicinemaster`
+--
+ALTER TABLE `x_app_medicinemaster`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `x_app_medicine_category`
+--
+ALTER TABLE `x_app_medicine_category`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `x_app_menu`
+--
+ALTER TABLE `x_app_menu`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT for table `x_app_menupermission`
+--
+ALTER TABLE `x_app_menupermission`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+
+--
+-- AUTO_INCREMENT for table `x_app_outcomemeasure`
+--
+ALTER TABLE `x_app_outcomemeasure`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `x_app_patient`
+--
+ALTER TABLE `x_app_patient`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `x_app_patienthistory`
+--
+ALTER TABLE `x_app_patienthistory`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+
+--
+-- AUTO_INCREMENT for table `x_app_physicalstock`
+--
+ALTER TABLE `x_app_physicalstock`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `x_app_purchaseinvoice`
+--
+ALTER TABLE `x_app_purchaseinvoice`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `x_app_purchaseinvoiceitem`
+--
+ALTER TABLE `x_app_purchaseinvoiceitem`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `x_app_rangeofmotion`
+--
+ALTER TABLE `x_app_rangeofmotion`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
+-- AUTO_INCREMENT for table `x_app_role`
+--
+ALTER TABLE `x_app_role`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `x_app_roleassignment`
+--
+ALTER TABLE `x_app_roleassignment`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `x_app_schrothclassification`
+--
+ALTER TABLE `x_app_schrothclassification`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `x_app_scoliosisassessment`
+--
+ALTER TABLE `x_app_scoliosisassessment`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `x_app_scoliosisfollowup`
+--
+ALTER TABLE `x_app_scoliosisfollowup`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `x_app_staffallocation`
+--
+ALTER TABLE `x_app_staffallocation`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `x_app_staffregistration`
+--
+ALTER TABLE `x_app_staffregistration`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `x_app_state`
+--
+ALTER TABLE `x_app_state`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `x_app_suppliermaster`
+--
+ALTER TABLE `x_app_suppliermaster`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `x_app_taxmaster`
+--
+ALTER TABLE `x_app_taxmaster`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `x_app_treatmentplan`
+--
+ALTER TABLE `x_app_treatmentplan`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `auth_group_permissions`
+--
+ALTER TABLE `auth_group_permissions`
+  ADD CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  ADD CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`);
+
+--
+-- Constraints for table `auth_permission`
+--
+ALTER TABLE `auth_permission`
+  ADD CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
+
+--
+-- Constraints for table `auth_user_groups`
+--
+ALTER TABLE `auth_user_groups`
+  ADD CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  ADD CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Constraints for table `auth_user_user_permissions`
+--
+ALTER TABLE `auth_user_user_permissions`
+  ADD CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  ADD CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Constraints for table `django_admin_log`
+--
+ALTER TABLE `django_admin_log`
+  ADD CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Constraints for table `x_app_appointment`
+--
+ALTER TABLE `x_app_appointment`
+  ADD CONSTRAINT `x_app_appointment_branch_id_56f6d903_fk_x_app_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `x_app_branch` (`id`),
+  ADD CONSTRAINT `x_app_appointment_department_id_73b44ac3_fk_x_app_department_id` FOREIGN KEY (`department_id`) REFERENCES `x_app_department` (`id`),
+  ADD CONSTRAINT `x_app_appointment_doctor_id_4ba1abc3_fk_x_app_sta` FOREIGN KEY (`doctor_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_appointment_patient_id_a6ef405e_fk_x_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`);
+
+--
+-- Constraints for table `x_app_bankdetails`
+--
+ALTER TABLE `x_app_bankdetails`
+  ADD CONSTRAINT `x_app_bankdetails_medical_store_id_a7ef60fe_fk_x_app_med` FOREIGN KEY (`medical_store_id`) REFERENCES `x_app_medical_store` (`id`);
+
+--
+-- Constraints for table `x_app_bodychart`
+--
+ALTER TABLE `x_app_bodychart`
+  ADD CONSTRAINT `x_app_bodychart_history_id_af3e10cd_fk_x_app_patienthistory_id` FOREIGN KEY (`history_id`) REFERENCES `x_app_patienthistory` (`id`),
+  ADD CONSTRAINT `x_app_bodychart_patient_id_b094b942_fk_x_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`),
+  ADD CONSTRAINT `x_app_bodychart_staff_id_e15b33d3_fk_x_app_staffregistration_id` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`);
+
+--
+-- Constraints for table `x_app_branch_departments`
+--
+ALTER TABLE `x_app_branch_departments`
+  ADD CONSTRAINT `x_app_branch_departm_department_id_7aba1070_fk_x_app_dep` FOREIGN KEY (`department_id`) REFERENCES `x_app_department` (`id`),
+  ADD CONSTRAINT `x_app_branch_departments_branch_id_f0a41816_fk_x_app_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `x_app_branch` (`id`);
+
+--
+-- Constraints for table `x_app_district`
+--
+ALTER TABLE `x_app_district`
+  ADD CONSTRAINT `x_app_district_state_id_871456e1_fk_x_app_state_id` FOREIGN KEY (`state_id`) REFERENCES `x_app_state` (`id`);
+
+--
+-- Constraints for table `x_app_expense`
+--
+ALTER TABLE `x_app_expense`
+  ADD CONSTRAINT `x_app_expense_expense_type_id_bb0980d2_fk_x_app_expense_type_id` FOREIGN KEY (`expense_type_id`) REFERENCES `x_app_expense_type` (`id`),
+  ADD CONSTRAINT `x_app_expense_staff_id_42e3de05_fk_x_app_staffregistration_id` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`);
+
+--
+-- Constraints for table `x_app_generalobservation`
+--
+ALTER TABLE `x_app_generalobservation`
+  ADD CONSTRAINT `x_app_generalobserva_history_id_702fc5b6_fk_x_app_pat` FOREIGN KEY (`history_id`) REFERENCES `x_app_patienthistory` (`id`),
+  ADD CONSTRAINT `x_app_generalobserva_staff_id_c6176ded_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_generalobservation_patient_id_dc03c338_fk_x_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`);
+
+--
+-- Constraints for table `x_app_gstinvoice`
+--
+ALTER TABLE `x_app_gstinvoice`
+  ADD CONSTRAINT `x_app_gstinvoice_deleted_by_id_07a532db_fk_x_app_sta` FOREIGN KEY (`deleted_by_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_gstinvoice_medical_store_id_fe2fe04b_fk_x_app_med` FOREIGN KEY (`medical_store_id`) REFERENCES `x_app_medical_store` (`id`),
+  ADD CONSTRAINT `x_app_gstinvoice_patient_id_39307d87_fk_x_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`);
+
+--
+-- Constraints for table `x_app_gstinvoiceitem`
+--
+ALTER TABLE `x_app_gstinvoiceitem`
+  ADD CONSTRAINT `x_app_gstinvoiceitem_company_name_id_7c3a3018_fk_x_app_com` FOREIGN KEY (`company_name_id`) REFERENCES `x_app_company` (`id`),
+  ADD CONSTRAINT `x_app_gstinvoiceitem_invoice_id_c4d05bd9_fk_x_app_gstinvoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `x_app_gstinvoice` (`id`),
+  ADD CONSTRAINT `x_app_gstinvoiceitem_item_id_5df671e1_fk_x_app_medicinemaster_id` FOREIGN KEY (`item_id`) REFERENCES `x_app_medicinemaster` (`id`);
+
+--
+-- Constraints for table `x_app_invoice`
+--
+ALTER TABLE `x_app_invoice`
+  ADD CONSTRAINT `x_app_invoice_doctor_id_c92e44de_fk_x_app_staffregistration_id` FOREIGN KEY (`doctor_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_invoice_patient_id_31d4c698_fk_x_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`);
+
+--
+-- Constraints for table `x_app_invoiceparticular`
+--
+ALTER TABLE `x_app_invoiceparticular`
+  ADD CONSTRAINT `x_app_invoiceparticu_created_by_id_84360a2c_fk_x_app_sta` FOREIGN KEY (`created_by_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_invoiceparticu_hospital_id_cbc5ad9e_fk_x_app_hos` FOREIGN KEY (`hospital_id`) REFERENCES `x_app_hospital_data` (`id`);
+
+--
+-- Constraints for table `x_app_managemententry`
+--
+ALTER TABLE `x_app_managemententry`
+  ADD CONSTRAINT `x_app_managemententr_staff_id_c9e784aa_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_managemententr_treatment_plan_id_625e812b_fk_x_app_tre` FOREIGN KEY (`treatment_plan_id`) REFERENCES `x_app_treatmentplan` (`id`);
+
+--
+-- Constraints for table `x_app_medicinemaster`
+--
+ALTER TABLE `x_app_medicinemaster`
+  ADD CONSTRAINT `x_app_medicinemaster_category_id_115d7ed7_fk_x_app_med` FOREIGN KEY (`category_id`) REFERENCES `x_app_medicine_category` (`id`),
+  ADD CONSTRAINT `x_app_medicinemaster_staff_id_d8a3d597_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_medicinemaster_tax_id_2fad0c22_fk_x_app_taxmaster_id` FOREIGN KEY (`tax_id`) REFERENCES `x_app_taxmaster` (`id`);
+
+--
+-- Constraints for table `x_app_menupermission`
+--
+ALTER TABLE `x_app_menupermission`
+  ADD CONSTRAINT `x_app_menupermission_menu_id_530f9f83_fk_x_app_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `x_app_menu` (`id`),
+  ADD CONSTRAINT `x_app_menupermission_role_id_668a5f0a_fk_x_app_role_id` FOREIGN KEY (`role_id`) REFERENCES `x_app_role` (`id`);
+
+--
+-- Constraints for table `x_app_outcomemeasure`
+--
+ALTER TABLE `x_app_outcomemeasure`
+  ADD CONSTRAINT `x_app_outcomemeasure_history_id_fb3177e9_fk_x_app_pat` FOREIGN KEY (`history_id`) REFERENCES `x_app_patienthistory` (`id`),
+  ADD CONSTRAINT `x_app_outcomemeasure_patient_id_c7dd92c4_fk_x_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`),
+  ADD CONSTRAINT `x_app_outcomemeasure_staff_id_6da63a6e_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`);
+
+--
+-- Constraints for table `x_app_patient`
+--
+ALTER TABLE `x_app_patient`
+  ADD CONSTRAINT `x_app_patient_branch_id_ed1ce328_fk_x_app_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `x_app_branch` (`id`),
+  ADD CONSTRAINT `x_app_patient_country_id_7f75afb3_fk_x_app_country_id` FOREIGN KEY (`country_id`) REFERENCES `x_app_country` (`id`),
+  ADD CONSTRAINT `x_app_patient_district_id_c55c701a_fk_x_app_district_id` FOREIGN KEY (`district_id`) REFERENCES `x_app_district` (`id`),
+  ADD CONSTRAINT `x_app_patient_staff_id_aa89548c_fk_x_app_staffregistration_id` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_patient_state_id_981b0fab_fk_x_app_state_id` FOREIGN KEY (`state_id`) REFERENCES `x_app_state` (`id`);
+
+--
+-- Constraints for table `x_app_patienthistory`
+--
+ALTER TABLE `x_app_patienthistory`
+  ADD CONSTRAINT `x_app_patienthistory_patient_id_ae05ec54_fk_x_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`),
+  ADD CONSTRAINT `x_app_patienthistory_staff_id_3454f401_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`);
+
+--
+-- Constraints for table `x_app_physicalstock`
+--
+ALTER TABLE `x_app_physicalstock`
+  ADD CONSTRAINT `x_app_physicalstock_item_id_e6ec3b9f_fk_x_app_medicinemaster_id` FOREIGN KEY (`item_id`) REFERENCES `x_app_medicinemaster` (`id`),
+  ADD CONSTRAINT `x_app_physicalstock_medicine_company_id_ff48779b_fk_x_app_com` FOREIGN KEY (`medicine_company_id`) REFERENCES `x_app_company` (`id`),
+  ADD CONSTRAINT `x_app_physicalstock_staff_id_9a6a7f5a_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_physicalstock_supplier_id_7520c34f_fk_x_app_sup` FOREIGN KEY (`supplier_id`) REFERENCES `x_app_suppliermaster` (`id`);
+
+--
+-- Constraints for table `x_app_purchaseinvoice`
+--
+ALTER TABLE `x_app_purchaseinvoice`
+  ADD CONSTRAINT `x_app_purchaseinvoic_created_by_id_a0de28c8_fk_x_app_sta` FOREIGN KEY (`created_by_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_purchaseinvoic_medical_store_id_6638f58b_fk_x_app_med` FOREIGN KEY (`medical_store_id`) REFERENCES `x_app_medical_store` (`id`),
+  ADD CONSTRAINT `x_app_purchaseinvoic_supplier_id_d82d06a5_fk_x_app_sup` FOREIGN KEY (`supplier_id`) REFERENCES `x_app_suppliermaster` (`id`);
+
+--
+-- Constraints for table `x_app_purchaseinvoiceitem`
+--
+ALTER TABLE `x_app_purchaseinvoiceitem`
+  ADD CONSTRAINT `x_app_purchaseinvoic_company_name_id_4da1d8c1_fk_x_app_com` FOREIGN KEY (`company_name_id`) REFERENCES `x_app_company` (`id`),
+  ADD CONSTRAINT `x_app_purchaseinvoic_invoice_id_372d2ffb_fk_x_app_pur` FOREIGN KEY (`invoice_id`) REFERENCES `x_app_purchaseinvoice` (`id`),
+  ADD CONSTRAINT `x_app_purchaseinvoic_item_id_04eab330_fk_x_app_med` FOREIGN KEY (`item_id`) REFERENCES `x_app_medicinemaster` (`id`);
+
+--
+-- Constraints for table `x_app_rangeofmotion`
+--
+ALTER TABLE `x_app_rangeofmotion`
+  ADD CONSTRAINT `x_app_rangeofmotion_history_id_1823916c_fk_x_app_pat` FOREIGN KEY (`history_id`) REFERENCES `x_app_patienthistory` (`id`),
+  ADD CONSTRAINT `x_app_rangeofmotion_patient_id_1d459e35_fk_x_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`),
+  ADD CONSTRAINT `x_app_rangeofmotion_staff_id_02968524_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`);
+
+--
+-- Constraints for table `x_app_roleassignment`
+--
+ALTER TABLE `x_app_roleassignment`
+  ADD CONSTRAINT `x_app_roleassignment_branch_id_3b16ad03_fk_x_app_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `x_app_branch` (`id`),
+  ADD CONSTRAINT `x_app_roleassignment_role_id_c8fd58d0_fk_x_app_role_id` FOREIGN KEY (`role_id`) REFERENCES `x_app_role` (`id`),
+  ADD CONSTRAINT `x_app_roleassignment_staff_id_06ffd5b5_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`);
+
+--
+-- Constraints for table `x_app_scoliosisassessment`
+--
+ALTER TABLE `x_app_scoliosisassessment`
+  ADD CONSTRAINT `x_app_scoliosisasses_doctor_id_6fba62f3_fk_x_app_sta` FOREIGN KEY (`doctor_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_scoliosisasses_patient_id_3466ffa9_fk_x_app_pat` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`);
+
+--
+-- Constraints for table `x_app_scoliosisfollowup`
+--
+ALTER TABLE `x_app_scoliosisfollowup`
+  ADD CONSTRAINT `x_app_scoliosisfollo_scoliosis_id_0a63fc94_fk_x_app_sco` FOREIGN KEY (`scoliosis_id`) REFERENCES `x_app_scoliosisassessment` (`id`);
+
+--
+-- Constraints for table `x_app_staffallocation`
+--
+ALTER TABLE `x_app_staffallocation`
+  ADD CONSTRAINT `x_app_staffallocatio_department_id_b5017f9b_fk_x_app_dep` FOREIGN KEY (`department_id`) REFERENCES `x_app_department` (`id`),
+  ADD CONSTRAINT `x_app_staffallocatio_designation_id_b3e155ec_fk_x_app_des` FOREIGN KEY (`designation_id`) REFERENCES `x_app_designation` (`id`),
+  ADD CONSTRAINT `x_app_staffallocatio_staff_id_2c7d2d71_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`),
+  ADD CONSTRAINT `x_app_staffallocation_branch_id_70882157_fk_x_app_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `x_app_branch` (`id`);
+
+--
+-- Constraints for table `x_app_staffregistration`
+--
+ALTER TABLE `x_app_staffregistration`
+  ADD CONSTRAINT `x_app_staffregistration_branch_id_5a7c5dea_fk_x_app_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `x_app_branch` (`id`);
+
+--
+-- Constraints for table `x_app_state`
+--
+ALTER TABLE `x_app_state`
+  ADD CONSTRAINT `x_app_state_country_id_b122b26f_fk_x_app_country_id` FOREIGN KEY (`country_id`) REFERENCES `x_app_country` (`id`);
+
+--
+-- Constraints for table `x_app_suppliermaster`
+--
+ALTER TABLE `x_app_suppliermaster`
+  ADD CONSTRAINT `x_app_suppliermaster_staff_id_3abf5d34_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`);
+
+--
+-- Constraints for table `x_app_treatmentplan`
+--
+ALTER TABLE `x_app_treatmentplan`
+  ADD CONSTRAINT `x_app_treatmentplan_history_id_8377294c_fk_x_app_pat` FOREIGN KEY (`history_id`) REFERENCES `x_app_patienthistory` (`id`),
+  ADD CONSTRAINT `x_app_treatmentplan_patient_id_7f859912_fk_x_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `x_app_patient` (`id`),
+  ADD CONSTRAINT `x_app_treatmentplan_staff_id_159b94da_fk_x_app_sta` FOREIGN KEY (`staff_id`) REFERENCES `x_app_staffregistration` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

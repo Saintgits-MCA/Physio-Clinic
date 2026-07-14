@@ -1,0 +1,117 @@
+{% extends 'Masters.html' %}
+{% block contents %}
+<div class="content-box" id="contentBox">
+  <div class="content-header d-flex justify-content-between align-items-center flex-wrap">
+    <div><i class="fas fa-map me-2"></i>District List</div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'district' %}"><button class="btn btn-info text-white fw-bold"><i class="fas fa-plus me-2"></i>Add</button></a>
+<a href="{% url 'districttable' %}?export=excel" class="btn btn-success">
+  Excel
+</a>      <a class="btn btn-danger" href="{%url 'districttable'%}?export=pdf">PDF</a>
+    
+      <button class="btn btn-light border" onclick="toggleSearch()" title="Search">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="searchBox" class="p-2" {% if not search_query %}style="display: none;"{% endif %}>
+    <form method="GET" onsubmit="return validateSearch()" class="d-flex gap-2 flex-wrap">
+      <div class="input-group">
+        <input type="text" name="search" id="searchInput" class="form-control"
+               placeholder="Search District..." value="{{ search_query|default:'' }}">
+        <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+        {% if search_query %}
+          <a href="{% url 'districttable' %}" class="btn btn-outline-danger fw-bold">Clear Search</a>
+        {% endif %}
+      </div>
+    </form>
+    <div id="searchWarning" class="text-danger small mt-1" style="display:none;">
+      Please type at least 3 characters to search.
+    </div>
+  </div>
+
+  <div class="content-body">
+    <table id="districtTable" class="table table-bordered table-striped">
+      <thead class="table-primary"><tr><th>State Name</th><th>District Name</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% if districts %}
+          {% for district in districts %}
+            <tr>
+              <td>{{ district.state.name }} ({{ district.state.country.name}})</td>
+              <td>{{ district.name }}</td>
+              <td>
+                <a href="{% url 'edit_district' district.id %}" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt text-white"></i></a>
+                <a href="{% url 'delete_district' district.id %}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Are you sure you want to delete this district?');"><i class="fas fa-trash-alt"></i></a>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr><td colspan="2" class="text-center text-muted">No districts found.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center mt-3">
+        {% if districts.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ districts.previous_page_number }}&search={{ search_query }}">Previous</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+
+        {% for num in districts.paginator.page_range %}
+          {% if districts.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}&search={{ search_query }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if districts.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ districts.next_page_number }}&search={{ search_query }}">Next</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+{% if is_export_excel %}
+<script>
+  window.onload = function () {
+    exportTableToExcelWithoutActions('districtTable', 'District List.xlsx');
+    setTimeout(() => {
+      window.location.href = "{% url 'districttable' %}?{% if search_query %}search={{ search_query }}{% endif %}";
+    }, 2000);
+  };
+</script>
+{% endif %}
+
+{% if is_export %}
+<script>
+  window.onload = function () {
+    exportTableWithoutActions('districtTable', 'District List');
+  };
+</script>
+{% endif %}
+
+<script>
+function toggleSearch() {
+  const box = document.getElementById('searchBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+function validateSearch() {
+  const input = document.getElementById('searchInput').value.trim();
+  const warning = document.getElementById('searchWarning');
+  if (input.length < 3) {
+    warning.style.display = 'block';
+    return false;
+  }
+  return true;
+}
+</script>
+{% endblock %}

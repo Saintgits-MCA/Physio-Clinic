@@ -1,0 +1,67 @@
+{% extends 'Masters.html' %}
+{% block contents %}
+<style>
+  textarea{
+    resize: none;
+  }
+</style>
+<div class="content-box">
+  <div class="content-header d-flex flex-wrap justify-content-between align-items-center">
+    <div class="d-flex align-items-center flex-wrap gap-2">
+    <span class="fas fa-edit me-2"></span><span class="fw-bold fs-5  text-white">Edit Hospital</span></div>
+    </div>
+    <div class="content-body">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Hospital Name</label>
+        <input type="text" class="form-control" name="name" value="{{ hospital.name }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Registration Number</label>
+        <input type="text" class="form-control" name="registration_number" value="{{ hospital.registration_number }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">GST Number</label>
+        <input type="text" class="form-control" name="gst_number" value="{{ hospital.gst_number }}">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Manager Name</label>
+        <input type="text" class="form-control" name="manager_name" value="{{ hospital.manager_name }}">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Manager Contact</label>
+        <input type="text" class="form-control" name="manager_contact" value="{{ hospital.manager_contact }}">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" value="{{ hospital.email }}">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Address</label>
+        <textarea class="form-control" name="address">{{ hospital.address }}</textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Logo</label>
+        {% if hospital.logo %}
+          <img src="{{ hospital.logo.url }}" width="100" class="mb-2 d-block">
+        {% endif %}
+        <input type="file" class="form-control" name="logo">
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'hospitaltable' %}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

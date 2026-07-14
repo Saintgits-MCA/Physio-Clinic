@@ -1,0 +1,35 @@
+
+ {% extends 'Masters.html'%}
+{%block contents%}
+{% load static %}
+
+</head>
+<body>
+
+<div class="content-box" id="contentBox">
+  <div class="content-header">
+    <span><i class="fas fa-flag me-2"></i>Edit Country</span>
+    <span>
+      <a href="{%url 'countrytable'%}" class="text-white fw-bold text-decoration-none me-3 fs-6">View</a>
+    </span>
+  </div>
+  <div class="content-body">
+    <form method="post">
+      {%csrf_token%}
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Country Name</label>
+          <input type="text" class="form-control" name="countryName" id="countryName" value='{{ edit_country }}'>
+        </div>
+      </div>
+      <div class="mt-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-25">Add</button>
+        <a class="text-decoration-none" href="{%url 'countrytable'%}"><button type="button" class="btn btn-secondary"><i class="fw-bold fas fa-arrow-left pe-3"></i>Cancel</button></a>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
+{%endblock%}
